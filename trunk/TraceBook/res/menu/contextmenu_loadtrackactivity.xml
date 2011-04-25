@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/cm_loadtrackActivity_load" android:title="@string/cm_loadtrackActivity_load"></item>
+	<item android:id="@+id/cm_loadtrackActivity_rename" android:title="@string/cm_loadtrackActivity_rename"></item>
+	<item android:id="@+id/cm_loadtrackActivity_delete" android:title="@string/cm_loadtrackActivity_delete"></item>
+	<item android:id="@+id/cm_loadtrackActivity_info" android:title="@string/cm_loadtrackActivity_info"></item>
+</menu>

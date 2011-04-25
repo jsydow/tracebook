@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/cm_addpointActivity_deleteTag"
+		android:title="@string/cm_addpointActivity_deleteTag" />
+	<item android:id="@+id/cm_addpointActivity_renameTag"
+		android:title="@string/cm_addpointActivity_renameTag" />
+</menu>

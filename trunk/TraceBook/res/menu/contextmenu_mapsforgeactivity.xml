@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/cm_mapsforgeActivity_editPoint"
+		android:title="@string/cm_mapsforgeActivity_editPoint" />
+	<item android:id="@+id/cm_mapsforgeActivity_deletePoint"
+		android:title="@string/cm_mapsforgeActivity_deletePoint" />
+	<item android:id="@+id/cm_mapsforgeActivity_movePoint"
+		android:title="@string/cm_mapsforgeActivity_movePoint" />
+</menu>

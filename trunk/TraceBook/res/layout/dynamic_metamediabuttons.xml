@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="horizontal">
+
+	<Button android:id="@+id/btn_addMetaMedia_makePicture"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:drawableTop="@drawable/btn_photo" android:text="@string/btn_addMetaMedia_makePicture"
+		android:onClick="makePictureBtn" />
+
+
+	<Button android:id="@+id/btn_addMetaMedia_makeVideo"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:drawableTop="@drawable/btn_video" android:text="@string/btn_addMetaMedia_makeVideo"
+		android:onClick="makeVideoBtn" />
+
+
+	<Button android:id="@+id/btn_addMetaMedia_makeMemo"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:drawableTop="@drawable/btn_memo" android:onClick="makeMemoBtn"
+		android:text="@string/btn_addMetaMedia_makeMemo" />
+
+
+	<Button android:id="@+id/btn_addMetaMedia_makeNotice"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:drawableTop="@drawable/btn_notice" android:onClick="makeNoticeBtn"
+		android:text="@string/btn_addMetaMedia_makeNotice" />
+
+</LinearLayout>

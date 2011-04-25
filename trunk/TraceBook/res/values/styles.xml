@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="TextStyleLight">
+		<item name="android:textColor">@color/black</item>
+
+	</style>
+
+	<style name="listViewStickyNode">
+		<item name="android:background">@drawable/bg_stickynode</item>
+	</style>
+	<style name="listViewCarbon">
+		<item name="android:background">@drawable/bg_carbon</item>
+	</style>
+	<style name="listViewGreen">
+		<item name="android:background">@drawable/bg_green</item>
+	</style>
+
+	<style name="TraceBookCarbon" parent="android:Theme.Black">
+		<item name="android:windowBackground">@drawable/bg_carbon</item>
+		<item name="android:listViewStyle">@style/listViewCarbon</item>
+	</style>
+	<style name="TraceBookGreen" parent="android:Theme.Light">
+		<item name="android:windowBackground">@drawable/bg_green</item>
+		<item name="android:listViewStyle">@style/listViewGreen</item>
+	</style>
+	<style name="TraceBookStickyNode" parent="android:Theme.Light">
+		<item name="android:windowBackground">@drawable/bg_stickynode</item>
+		<item name="android:listViewStyle">@style/listViewStickyNode</item>
+	</style>
+</resources>

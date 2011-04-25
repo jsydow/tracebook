@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- for tests only -->
+<map_features>
+	<key v="man_made">
+		<value v="User Defined">
+		</value>
+		<value v="adit">
+			<useful v="disused" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="resource" />
+		</value>
+		<value v="beacon">
+		</value>
+		<value v="crane">
+			<useful v="acccess" />
+			<useful v="operator" />
+		</value>
+		<value v="cutline">
+			<useful v="cutline" />
+			<useful v="width" />
+		</value>
+		<value v="flagpole">
+			<useful v="height" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="groyne">
+		</value>
+		<value v="lighthouse">
+			<useful v="name" />
+		</value>
+		<value v="mineshaft">
+			<useful v="disused" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="resource" />
+		</value>
+		<value v="monitoring_station">
+			<useful v="monitoring:air_quality" />
+			<useful v="monitoring:glonass" />
+			<useful v="monitoring:gps" />
+			<useful v="monitoring:noise" />
+			<useful v="monitoring:river_level" />
+			<useful v="monitoring:seismic_activity" />
+			<useful v="monitoring:tide_gauge" />
+			<useful v="monitoring:weather" />
+		</value>
+		<value v="petroleum_well">
+		</value>
+		<value v="pier">
+			<useful v="name" />
+		</value>
+		<value v="pipeline">
+			<useful v="location" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="reservoir_covered">
+		</value>
+		<value v="surveillance">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="survey_point">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="tower">
+			<useful v="tower:type" />
+		</value>
+		<value v="wastewater_plant">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="water_tower">
+			<useful v="access" />
+			<useful v="capacity" />
+			<useful v="height" />
+			<useful v="operator" />
+		</value>
+		<value v="water_well">
+			<useful v="name" />
+		</value>
+		<value v="water_works">
+			<useful v="name" />
+		</value>
+		<value v="watermill">
+			<useful v="name" />
+		</value>
+		<value v="windmill">
+			<useful v="name" />
+		</value>
+		<value v="works">
+		</value>
+	</key>
+	<key v="maxheight">
+		<value v="Height">
+		</value>
+	</key>
+	<key v="maxlength">
+		<value v="Length">
+		</value>
+	</key>
+	<key v="wires">
+		<value v="single, double, triple, quad">
+		</value>
+	</key>
+	<key v="wood">
+		<value v="deciduous">
+		</value>
+		<value v="mixed">
+		</value>
+		<value v="coniferous">
+		</value>
+	</key>
+</map_features>

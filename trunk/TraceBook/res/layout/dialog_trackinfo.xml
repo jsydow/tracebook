@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<!-- Back button -->
+	<Button android:text="@string/btn_trackInfoDialog_back"
+		android:id="@+id/btn_trackInfoDialog_back" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:onClick="backBtn"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true" android:minWidth="100dp"/>
+
+	<ScrollView android:id="@+id/sv_trackInfoDialog_scroll"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_above="@id/btn_trackInfoDialog_back">
+
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:orientation="vertical">
+
+			<!-- Track name -->
+			<TextView android:text="@string/tv_trackInfoDialog_nameText"
+				android:id="@+id/tv_trackInfoDialog_nameTtext" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			<TextView android:text="@string/tv_trackInfoDialog_name"
+				android:id="@+id/tv_trackInfoDialog_name" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+
+			<!-- Comment -->
+			<TextView android:text="@string/tv_trackInfoDialog_commentText"
+				android:id="@+id/tv_rackInfoDialog_commentText"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			<TextView android:text="comment" android:id="@+id/tv_trackInfoDialog_comment"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+
+			<!-- Time stamp -->
+			<TextView android:text="@string/tv_trackInfoDialog_timestampText"
+				android:id="@+id/tv_trackInfoDialog_timestampText"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="timestamp" android:id="@+id/tv_trackInfoDialog_timestamp"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+
+			<!-- Number of POIs -->
+			<TextView android:text="@string/tv_trackInfoDialog_poisText"
+				android:id="@+id/tv_trackInfoDialog_poisText" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			<TextView android:text="pois" android:id="@+id/tv_trackInfoDialog_pois"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+
+			<!-- Number of Ways -->
+			<TextView android:text="@string/tv_trackInfoDialog_waysText"
+				android:id="@+id/tv_trackInfoDialog_waysText" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			<TextView android:text="ways" android:id="@+id/tv_trackInfoDialog_ways"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+
+			<!-- Number of media -->
+			<TextView android:text="@string/tv_trackInfoDialog_mediaText"
+				android:id="@+id/tv_trackInfoDialog_mediaText" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			<TextView android:text="media" android:id="@+id/tv_trackInfoDialog_media"
+				android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:scaleType="fitCenter"
+				android:layout_weight="1" />
+		</LinearLayout>
+	</ScrollView>
+
+</RelativeLayout>

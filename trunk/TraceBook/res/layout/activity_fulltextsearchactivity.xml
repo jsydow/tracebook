@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout android:id="@+id/ly_fulltextsearchActivity_statusbar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="center_horizontal">
+	</LinearLayout>
+
+	<EditText android:layout_height="wrap_content"
+		android:hint="@string/et_fulltextsearchActivity_search"
+		android:layout_width="fill_parent" android:id="@+id/et_fulltextsearchActivity_search" />
+
+	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:scrollingCache="true" android:divider="#8ac705"
+		android:dividerHeight="1sp" android:drawSelectorOnTop="false" />
+</LinearLayout>

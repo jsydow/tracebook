@@ -1,0 +1,2732 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- OSM tags as suggested in http://wiki.openstreetmap.org/wiki/Map_Features -->
+<map_features>
+	<key v="4wd_only">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="TMC:LocationCode">
+		<value v="see description">
+		</value>
+	</key>
+	<key v="abutters">
+		<value v="commercial">
+		</value>
+		<value v="industrial">
+		</value>
+		<value v="mixed">
+		</value>
+		<value v="residential">
+		</value>
+		<value v="retail">
+		</value>
+	</key>
+	<key v="access">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="official">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="access:bdouble">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="access:lhv">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="access:roadtrain">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="addr:city">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:country">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:district">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:full">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:hamlet">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:housename">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:housenumber">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:inclusion">
+		<value v="actual">
+		</value>
+		<value v="estimate">
+		</value>
+		<value v="potential">
+		</value>
+	</key>
+	<key v="addr:interpolation">
+		<value v="Number">
+		</value>
+		<value v="alphabetic">
+		</value>
+		<value v="all">
+		</value>
+		<value v="even">
+		</value>
+		<value v="odd">
+		</value>
+	</key>
+	<key v="addr:postcode">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:province">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:street">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="addr:subdistrict">
+		<value v="user defined">
+		</value>
+	</key>
+	<key v="admin_level">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="aerialway">
+		<value v="User Defined">
+		</value>
+		<value v="cable_car">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="chair_lift">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="drag_lift">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="gondola">
+		</value>
+		<value v="goods">
+		</value>
+		<value v="mixed_lift">
+		</value>
+		<value v="pylon">
+		</value>
+		<value v="station">
+		</value>
+	</key>
+	<key v="aeroway">
+		<value v="User Defined">
+		</value>
+		<value v="aerodrome">
+			<useful v="IFR" />
+			<useful v="contact:website" />
+			<useful v="iata" />
+			<useful v="icao" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="ref" />
+		</value>
+		<value v="apron">
+		</value>
+		<value v="gate">
+			<useful v="ref" />
+		</value>
+		<value v="helipad">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="runway">
+			<useful v="ele" />
+			<useful v="length" />
+			<useful v="ref" />
+			<useful v="surface" />
+		</value>
+		<value v="taxiway">
+			<useful v="ref" />
+		</value>
+		<value v="terminal">
+			<useful v="building" />
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="windsock">
+			<useful v="lit" />
+		</value>
+	</key>
+	<key v="agricultural">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="alt_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="area">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="attribution">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="atv">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="barrier">
+		<value v="block">
+		</value>
+		<value v="bollard">
+		</value>
+		<value v="border_control">
+		</value>
+		<value v="cattle_grid">
+		</value>
+		<value v="chain">
+			<useful v="access" />
+			<useful v="wheelchair" />
+		</value>
+		<value v="city_wall">
+			<useful v="two_sided" />
+		</value>
+		<value v="cycle_barrier">
+			<useful v="access" />
+			<useful v="wheelchair" />
+		</value>
+		<value v="ditch">
+		</value>
+		<value v="entrance">
+		</value>
+		<value v="fence">
+			<useful v="fence_type" />
+			<useful v="height" />
+			<useful v="landuse" />
+			<useful v="leisure" />
+		</value>
+		<value v="gate">
+			<useful v="access" />
+		</value>
+		<value v="hedge">
+		</value>
+		<value v="horse_stile">
+		</value>
+		<value v="kent_carriage_gap">
+		</value>
+		<value v="kissing_gate">
+		</value>
+		<value v="lift_gate">
+		</value>
+		<value v="retaining_wall">
+		</value>
+		<value v="sally_port">
+		</value>
+		<value v="stile">
+		</value>
+		<value v="toll_booth">
+		</value>
+		<value v="turnstile">
+		</value>
+		<value v="wall">
+		</value>
+	</key>
+	<key v="bicycle">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="dismount">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="official">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="boat">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="border_type">
+		<value v="*">
+		</value>
+	</key>
+	<key v="boundary">
+		<value v="administrative">
+			<useful v="admin_level" />
+			<useful v="name" />
+		</value>
+		<value v="civil">
+		</value>
+		<value v="maritime">
+		</value>
+		<value v="national_park">
+		</value>
+		<value v="political">
+		</value>
+		<value v="protected_area">
+		</value>
+	</key>
+	<key v="bridge">
+		<value v="yes">
+		</value>
+		<value v="...">
+		</value>
+		<value v="aqueduct">
+		</value>
+		<value v="swing">
+		</value>
+		<value v="viaduct">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="building">
+		<value v="User Defined">
+		</value>
+		<value v="yes">
+			<useful v="amenity" />
+			<useful v="name" />
+			<useful v="shop" />
+		</value>
+	</key>
+	<key v="cables">
+		<value v="... 3, 4, 6, 8, 9, 12, 15, 18 ...">
+		</value>
+	</key>
+	<key v="charge">
+		<value v="Num">
+		</value>
+	</key>
+	<key v="construction">
+		<value v="*">
+		</value>
+	</key>
+	<key v="covered">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="craft">
+		<value v="agricultural_engines">
+		</value>
+		<value v="basket_maker">
+		</value>
+		<value v="beekeeper">
+		</value>
+		<value v="blacksmith">
+		</value>
+		<value v="boatbuilder">
+		</value>
+		<value v="bookbinder">
+		</value>
+		<value v="brewery">
+		</value>
+		<value v="carpenter">
+			<useful v="carpenter" />
+			<useful v="addr:housename" />
+			<useful v="addr:housenumber" />
+			<useful v="addr:postcode" />
+			<useful v="addr:street" />
+			<useful v="contact:fax" />
+			<useful v="contact:phone" />
+			<useful v="contact:website" />
+			<useful v="name" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+		</value>
+		<value v="carpet_layer">
+		</value>
+		<value v="caterer">
+		</value>
+		<value v="clockmaker">
+		</value>
+		<value v="confectionery">
+		</value>
+		<value v="dressmaker">
+		</value>
+		<value v="electrician">
+		</value>
+		<value v="gardener">
+		</value>
+		<value v="glaziery">
+		</value>
+		<value v="handicraft">
+		</value>
+		<value v="hvac">
+		</value>
+		<value v="insulation">
+		</value>
+		<value v="jeweller">
+		</value>
+		<value v="key_cutter">
+		</value>
+		<value v="locksmith">
+		</value>
+		<value v="metal_construction">
+		</value>
+		<value v="optician">
+		</value>
+		<value v="painter">
+		</value>
+		<value v="parquet_layer">
+		</value>
+		<value v="photographer">
+		</value>
+		<value v="photographic_laboratory">
+		</value>
+		<value v="plasterer">
+		</value>
+		<value v="plumber">
+		</value>
+		<value v="pottery">
+		</value>
+		<value v="rigger">
+		</value>
+		<value v="roofer">
+		</value>
+		<value v="saddler">
+		</value>
+		<value v="sailmaker">
+		</value>
+		<value v="sawmill">
+		</value>
+		<value v="scaffolder">
+		</value>
+		<value v="sculptor">
+		</value>
+		<value v="shoemaker">
+		</value>
+		<value v="stand_builder">
+		</value>
+		<value v="stonemason">
+		</value>
+		<value v="sweep">
+		</value>
+		<value v="tailor">
+		</value>
+		<value v="tiler">
+		</value>
+		<value v="tinsmith">
+		</value>
+		<value v="upholsterer">
+		</value>
+	</key>
+	<key v="created_by">
+		<value v="defined by editor">
+		</value>
+	</key>
+	<key v="crossing">
+		<value v="traffic_signals">
+		</value>
+		<value v="uncontrolled">
+		</value>
+		<value v="no">
+		</value>
+	</key>
+	<key v="cutting">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="cycleway">
+		<value v="User Defined">
+		</value>
+		<value v="lane">
+		</value>
+		<value v="opposite">
+		</value>
+		<value v="opposite_lane">
+		</value>
+		<value v="opposite_track">
+		</value>
+		<value v="track">
+		</value>
+	</key>
+	<key v="date_off">
+		<value v="Date">
+		</value>
+	</key>
+	<key v="date_on">
+		<value v="Date">
+		</value>
+	</key>
+	<key v="day_off">
+		<value v="Day of Week">
+		</value>
+	</key>
+	<key v="day_on">
+		<value v="Day of Week">
+		</value>
+	</key>
+	<key v="description">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="disused">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="drive_in">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="drive_through">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="ele">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="electrified">
+		<value v="no">
+		</value>
+		<value v="rail">
+		</value>
+		<value v="yes">
+		</value>
+		<value v="contact_line">
+		</value>
+	</key>
+	<key v="email">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="embankment">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="emergency">
+		<value v="User Defined">
+		</value>
+		<value v="ambulance_station">
+			<useful v="emergency" />
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="fire_extinguisher">
+		</value>
+		<value v="fire_flapper">
+		</value>
+		<value v="fire_hose">
+			<useful v="emergency" />
+			<useful v="operator" />
+			<useful v="ref" />
+		</value>
+		<value v="fire_hydrant">
+			<useful v="fire_hydrant:count" />
+			<useful v="fire_hydrant:diameter" />
+			<useful v="fire_hydrant:position" />
+			<useful v="fire_hydrant:pressure" />
+			<useful v="fire_hydrant:type" />
+			<useful v="emergency" />
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="phone">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="ref" />
+		</value>
+		<value v="ses_station">
+		</value>
+		<value v="siren">
+			<useful v="siren:purpose" />
+			<useful v="siren:type" />
+			<useful v="operator" />
+		</value>
+	</key>
+	<key v="end_date">
+		<value v="Date">
+		</value>
+	</key>
+	<key v="est_width">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="fax">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="fenced">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="fixme">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="foot">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="official">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="ford">
+		<value v="&lt;other&gt;">
+		</value>
+		<value v="stepping_stones">
+		</value>
+		<value v="yes">
+		</value>
+		<value v="&lt;not set&gt;">
+		</value>
+	</key>
+	<key v="frequency">
+	</key>
+	<key v="geological">
+		<value v="User Defined">
+		</value>
+		<value v="palaeontological_site">
+			<useful v="geological" />
+		</value>
+	</key>
+	<key v="goods">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="hazmat">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="hgv">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="highway">
+		<value v="User Defined">
+		</value>
+		<value v="bridleway">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="bus_guideway">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="bus_stop">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="construction">
+		</value>
+		<value v="crossing">
+		</value>
+		<value v="cycleway">
+			<useful v="access" />
+			<useful v="cycleway" />
+			<useful v="lit" />
+			<useful v="name" />
+			<useful v="ref" />
+			<useful v="surface" />
+		</value>
+		<value v="emergency_access_point">
+		</value>
+		<value v="footway">
+			<useful v="access" />
+			<useful v="lit" />
+			<useful v="name" />
+			<useful v="surface" />
+		</value>
+		<value v="ford">
+		</value>
+		<value v="give_way">
+			<useful v="highway" />
+		</value>
+		<value v="living_street">
+			<useful v="name" />
+			<useful v="oneway" />
+		</value>
+		<value v="mini_roundabout">
+			<useful v="direction" />
+			<useful v="name" />
+		</value>
+		<value v="motorway">
+			<useful v="destination" />
+			<useful v="lanes" />
+			<useful v="name" />
+			<useful v="oneway" />
+			<useful v="ref" />
+		</value>
+		<value v="motorway_junction">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="motorway_link">
+			<useful v="destination" />
+			<useful v="highway" />
+			<useful v="name" />
+		</value>
+		<value v="passing_place">
+		</value>
+		<value v="path">
+			<useful v="access" />
+			<useful v="sac_scale" />
+			<useful v="surface" />
+			<useful v="width" />
+		</value>
+		<value v="pedestrian">
+			<useful v="area" />
+			<useful v="name" />
+			<useful v="reference" />
+		</value>
+		<value v="platform">
+			<useful v="bin" />
+			<useful v="toilet" />
+			<useful v="bench" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="ref" />
+			<useful v="route_ref" />
+			<useful v="shelter" />
+			<useful v="wheelchair" />
+		</value>
+		<value v="primary">
+			<useful v="lanes" />
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="primary_link">
+		</value>
+		<value v="proposed">
+		</value>
+		<value v="raceway">
+		</value>
+		<value v="residential">
+			<useful v="name" />
+			<useful v="oneway" />
+		</value>
+		<value v="road">
+			<useful v="name" />
+			<useful v="oneway" />
+		</value>
+		<value v="secondary">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="secondary_link">
+		</value>
+		<value v="service">
+			<useful v="name" />
+			<useful v="service" />
+		</value>
+		<value v="services">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="speed_camera">
+		</value>
+		<value v="steps">
+			<useful v="name" />
+			<useful v="step_count" />
+		</value>
+		<value v="stop">
+			<useful v="highway" />
+		</value>
+		<value v="street_lamp">
+			<useful v="lamp_model" />
+			<useful v="lamp_mount" />
+			<useful v="lamp_type" />
+		</value>
+		<value v="tertiary">
+			<useful v="lanes" />
+			<useful v="name" />
+			<useful v="oneway" />
+			<useful v="reference" />
+		</value>
+		<value v="track">
+			<useful v="name" />
+			<useful v="surface" />
+			<useful v="tracktype" />
+		</value>
+		<value v="traffic_signals">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="trunk">
+			<useful v="destination" />
+			<useful v="lanes" />
+			<useful v="motorroad" />
+			<useful v="name" />
+			<useful v="oneway" />
+			<useful v="ref" />
+		</value>
+		<value v="trunk_link">
+		</value>
+		<value v="turning_circle">
+		</value>
+		<value v="unclassified">
+			<useful v="abutters" />
+			<useful v="footway" />
+			<useful v="name" />
+			<useful v="oneway" />
+		</value>
+	</key>
+	<key v="historic">
+		<value v="User Defined">
+		</value>
+		<value v="archaeological_site">
+			<useful v="site_type" />
+			<useful v="name" />
+		</value>
+		<value v="battlefield">
+			<useful v="name" />
+		</value>
+		<value v="boundary_stone">
+		</value>
+		<value v="castle">
+			<useful v="name" />
+		</value>
+		<value v="fort">
+		</value>
+		<value v="memorial">
+			<useful v="name" />
+		</value>
+		<value v="monument">
+		</value>
+		<value v="ruins">
+			<useful v="name" />
+		</value>
+		<value v="wayside_cross">
+			<useful v="religion" />
+		</value>
+		<value v="wayside_shrine">
+			<useful v="name" />
+		</value>
+		<value v="wreck">
+			<useful v="name" />
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="history">
+		<value v="defined by editor">
+		</value>
+	</key>
+	<key v="horse">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="official">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="hour_off">
+		<value v="Time">
+		</value>
+	</key>
+	<key v="hour_on">
+		<value v="Time">
+		</value>
+	</key>
+	<key v="iata">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="icao">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="ice_road">
+		<value v="yes">
+			<useful v="highway" />
+		</value>
+	</key>
+	<key v="image">
+		<value v="URL">
+		</value>
+	</key>
+	<key v="incline">
+		<value v="Number%">
+		</value>
+	</key>
+	<key v="int_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="int_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="internet_access">
+		<value v="public">
+		</value>
+		<value v="service">
+		</value>
+		<value v="terminal">
+		</value>
+		<value v="wired">
+		</value>
+		<value v="wlan">
+		</value>
+	</key>
+	<key v="is_in">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="junction">
+		<value v="Other Values">
+		</value>
+		<value v="roundabout">
+			<useful v="access" />
+			<useful v="name" />
+			<useful v="reference" />
+		</value>
+	</key>
+	<key v="landuse">
+		<value v="User Defined">
+		</value>
+		<value v="railway">
+			<useful v="name" />
+		</value>
+	</key>
+	<key v="lanes">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="layer">
+		<value v="-5 to 5">
+		</value>
+	</key>
+	<key v="lcn_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="leisure">
+		<value v="User Defined">
+		</value>
+		<value v="common">
+			<useful v="name" />
+		</value>
+		<value v="dance">
+		</value>
+		<value v="dog_park">
+		</value>
+		<value v="fishing">
+		</value>
+		<value v="garden">
+			<useful v="access" />
+			<useful v="name" />
+		</value>
+		<value v="golf_course">
+			<useful v="addr:housenumber" />
+			<useful v="addr:postcode" />
+			<useful v="addr:street" />
+			<useful v="contact:fax" />
+			<useful v="contact:phone" />
+			<useful v="contact:website" />
+			<useful v="is_in" />
+			<useful v="name" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+		</value>
+		<value v="ice_rink">
+			<useful v="building" />
+			<useful v="name" />
+			<useful v="seasonal" />
+		</value>
+		<value v="marina">
+			<useful v="name" />
+		</value>
+		<value v="miniature_golf">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="nature_reserve">
+		</value>
+		<value v="park">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="pitch">
+			<useful v="sport" />
+			<useful v="surface" />
+		</value>
+		<value v="playground">
+			<useful v="name" />
+		</value>
+		<value v="slipway">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="sports_centre">
+		</value>
+		<value v="stadium">
+		</value>
+		<value v="swimming_pool">
+			<useful v="building" />
+			<useful v="covered" />
+			<useful v="name" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+			<useful v="sport" />
+		</value>
+		<value v="track">
+		</value>
+		<value v="water_park">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+	</key>
+	<key v="lit">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="loc_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="loc_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="lock">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="man_made">
+		<value v="User Defined">
+		</value>
+		<value v="adit">
+			<useful v="disused" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="resource" />
+		</value>
+		<value v="beacon">
+		</value>
+		<value v="crane">
+			<useful v="acccess" />
+			<useful v="operator" />
+		</value>
+		<value v="cutline">
+			<useful v="cutline" />
+			<useful v="width" />
+		</value>
+		<value v="flagpole">
+			<useful v="height" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="groyne">
+		</value>
+		<value v="lighthouse">
+			<useful v="name" />
+		</value>
+		<value v="mineshaft">
+			<useful v="disused" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="resource" />
+		</value>
+		<value v="monitoring_station">
+			<useful v="monitoring:air_quality" />
+			<useful v="monitoring:glonass" />
+			<useful v="monitoring:gps" />
+			<useful v="monitoring:noise" />
+			<useful v="monitoring:river_level" />
+			<useful v="monitoring:seismic_activity" />
+			<useful v="monitoring:tide_gauge" />
+			<useful v="monitoring:weather" />
+		</value>
+		<value v="petroleum_well">
+		</value>
+		<value v="pier">
+			<useful v="name" />
+		</value>
+		<value v="pipeline">
+			<useful v="location" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="reservoir_covered">
+		</value>
+		<value v="surveillance">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="survey_point">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="tower">
+			<useful v="tower:type" />
+		</value>
+		<value v="wastewater_plant">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="water_tower">
+			<useful v="access" />
+			<useful v="capacity" />
+			<useful v="height" />
+			<useful v="operator" />
+		</value>
+		<value v="water_well">
+			<useful v="name" />
+		</value>
+		<value v="water_works">
+			<useful v="name" />
+		</value>
+		<value v="watermill">
+			<useful v="name" />
+		</value>
+		<value v="windmill">
+			<useful v="name" />
+		</value>
+		<value v="works">
+		</value>
+	</key>
+	<key v="maxheight">
+		<value v="Height">
+		</value>
+	</key>
+	<key v="maxlength">
+		<value v="Length">
+		</value>
+	</key>
+	<key v="maxspeed">
+		<value v="Speed">
+		</value>
+	</key>
+	<key v="maxstay">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="maxweight">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="maxwidth">
+		<value v="Width">
+		</value>
+	</key>
+	<key v="military">
+		<value v="User Defined">
+		</value>
+		<value v="airfield">
+			<useful v="aeroway" />
+		</value>
+		<value v="barracks">
+		</value>
+		<value v="bunker">
+			<useful v="bunker_type" />
+		</value>
+		<value v="danger_area">
+		</value>
+		<value v="naval_base">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="range">
+		</value>
+	</key>
+	<key v="minspeed">
+		<value v="Speed">
+		</value>
+	</key>
+	<key v="mooring">
+		<value v="no">
+		</value>
+		<value v="private">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="motor_vehicle">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="motorboat">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="motorcar">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="motorcycle">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="motorroad">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="mountain_pass">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="mtb:description">
+		<value v="Text">
+		</value>
+	</key>
+	<key v="mtb:scale">
+		<value v="0-5">
+		</value>
+	</key>
+	<key v="mtb:scale:imba">
+		<value v="0-4">
+		</value>
+	</key>
+	<key v="mtb:scale:uphill">
+		<value v="0-5">
+		</value>
+	</key>
+	<key v="name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="name:lg">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="narrow">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="nat_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="nat_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="natural">
+		<value v="User Defined">
+		</value>
+		<value v="bay">
+			<useful v="name" />
+		</value>
+		<value v="beach">
+			<useful v="fee" />
+			<useful v="name" />
+			<useful v="surface" />
+		</value>
+		<value v="cave_entrance">
+			<useful v="name" />
+		</value>
+		<value v="cliff">
+			<useful v="name" />
+		</value>
+		<value v="coastline">
+		</value>
+		<value v="fell">
+			<useful v="name" />
+		</value>
+		<value v="glacier">
+			<useful v="name" />
+		</value>
+		<value v="heath">
+		</value>
+		<value v="land">
+		</value>
+		<value v="marsh">
+		</value>
+		<value v="mud">
+		</value>
+		<value v="peak">
+			<useful v="ele" />
+			<useful v="name" />
+		</value>
+		<value v="sand">
+		</value>
+		<value v="scree">
+		</value>
+		<value v="scrub">
+			<useful v="name" />
+		</value>
+		<value v="spring">
+			<useful v="name" />
+		</value>
+		<value v="stone">
+			<useful v="name" />
+		</value>
+		<value v="tree">
+			<useful v="height" />
+			<useful v="start_date" />
+			<useful v="type" />
+		</value>
+		<value v="volcano">
+			<useful v="ele" />
+			<useful v="is_in" />
+			<useful v="name" />
+			<useful v="status" />
+			<useful v="type" />
+		</value>
+		<value v="water">
+		</value>
+		<value v="wetland">
+		</value>
+		<value v="wood">
+			<useful v="name" />
+			<useful v="wood" />
+		</value>
+	</key>
+	<key v="ncn_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="noexit">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="note">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="office">
+		<value v="accountant">
+			<useful v="name" />
+		</value>
+		<value v="administrative">
+		</value>
+		<value v="architect">
+			<useful v="name" />
+		</value>
+		<value v="company">
+		</value>
+		<value v="employment_agency">
+			<useful v="name" />
+		</value>
+		<value v="estate_agent">
+		</value>
+		<value v="government">
+			<useful v="name" />
+		</value>
+		<value v="insurance">
+			<useful v="name" />
+		</value>
+		<value v="it">
+		</value>
+		<value v="lawyer">
+			<useful v="name" />
+		</value>
+		<value v="newspaper">
+		</value>
+		<value v="ngo">
+			<useful v="name" />
+		</value>
+		<value v="quango">
+			<useful v="name" />
+		</value>
+		<value v="research">
+		</value>
+		<value v="telecommunication">
+			<useful v="function" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+		</value>
+		<value v="travel_agent">
+		</value>
+	</key>
+	<key v="official_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="old_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="old_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="oneway">
+		<value v="-1">
+		</value>
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="opening_hours">
+		<value v="24">
+		</value>
+		<value v="7 or mo md hh:mm-hh:mm. (read described syntax)">
+		</value>
+	</key>
+	<key v="operator">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="overtaking">
+		<value v="Other Values">
+		</value>
+	</key>
+	<key v="passing_places">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="phone">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="place">
+		<value v="city">
+			<useful v="name" />
+		</value>
+		<value v="continent">
+			<useful v="name" />
+		</value>
+		<value v="country">
+			<useful v="name" />
+		</value>
+		<value v="county">
+		</value>
+		<value v="hamlet">
+			<useful v="is_in" />
+			<useful v="name" />
+			<useful v="population" />
+		</value>
+		<value v="island">
+			<useful v="is_in" />
+			<useful v="name" />
+		</value>
+		<value v="isolated_dwelling">
+		</value>
+		<value v="locality">
+			<useful v="is_in" />
+			<useful v="name" />
+		</value>
+		<value v="region">
+		</value>
+		<value v="state">
+			<useful v="name" />
+			<useful v="population" />
+		</value>
+		<value v="suburb">
+			<useful v="is_in" />
+			<useful v="name" />
+		</value>
+		<value v="town">
+			<useful v="name" />
+		</value>
+		<value v="village">
+			<useful v="is_in" />
+			<useful v="name" />
+			<useful v="population" />
+		</value>
+	</key>
+	<key v="place_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="place_numbers">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="population">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="postal_code">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="power">
+		<value v="User Defined">
+		</value>
+		<value v="cable_distribution_cabinet">
+			<useful v="operator" />
+			<useful v="ref" />
+		</value>
+		<value v="generator">
+			<useful v="generator:method" />
+			<useful v="generator:output" />
+			<useful v="generator:source" />
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="line">
+			<useful v="ref" />
+			<useful v="voltage" />
+		</value>
+		<value v="minor_line">
+			<useful v="cables" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="ref" />
+			<useful v="voltage" />
+		</value>
+		<value v="pole">
+			<useful v="ref" />
+		</value>
+		<value v="station">
+		</value>
+		<value v="sub_station">
+			<useful v="operator" />
+		</value>
+		<value v="tower">
+			<useful v="ref" />
+		</value>
+	</key>
+	<key v="proposed">
+		<value v="*">
+		</value>
+	</key>
+	<key v="psv">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="railway">
+		<value v="User Defined">
+		</value>
+		<value v="abandoned">
+		</value>
+		<value v="buffer_stop">
+		</value>
+		<value v="construction">
+		</value>
+		<value v="crossing">
+		</value>
+		<value v="disused">
+		</value>
+		<value v="funicular">
+		</value>
+		<value v="halt">
+			<useful v="name" />
+		</value>
+		<value v="level_crossing">
+		</value>
+		<value v="light_rail">
+		</value>
+		<value v="monorail">
+			<useful v="name" />
+			<useful v="oneway" />
+		</value>
+		<value v="narrow_gauge">
+			<useful v="bridge" />
+			<useful v="name" />
+			<useful v="tunnel" />
+		</value>
+		<value v="platform">
+			<useful v="name" />
+			<useful v="ref" />
+			<useful v="surface" />
+			<useful v="width" />
+		</value>
+		<value v="preserved">
+		</value>
+		<value v="rail">
+			<useful v="bridge" />
+			<useful v="electrified" />
+			<useful v="name" />
+			<useful v="tunnel" />
+		</value>
+		<value v="station">
+			<useful v="name" />
+		</value>
+		<value v="subway">
+		</value>
+		<value v="subway_entrance">
+			<useful v="bicycle" />
+			<useful v="name" />
+			<useful v="wheelchair" />
+		</value>
+		<value v="tram">
+			<useful v="bridge" />
+			<useful v="oneway" />
+			<useful v="tunnel" />
+		</value>
+		<value v="tram_stop">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="turntable">
+			<useful v="ref" />
+		</value>
+	</key>
+	<key v="rcn_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="reg_name">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="reg_ref">
+		<value v="User Defined">
+		</value>
+	</key>
+	<key v="route">
+		<value v="User Defined">
+		</value>
+		<value v="bicycle">
+		</value>
+		<value v="bus">
+			<useful v="name" />
+			<useful v="network" />
+			<useful v="operator" />
+			<useful v="ref" />
+			<useful v="type" />
+		</value>
+		<value v="detour">
+			<useful v="name" />
+			<useful v="ref" />
+			<useful v="route" />
+		</value>
+		<value v="ferry">
+			<useful v="foot" />
+			<useful v="hgv" />
+			<useful v="motorcar" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="ref" />
+		</value>
+		<value v="hiking">
+		</value>
+		<value v="mtb">
+		</value>
+		<value v="piste">
+		</value>
+		<value v="railway">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="road">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="ski">
+		</value>
+		<value v="train">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="tram">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+	</key>
+	<key v="sac_scale">
+		<value v="alpine_hiking">
+		</value>
+		<value v="demanding_alpine_hiking">
+		</value>
+		<value v="demanding_mountain_hiking">
+		</value>
+		<value v="difficult_alpine_hiking">
+		</value>
+		<value v="mountain_hiking">
+		</value>
+		<value v="hiking">
+		</value>
+	</key>
+	<key v="service">
+		<value v="Other Values">
+		</value>
+		<value v="alley">
+			<useful v="highway" />
+		</value>
+		<value v="driveway">
+			<useful v="highway" />
+		</value>
+		<value v="parking_aisle">
+			<useful v="highway" />
+			<useful v="oneway" />
+		</value>
+		<value v="siding">
+			<useful v="railway" />
+		</value>
+		<value v="spur">
+			<useful v="operator" />
+			<useful v="railway" />
+			<useful v="ref" />
+		</value>
+		<value v="yard">
+			<useful v="operator" />
+			<useful v="railway" />
+			<useful v="ref" />
+		</value>
+	</key>
+	<key v="shop">
+		<value v="User Defined">
+		</value>
+		<value v="alcohol">
+			<useful v="name" />
+		</value>
+		<value v="anime">
+			<useful v="name" />
+		</value>
+		<value v="art">
+		</value>
+		<value v="bakery">
+			<useful v="name" />
+		</value>
+		<value v="bathroom_furnishing">
+			<useful v="name" />
+		</value>
+		<value v="beauty">
+			<useful v="name" />
+			<useful v="opening_hours" />
+		</value>
+		<value v="bed">
+		</value>
+		<value v="beverages">
+			<useful v="name" />
+		</value>
+		<value v="bicycle">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="books">
+			<useful v="books" />
+		</value>
+		<value v="boutique">
+			<useful v="name" />
+		</value>
+		<value v="butcher">
+			<useful v="name" />
+		</value>
+		<value v="car">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="service" />
+			<useful v="brand" />
+		</value>
+		<value v="car_repair">
+			<useful v="name" />
+		</value>
+		<value v="charity">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="chemist">
+			<useful v="name" />
+		</value>
+		<value v="clothes">
+			<useful v="clothes" />
+		</value>
+		<value v="computer">
+			<useful v="name" />
+		</value>
+		<value v="confectionery">
+			<useful v="name" />
+		</value>
+		<value v="convenience">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="copyshop">
+		</value>
+		<value v="curtain">
+		</value>
+		<value v="deli">
+			<useful v="name" />
+		</value>
+		<value v="department_store">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="dive">
+		</value>
+		<value v="doityourself">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="drugstore">
+		</value>
+		<value v="dry_cleaning">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="electronics">
+			<useful v="name" />
+		</value>
+		<value v="erotic">
+		</value>
+		<value v="fabric">
+		</value>
+		<value v="farm">
+			<useful v="name" />
+		</value>
+		<value v="florist">
+			<useful v="name" />
+		</value>
+		<value v="frame">
+			<useful v="name" />
+		</value>
+		<value v="funeral_directors">
+			<useful v="name" />
+		</value>
+		<value v="furnace">
+		</value>
+		<value v="furniture">
+			<useful v="tag:furniture" />
+		</value>
+		<value v="garden_centre">
+			<useful v="name" />
+		</value>
+		<value v="general">
+			<useful v="name" />
+			<useful v="opening_hours" />
+		</value>
+		<value v="gift">
+			<useful v="name" />
+		</value>
+		<value v="glaziery">
+			<useful v="name" />
+		</value>
+		<value v="greengrocer">
+			<useful v="name" />
+		</value>
+		<value v="hairdresser">
+			<useful v="name" />
+		</value>
+		<value v="hardware">
+			<useful v="name" />
+		</value>
+		<value v="hearing_aids">
+			<useful v="name" />
+		</value>
+		<value v="hifi">
+			<useful v="name" />
+		</value>
+		<value v="hunting">
+		</value>
+		<value v="interior_decoration">
+		</value>
+		<value v="jewelry">
+			<useful v="name" />
+		</value>
+		<value v="kiosk">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="kitchen">
+			<useful v="name" />
+		</value>
+		<value v="laundry">
+			<useful v="laundry_service" />
+			<useful v="self_service" />
+		</value>
+		<value v="mall">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="massage">
+		</value>
+		<value v="mobile_phone">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="money_lender">
+		</value>
+		<value v="motorcycle">
+			<useful v="name" />
+		</value>
+		<value v="musical_instrument">
+			<useful v="name" />
+		</value>
+		<value v="newsagent">
+		</value>
+		<value v="optician">
+			<useful v="name" />
+		</value>
+		<value v="organic">
+			<useful v="name" />
+		</value>
+		<value v="outdoor">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="paint">
+			<useful v="name" />
+		</value>
+		<value v="pawnbroker">
+		</value>
+		<value v="pet">
+		</value>
+		<value v="radiotechnics">
+		</value>
+		<value v="seafood">
+			<useful v="name" />
+		</value>
+		<value v="second_hand">
+			<useful v="name" />
+		</value>
+		<value v="shoes">
+			<useful v="name" />
+		</value>
+		<value v="sports">
+			<useful v="name" />
+		</value>
+		<value v="stationery">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="supermarket">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="tattoo">
+		</value>
+		<value v="tobacco">
+			<useful v="addr" />
+			<useful v="name" />
+		</value>
+		<value v="toys">
+			<useful v="name" />
+		</value>
+		<value v="trade">
+		</value>
+		<value v="vacant">
+		</value>
+		<value v="vacuum_cleaner">
+		</value>
+		<value v="variety_store">
+		</value>
+		<value v="video">
+			<useful v="name" />
+		</value>
+	</key>
+	<key v="smoothness">
+		<value v="bad">
+		</value>
+		<value v="good">
+		</value>
+		<value v="horrible">
+		</value>
+		<value v="impassable">
+		</value>
+		<value v="intermediate">
+		</value>
+		<value v="very_bad">
+		</value>
+		<value v="very_horrible">
+		</value>
+		<value v="excellent">
+		</value>
+	</key>
+	<key v="source">
+		<value v="User defined">
+		</value>
+		<value v="extrapolation">
+		</value>
+		<value v="historical">
+		</value>
+		<value v="image">
+		</value>
+		<value v="knowledge">
+		</value>
+		<value v="survey">
+		</value>
+		<value v="voice">
+		</value>
+	</key>
+	<key v="source:name">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="source:ref">
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="source_ref">
+		<value v="User Defined">
+		</value>
+		<value v="User defined">
+		</value>
+	</key>
+	<key v="sport">
+		<value v="10pin">
+		</value>
+		<value v="9pin">
+		</value>
+		<value v="american_football">
+		</value>
+		<value v="archery">
+		</value>
+		<value v="athletics">
+		</value>
+		<value v="australian_football">
+			<useful v="ref" />
+		</value>
+		<value v="baseball">
+			<useful v="leisure" />
+			<useful v="leisure" />
+			<useful v="leisure" />
+		</value>
+		<value v="basketball">
+		</value>
+		<value v="beachvolleyball">
+		</value>
+		<value v="bmx">
+		</value>
+		<value v="boules">
+			<useful v="type" />
+		</value>
+		<value v="bowls">
+		</value>
+		<value v="canadian_football">
+		</value>
+		<value v="canoe">
+		</value>
+		<value v="chess">
+			<useful v="leisure" />
+		</value>
+		<value v="climbing">
+		</value>
+		<value v="cricket">
+		</value>
+		<value v="cricket_nets">
+		</value>
+		<value v="croquet">
+		</value>
+		<value v="cycling">
+		</value>
+		<value v="diving">
+			<useful v="name" />
+		</value>
+		<value v="dog_racing">
+		</value>
+		<value v="equestrian">
+		</value>
+		<value v="football">
+		</value>
+		<value v="free_flying">
+		</value>
+		<value v="gaelic_games">
+			<useful v="name" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+		</value>
+		<value v="golf">
+		</value>
+		<value v="gymnastics">
+		</value>
+		<value v="hockey">
+		</value>
+		<value v="horse_racing">
+		</value>
+		<value v="horseshoes">
+		</value>
+		<value v="ice_stock">
+		</value>
+		<value v="karting">
+		</value>
+		<value v="korfball">
+		</value>
+		<value v="motor">
+		</value>
+		<value v="multi">
+		</value>
+		<value v="orienteering">
+			<useful v="leisure" />
+			<useful v="name" />
+		</value>
+		<value v="paddle_tennis">
+		</value>
+		<value v="paragliding">
+		</value>
+		<value v="pelota">
+		</value>
+		<value v="racquet">
+		</value>
+		<value v="rowing">
+			<useful v="name" />
+		</value>
+		<value v="rugby_league">
+		</value>
+		<value v="rugby_union">
+		</value>
+		<value v="shooting">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="type" />
+		</value>
+		<value v="skateboard">
+		</value>
+		<value v="skating">
+		</value>
+		<value v="skiing">
+		</value>
+		<value v="soccer">
+			<useful v="name" />
+			<useful v="opening_hours" />
+			<useful v="operator" />
+		</value>
+		<value v="surfing">
+			<useful v="name" />
+		</value>
+		<value v="swimming">
+		</value>
+		<value v="table_tennis">
+		</value>
+		<value v="team_handball">
+		</value>
+		<value v="tennis">
+			<useful v="leisure" />
+		</value>
+		<value v="toboggan">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="volleyball">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="water_ski">
+		</value>
+	</key>
+	<key v="start_date">
+		<value v="Date">
+		</value>
+	</key>
+	<key v="surface">
+		<value v="asphalt">
+		</value>
+		<value v="cobblestone">
+		</value>
+		<value v="concrete">
+		</value>
+		<value v="dirt">
+		</value>
+		<value v="earth">
+		</value>
+		<value v="grass">
+		</value>
+		<value v="grass_paver">
+		</value>
+		<value v="gravel">
+		</value>
+		<value v="ground">
+		</value>
+		<value v="metal">
+		</value>
+		<value v="mud">
+		</value>
+		<value v="paving_stones">
+		</value>
+		<value v="pebblestone">
+		</value>
+		<value v="sand">
+		</value>
+		<value v="unpaved">
+		</value>
+		<value v="wood">
+		</value>
+		<value v="paved">
+		</value>
+	</key>
+	<key v="tactile_paving">
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="toll">
+		<value v="yes">
+		</value>
+	</key>
+	<key v="tourism">
+		<value v="User Defined">
+		</value>
+		<value v="alpine_hut">
+		</value>
+		<value v="artwork">
+			<useful v="artist_name" />
+			<useful v="artwork_type" />
+			<useful v="name" />
+			<useful v="website" />
+			<useful v="wikipedia" />
+		</value>
+		<value v="attraction">
+		</value>
+		<value v="bed_and_breakfast">
+		</value>
+		<value v="camp_site">
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="website" />
+		</value>
+		<value v="caravan_site">
+			<useful v="tents" />
+			<useful v="capacity" />
+			<useful v="fee" />
+			<useful v="name" />
+			<useful v="power_supply" />
+		</value>
+		<value v="chalet">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="guest_house">
+		</value>
+		<value v="hostel">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="hotel">
+			<useful v="rooms" />
+			<useful v="building" />
+			<useful v="name" />
+			<useful v="operator" />
+			<useful v="stars" />
+		</value>
+		<value v="information">
+			<useful v="description" />
+			<useful v="name" />
+		</value>
+		<value v="motel">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="museum">
+			<useful v="name" />
+			<useful v="operator" />
+		</value>
+		<value v="picnic_site">
+		</value>
+		<value v="theme_park">
+		</value>
+		<value v="viewpoint">
+			<useful v="description" />
+			<useful v="name" />
+			<useful v="Tag:man_made" />
+		</value>
+		<value v="yes">
+		</value>
+		<value v="zoo">
+			<useful v="name" />
+			<useful v="zoo" />
+		</value>
+	</key>
+	<key v="tracktype">
+		<value v="grade1">
+		</value>
+		<value v="grade2">
+		</value>
+		<value v="grade3">
+		</value>
+		<value v="grade4">
+		</value>
+		<value v="grade5">
+		</value>
+	</key>
+	<key v="traffic_calming">
+		<value v="Other Values">
+		</value>
+		<value v="bump">
+		</value>
+		<value v="chicane">
+		</value>
+		<value v="choker">
+		</value>
+		<value v="cushion">
+		</value>
+		<value v="hump">
+		</value>
+		<value v="rumble_strip">
+		</value>
+		<value v="table">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="traffic_sign">
+		<value v="city_limit">
+		</value>
+	</key>
+	<key v="trail_visibility">
+		<value v="bad">
+		</value>
+		<value v="good">
+		</value>
+		<value v="horrible">
+		</value>
+		<value v="intermediate">
+		</value>
+		<value v="no">
+		</value>
+		<value v="excellent">
+		</value>
+	</key>
+	<key v="tunnel">
+		<value v="culvert">
+			<useful v="waterway" />
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="url">
+		<value v="URL">
+		</value>
+	</key>
+	<key v="usage">
+		<value v="branch">
+		</value>
+		<value v="industrial">
+		</value>
+		<value v="military">
+		</value>
+		<value v="tourism">
+		</value>
+		<value v="main">
+		</value>
+	</key>
+	<key v="vehicle">
+		<value v="agricultural">
+		</value>
+		<value v="delivery">
+		</value>
+		<value v="designated">
+		</value>
+		<value v="destination">
+		</value>
+		<value v="forestry">
+		</value>
+		<value v="no">
+		</value>
+		<value v="permissive">
+		</value>
+		<value v="private">
+		</value>
+		<value v="unknown">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="voltage">
+		<value v="... 110000,220000,380000,400000 ...">
+		</value>
+	</key>
+	<key v="waterway">
+		<value v="User Defined">
+		</value>
+		<value v="boatyard">
+			<useful v="building" />
+			<useful v="name" />
+			<useful v="ref" />
+			<useful v="waterway" />
+		</value>
+		<value v="canal">
+			<useful v="name" />
+		</value>
+		<value v="dam">
+			<useful v="name" />
+		</value>
+		<value v="ditch">
+			<useful v="intermittent" />
+			<useful v="name" />
+			<useful v="width" />
+		</value>
+		<value v="dock">
+			<useful v="access" />
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="drain">
+			<useful v="name" />
+		</value>
+		<value v="lock_gate">
+			<useful v="name" />
+		</value>
+		<value v="river">
+			<useful v="name" />
+			<useful v="width" />
+		</value>
+		<value v="riverbank">
+		</value>
+		<value v="stream">
+			<useful v="name" />
+			<useful v="width" />
+		</value>
+		<value v="turning_point">
+			<useful v="name" />
+			<useful v="ref" />
+		</value>
+		<value v="weir">
+			<useful v="name" />
+		</value>
+	</key>
+	<key v="website">
+		<value v="URL">
+		</value>
+	</key>
+	<key v="wheelchair">
+		<value v="limited">
+		</value>
+		<value v="no">
+		</value>
+		<value v="yes">
+		</value>
+	</key>
+	<key v="width">
+		<value v="Number">
+		</value>
+	</key>
+	<key v="wikipedia">
+		<value v="URL or article title">
+		</value>
+	</key>
+	<key v="winter_road">
+		<value v="yes">
+			<useful v="highway" />
+		</value>
+	</key>
+	<key v="wires">
+		<value v="single, double, triple, quad">
+		</value>
+	</key>
+	<key v="wood">
+		<value v="deciduous">
+		</value>
+		<value v="mixed">
+		</value>
+		<value v="coniferous">
+		</value>
+	</key>
+</map_features>

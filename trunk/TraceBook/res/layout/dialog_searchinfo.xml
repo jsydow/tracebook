@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical" android:background="#000">
+
+		<ImageView android:id="@+id/iv_searchInfoDialog_wikiImage"
+			android:src="@drawable/icon" android:layout_height="wrap_content" android:layout_width="fill_parent" android:scaleType="fitCenter"/>
+
+		<TextView android:text="@string/string_global_categoryTitle"
+			android:id="@+id/tv_searchInfoDialog_categoryTitle"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:textStyle="bold" />
+
+		<TextView android:text="@string/tv_searchInfoDialog_noInformation"
+			android:id="@+id/tv_searchInfoDialog_category" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+		<TextView android:text="@string/string_global_valueTitle"
+			android:id="@+id/tv_searchInfoDialog_valueTitle"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:textStyle="bold" />
+
+		<TextView android:text="@string/tv_searchInfoDialog_noInformation"
+			android:id="@+id/tv_searchInfoDialog_value" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+
+		<TextView android:text="@string/string_global_descriptionTitle"
+			android:id="@+id/tv_searchInfoDialog_descriptionTitle"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:textStyle="bold" />
+
+		<TextView android:text="@string/tv_searchInfoDialog_noInformation"
+			android:id="@+id/tv_searchInfoDialog_description"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+		<TextView android:text="@string/tv_searchInfoDialog_urlTitle"
+			android:id="@+id/tv_searchInfoDialog_urlTitle" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:textStyle="bold" />
+
+		<TextView android:text="@string/tv_searchInfoDialog_noInformation"
+			android:id="@+id/tv_searchInfoDialog_url" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:autoLink="web" />
+
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:orientation="horizontal" android:gravity="center_horizontal">
+
+
+			<Button android:id="@+id/btn_searchInfoDialog_save"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/btn_searchInfoDialog_save" android:textSize="15sp" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

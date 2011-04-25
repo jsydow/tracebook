@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TraceBookJavaDoc" default="javadoc" basedir=".">
+	<path id="classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${basedir}/../../Android/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="javadoc">
+		<javadoc excludepackagenames="" access="protected" destdir="doc" version="true" windowtitle="TraceBook" sourcepath="gen;src" classpathref="classpath">
+			<doctitle><![CDATA[<h1>TraceBook</h1>]]></doctitle>
+			<link href="http://code.google.com/p/mapsforge/source/browse/tags/0.2.2/javadoc" offline="true" packagelistloc="${basedir}/../mapsforge/docs/0.2.2" />		
+			<link href="http://developer.android.com/reference" offline="true" packagelistloc="${basedir}/../Android/docs/reference" />					
+			<fileset dir="src" defaultexcludes="yes">
+				<include name="*.java" />
+			</fileset>
+		</javadoc>
+	</target>
+</project>

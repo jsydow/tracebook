@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:keepScreenOn="true">
+
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:text="@string/tv_addmemoActivity_record"
+		android:gravity="center_horizontal" android:textSize="15sp" />
+
+	<ImageView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:src="@drawable/bg_microphone" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:onClick="startMemoBtn" android:minWidth="100dp"
+		android:text="@string/tv_addmemoActivity_startRecord" android:gravity="center_horizontal" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:onClick="stopMemoBtn" android:minWidth="100dp"
+		android:text="@string/tv_addmemoActivity_stopRecord" android:gravity="center_horizontal" />
+</LinearLayout>
