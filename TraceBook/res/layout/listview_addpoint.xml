@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ListView android:id="@+id/list" android:layout_width="1px"
+		android:layout_height="1px" android:layout_weight="1">
+	</ListView>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<TextView android:id="@+id/title" android:layout_width="150dp"
+			android:layout_height="40dp" android:textSize="18sp"
+			android:paddingLeft="7dp" />
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="fill_parent" android:id="@+id/detail"
+				android:layout_height="wrap_content" android:paddingLeft="7dp"
+				android:textSize="18sp" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

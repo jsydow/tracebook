@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="horizontal">
+
+		<TextView android:id="@+id/tv_listviewedit_idTitle"
+			android:text="@string/tv_listviewedit_idTitle" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
+		<TextView android:id="@+id/tv_listviewedit_id"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+		<TextView android:id="@+id/tv_listviewedit_coordinates"
+			android:layout_width="275dp" android:layout_height="wrap_content"
+			android:paddingLeft="10dp" />
+
+	</LinearLayout>
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+			<TextView android:id="@+id/tv_listviewedit_stats"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		</LinearLayout>
+		<!-- New Layout -->
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:gravity="right">
+
+			<ImageView android:id="@+id/iv_listviewedit_image"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingRight="5dp" />
+
+		</LinearLayout>
+
+	</LinearLayout>
+	<TextView android:id="@+id/tv_listviewedit_poiCount"
+		android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+</LinearLayout>

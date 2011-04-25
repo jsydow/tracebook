@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<LinearLayout android:id="@+id/ly_addpointMetaAtivity_statusbar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="center_horizontal">
+	</LinearLayout>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/tv_addpointmetaActivity_insertTag" />
+
+	<AutoCompleteTextView android:id="@+id/ac_addpointmetaActivity_categorie"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:completionThreshold="1" android:textColor="#000"/>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="@string/tv_addpointmetaActivity_insertValue" />
+
+	<AutoCompleteTextView android:id="@+id/ac_addpointmetaActivity_value"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:completionThreshold="1" android:textColor="#000" />
+
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+		<Button android:id="@+id/btn_addpointmetaActivity_save"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/btn_addpointmetaActivity_save" android:onClick="saveBtn"
+			android:minWidth="100dp" />
+
+		<Button android:id="@+id/btn_addpointmetaActivity_search"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/btn_addpointmetaActivity_search"
+			android:onClick="searchBtn" android:minWidth="100dp" />
+
+		<Button android:id="@+id/btn_addpointmetaActivity_cancel"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/btn_addpointmetaActivity_cancel"
+			android:onClick="cancelBtn" android:minWidth="100dp" />
+
+	</LinearLayout>
+
+	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:scrollingCache="true" android:divider="#8ac705"
+		android:dividerHeight="1sp" android:drawSelectorOnTop="false" />
+
+</LinearLayout>

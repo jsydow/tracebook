@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout android:id="@+id/ly_loadtrackActivity_statusbar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="center_horizontal">
+	</LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal">
+		<TextView android:text="@string/tv_loadtrackActivity_filter"
+			android:id="@+id/tv_loadtrackactivity_filter" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+		<EditText android:layout_height="wrap_content"
+			android:hint="@string/et_fulltextsearchActivity_search"
+			android:layout_width="fill_parent" android:id="@+id/et_loadtrackactivity_search" />
+	</LinearLayout>
+
+	<ListView android:id="@+id/android:list" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:scrollingCache="true" android:divider="#8ac705"
+		android:dividerHeight="1sp" android:drawSelectorOnTop="false" />
+</LinearLayout>

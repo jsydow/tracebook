@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<ListView android:id="@+id/list" android:layout_width="1px"
+		android:layout_height="1px" android:layout_weight="1">
+	</ListView>
+	<TextView android:text="Track" android:id="@+id/tv_listviewloadtrack_track"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:includeFontPadding="true" android:textSize="18sp"
+		android:paddingLeft="7dp" android:paddingTop="7dp" />
+
+	<TextView android:id="@+id/tv_listviewloadtrack_comment"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:paddingLeft="7dp" android:textSize="11dp" />
+</LinearLayout>

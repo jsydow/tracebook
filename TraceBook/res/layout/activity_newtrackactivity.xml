@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@android:id/tabhost" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:orientation="vertical">
+		<TabWidget android:id="@android:id/tabs"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		<FrameLayout android:id="@android:id/tabcontent"
+			android:layout_height="fill_parent" android:layout_width="fill_parent">
+			<LinearLayout android:id="@+id/tab_newtrackactivity_map"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+
+			</LinearLayout>
+			<ScrollView android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				<LinearLayout android:id="@+id/tab_newtrackActivity_new"
+					android:orientation="vertical" android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+					<TextView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:scaleType="fitCenter"
+						android:layout_weight="1" />
+
+					<Button android:id="@+id/btn_newtrackActivity_resume"
+						android:text="@string/opt_mapsforgeActivity_resume"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:onClick="resumeBtn" android:minWidth="100dp"
+						android:visibility="invisible" />
+
+					<ToggleButton android:id="@+id/tbtn_newtrackActivity_startWay"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:textOn="@string/tbtn_newtrackActivity_streetOff"
+						android:textOff="@string/tbtn_newtrackActivity_streetOn"
+						android:drawableLeft="@drawable/ic_way" android:padding="19dip"
+						android:onClick="startWayTbtn" />
+
+					<ToggleButton android:id="@+id/tbtn_newtrackActivity_startArea"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:textOn="@string/tbtn_newtrackActivity_areaOff"
+						android:textOff="@string/tbtn_newtrackActivity_areaOn"
+						android:drawableLeft="@drawable/ic_area" android:padding="19dip"
+						android:onClick="startAreaTbtn" />
+
+					<Button android:id="@+id/btn_newtrackActivity_addPoint"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:text="@string/btn_newtrackActivity_addPoint"
+						android:drawableLeft="@drawable/ic_node" android:padding="19dip"
+
+
+						android:onClick="addPointBtn" />
+
+					<TextView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:scaleType="fitCenter"
+						android:layout_weight="1" />
+
+					<Button android:id="@+id/btn_newtrackActivity_editComment"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:text="@string/btn_newtrackActivity_editComment"
+						android:onClick="editCommentBtn" />
+
+					<TextView android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:scaleType="fitCenter"
+						android:layout_weight="1" />
+
+					<Button android:id="@+id/btn_newtrackActivity_stopTrack"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:text="@string/btn_newtrackActivity_stopTrack"
+						android:onClick="stopTrackBtn" android:drawableLeft="@drawable/btn_stop" />
+
+					<TextView android:id="@+id/tv_newtrackActivity_setButtonList"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:textSize="15sp" />
+
+					<LinearLayout android:id="@+id/ly_newtrackActivity_metaMediaBtnNew"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:orientation="horizontal" android:gravity="center_horizontal">
+
+
+					</LinearLayout>
+
+				</LinearLayout>
+			</ScrollView>
+			<LinearLayout android:id="@+id/tab_newtrackactivity_edit"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+
+				<TextView android:id="@+id/tv_newtrackactivity_allElements"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:text="@string/tv_newtrackactivity_allElements"
+					android:gravity="center_horizontal" android:textStyle="bold" />
+
+
+				<ListView android:id="@+id/tracks_lvw"
+					android:layout_width="fill_parent" android:layout_height="fill_parent"
+					android:layout_weight="1" android:scrollingCache="true"
+					android:divider="#8ac705" android:dividerHeight="1sp"
+					android:drawSelectorOnTop="false" />
+
+
+			</LinearLayout>
+		</FrameLayout>
+	</LinearLayout>
+</TabHost>

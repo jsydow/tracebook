@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author greenTraxas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent"
+	android:orientation="vertical" android:keepScreenOn="true">
+	<SurfaceView android:id="@+id/sfv_recordvideoActivity_camera"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_centerInParent="true" android:layout_weight="1">
+	</SurfaceView>
+
+	<LinearLayout android:id="@+id/ly_recordvideoActivity_layout1"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:orientation="horizontal">
+		<Button android:id="@+id/btn_recordvideoActivity_startRec"
+			android:text="@string/btn_recordvideoActivity_startRec"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:onClick="onRecordBtn" android:minWidth="100dp" />
+		<Button android:text="@string/btn_recordvideoActivity_stopRec"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:id="@+id/btn_recordvideoActivity_stopRec" android:onClick="onRecordStop"
+			android:minWidth="100dp" />
+	</LinearLayout>
+</LinearLayout>
