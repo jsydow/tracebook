@@ -44,6 +44,9 @@ Alle DataMediaHolder koennen Metadaten enthalten.
     * Listengroesse wird benutzt um festzustellen ob der Knoten wichtig ist
 
 === !DataTrack ===
+In einer Session ist dies der Dreh und Angelpunkt. Diese Klasse bietet die meisten Operationen. Ein Track hat einen Namen und ein kann einen Kommentar beinhalten. Er hat Wege/Flaechen und Punkte. Ein Weg kann als aktueller Weg gekennzeichnet werden. Er kann abgefragt und gesetzt werden.
+
+
 
 === !DataMapObject ===
 Oberklasse fuer alle auf einer Map darstellbaren Primitive (Wege, Punkte, Flaechen). Speichert fuer jedes Objekt eine einzigartige Id und verschiedene Tags. Die Id wird zur Identifikation eines Objekts gebraucht.
@@ -96,3 +99,12 @@ Die Daten (Kommentar, Zeit, Name, Datenanzahl) werden in einer extra XML-Datei g
     * Speichern von Tracks
   * Getter-Methoden
     * Trackladebildschirm
+
+== Allgemein ==
+Allgemein haben die Objekte folgende Operationen:
+  * Laden
+  * Speichern
+  * Erstellen
+  * Loeschen
+  * Attribute abfragen
+  * Kinder suchen
