@@ -29,3 +29,16 @@ DataStorage ist der Zugriffspunkt fuer die Daten. Er haelt den aktuellen Track.
     * Trackladebildschirm
   * Verweis auf den aktuellen Track speichern
     * ueberall
+
+=== !DataMediaHolder ===
+Alle DataMediaHolder koennen Metadaten enthalten.
+  * Medium hinzufuegen
+    * Laden von Tracks
+    * Benutzen der Aufnahmefunktionen
+  * Medien loeschen
+    * gar nicht, da Metadaten nicht editierbar
+  * Medien laden/speichern
+    * Laden/Speichern von Tracks
+  * Liste aller Medien erzeugen
+    * Liste ist fuer Benutzer noch nicht einsehbar
+    * Listengroesse wird benutzt um festzustellen ob der Knoten wichtig ist
