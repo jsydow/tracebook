@@ -53,6 +53,15 @@ Oberklasse fuer alle auf einer Map darstellbaren Primitive (Wege, Punkte, Flaech
     * ueberall
 
 === !DataNode ===
+Enthaelt eine Geokoordinate und den Verweis auf ein OverlayItem. Das Overlayitem wird zur Anzeige des Punktes auf der Karte benoetigt.
+  * Vater-Pointslist finden
+    * Karte
+  * Geokoordinaten setzen/abfragen
+    * Filtern
+    * Waylogger
+    * Anzeige der Punkte auf Karte und in Listenform
+  * Overlayitem setzen/abfragen
+    * Karte
 
 === !DataPointsList === 
 
