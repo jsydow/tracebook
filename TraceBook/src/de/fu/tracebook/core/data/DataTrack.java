@@ -48,9 +48,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
-import de.fu.tracebook.util.LogIt;
 import android.location.Location;
 import android.util.Xml;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * A Track. Consists of Ways, Areas, POIs and additional Media. A Track is a
@@ -363,13 +363,6 @@ public class DataTrack extends DataMediaHolder {
                         + name);
             }
         }
-    }
-
-    /**
-     * Deletes a Track with all its contents from the devices memory.
-     */
-    public void delete() {
-        DataStorage.deleteDirectory(new File(getTrackDirPath()));
     }
 
     /**

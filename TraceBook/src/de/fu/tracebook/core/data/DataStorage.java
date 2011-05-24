@@ -162,7 +162,7 @@ public final class DataStorage {
      *         then the list will be empty.
      */
     public List<String> getAllTracks() {
-        updateNames();
+        retrieveTrackNames();
         return names;
     }
 
@@ -242,7 +242,7 @@ public final class DataStorage {
      *            The new currently edited Track.
      * @return The parameter currentTrack is simple returned for further use.
      */
-    public DataTrack setCurrentTrack(DataTrack currentTrack) {
+    public DataTrack setTrack(DataTrack currentTrack) {
         this.track = currentTrack;
         return currentTrack;
     }
@@ -251,17 +251,8 @@ public final class DataStorage {
      * Unloads all tracks from memory without saving them!
      */
     public void unloadAllTracks() {
-        setCurrentTrack(null);
-        updateNames();
-    }
-
-    /**
-     * Updates the list of all names. Normally it is unnecessary to use this
-     * method as getAllTracks() calls this method.
-     */
-    public void updateNames() {
+        setTrack(null);
         retrieveTrackNames();
-        removeDuplicatesInStringList(names);
     }
 
 }

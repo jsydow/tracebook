@@ -136,7 +136,7 @@ public class LoadTrackActivity extends ListActivity {
             DataTrack track = DataStorage.getInstance().deserializeTrack(
                     trackname);
             if (track != null) {
-                DataStorage.getInstance().setCurrentTrack(track);
+                DataStorage.getInstance().setTrack(track);
                 final Intent intent = new Intent(this, NewTrackActivity.class);
                 startActivity(intent);
             } else {
@@ -546,7 +546,7 @@ public class LoadTrackActivity extends ListActivity {
                                             int id1) {
 
                                         DataStorage.getInstance()
-                                                .setCurrentTrack(track);
+                                                .setTrack(track);
                                         startActivity(intent);
                                         overridePendingTransition(
                                                 R.anim.zoom_enter,
@@ -568,7 +568,7 @@ public class LoadTrackActivity extends ListActivity {
                 builder.show();
 
             } else {
-                DataStorage.getInstance().setCurrentTrack(track);
+                DataStorage.getInstance().setTrack(track);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }

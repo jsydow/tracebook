@@ -59,8 +59,7 @@ public class WaypointLogService extends Service implements LocationListener {
             one_shot = doOneShot;
 
             if (currentWay() == null) // start a new way
-                storage.getTrack().setCurrentWay(
-                        storage.getTrack().newWay());
+                storage.getTrack().setCurrentWay(storage.getTrack().newWay());
 
             if (one_shot) // in one_shot mode, add a new point
                 current_nodes.add(currentWay().newNode());
@@ -134,14 +133,14 @@ public class WaypointLogService extends Service implements LocationListener {
 
         public void startTrack() {
             restartGPS();
-            storage.setCurrentTrack(storage.newTrack());
+            storage.setTrack(storage.newTrack());
         }
 
         public int stopTrack() {
             stopGPS();
 
             if (storage.getTrack() != null) {
-                storage.getTrack().serialize();
+                storage.serialize();
                 storage.unloadAllTracks();
                 return 1;
             }
