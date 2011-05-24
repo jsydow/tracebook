@@ -6,6 +6,16 @@ Zum Testen verschiedener Speicheransaetze muss erst einmal festgestellt werden, 
 
 = Details =
 
+Das Datenmodell sieht folgendermassen aus:
+  * DataStorage
+  * DataMediaHolder
+    * DataTrack
+    * DataMapObject
+      * DataNode
+      * DataPointsList
+  * DataMedia
+  * (DataTrackInfo)
+
 === !DataStorage ===
 DataStorage ist der Zugriffspunkt fuer die Daten. Er haelt den aktuellen Track.
   * Tracks anlegen
