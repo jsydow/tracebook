@@ -1,0 +1,10 @@
+#summary Was bisher geschah...
+
+= Einleitung =
+
+Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
+
+= Details =
+
+24.05.:
+  * nicht benutzte DataStorage Funktionalitaet entfernt
