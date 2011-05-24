@@ -529,7 +529,7 @@ public class LoadTrackActivity extends ListActivity {
         final Intent intent = new Intent(this, NewTrackActivity.class);
 
         if (track != null) {
-            if (DataStorage.getInstance().getCurrentTrack() != null) {
+            if (DataStorage.getInstance().getTrack() != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getResources().getString(
                         R.string.alert_loadtrackActivity_stopCurrentTrack));

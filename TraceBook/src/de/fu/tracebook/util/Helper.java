@@ -86,7 +86,7 @@ public final class Helper {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         final EditText input = new EditText(activity);
-        input.setHint(DataStorage.getInstance().getCurrentTrack().getName());
+        input.setHint(DataStorage.getInstance().getTrack().getName());
         builder.setView(input);
         builder.setTitle(activity.getResources().getString(
                 R.string.alert_newtrackActivity_saveSetTrack));
@@ -103,7 +103,7 @@ public final class Helper {
                                 String value = input.getText().toString()
                                         .trim();
                                 if (!value.equals("")) {
-                                    DataStorage.getInstance().getCurrentTrack()
+                                    DataStorage.getInstance().getTrack()
                                             .setName(value);
                                 }
 
@@ -115,7 +115,7 @@ public final class Helper {
                                                         R.string.alert_global_trackName)
                                                 + " "
                                                 + DataStorage.getInstance()
-                                                        .getCurrentTrack()
+                                                        .getTrack()
                                                         .getName());
 
                                 // stop logging
@@ -151,7 +151,7 @@ public final class Helper {
                                 dialog.cancel();
 
                                 String trackname = DataStorage.getInstance()
-                                        .getCurrentTrack().getName();
+                                        .getTrack().getName();
 
                                 if (DataTrack.exists(trackname)) {
                                     try {
@@ -204,7 +204,7 @@ public final class Helper {
      * @return the current DataTrack object
      */
     public static DataTrack currentTrack() {
-        return DataStorage.getInstance().getCurrentTrack();
+        return DataStorage.getInstance().getTrack();
     }
 
     /**
@@ -229,8 +229,8 @@ public final class Helper {
      * @return the current list of {@link DataNode}s
      */
     public static List<DataNode> getNodes() {
-        if (DataStorage.getInstance().getCurrentTrack() != null) {
-            return DataStorage.getInstance().getCurrentTrack().getNodes();
+        if (DataStorage.getInstance().getTrack() != null) {
+            return DataStorage.getInstance().getTrack().getNodes();
         }
         return null;
     }
@@ -311,8 +311,8 @@ public final class Helper {
      * @return the current {@link DataPointsList} ways
      */
     public static List<DataPointsList> getWays() {
-        if (DataStorage.getInstance().getCurrentTrack() != null) {
-            return DataStorage.getInstance().getCurrentTrack().getWays();
+        if (DataStorage.getInstance().getTrack() != null) {
+            return DataStorage.getInstance().getTrack().getWays();
         }
         return null;
     }

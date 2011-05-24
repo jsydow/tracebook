@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import android.os.Environment;
@@ -118,11 +117,6 @@ public final class DataStorage {
     }
 
     /**
-     * Currently active Track.
-     */
-    private DataTrack currentTrack;
-
-    /**
      * Last given ID for a MapObject.
      */
     private int lastID;
@@ -134,59 +128,17 @@ public final class DataStorage {
     private List<String> names;
 
     /**
-     * All loaded Tracks.
+     * Currently active Track.
      */
-    private List<DataTrack> tracks;
+    private DataTrack track;
 
     /**
      * Default private constructor for Singleton implementation.
      */
     private DataStorage() {
-        tracks = Collections.synchronizedList(new ArrayList<DataTrack>());
         names = Collections.synchronizedList(new ArrayList<String>());
         retrieveTrackNames();
         lastID = 1;
-    }
-
-    /**
-     * Will delete ALL tracks! Therefore resets the all data that have been
-     * stored on the device.
-     */
-    public void delete() {
-        for (DataTrack dt : tracks)
-            dt.delete();
-        tracks.clear();
-    }
-
-    /**
-     * Deletes a Track from working memory and devices memory.
-     * 
-     * @param name
-     *            The name of a track as stored in the Track object or as
-     *            returned by getAllTracks().
-     */
-    public void deleteTrack(String name) {
-        ListIterator<DataTrack> lit = tracks.listIterator();
-        DataTrack dt;
-        while (lit.hasNext()) {
-            dt = lit.next();
-            if (dt.getName().equals(name)) {
-                dt.delete();
-                lit.remove();
-                break;
-            }
-        }
-    }
-
-    /**
-     * Loads all Tracks. Caution this can be a lot of Data! If only the names
-     * are needed use retrieveTrackNames()
-     */
-    public void deserializeAll() {
-        retrieveTrackNames();
-        for (String tname : names) {
-            deserializeTrack(DataTrack.getTrackDirPath(tname));
-        }
     }
 
     /**
@@ -199,8 +151,6 @@ public final class DataStorage {
      */
     public DataTrack deserializeTrack(String name) {
         DataTrack dt = DataTrack.deserialize(name);
-        if (dt != null)
-            tracks.add(dt);
         return dt;
     }
 
@@ -217,15 +167,6 @@ public final class DataStorage {
     }
 
     /**
-     * Getter-method.
-     * 
-     * @return The currently edited Track is returned.(may be null)
-     */
-    public DataTrack getCurrentTrack() {
-        return currentTrack;
-    }
-
-    /**
      * Create a new unique id to use for a new map object.
      * 
      * @return A new unique id > 0.
@@ -236,21 +177,12 @@ public final class DataStorage {
     }
 
     /**
-     * This method returns a Track object that specified by a name. Note that
-     * only tracks that the DataStorage currently stores can be returned.
+     * Getter-method.
      * 
-     * @param name
-     *            The name of a track as returned by getAllTracks()
-     * @return If such a track exists the Track itself is returned. If the track
-     *         does not exist however null is returned.
+     * @return The currently edited Track is returned.(may be null)
      */
-    public DataTrack getTrack(String name) {
-        for (DataTrack dt : tracks) {
-            if (dt.getName().equals(name)) {
-                return dt;
-            }
-        }
-        return null;
+    public DataTrack getTrack() {
+        return track;
     }
 
     /**
@@ -260,7 +192,6 @@ public final class DataStorage {
      */
     public DataTrack newTrack() {
         DataTrack dt = new DataTrack();
-        tracks.add(dt);
         return dt;
     }
 
@@ -301,8 +232,7 @@ public final class DataStorage {
      * Will serialize all tracks that are currently stored in this DataStorage.
      */
     public void serialize() {
-        for (DataTrack dt : tracks)
-            dt.serialize();
+        track.serialize();
     }
 
     /**
@@ -313,7 +243,7 @@ public final class DataStorage {
      * @return The parameter currentTrack is simple returned for further use.
      */
     public DataTrack setCurrentTrack(DataTrack currentTrack) {
-        this.currentTrack = currentTrack;
+        this.track = currentTrack;
         return currentTrack;
     }
 
@@ -321,7 +251,6 @@ public final class DataStorage {
      * Unloads all tracks from memory without saving them!
      */
     public void unloadAllTracks() {
-        tracks.clear();
         setCurrentTrack(null);
         updateNames();
     }

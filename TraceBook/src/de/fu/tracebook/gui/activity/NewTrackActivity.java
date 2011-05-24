@@ -193,7 +193,7 @@ public class NewTrackActivity extends TabActivity {
      *            not used
      */
     public void editCommentBtn(View view) {
-        final DataTrack track = DataStorage.getInstance().getCurrentTrack();
+        final DataTrack track = DataStorage.getInstance().getTrack();
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
         input.setText(track.getComment());
@@ -228,7 +228,7 @@ public class NewTrackActivity extends TabActivity {
     public void makeMemoBtn(View view) {
         final Intent intent = new Intent(this, AddMemoActivity.class);
         intent.putExtra("DataNodeId", DataStorage.getInstance()
-                .getCurrentTrack().getCurrentWay().getId());
+                .getTrack().getCurrentWay().getId());
         startActivity(intent);
     }
 
@@ -250,11 +250,11 @@ public class NewTrackActivity extends TabActivity {
 
                         DataStorage
                                 .getInstance()
-                                .getCurrentTrack()
+                                .getTrack()
                                 .getCurrentWay()
                                 .addMedia(
                                         DataStorage.getInstance()
-                                                .getCurrentTrack()
+                                                .getTrack()
                                                 .saveText(value));
                         LogIt.popup(getApplicationContext(), getResources()
                                 .getString(R.string.alert_global_addedNotice));
@@ -287,7 +287,7 @@ public class NewTrackActivity extends TabActivity {
     public void makeVideoBtn(View view) {
         final Intent intent = new Intent(this, RecordVideoActivity.class);
         intent.putExtra("DataNodeId", DataStorage.getInstance()
-                .getCurrentTrack().getCurrentWay().getId());
+                .getTrack().getCurrentWay().getId());
         startActivity(intent);
     }
 
@@ -308,8 +308,8 @@ public class NewTrackActivity extends TabActivity {
 
         switch (item.getItemId()) {
         case R.id.cm_editmapobjects_delete:
-            DataStorage.getInstance().getCurrentTrack().deleteNode(nodeId);
-            DataStorage.getInstance().getCurrentTrack().deleteWay(nodeId);
+            DataStorage.getInstance().getTrack().deleteNode(nodeId);
+            DataStorage.getInstance().getTrack().deleteWay(nodeId);
             initListView();
             return true;
         case R.id.cm_editmapobjects_edit:
@@ -577,7 +577,7 @@ public class NewTrackActivity extends TabActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        DataTrack dt = DataStorage.getInstance().getCurrentTrack();
+        DataTrack dt = DataStorage.getInstance().getTrack();
 
         switch (requestCode) {
         case Recorder.TAKE_PHOTO_CODE:
@@ -636,11 +636,11 @@ public class NewTrackActivity extends TabActivity {
         desc.addResourceId("NodeStats", R.id.tv_listviewedit_stats);
         desc.addResourceId("WayPOIs", R.id.tv_listviewedit_poiCount);
 
-        List<DataNode> nodeList = DataStorage.getInstance().getCurrentTrack()
+        List<DataNode> nodeList = DataStorage.getInstance().getTrack()
                 .getNodes();
 
         List<DataPointsList> wayList = DataStorage.getInstance()
-                .getCurrentTrack().getWays();
+                .getTrack().getWays();
 
         List<GenericAdapterData> listData = new ArrayList<GenericAdapterData>();
 
