@@ -67,7 +67,7 @@ public abstract class Recorder {
      * Construct0r! Sets the base directory according to our current track.
      */
     public Recorder() {
-        baseDir = DataStorage.getInstance().getCurrentTrack().getTrackDirPath();
+        baseDir = DataStorage.getInstance().getTrack().getTrackDirPath();
     }
 
     /**

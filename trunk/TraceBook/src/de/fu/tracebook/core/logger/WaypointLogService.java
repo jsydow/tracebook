@@ -59,8 +59,8 @@ public class WaypointLogService extends Service implements LocationListener {
             one_shot = doOneShot;
 
             if (currentWay() == null) // start a new way
-                storage.getCurrentTrack().setCurrentWay(
-                        storage.getCurrentTrack().newWay());
+                storage.getTrack().setCurrentWay(
+                        storage.getTrack().newWay());
 
             if (one_shot) // in one_shot mode, add a new point
                 current_nodes.add(currentWay().newNode());
@@ -73,7 +73,7 @@ public class WaypointLogService extends Service implements LocationListener {
             if (onWay && currentWay() != null)
                 tmpnode = currentWay().newNode();
             else
-                tmpnode = storage.getCurrentTrack().newNode();
+                tmpnode = storage.getTrack().newNode();
             current_nodes.add(tmpnode);
 
             return tmpnode.getId();
@@ -85,12 +85,12 @@ public class WaypointLogService extends Service implements LocationListener {
 
             DataPointsList tmp = currentWay();
 
-            storage.getCurrentTrack().setCurrentWay(null);
+            storage.getTrack().setCurrentWay(null);
 
             if (tmp != null)
                 /* do not store non-ways */
                 if (tmp.getNodes().size() < 2)
-                    storage.getCurrentTrack().deleteWay(tmp.getId());
+                    storage.getTrack().deleteWay(tmp.getId());
                 else {
                     if (!one_shot) {
                         WayFilter.smoothenPoints(tmp.getNodes(), 3, 3);
@@ -103,7 +103,7 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public boolean isAreaLogging() {
-            if (storage.getCurrentTrack() != null) {
+            if (storage.getTrack() != null) {
                 if (currentWay() != null) {
                     return currentWay().isArea();
                 }
@@ -116,7 +116,7 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public boolean isWayLogging() {
-            if (storage.getCurrentTrack() != null) {
+            if (storage.getTrack() != null) {
                 if (currentWay() != null) {
                     return !currentWay().isArea();
                 }
@@ -140,8 +140,8 @@ public class WaypointLogService extends Service implements LocationListener {
         public int stopTrack() {
             stopGPS();
 
-            if (storage.getCurrentTrack() != null) {
-                storage.getCurrentTrack().serialize();
+            if (storage.getTrack() != null) {
+                storage.getTrack().serialize();
                 storage.unloadAllTracks();
                 return 1;
             }
@@ -269,9 +269,9 @@ public class WaypointLogService extends Service implements LocationListener {
      * @return the current {@link DataPointsList} way
      */
     DataPointsList currentWay() {
-        if (storage == null || storage.getCurrentTrack() == null)
+        if (storage == null || storage.getTrack() == null)
             return null;
-        return storage.getCurrentTrack().getCurrentWay();
+        return storage.getTrack().getCurrentWay();
     }
 
     /**

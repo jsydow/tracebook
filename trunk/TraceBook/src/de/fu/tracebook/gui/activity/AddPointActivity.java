@@ -140,7 +140,7 @@ public class AddPointActivity extends ListActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String values = input.getText().toString().trim();
 
-                node.addMedia(DataStorage.getInstance().getCurrentTrack()
+                node.addMedia(DataStorage.getInstance().getTrack()
                         .saveText(values));
             }
         });
@@ -235,7 +235,7 @@ public class AddPointActivity extends ListActivity {
 
             if (extras.containsKey("DataNodeId")) {
                 int nodeId = extras.getInt("DataNodeId");
-                node = DataStorage.getInstance().getCurrentTrack()
+                node = DataStorage.getInstance().getTrack()
                         .getDataMapObjectById(nodeId);
                 if (node == null) {
                     LogIt.popup(

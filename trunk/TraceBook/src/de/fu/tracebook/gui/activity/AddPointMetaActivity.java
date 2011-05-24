@@ -148,7 +148,7 @@ public class AddPointMetaActivity extends ListActivity {
 
         if (extras != null) {
             int nodeId = extras.getInt("DataNodeId");
-            node = DataStorage.getInstance().getCurrentTrack()
+            node = DataStorage.getInstance().getTrack()
                     .getDataMapObjectById(nodeId);
 
             if (extras.containsKey("DataNodeKey")) {
