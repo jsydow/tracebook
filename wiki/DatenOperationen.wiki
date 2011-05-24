@@ -81,6 +81,11 @@ Zu den Nodes:
     * Liste aller Mapobjekte (POIs darstellen)
 
 === !DataMedia ===
+Metamedien werden intern durch eine eindeutige Id, den Typ und dem vollstaendigen Pfad gekennzeichnet.
+  * Loeschen von Medien
+    * bisher nicht verwendet
+  * Abfragen/Setzen der Attribute
+    * Metadatenrecorderactivities
 
 === !DataTrackInfo ===
 Wird benutzt um Daten zu einem Track anzuzeigen ohne ihn zu laden.
