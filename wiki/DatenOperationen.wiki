@@ -64,6 +64,21 @@ Enthaelt eine Geokoordinate und den Verweis auf ein OverlayItem. Das Overlayitem
     * Karte
 
 === !DataPointsList === 
+DataPointsList stellen Wege und Flaechen dar. Sie werden durch das Attribut isArea unterschieden. Beide bestehen aus einer Liste von Nodes. Dazu kommt fuer die Anzeige auf der Karte ein WayOverlay.
+Fuer das WayOverlay:
+  * Overlay setzen, abfragen und updaten
+    * Karte
+Zu den Nodes:
+  * Nodes erstellen
+    * Waylogger
+    * POI erstellen
+  * Nodes loeschen
+    * kontextmenue der Karte und in der Liste der Mapobjekte
+  * Nodes abfragen (Liste und einzeln)
+    * Metadatenactivities
+    * Waylogger beim erhalten neuer Koordinaten
+    * Karte
+    * Liste aller Mapobjekte (POIs darstellen)
 
 === !DataMedia ===
 
