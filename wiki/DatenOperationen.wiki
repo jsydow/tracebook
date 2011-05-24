@@ -46,6 +46,16 @@ Alle DataMediaHolder koennen Metadaten enthalten.
 === !DataTrack ===
 In einer Session ist dies der Dreh und Angelpunkt. Diese Klasse bietet die meisten Operationen. Ein Track hat einen Namen und ein kann einen Kommentar beinhalten. Er hat Wege/Flaechen und Punkte. Ein Weg kann als aktueller Weg gekennzeichnet werden. Er kann abgefragt und gesetzt werden.
 
+  * Aktueller Weg setzen/abfragen
+    * WayLogger
+    * Sessionbildschirm
+  * Name/Kommentar setzen/abfragen
+    * Sessionbildschirm
+    * Trackladebildschirm
+  * Loeschen/Erstellen/Abfragen/Finden von Wegen/Flaechen/Punkten
+    * Waylogger
+    * Sessionbildschirm
+    * Karte
 
 
 === !DataMapObject ===
