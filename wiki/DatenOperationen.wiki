@@ -1,0 +1,21 @@
+#summary Welche Operationen auf den Daten werden benoetigt
+
+= Introduction =
+
+Zum Testen verschiedener Speicheransaetze muss erst einmal festgestellt werden, welche Operationen auf Daten benoetigt werden.
+
+= Details =
+
+=== !DataStorage ===
+DataStorage ist der Zugriffspunkt fuer die Daten. Er haelt den aktuellen Track.
+  * Tracks anlegen
+    * Waypointlogger
+  * Tracks laden
+    * Trackladebildschirm
+  * Track speichern
+    * Stoppen des Tracks (Waypointlogger) (implizit)
+    * Optionsmenue der Karte (explizit)
+  * Liste der Namen aller gespeicherten Tracks erzeugen
+    * Trackladebildschirm
+  * Verweis auf den aktuellen Track speichern
+    * ueberall
