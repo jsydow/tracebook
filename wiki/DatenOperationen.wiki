@@ -42,3 +42,28 @@ Alle DataMediaHolder koennen Metadaten enthalten.
   * Liste aller Medien erzeugen
     * Liste ist fuer Benutzer noch nicht einsehbar
     * Listengroesse wird benutzt um festzustellen ob der Knoten wichtig ist
+
+=== !DataTrack ===
+
+=== !DataMapObject ===
+Oberklasse fuer alle auf einer Map darstellbaren Primitive (Wege, Punkte, Flaechen). Speichert fuer jedes Objekt eine einzigartige Id und verschiedene Tags. Die Id wird zur Identifikation eines Objekts gebraucht.
+  * Tags loeschen/auslesen/hinzufuegen
+    * Punkteditierbildschirm
+  * Id zurueckgeben
+    * ueberall
+
+=== !DataNode ===
+
+=== !DataPointsList === 
+
+=== !DataMedia ===
+
+=== !DataTrackInfo ===
+Wird benutzt um Daten zu einem Track anzuzeigen ohne ihn zu laden.
+Die Daten (Kommentar, Zeit, Name, Datenanzahl) werden in einer extra XML-Datei gespeichert um sie schneller laden zu koennen.
+  * Laden
+    * Trackladebildschirm
+  * Speichern
+    * Speichern von Tracks
+  * Getter-Methoden
+    * Trackladebildschirm
