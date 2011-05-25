@@ -102,5 +102,20 @@ interface ILoggerService {
 	 * Returns the state of GPS logging.
 	 * @return true if GPS logging is running.
 	 */
-	boolean isLogging();	
+	boolean isLogging();
+	
+	/**
+	 * Returns true if there is already one GPS coordinate.
+	 */
+	boolean hasFix();	
+	
+	/**
+	 * Returns the latitude the last known position.
+	 */
+	double getLastLatitude();
+	
+	/**
+	 * Returns the longitude the last known position.
+	 */
+	double getLongitudeLatitude();
 }

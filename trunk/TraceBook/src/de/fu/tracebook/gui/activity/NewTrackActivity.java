@@ -57,6 +57,7 @@ import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.DataTrack;
+import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.PictureRecorder;
@@ -651,10 +652,10 @@ public class NewTrackActivity extends TabActivity {
                     "NodeCoord",
                     getResources().getString(
                             R.string.string_newtrackactivity_list_lat)
-                            + nf.format(dn.getLat())
+                            + nf.format(dn.getCoordinates().getLatitude())
                             + getResources().getString(
                                     R.string.string_newtrackactivity_list_lon)
-                            + nf.format(dn.getLon()));
+                            + nf.format(dn.getCoordinates().getLatitude()));
 
             item.setImage("NodeImg", R.drawable.ic_node);
             item.setText(
@@ -671,18 +672,18 @@ public class NewTrackActivity extends TabActivity {
             item.setText("NodeId", " " + dn.getId());
 
             if (dn.getNodes().size() > 0) {
-                DataNode start = dn.getNodes().get(0);
-                DataNode end = dn.getNodes().get(dn.getNodes().size() - 1);
+                IDataNode start = dn.getNodes().get(0);
+                IDataNode end = dn.getNodes().get(dn.getNodes().size() - 1);
 
                 String endCoord = dn.isArea() ? "" : (getResources().getString(
                         R.string.string_newtrackactivity_list_end)
                         + getResources().getString(
                                 R.string.string_newtrackactivity_list_lat)
-                        + nf.format(end.getLat())
+                        + nf.format(end.getCoordinates().getLatitude())
                         + " "
                         + getResources().getString(
                                 R.string.string_newtrackactivity_list_lon) + nf
-                        .format(end.getLon()));
+                        .format(end.getCoordinates().getLongitude()));
 
                 item.setText(
                         "NodeCoord",
@@ -691,12 +692,14 @@ public class NewTrackActivity extends TabActivity {
                                 + getResources()
                                         .getString(
                                                 R.string.string_newtrackactivity_list_lat)
-                                + nf.format(start.getLat())
+                                + nf.format(start.getCoordinates()
+                                        .getLatitude())
                                 + " "
                                 + getResources()
                                         .getString(
                                                 R.string.string_newtrackactivity_list_lon)
-                                + nf.format(start.getLon()) + endCoord);
+                                + nf.format(start.getCoordinates()
+                                        .getLongitude()) + endCoord);
             }
 
             item.setImage("NodeImg", dn.isArea() ? R.drawable.ic_area

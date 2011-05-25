@@ -30,8 +30,8 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
+import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
 /**
@@ -161,9 +161,9 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * @param n
      *            DataNode that should get a marker
      */
-    public void putWaypoint(DataNode n) {
+    public void putWaypoint(IDataNode n) {
         if (n.getOverlayItem() == null)
-            n.setOverlayItem(Helper.getOverlayItem(n.toGeoPoint(),
+            n.setOverlayItem(Helper.getOverlayItem(n.getCoordinates(),
                     R.drawable.card_dot_blue, context, true));
         if (showWaypoints)
             pointsOverlay.addItem(n.getOverlayItem());
@@ -183,12 +183,12 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     }
 
     private void addWaypoints(DataPointsList way) {
-        for (DataNode n : way.getNodes())
+        for (IDataNode n : way.getNodes())
             putWaypoint(n);
     }
 
     private void removeWaypoints(DataPointsList way) {
-        for (DataNode n : way.getNodes())
+        for (IDataNode n : way.getNodes())
             pointsOverlay.removeItem(n.getOverlayItem());
     }
 

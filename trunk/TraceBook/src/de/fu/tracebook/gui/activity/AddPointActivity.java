@@ -51,6 +51,7 @@ import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataMapObject;
 import de.fu.tracebook.core.data.DataNode;
+import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
 import de.fu.tracebook.core.data.db.TagSearchResult;
@@ -290,7 +291,7 @@ public class AddPointActivity extends ListActivity {
         // We do do not want to store empty nodes
         if (node != null && !node.hasAdditionalInfo()
                 && node instanceof DataNode
-                && ((DataNode) node).getDataPointsList() == null) {
+                && ((IDataNode) node).getDataPointsList() == null) {
             LogIt.d("AddPoint", "POI is empty, will not keep it");
             Helper.currentTrack().deleteNode(node.getId());
             (new GpsMessage(this)).sendDiscardIntent();

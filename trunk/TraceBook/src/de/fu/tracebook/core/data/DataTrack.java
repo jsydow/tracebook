@@ -48,7 +48,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
-import android.location.Location;
 import android.util.Xml;
 import de.fu.tracebook.util.LogIt;
 
@@ -375,7 +374,7 @@ public class DataTrack extends DataMediaHolder {
      * @return A reference to the deleted DataNode object if it exists, null
      *         otherwise..
      */
-    public DataNode deleteNode(int id) {
+    public IDataNode deleteNode(int id) {
         ListIterator<DataNode> lit = nodes.listIterator();
         DataNode dn;
         while (lit.hasNext()) {
@@ -389,7 +388,7 @@ public class DataTrack extends DataMediaHolder {
         }
 
         for (DataPointsList dpl : getWays()) {
-            DataNode dldn = dpl.deleteNode(id);
+            IDataNode dldn = dpl.deleteNode(id);
             if (dldn != null) { // deleted
                 if (dldn.getOverlayItem() != null)
                     invalidItems.add(dldn.getOverlayItem());
@@ -580,17 +579,6 @@ public class DataTrack extends DataMediaHolder {
     }
 
     /**
-     * Create a new Node (i.e. POI) and add it to the Track.
-     * 
-     * @return The newly created POI.
-     */
-    public DataNode newNode() {
-        DataNode dn = new DataNode();
-        nodes.add(dn);
-        return dn;
-    }
-
-    /**
      * Create a new Node (i.e. POI) and add it to the Track
      * 
      * @param coordinates
@@ -598,20 +586,7 @@ public class DataTrack extends DataMediaHolder {
      * @return The newly created POI.
      */
     public DataNode newNode(GeoPoint coordinates) {
-        DataNode dn = new DataNode(coordinates);
-        nodes.add(dn);
-        return dn;
-    }
-
-    /**
-     * Create a new Node (i.e. POI) and add it to the Track
-     * 
-     * @param location
-     *            The Location object to be used for constructing the new Node.
-     * @return The newly created POI.
-     */
-    public DataNode newNode(Location location) {
-        DataNode dn = new DataNode(location);
+        DataNode dn = new DataNode(coordinates, null);
         nodes.add(dn);
         return dn;
     }

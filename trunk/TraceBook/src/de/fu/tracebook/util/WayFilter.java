@@ -27,6 +27,7 @@ import java.util.Queue;
 import org.mapsforge.android.maps.GeoPoint;
 
 import de.fu.tracebook.core.data.DataNode;
+import de.fu.tracebook.core.data.IDataNode;
 
 /**
  * This class offers methods used to filter unnecessary waypoints. It is
@@ -57,8 +58,8 @@ public final class WayFilter {
             if (threshold != 0)
                 calibrate = false;
 
-            DataNode firstNode = null;
-            DataNode pending = null;
+            IDataNode firstNode = null;
+            IDataNode pending = null;
             Iterator<DataNode> iter = nodes.iterator();
 
             while (iter.hasNext()) {
@@ -75,10 +76,10 @@ public final class WayFilter {
 
                 if (pending != null) {
                     if (calibrate) {
-                        threshold += calculateArea(firstNode.toGeoPoint(),
-                                pending.toGeoPoint(), n.toGeoPoint());
-                    } else if (calculateArea(firstNode.toGeoPoint(),
-                            pending.toGeoPoint(), n.toGeoPoint()) < threshold
+                        threshold += calculateArea(firstNode.getCoordinates(),
+                                pending.getCoordinates(), n.getCoordinates());
+                    } else if (calculateArea(firstNode.getCoordinates(),
+                            pending.getCoordinates(), n.getCoordinates()) < threshold
                             * weight
                             && !n.hasAdditionalInfo() && iter.hasNext()) {
                         Helper.currentTrack().invalidateOverlayItem(
@@ -143,14 +144,14 @@ public final class WayFilter {
             double latsum = 0;
             double lonsum = 0;
             boolean first = true;
-            for (DataNode nr : ringbuffer)
+            for (IDataNode nr : ringbuffer)
                 if (first) {
                     first = false;
-                    latsum += nr.getLat() * weight;
-                    lonsum += nr.getLon() * weight;
+                    latsum += nr.getCoordinates().getLatitude() * weight;
+                    lonsum += nr.getCoordinates().getLongitude() * weight;
                 } else {
-                    latsum += nr.getLat();
-                    lonsum += nr.getLon();
+                    latsum += nr.getCoordinates().getLatitude();
+                    lonsum += nr.getCoordinates().getLongitude();
                 }
 
             // the ring buffer is an element smaller now
@@ -194,11 +195,13 @@ public final class WayFilter {
             double lonsum = 0;
             for (int i = 0; i < ringbuffer.size(); i++)
                 if (i == ringbuffer.size() / 2) {
-                    latsum += ringbuffer.get(i).getLat() * weight;
-                    lonsum += ringbuffer.get(i).getLon() * weight;
+                    latsum += ringbuffer.get(i).getCoordinates().getLatitude()
+                            * weight;
+                    lonsum += ringbuffer.get(i).getCoordinates().getLongitude()
+                            * weight;
                 } else {
-                    latsum += ringbuffer.get(i).getLat();
-                    lonsum += ringbuffer.get(i).getLon();
+                    latsum += ringbuffer.get(i).getCoordinates().getLatitude();
+                    lonsum += ringbuffer.get(i).getCoordinates().getLongitude();
                 }
 
             // the ringbuffer is an element smaller now
