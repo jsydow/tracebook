@@ -9,3 +9,6 @@ Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
 24.05.:
   * nicht benutzte DataStorage Funktionalitaet entfernt
   * Uebersicht ueber benutzte Operationen schaffen. Wie weit springen die Operationen im Objektmodellbaum ueber die Ebenen?
+
+25.05.
+  * Datenmodell in Interfaces auslagern, sodass Implementierung leicht geaendert werden kann.
