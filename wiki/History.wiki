@@ -12,4 +12,4 @@ Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
 
 25.05.
   * Datenmodell in Interfaces auslagern, sodass Implementierung leicht geaendert werden kann.
-  * Erste Zeitmessung fuer Laden und Sprichern von Tracks
+  * Erste Zeitmessung fuer Laden und Speichern von Tracks
