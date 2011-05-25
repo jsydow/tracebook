@@ -26,6 +26,8 @@ import java.util.List;
  */
 public interface IDataStorage {
 
+    void deleteTrack(String trackname);
+
     /**
      * Loads the complete Track (with everything it contains) into working
      * memory. If such a Track does not exist nothing is done.
@@ -35,6 +37,8 @@ public interface IDataStorage {
      * @return The deserialized Track or null if track does not exist.
      */
     DataTrack deserializeTrack(String name);
+
+    boolean doesTrackExist(String trackname);
 
     /**
      * Returns a list of the names of all tracks that are currently stored in
@@ -72,6 +76,8 @@ public interface IDataStorage {
      * @return The newly created Track.
      */
     IDataTrack newTrack();
+
+    int renameTrack(String oldname, String newname);
 
     /**
      * Will serialize all tracks that are currently stored in this DataStorage.
