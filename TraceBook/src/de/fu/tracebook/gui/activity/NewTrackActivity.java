@@ -56,8 +56,8 @@ import android.widget.ToggleButton;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataTrack;
 import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.PictureRecorder;
@@ -194,7 +194,7 @@ public class NewTrackActivity extends TabActivity {
      *            not used
      */
     public void editCommentBtn(View view) {
-        final DataTrack track = StorageFactory.getStorage().getTrack();
+        final IDataTrack track = StorageFactory.getStorage().getTrack();
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
         input.setText(track.getComment());
@@ -577,7 +577,7 @@ public class NewTrackActivity extends TabActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        DataTrack dt = StorageFactory.getStorage().getTrack();
+        IDataTrack dt = StorageFactory.getStorage().getTrack();
 
         switch (requestCode) {
         case Recorder.TAKE_PHOTO_CODE:

@@ -57,14 +57,21 @@ public interface IDataStorage {
      * 
      * @return The currently edited Track is returned.(may be null)
      */
-    DataTrack getTrack();
+    IDataTrack getTrack();
+
+    /**
+     * @param trackName
+     *            The name of the track.
+     * @return The DataTrackInfo for that track or null.
+     */
+    DataTrackInfo getTrackInfo(String trackName);
 
     /**
      * Create a new Track in working memory. Don't forget to serialize it!
      * 
      * @return The newly created Track.
      */
-    DataTrack newTrack();
+    IDataTrack newTrack();
 
     /**
      * Will serialize all tracks that are currently stored in this DataStorage.
@@ -78,7 +85,7 @@ public interface IDataStorage {
      *            The new currently edited Track.
      * @return The parameter currentTrack is simple returned for further use.
      */
-    DataTrack setTrack(DataTrack currentTrack);
+    IDataTrack setTrack(IDataTrack currentTrack);
 
     /**
      * Unloads all tracks from memory without saving them!

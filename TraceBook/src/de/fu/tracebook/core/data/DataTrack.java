@@ -57,7 +57,7 @@ import de.fu.tracebook.util.LogIt;
  * the program. All data he collects with this one usage in then grouped in a
  * Track. A Track is not like a simple Way from place A to B but can contain it.
  */
-public class DataTrack extends DataMediaHolder {
+public class DataTrack extends DataMediaHolder implements IDataTrack {
 
     /**
      * Deletes a Track with all its contents from the devices memory.
@@ -320,28 +320,10 @@ public class DataTrack extends DataMediaHolder {
         this.name = name;
     }
 
-    /**
-     * Initializing constructor. Note: comment is not implemented yet.
+    /*
+     * (non-Javadoc)
      * 
-     * @param name
-     *            See constructor DataTrack(Datetime, Name).
-     * @param comment
-     *            Comment that may be displayed for this Track.
-     */
-    public DataTrack(String name, String comment) {
-        this(name);
-        this.comment = comment;
-    }
-
-    /**
-     * Returns a list of {@link OverlayItem}s whose {@link DataNode} does no
-     * longer exist. For efficiency reasons they are stored in a list, so when
-     * e.g. a way is deleted, the Overlay will not be redrawn for every deleted
-     * waypoint, but receive a notification that invalid OverlayItems exist when
-     * the removal procedure has finished.
-     * 
-     * @return The list of invalid OverlayItems. It will be cleared by this
-     *         call.
+     * @see de.fu.tracebook.core.data.IDataTrack#clearInvalidItems()
      */
     public Collection<OverlayItem> clearInvalidItems() {
         Collection<OverlayItem> tmp = invalidItems;
@@ -349,30 +331,10 @@ public class DataTrack extends DataMediaHolder {
         return tmp;
     }
 
-    /**
-     * Creates new folder in .../TraceBook for this Track. Such a directory must
-     * exist when track is serialized.
-     */
-    public void createNewTrackFolder() {
-        File dir = new File(DataStorage.getTraceBookDirPath() + File.separator
-                + name);
-        if (!dir.isDirectory()) {
-            if (!dir.mkdir()) {
-                LogIt.e("DataStorage", "Could not create new track folder "
-                        + name);
-            }
-        }
-    }
-
-    /**
-     * This method deletes a Node (POI) of this Track or a node of one of the
-     * ways of this track from the devices memory and the working memory. If
-     * this node does not exist nothing is done.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the POI to delete.
-     * @return A reference to the deleted DataNode object if it exists, null
-     *         otherwise..
+     * @see de.fu.tracebook.core.data.IDataTrack#deleteNode(int)
      */
     public IDataNode deleteNode(int id) {
         ListIterator<DataNode> lit = nodes.listIterator();
@@ -398,12 +360,10 @@ public class DataTrack extends DataMediaHolder {
         return null;
     }
 
-    /**
-     * This method deletes a Way of this Track from the devices memory and the
-     * working memory. If the Way does not exist nothing is done.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the Way to delete.
+     * @see de.fu.tracebook.core.data.IDataTrack#deleteWay(int)
      */
     public void deleteWay(int id) {
         ListIterator<DataPointsList> lit = ways.listIterator();
@@ -417,32 +377,28 @@ public class DataTrack extends DataMediaHolder {
         }
     }
 
-    /**
-     * Getter-method.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The comment of the Track.
+     * @see de.fu.tracebook.core.data.IDataTrack#getComment()
      */
     public String getComment() {
         return comment;
     }
 
-    /**
-     * Getter-method. The currently edited Way.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The current Way. Current Way can be null if not initialized.
+     * @see de.fu.tracebook.core.data.IDataTrack#getCurrentWay()
      */
     public DataPointsList getCurrentWay() {
         return currentWay;
     }
 
-    /**
-     * Search the whole track for an DataMapObject by id. This may be a DataNode
-     * or DataPointsList.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the DataMapObject that is being searched for.
-     * @return The DataMapObject where get_id()==id or null if there is not such
-     *         an object.
+     * @see de.fu.tracebook.core.data.IDataTrack#getDataMapObjectById(int)
      */
     public DataMapObject getDataMapObjectById(int id) {
 
@@ -462,21 +418,19 @@ public class DataTrack extends DataMediaHolder {
         return res;
     }
 
-    /**
-     * Getter-method.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The name of the Track.
+     * @see de.fu.tracebook.core.data.IDataTrack#getName()
      */
     public String getName() {
         return name;
     }
 
-    /**
-     * Get a DataNode with a given id.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the DataNode
-     * @return The DataNode or null if there is none with such an id.
+     * @see de.fu.tracebook.core.data.IDataTrack#getNodeById(int)
      */
     public DataNode getNodeById(int id) {
         for (DataNode dn : nodes) {
@@ -494,14 +448,12 @@ public class DataTrack extends DataMediaHolder {
         return null;
     }
 
-    /**
-     * Tries to find the {@link DataNode} containing the given
-     * {@link OverlayItem}.
+    /*
+     * (non-Javadoc)
      * 
-     * @param item
-     *            The OverlayItem that should be searched for.
-     * @return The DataNode containing the OverlayItem, or null if no DataNode
-     *         with the OverlayItem was found
+     * @see
+     * de.fu.tracebook.core.data.IDataTrack#getNodeByOverlayItem(org.mapsforge
+     * .android.maps.OverlayItem)
      */
     public DataNode getNodeByOverlayItem(OverlayItem item) {
         if (item == null)
@@ -519,23 +471,19 @@ public class DataTrack extends DataMediaHolder {
         return null;
     }
 
-    /**
-     * Getter-method that returns a list of all nodes. The returned List is the
-     * one stored in this object. Changing the returned List will therefore
-     * change this list
+    /*
+     * (non-Javadoc)
      * 
-     * @return All POI's of this Track. (not null)
+     * @see de.fu.tracebook.core.data.IDataTrack#getNodes()
      */
     public List<DataNode> getNodes() {
         return nodes;
     }
 
-    /**
-     * Get a DataPointsList with a given id.
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the DataPointsList
-     * @return The DataPointsList or null if there is none with such an id.
+     * @see de.fu.tracebook.core.data.IDataTrack#getPointsListById(int)
      */
     public DataPointsList getPointsListById(int id) {
         for (DataPointsList dpl : ways) {
@@ -546,31 +494,30 @@ public class DataTrack extends DataMediaHolder {
         return null;
     }
 
-    /**
-     * Returns the complete absolute path to this Track directory.
+    /*
+     * (non-Javadoc)
      * 
-     * @return path to the track directory
+     * @see de.fu.tracebook.core.data.IDataTrack#getTrackDirPath()
      */
     public String getTrackDirPath() {
         return DataStorage.getTraceBookDirPath() + File.separator + name;
     }
 
-    /**
-     * Getter-method that returns a list of all Ways. The returned List is the
-     * one stored in this object. Changing the returned List will therefore
-     * change this list
+    /*
+     * (non-Javadoc)
      * 
-     * @return All ways of this Track. (not null)
+     * @see de.fu.tracebook.core.data.IDataTrack#getWays()
      */
     public List<DataPointsList> getWays() {
         return ways;
     }
 
-    /**
-     * Marks an {@link OverlayItem} as invalid so it can be removed later.
+    /*
+     * (non-Javadoc)
      * 
-     * @param overlayItem
-     *            The outdated OverlayItem
+     * @see
+     * de.fu.tracebook.core.data.IDataTrack#invalidateOverlayItem(org.mapsforge
+     * .android.maps.OverlayItem)
      */
 
     public void invalidateOverlayItem(OverlayItem overlayItem) {
@@ -578,12 +525,12 @@ public class DataTrack extends DataMediaHolder {
             invalidItems.add(overlayItem);
     }
 
-    /**
-     * Create a new Node (i.e. POI) and add it to the Track
+    /*
+     * (non-Javadoc)
      * 
-     * @param coordinates
-     *            The GeoPoint object to be used for constructing the new Node.
-     * @return The newly created POI.
+     * @see
+     * de.fu.tracebook.core.data.IDataTrack#newNode(org.mapsforge.android.maps
+     * .GeoPoint)
      */
     public DataNode newNode(GeoPoint coordinates) {
         DataNode dn = new DataNode(coordinates, null);
@@ -591,10 +538,10 @@ public class DataTrack extends DataMediaHolder {
         return dn;
     }
 
-    /**
-     * Create a new Way/Area in this Track.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The newly created Way.
+     * @see de.fu.tracebook.core.data.IDataTrack#newWay()
      */
     public DataPointsList newWay() {
         DataPointsList dpl = new DataPointsList(false);
@@ -602,13 +549,10 @@ public class DataTrack extends DataMediaHolder {
         return dpl;
     }
 
-    /**
-     * This method saves a String to a .txt file and generates a
-     * DataMedia-object which can be added to any DataMediaHolder.
+    /*
+     * (non-Javadoc)
      * 
-     * @param text
-     *            The text to save
-     * @return DataMedia object which references the Text just saved.
+     * @see de.fu.tracebook.core.data.IDataTrack#saveText(java.lang.String)
      */
     public IDataMedia saveText(String text) {
         File txtfile = new File(getTrackDirPath() + File.separator
@@ -629,12 +573,101 @@ public class DataTrack extends DataMediaHolder {
         return new DataMedia(txtfile.getParent(), txtfile.getName());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.fu.tracebook.core.data.IDataTrack#setComment(java.lang.String)
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataTrack#setCurrentWay(de.fu.tracebook.core
+     * .data.DataPointsList)
+     */
+    public IDataPointsList setCurrentWay(DataPointsList currentWay) {
+        this.currentWay = currentWay;
+        return currentWay;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.fu.tracebook.core.data.IDataTrack#setName(java.lang.String)
+     */
+    public int setName(String newname) {
+        int res = renameTrack(newname);
+        if (res == 0) {
+            this.name = newname;
+        }
+        return res;
+    }
+
+    /**
+     * Adds a way to the ways of this Track.
+     * 
+     * @param way
+     *            the DataPointsList to be added
+     */
+    private void addWay(DataPointsList way) {
+        ways.add(way);
+    }
+
+    /**
+     * Creates new folder in .../TraceBook for this Track. Such a directory must
+     * exist when track is serialized.
+     */
+    private void createNewTrackFolder() {
+        File dir = new File(DataStorage.getTraceBookDirPath() + File.separator
+                + name);
+        if (!dir.isDirectory()) {
+            if (!dir.mkdir()) {
+                LogIt.e("DataStorage", "Could not create new track folder "
+                        + name);
+            }
+        }
+    }
+
+    /**
+     * Renames a Track on the devices memory.
+     * 
+     * @param newname
+     *            The new name of the Track
+     * @return Returns 0 if renaming was successful, -1 if track could not be
+     *         found, -2 if there is a track with the new track name and -3 if
+     *         the renaming fails otherwise.
+     */
+    private int renameTrack(String newname) {
+        File trackdir = new File(getTrackDirPath());
+        if (trackdir.isDirectory()) {
+            File newtrackdir = new File(getTrackDirPath(newname));
+            if (!newtrackdir.isDirectory()) {
+                if (!trackdir.renameTo(newtrackdir)) {
+                    LogIt.w("RenamingTrack", "Could not rename Track.");
+                    return -3;
+                }
+            } else {
+                LogIt.w("RenamingTrack",
+                        "Track of new trackname already exists.");
+                return -2;
+            }
+        } else {
+            LogIt.w("RenamingTrack", "Could not find Track " + getName());
+            return -1;
+        }
+        return 0;
+    }
+
     /**
      * Serializes a track to a XML-file stored on the SD-card in folder
      * TraceBook/<track name>. Also serializes all Media. The XML-file is
      * therefore not OSM compatible.
      */
-    public void serialize() {
+    void serialize() {
         serialize(true);
     }
 
@@ -646,7 +679,7 @@ public class DataTrack extends DataMediaHolder {
      *            Should media also be serialized? Adding media means that the
      *            resulting XML-file is not valid to OSM.
      */
-    public void serialize(boolean shouldSerialiseMedia) {
+    void serialize(boolean shouldSerialiseMedia) {
         int totalMedia = media.size();
 
         LogIt.d("DataTrack", "Ways: " + ways.size() + ", POIs: " + nodes.size());
@@ -707,84 +740,5 @@ public class DataTrack extends DataMediaHolder {
         (new DataTrackInfo(name, getDatetime(), comment, nodes.size(),
                 ways.size(), totalMedia)).serialize();
 
-    }
-
-    /**
-     * Setter-method.
-     * 
-     * @param comment
-     *            The new comment of the Track.
-     */
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    /**
-     * Sets a Way as currently edited Way. Setter-method.
-     * 
-     * @param currentWay
-     *            The new currently edited Way.
-     * @return Returns the parameter currentWay for further use.
-     */
-    public IDataPointsList setCurrentWay(DataPointsList currentWay) {
-        this.currentWay = currentWay;
-        return currentWay;
-    }
-
-    /**
-     * Setter-method. Renames a Track in the devices and working memory.
-     * 
-     * @param newname
-     *            The new name of the DataTrack
-     * @return Returns 0 if renaming was successful, -1 if track could not be
-     *         found, -2 if there is a track with the new track name and -3 if
-     *         the renaming fails otherwise.
-     */
-    public int setName(String newname) {
-        int res = renameTrack(newname);
-        if (res == 0) {
-            this.name = newname;
-        }
-        return res;
-    }
-
-    /**
-     * Adds a way to the ways of this Track.
-     * 
-     * @param way
-     *            the DataPointsList to be added
-     */
-    private void addWay(DataPointsList way) {
-        ways.add(way);
-    }
-
-    /**
-     * Renames a Track on the devices memory.
-     * 
-     * @param newname
-     *            The new name of the Track
-     * @return Returns 0 if renaming was successful, -1 if track could not be
-     *         found, -2 if there is a track with the new track name and -3 if
-     *         the renaming fails otherwise.
-     */
-    private int renameTrack(String newname) {
-        File trackdir = new File(getTrackDirPath());
-        if (trackdir.isDirectory()) {
-            File newtrackdir = new File(getTrackDirPath(newname));
-            if (!newtrackdir.isDirectory()) {
-                if (!trackdir.renameTo(newtrackdir)) {
-                    LogIt.w("RenamingTrack", "Could not rename Track.");
-                    return -3;
-                }
-            } else {
-                LogIt.w("RenamingTrack",
-                        "Track of new trackname already exists.");
-                return -2;
-            }
-        } else {
-            LogIt.w("RenamingTrack", "Could not find Track " + getName());
-            return -1;
-        }
-        return 0;
     }
 }

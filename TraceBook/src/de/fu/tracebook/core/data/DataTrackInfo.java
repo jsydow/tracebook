@@ -34,8 +34,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
-import de.fu.tracebook.util.LogIt;
 import android.util.Xml;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * A class that simply holds information of a track. It is a class that only
@@ -53,7 +53,7 @@ public class DataTrackInfo {
      * @return The info to this specific track or null if there is not such a
      *         track.
      */
-    public static DataTrackInfo deserialize(String trackname) {
+    static DataTrackInfo deserialize(String trackname) {
         DataTrackInfo info = new DataTrackInfo();
         info.name = trackname;
 
@@ -218,7 +218,7 @@ public class DataTrackInfo {
      * Serializes the track info. Creates a info.xml file in the directory of
      * the track.
      */
-    public void serialize() {
+    void serialize() {
         File file = new File(DataTrack.getTrackDirPath(name) + File.separator
                 + "info.xml");
         FileOutputStream fileos = DataTrack.openFile(file);
