@@ -51,9 +51,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataStorage;
 import de.fu.tracebook.core.data.DataTrack;
 import de.fu.tracebook.core.data.DataTrackInfo;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.adapter.GenericAdapter;
 import de.fu.tracebook.gui.adapter.GenericAdapterData;
 import de.fu.tracebook.gui.adapter.GenericItemDescription;
@@ -133,10 +133,10 @@ public class LoadTrackActivity extends ListActivity {
 
         switch (item.getItemId()) {
         case R.id.cm_loadtrackActivity_load:
-            DataTrack track = DataStorage.getInstance().deserializeTrack(
+            DataTrack track = StorageFactory.getStorage().deserializeTrack(
                     trackname);
             if (track != null) {
-                DataStorage.getInstance().setTrack(track);
+                StorageFactory.getStorage().setTrack(track);
                 final Intent intent = new Intent(this, NewTrackActivity.class);
                 startActivity(intent);
             } else {
@@ -524,12 +524,12 @@ public class LoadTrackActivity extends ListActivity {
 
         GenericAdapterData datum = adapter.getItem(position);
         final String trackname = datum.getText("TrackName");
-        final DataTrack track = DataStorage.getInstance().deserializeTrack(
+        final DataTrack track = StorageFactory.getStorage().deserializeTrack(
                 trackname);
         final Intent intent = new Intent(this, NewTrackActivity.class);
 
         if (track != null) {
-            if (DataStorage.getInstance().getTrack() != null) {
+            if (StorageFactory.getStorage().getTrack() != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getResources().getString(
                         R.string.alert_loadtrackActivity_stopCurrentTrack));
@@ -545,8 +545,8 @@ public class LoadTrackActivity extends ListActivity {
                                     public void onClick(DialogInterface dialog,
                                             int id1) {
 
-                                        DataStorage.getInstance()
-                                                .setTrack(track);
+                                        StorageFactory.getStorage().setTrack(
+                                                track);
                                         startActivity(intent);
                                         overridePendingTransition(
                                                 R.anim.zoom_enter,
@@ -568,7 +568,7 @@ public class LoadTrackActivity extends ListActivity {
                 builder.show();
 
             } else {
-                DataStorage.getInstance().setTrack(track);
+                StorageFactory.getStorage().setTrack(track);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
@@ -625,8 +625,8 @@ public class LoadTrackActivity extends ListActivity {
 
                 // get all TrackInfo-objects
                 List<DataTrackInfo> trackInfos = new ArrayList<DataTrackInfo>();
-                List<String> names = new ArrayList<String>(DataStorage
-                        .getInstance().getAllTracks());
+                List<String> names = new ArrayList<String>(StorageFactory
+                        .getStorage().getAllTracks());
                 for (String name : names) {
                     DataTrackInfo trackinfo = DataTrackInfo.deserialize(name);
                     if (trackinfo != null) {

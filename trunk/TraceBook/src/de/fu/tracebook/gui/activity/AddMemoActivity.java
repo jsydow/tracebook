@@ -21,13 +21,6 @@ package de.fu.tracebook.gui.activity;
 
 import java.io.IOException;
 
-import de.fu.tracebook.core.data.DataMapObject;
-import de.fu.tracebook.core.data.DataStorage;
-import de.fu.tracebook.core.logger.ServiceConnector;
-import de.fu.tracebook.core.media.AudioRecorder;
-import de.fu.tracebook.util.Helper;
-import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.R;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -37,6 +30,13 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
+import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.logger.ServiceConnector;
+import de.fu.tracebook.core.media.AudioRecorder;
+import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * The Class AddMemoActivity, start the recording of the notice. The user can
@@ -75,7 +75,7 @@ public class AddMemoActivity extends Activity {
 
         if (extras != null) {
             int nodeId = extras.getInt("DataNodeId");
-            node = DataStorage.getInstance().getTrack()
+            node = StorageFactory.getStorage().getTrack()
                     .getDataMapObjectById(nodeId);
         }
 

@@ -56,8 +56,8 @@ import android.widget.ToggleButton;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataStorage;
 import de.fu.tracebook.core.data.DataTrack;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.PictureRecorder;
 import de.fu.tracebook.core.media.Recorder;
@@ -193,7 +193,7 @@ public class NewTrackActivity extends TabActivity {
      *            not used
      */
     public void editCommentBtn(View view) {
-        final DataTrack track = DataStorage.getInstance().getTrack();
+        final DataTrack track = StorageFactory.getStorage().getTrack();
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
         input.setText(track.getComment());
@@ -227,8 +227,8 @@ public class NewTrackActivity extends TabActivity {
      */
     public void makeMemoBtn(View view) {
         final Intent intent = new Intent(this, AddMemoActivity.class);
-        intent.putExtra("DataNodeId", DataStorage.getInstance()
-                .getTrack().getCurrentWay().getId());
+        intent.putExtra("DataNodeId", StorageFactory.getStorage().getTrack()
+                .getCurrentWay().getId());
         startActivity(intent);
     }
 
@@ -248,13 +248,12 @@ public class NewTrackActivity extends TabActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String value = input.getText().toString().trim();
 
-                        DataStorage
-                                .getInstance()
+                        StorageFactory
+                                .getStorage()
                                 .getTrack()
                                 .getCurrentWay()
                                 .addMedia(
-                                        DataStorage.getInstance()
-                                                .getTrack()
+                                        StorageFactory.getStorage().getTrack()
                                                 .saveText(value));
                         LogIt.popup(getApplicationContext(), getResources()
                                 .getString(R.string.alert_global_addedNotice));
@@ -286,8 +285,8 @@ public class NewTrackActivity extends TabActivity {
      */
     public void makeVideoBtn(View view) {
         final Intent intent = new Intent(this, RecordVideoActivity.class);
-        intent.putExtra("DataNodeId", DataStorage.getInstance()
-                .getTrack().getCurrentWay().getId());
+        intent.putExtra("DataNodeId", StorageFactory.getStorage().getTrack()
+                .getCurrentWay().getId());
         startActivity(intent);
     }
 
@@ -308,8 +307,8 @@ public class NewTrackActivity extends TabActivity {
 
         switch (item.getItemId()) {
         case R.id.cm_editmapobjects_delete:
-            DataStorage.getInstance().getTrack().deleteNode(nodeId);
-            DataStorage.getInstance().getTrack().deleteWay(nodeId);
+            StorageFactory.getStorage().getTrack().deleteNode(nodeId);
+            StorageFactory.getStorage().getTrack().deleteWay(nodeId);
             initListView();
             return true;
         case R.id.cm_editmapobjects_edit:
@@ -577,7 +576,7 @@ public class NewTrackActivity extends TabActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        DataTrack dt = DataStorage.getInstance().getTrack();
+        DataTrack dt = StorageFactory.getStorage().getTrack();
 
         switch (requestCode) {
         case Recorder.TAKE_PHOTO_CODE:
@@ -636,11 +635,11 @@ public class NewTrackActivity extends TabActivity {
         desc.addResourceId("NodeStats", R.id.tv_listviewedit_stats);
         desc.addResourceId("WayPOIs", R.id.tv_listviewedit_poiCount);
 
-        List<DataNode> nodeList = DataStorage.getInstance().getTrack()
+        List<DataNode> nodeList = StorageFactory.getStorage().getTrack()
                 .getNodes();
 
-        List<DataPointsList> wayList = DataStorage.getInstance()
-                .getTrack().getWays();
+        List<DataPointsList> wayList = StorageFactory.getStorage().getTrack()
+                .getWays();
 
         List<GenericAdapterData> listData = new ArrayList<GenericAdapterData>();
 

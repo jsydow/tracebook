@@ -158,7 +158,7 @@ public class DataMedia {
      */
     public DataMedia(String path, String name) {
         super();
-        this.id = DataStorage.getInstance().getID();
+        this.id = StorageFactory.getStorage().getID();
         this.path = path;
         this.name = name;
         this.type = getTypeFromFilename(name);

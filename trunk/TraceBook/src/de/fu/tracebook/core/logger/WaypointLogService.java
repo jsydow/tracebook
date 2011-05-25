@@ -33,6 +33,8 @@ import android.os.IBinder;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.DataStorage;
+import de.fu.tracebook.core.data.IDataStorage;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.util.GpsMessage;
 import de.fu.tracebook.util.LogIt;
 import de.fu.tracebook.util.WayFilter;
@@ -151,7 +153,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
     private boolean gps_on = false;
 
-    private LocationListener ll = this;
+    private LocationListener locListener = this;
 
     private GpsMessage sender = null;
 
@@ -181,7 +183,7 @@ public class WaypointLogService extends Service implements LocationListener {
     /**
      * Reference to the {@link DataStorage} singleton.
      */
-    DataStorage storage = DataStorage.getInstance();
+    IDataStorage storage = StorageFactory.getStorage();
 
     /**
      * Returns the status of the GPS logging.
@@ -201,15 +203,13 @@ public class WaypointLogService extends Service implements LocationListener {
     @Override
     public synchronized void onCreate() {
         super.onCreate();
-        LogIt.d(LOG_TAG, "onCreate");
         sender = new GpsMessage(this);
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        LogIt.d(LOG_TAG, "onDestroy");
         stopGPS();
+        super.onDestroy();
     }
 
     /** GPS related Methods. **/
@@ -243,22 +243,21 @@ public class WaypointLogService extends Service implements LocationListener {
         }
     }
 
-    public void onProviderDisabled(String provider) {
-        LogIt.d(LOG_TAG, "GPS Provider Disabled: " + provider);
+    public void onProviderDisabled(String arg0) {
+        // do nothing
     }
 
     public void onProviderEnabled(String provider) {
-        LogIt.d(LOG_TAG, "GPS Provider Enabled: " + provider);
+        // do nothing
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        LogIt.d(LOG_TAG, "onStart");
     }
 
-    public void onStatusChanged(String provider, int status, Bundle extra) {
-        LogIt.d(LOG_TAG, "GPS Status Changed: " + provider);
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // do nothing
     }
 
     /**
@@ -298,7 +297,7 @@ public class WaypointLogService extends Service implements LocationListener {
         if (!gps_on)
             ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
                     .requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            deltaTime, deltaDistance, ll);
+                            deltaTime, deltaDistance, locListener);
         gps_on = true;
     }
 
@@ -308,7 +307,7 @@ public class WaypointLogService extends Service implements LocationListener {
     void stopGPS() {
         if (gps_on)
             ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-                    .removeUpdates(ll);
+                    .removeUpdates(locListener);
         gps_on = false;
     }
 }

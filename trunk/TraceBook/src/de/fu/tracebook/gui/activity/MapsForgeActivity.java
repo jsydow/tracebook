@@ -47,7 +47,7 @@ import android.view.MotionEvent;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataStorage;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.util.DataNodeArrayItemizedOverlay;
 import de.fu.tracebook.util.DataPointsListArrayRouteOverlay;
@@ -349,7 +349,7 @@ public class MapsForgeActivity extends MapActivity {
             routesOverlay.toggleWaypoints();
             return true;
         case R.id.opt_mapsforgeActivity_export:
-            DataStorage.getInstance().serialize();
+            StorageFactory.getStorage().serialize();
             LogIt.popup(
                     this,
                     getResources().getString(
