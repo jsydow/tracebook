@@ -52,9 +52,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataTrack;
+import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagSearchResult;
@@ -226,11 +225,11 @@ public final class Helper {
     }
 
     /**
-     * Gets the list of Nodes in current {@link DataTrack}.
+     * Gets the list of Nodes in current {@link IDataTrack}.
      * 
-     * @return the current list of {@link DataNode}s
+     * @return the current list of {@link IDataNode}s
      */
-    public static List<DataNode> getNodes() {
+    public static List<IDataNode> getNodes() {
         if (StorageFactory.getStorage().getTrack() != null) {
             return StorageFactory.getStorage().getTrack().getNodes();
         }
@@ -308,11 +307,11 @@ public final class Helper {
     }
 
     /**
-     * Gets the current way in the current {@link DataTrack}.
+     * Gets the current way in the current {@link IDataTrack}.
      * 
-     * @return the current {@link DataPointsList} ways
+     * @return the current {@link IDataPointsList} ways
      */
-    public static List<DataPointsList> getWays() {
+    public static List<IDataPointsList> getWays() {
         if (StorageFactory.getStorage().getTrack() != null) {
             return StorageFactory.getStorage().getTrack().getWays();
         }

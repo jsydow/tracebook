@@ -31,7 +31,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.AudioRecorder;
@@ -47,7 +47,7 @@ public class AddMemoActivity extends Activity {
     /**
      * Here we save a reference to the current DataMapObject which is in use.
      */
-    DataMapObject node;
+    IDataMapObject node;
 
     /**
      * Preferences for this activity.

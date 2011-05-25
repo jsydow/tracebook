@@ -24,7 +24,7 @@ import java.util.List;
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.OverlayWay;
 
-public interface IDataPointsList {
+public interface IDataPointsList extends IDataMapObject {
 
     /**
      * This method deletes a Node on the working memory and devices memory
@@ -54,7 +54,7 @@ public interface IDataPointsList {
      * 
      * @return The list of all nodes stored in this object. (not null)
      */
-    List<DataNode> getNodes();
+    List<IDataNode> getNodes();
 
     /**
      * Gets the route Object used by MapsForge to display this way.

@@ -32,9 +32,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataStorage;
+import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataStorage;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.util.GpsMessage;
@@ -43,7 +42,7 @@ import de.fu.tracebook.util.WayFilter;
 
 /**
  * This background service logs GPS data and stores it in the
- * {@link DataStorage} object.
+ * {@link IDataStorage} object.
  */
 public class WaypointLogService extends Service implements LocationListener {
     private static final String LOG_TAG = "LOGSERVICE";
@@ -73,7 +72,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
         public int createPOI(boolean onWay) {
             if (currentWay() != null) {
-                DataNode tmpnode = null;
+                IDataNode tmpnode = null;
                 if (onWay)
                     tmpnode = currentWay().newNode(lastCoordinate);
                 else
@@ -89,7 +88,7 @@ public class WaypointLogService extends Service implements LocationListener {
             if (oneShot) // add the last point if in one_shot mode
                 beginWay(oneShot);
 
-            DataPointsList tmp = currentWay();
+            IDataPointsList tmp = currentWay();
 
             storage.getTrack().setCurrentWay(null);
 
@@ -186,10 +185,10 @@ public class WaypointLogService extends Service implements LocationListener {
 
     /**
      * Current nodes, empty if no node with missing GPS location is present,
-     * otherwise it contains references to the {@link DataNode}s waiting for a
+     * otherwise it contains references to the {@link IDataNode}s waiting for a
      * GPS fix.
      */
-    Queue<DataNode> currentNodes = new LinkedList<DataNode>();
+    Queue<IDataNode> currentNodes = new LinkedList<IDataNode>();
 
     /**
      * The last received coordinate.
@@ -203,7 +202,7 @@ public class WaypointLogService extends Service implements LocationListener {
     boolean oneShot = false;
 
     /**
-     * Reference to the {@link DataStorage} singleton.
+     * Reference to the {@link IDataStorage} singleton.
      */
     IDataStorage storage = StorageFactory.getStorage();
 
@@ -243,7 +242,7 @@ public class WaypointLogService extends Service implements LocationListener {
             lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
 
             if (!currentNodes.isEmpty()) { // one_shot or POI mode
-                for (DataNode node : currentNodes) {
+                for (IDataNode node : currentNodes) {
                     node.setLocation(new GeoPoint(loc.getLatitude(), loc
                             .getLongitude())); // update node with proper GPS
                                                // fix
@@ -265,7 +264,7 @@ public class WaypointLogService extends Service implements LocationListener {
                 currentNodes.clear(); // no node waiting for GPS position any
                                       // more
             } else if (currentWay() != null && !oneShot) { // Continuous mode
-                DataNode nn = currentWay().newNode(
+                IDataNode nn = currentWay().newNode(
                         new GeoPoint(loc.getLatitude(), loc.getLongitude())); // POI
                                                                               // in
                                                                               // track
@@ -301,11 +300,11 @@ public class WaypointLogService extends Service implements LocationListener {
 
     /**
      * Convenience function to get the current way out of the
-     * {@link DataStorage} object.
+     * {@link IDataStorage} object.
      * 
-     * @return the current {@link DataPointsList} way
+     * @return the current {@link IDataPointsList} way
      */
-    DataPointsList currentWay() {
+    IDataPointsList currentWay() {
         if (storage == null || storage.getTrack() == null)
             return null;
         return storage.getTrack().getCurrentWay();

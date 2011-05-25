@@ -45,7 +45,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -240,7 +239,7 @@ public class MapsForgeActivity extends MapActivity {
     /**
      * Node currently edited.
      */
-    DataNode editNode = null;
+    IDataNode editNode = null;
 
     /**
      * Reference to a internal class that receives messages from

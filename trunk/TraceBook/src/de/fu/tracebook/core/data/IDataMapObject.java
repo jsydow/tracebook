@@ -21,7 +21,7 @@ package de.fu.tracebook.core.data;
 
 import java.util.Map;
 
-public interface IDataMapObject {
+public interface IDataMapObject extends IDataMediaHolder {
 
     /**
      * Getter-method.

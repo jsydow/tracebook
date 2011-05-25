@@ -21,7 +21,6 @@ package de.fu.tracebook.core.media;
 
 import java.io.File;
 
-import de.fu.tracebook.core.data.DataMedia;
 import de.fu.tracebook.core.data.IDataMedia;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -79,7 +78,8 @@ public abstract class Recorder {
      *         structure.
      */
     public IDataMedia appendFileToObject(IDataMediaHolder parent) {
-        DataMedia dm = new DataMedia(getBaseDir(), getFilename());
+        IDataMedia dm = StorageFactory.getMediaObject(getBaseDir(),
+                getFilename());
 
         parent.addMedia(dm);
         return dm;

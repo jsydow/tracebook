@@ -53,6 +53,7 @@ import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataTrack;
 import de.fu.tracebook.core.data.DataTrackInfo;
+import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.adapter.GenericAdapter;
 import de.fu.tracebook.gui.adapter.GenericAdapterData;
@@ -133,7 +134,7 @@ public class LoadTrackActivity extends ListActivity {
 
         switch (item.getItemId()) {
         case R.id.cm_loadtrackActivity_load:
-            DataTrack track = StorageFactory.getStorage().deserializeTrack(
+            IDataTrack track = StorageFactory.getStorage().deserializeTrack(
                     trackname);
             if (track != null) {
                 StorageFactory.getStorage().setTrack(track);

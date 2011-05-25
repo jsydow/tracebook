@@ -26,6 +26,10 @@ public class StorageFactory {
 
     private static IDataStorage instance;
 
+    public static IDataMedia getMediaObject(String path, String name) {
+        return new DataMedia(path, name);
+    }
+
     /**
      * @return Valid instance of IDataStorage
      */

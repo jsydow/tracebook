@@ -26,7 +26,6 @@ import java.util.Queue;
 
 import org.mapsforge.android.maps.GeoPoint;
 
-import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.IDataNode;
 
 /**
@@ -40,12 +39,12 @@ public final class WayFilter {
      * automatically by the average derivation of the points.
      * 
      * @param nodes
-     *            List of {@link DataNode}s representing the way or area
+     *            List of {@link IDataNode}s representing the way or area
      * @param weight
      *            Weight with which the average derivation of points is
      *            multiplied to form the threshold
      */
-    public static void filterPoints(List<DataNode> nodes, double weight) {
+    public static void filterPoints(List<IDataNode> nodes, double weight) {
         boolean calibrate = true;
         double threshold = 0;
 
@@ -60,10 +59,10 @@ public final class WayFilter {
 
             IDataNode firstNode = null;
             IDataNode pending = null;
-            Iterator<DataNode> iter = nodes.iterator();
+            Iterator<IDataNode> iter = nodes.iterator();
 
             while (iter.hasNext()) {
-                DataNode n = iter.next();
+                IDataNode n = iter.next();
                 if (n == null || !n.isValid()) {
                     iter.remove();
                     continue;
@@ -97,7 +96,7 @@ public final class WayFilter {
     }
 
     /**
-     * Smoothen the {@link DataNode}s by calculating the mean of 3 consecutive
+     * Smoothen the {@link IDataNode}s by calculating the mean of 3 consecutive
      * points.
      * 
      * @param nodes
@@ -108,13 +107,13 @@ public final class WayFilter {
      * @param bufferSize
      *            the amount of points to use for the calculation
      */
-    public static void smoothenPoints(List<DataNode> nodes, int weight,
+    public static void smoothenPoints(List<IDataNode> nodes, int weight,
             int bufferSize) {
         smoothenPointsMiddle(nodes, weight, bufferSize);
     }
 
     /**
-     * Smoothen the {@link DataNode}s by calculating the mean of 3 consecutive
+     * Smoothen the {@link IDataNode}s by calculating the mean of 3 consecutive
      * points.
      * 
      * @param nodes
@@ -125,14 +124,14 @@ public final class WayFilter {
      * @param bufferSize
      *            the amount of points to use for the calculation
      */
-    public static void smoothenPointsFirst(List<DataNode> nodes, int weight,
+    public static void smoothenPointsFirst(List<IDataNode> nodes, int weight,
             int bufferSize) {
         if (nodes == null)
             return;
 
-        Queue<DataNode> ringbuffer = new LinkedList<DataNode>();
+        Queue<IDataNode> ringbuffer = new LinkedList<IDataNode>();
 
-        for (DataNode n : nodes) {
+        for (IDataNode n : nodes) {
             if (!n.isValid())
                 continue;
 
@@ -164,7 +163,7 @@ public final class WayFilter {
     }
 
     /**
-     * Smoothen the {@link DataNode}s by calculating the mean of multiple
+     * Smoothen the {@link IDataNode}s by calculating the mean of multiple
      * consecutive points.
      * 
      * @param nodes
@@ -175,14 +174,14 @@ public final class WayFilter {
      * @param bufferSize
      *            the amount of points to use for the calculation
      */
-    public static void smoothenPointsMiddle(List<DataNode> nodes, int weight,
+    public static void smoothenPointsMiddle(List<IDataNode> nodes, int weight,
             int bufferSize) {
         if (nodes == null)
             return;
 
-        LinkedList<DataNode> ringbuffer = new LinkedList<DataNode>();
+        LinkedList<IDataNode> ringbuffer = new LinkedList<IDataNode>();
 
-        for (DataNode n : nodes) {
+        for (IDataNode n : nodes) {
             if (!n.isValid())
                 continue;
 

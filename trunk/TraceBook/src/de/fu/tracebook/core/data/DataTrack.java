@@ -464,9 +464,9 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                 return dn;
 
         for (IDataPointsList dpl : ways)
-            for (DataNode dn : dpl.getNodes())
-                if (item.equals(dn.getOverlayItem()))
-                    return dn;
+            for (IDataNode dn : dpl.getNodes())
+                if (item.equals(((DataNode) dn).getOverlayItem()))
+                    return (DataNode) dn;
 
         return null;
     }
@@ -476,8 +476,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#getNodes()
      */
-    public List<DataNode> getNodes() {
-        return nodes;
+    public List<IDataNode> getNodes() {
+        return new LinkedList<IDataNode>(nodes);
     }
 
     /*
@@ -508,8 +508,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#getWays()
      */
-    public List<DataPointsList> getWays() {
-        return ways;
+    public List<IDataPointsList> getWays() {
+        return new LinkedList<IDataPointsList>(ways);
     }
 
     /*
