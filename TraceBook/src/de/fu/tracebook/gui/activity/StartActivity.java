@@ -193,6 +193,7 @@ public class StartActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         try {
+            ServiceConnector.stopService();
             ServiceConnector.releaseService();
         } catch (IllegalArgumentException e) {
             LogIt.e("TraceBook", "Service not connected.");

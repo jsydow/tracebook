@@ -51,7 +51,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataTrack;
 import de.fu.tracebook.core.data.DataTrackInfo;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -528,11 +527,9 @@ public class LoadTrackActivity extends ListActivity {
 
         GenericAdapterData datum = adapter.getItem(position);
         final String trackname = datum.getText("TrackName");
-        final DataTrack track = StorageFactory.getStorage().deserializeTrack(
-                trackname);
         final Intent intent = new Intent(this, NewTrackActivity.class);
 
-        if (track != null) {
+        if (StorageFactory.getStorage().doesTrackExist(trackname)) {
             if (StorageFactory.getStorage().getTrack() != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getResources().getString(
@@ -548,9 +545,16 @@ public class LoadTrackActivity extends ListActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                             int id1) {
-
+                                        long start = System.currentTimeMillis();
                                         StorageFactory.getStorage().setTrack(
-                                                track);
+                                                StorageFactory.getStorage()
+                                                        .deserializeTrack(
+                                                                trackname));
+                                        long stop = System.currentTimeMillis()
+                                                - start;
+                                        LogIt.d("TraceBook",
+                                                "#### Stop loading. Time: "
+                                                        + stop);
                                         startActivity(intent);
                                         overridePendingTransition(
                                                 R.anim.zoom_enter,
@@ -572,7 +576,13 @@ public class LoadTrackActivity extends ListActivity {
                 builder.show();
 
             } else {
-                StorageFactory.getStorage().setTrack(track);
+                long start = System.currentTimeMillis();
+                StorageFactory.getStorage()
+                        .setTrack(
+                                StorageFactory.getStorage().deserializeTrack(
+                                        trackname));
+                long stop = System.currentTimeMillis() - start;
+                LogIt.d("TraceBook", "#### Stop loading. Time: " + stop);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
