@@ -34,8 +34,7 @@ import de.fu.tracebook.util.LogIt;
  * Basic class for any object that is stored in OSM. All objects have an id and
  * some tags. Additionally all objects can have media attached.
  */
-public abstract class DataMapObject extends DataMediaHolder implements
-        Comparable<Integer> {
+public abstract class DataMapObject extends DataMediaHolder implements IDataMapObject {
     /**
      * An id for this object. It is not an id for OSM which is set to -1 for all
      * new objects but it is a program internal id. It should be unique.
@@ -60,17 +59,6 @@ public abstract class DataMapObject extends DataMediaHolder implements
     }
 
     /**
-     * Comparable-implementation.
-     */
-    public int compareTo(Integer other) {
-        if (id < other.intValue())
-            return -1;
-        if (id > other.intValue())
-            return 1;
-        return 0;
-    }
-
-    /**
      * "a_node" is a Node which has <tag>-children. This method retrieves the
      * tags out of these <tag>s
      * 
@@ -90,31 +78,22 @@ public abstract class DataMapObject extends DataMediaHolder implements
         }
     }
 
-    /**
-     * Getter-method.
-     * 
-     * @return The id of the object.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMapObject#getId()
      */
     public int getId() {
         return id;
     }
 
-    /**
-     * Getter-method for a all tags stored as a Map of String. Tags that are no
-     * tags in OSM are: name, lat, lon, timestamp. Mind that changes in the
-     * returned Map change this object in the same way.
-     * 
-     * @return Map of all tags. (Not null)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMapObject#getTags()
      */
     public Map<String, String> getTags() {
         return tags;
     }
 
-    /**
-     * Checks whether additional information like Tags or Media data are
-     * available for this {@link DataMapObject}.
-     * 
-     * @return True if tags or media exist.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMapObject#hasAdditionalInfo()
      */
     public boolean hasAdditionalInfo() {
         return getTags().size() > 0 || getMedia().size() > 0;

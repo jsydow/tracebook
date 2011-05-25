@@ -46,8 +46,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.util.DataNodeArrayItemizedOverlay;
@@ -116,7 +116,7 @@ public class MapsForgeActivity extends MapActivity {
                  * visualization
                  */
                 if (intend.getExtras().getBoolean("one_shot")) {
-                    DataPointsList currentWay = Helper.currentTrack()
+                    IDataPointsList currentWay = Helper.currentTrack()
                             .getCurrentWay();
                     if (currentWay != null) {
                         currentWay.updateOverlayRoute(currentGeoPoint);
@@ -134,10 +134,10 @@ public class MapsForgeActivity extends MapActivity {
                         + " node: " + pointId);
 
                 if (wayId > 0) {
-                    DataPointsList way = Helper.currentTrack()
+                    IDataPointsList way = Helper.currentTrack()
                             .getPointsListById(wayId);
                     if (way != null) {
-                        way.updateOverlayRoute();
+                        way.updateOverlayRoute(null);
                         if (oldWayId != wayId) {
                             oldWayId = wayId;
                             routesOverlay.addWay(way, true);
@@ -159,7 +159,7 @@ public class MapsForgeActivity extends MapActivity {
                         // stopWay() was called
                         routesOverlay.putWaypoint(node);
                         if (node.getDataPointsList() != null) {
-                            node.getDataPointsList().updateOverlayRoute();
+                            node.getDataPointsList().updateOverlayRoute(null);
                             routesOverlay.requestRedraw();
                         }
                     }
@@ -175,10 +175,10 @@ public class MapsForgeActivity extends MapActivity {
             case GpsMessage.END_WAY:
                 LogIt.d(LOG_TAG, "End way for way " + wayId + " received.");
 
-                DataPointsList way = Helper.currentTrack().getPointsListById(
+                IDataPointsList way = Helper.currentTrack().getPointsListById(
                         wayId);
                 if (way != null) {
-                    way.updateOverlayRoute();
+                    way.updateOverlayRoute(null);
                     routesOverlay.color(way, false);
                     routesOverlay.requestRedraw();
                 }
@@ -278,7 +278,7 @@ public class MapsForgeActivity extends MapActivity {
 
             editNode.setLocation(projection);
             if (editNode.getDataPointsList() != null) {
-                editNode.getDataPointsList().updateOverlayRoute();
+                editNode.getDataPointsList().updateOverlayRoute(null);
                 LogIt.d(LOG_TAG, "Requesting redraw");
                 routesOverlay.requestRedraw();
             }

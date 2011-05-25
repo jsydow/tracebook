@@ -32,6 +32,7 @@ import android.graphics.Paint;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
 /**
@@ -118,7 +119,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * @param editing
      *            weather the way should be given the 'currently edited' color
      */
-    public void addWay(DataPointsList way, boolean editing) {
+    public void addWay(IDataPointsList way, boolean editing) {
         if (way.getNodes().size() == 0) // skip empty ways
             return;
         color(way, editing);
@@ -136,8 +137,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      *            the overlay
      */
     public void addWays(List<DataPointsList> ways) {
-        for (DataPointsList l : ways) {
-            l.updateOverlayRoute();
+        for (IDataPointsList l : ways) {
+            l.updateOverlayRoute(null);
             addWay(l, false);
         }
     }
@@ -150,7 +151,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * @param editing
      *            weather the way should be marked as currently edited
      */
-    public void color(DataPointsList way, boolean editing) {
+    public void color(IDataPointsList way, boolean editing) {
         Pair<Paint, Paint> col = getColor(editing, way.isArea());
         way.getOverlayRoute().setPaint(col.first, col.second);
     }
@@ -175,19 +176,19 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     public void toggleWaypoints() {
         showWaypoints = !showWaypoints;
 
-        for (DataPointsList dpl : Helper.getWays())
+        for (IDataPointsList dpl : Helper.getWays())
             if (showWaypoints)
                 addWaypoints(dpl);
             else
                 removeWaypoints(dpl);
     }
 
-    private void addWaypoints(DataPointsList way) {
+    private void addWaypoints(IDataPointsList way) {
         for (IDataNode n : way.getNodes())
             putWaypoint(n);
     }
 
-    private void removeWaypoints(DataPointsList way) {
+    private void removeWaypoints(IDataPointsList way) {
         for (IDataNode n : way.getNodes())
             pointsOverlay.removeItem(n.getOverlayItem());
     }

@@ -21,8 +21,6 @@ package de.fu.tracebook.core.data;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -33,24 +31,7 @@ import de.fu.tracebook.util.LogIt;
  * background memory of the device. Only the name and path of the actual medium
  * is stored in this object.
  */
-public class DataMedia {
-
-    /**
-     * Media type constants. Type audio.
-     */
-    public static final int TYPE_AUDIO = 2;
-    /**
-     * Media type constants. Type picture.
-     */
-    public static final int TYPE_PICTURE = 1;
-    /**
-     * Media type constants. Type text.
-     */
-    public static final int TYPE_TEXT = 0;
-    /**
-     * Media type constants. Type video.
-     */
-    public static final int TYPE_VIDEO = 3;
+public class DataMedia implements IDataMedia {
 
     private static String[] extensions = { ".txt", ".jpg", ".m4a", ".mp4" };
     private static String[] typesAsString = { "text", "picture", "audio",
@@ -164,9 +145,8 @@ public class DataMedia {
         this.type = getTypeFromFilename(name);
     }
 
-    /**
-     * Deletes a medium on the devices memory. Note: Make sure that there is no
-     * reference to this medium anymore.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#delete()
      */
     public void delete() {
         File medium = new File(getFullPath());
@@ -177,79 +157,32 @@ public class DataMedia {
         }
     }
 
-    /**
-     * Getter-method. The returned String is enough to open the file.
-     * 
-     * @return The path to the medium on the devices medium. (Should generally
-     *         be not null, except some idiot misused methods)
-     */
-    public String getFullPath() {
-        return path + name;
-    }
-
-    /**
-     * Getter-method.
-     * 
-     * @return The unique id of the medium.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#getId()
      */
     public int getId() {
         return id;
     }
 
-    /**
-     * Getter-method.
-     * 
-     * @return The name of the medium as it is displayed. (Should generally be
-     *         not null, except some idiot misused methods)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#getName()
      */
     public String getName() {
         return name;
     }
 
-    /**
-     * Getter-method. Returns path to the directory the medium is in.
-     * 
-     * @return The path to the medium on the devices medium. (Should generally
-     *         be not null, except some idiot misused methods)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#getPath()
      */
     public String getPath() {
         return path;
     }
 
-    /**
-     * Getter-method.
-     * 
-     * @return The type of the medium.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#getType()
      */
     public int getType() {
         return type;
-    }
-
-    /**
-     * Give a pathname of a track (like .../TraceBook/TrackName) this method
-     * retrieves a list of all media in that directory. If the folder does not
-     * exist an empty list is returned.
-     * 
-     * @param dirpath
-     *            The path of the folder.
-     * @return A list of all Media in that folder.
-     */
-    public List<DataMedia> listAllMedia(String dirpath) {
-        File dir = new File(dirpath);
-        List<DataMedia> ret = new LinkedList<DataMedia>();
-
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-            for (File f : files) {
-                if (getTypeFromFilename(f.getPath()) != -1) {
-                    ret.add(DataMedia.deserialize(f.getPath()));
-                }
-            }
-        } else {
-            LogIt.w("Media", "Given pathname is no diretory.");
-        }
-
-        return ret;
     }
 
     /**
@@ -273,16 +206,12 @@ public class DataMedia {
         }
     }
 
-    /**
-     * Setter-method. Changing the name may have no impact on serialization. On
-     * next deserialization the old name may appear again.
-     * 
-     * @param newname
-     *            The new name for the medium.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#setName(java.lang.String)
      */
     public void setName(String newname) {
         File oldfile = new File(getFullPath());
-        File newfile = new File(getPath() + newname);
+        File newfile = new File(getPath() + File.separator + newname);
         boolean success = oldfile.renameTo(newfile);
         if (!success) {
             LogIt.e("MediaRenaming", "Could not rename medium.");
@@ -291,12 +220,8 @@ public class DataMedia {
         }
     }
 
-    /**
-     * Setter-method. The path should normally not be changed but one never
-     * knows. Method does nothing if parameter is null.
-     * 
-     * @param path
-     *            The new path of the medium.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#setPath(java.lang.String)
      */
     public void setPath(String path) {
         if (path != null) {
@@ -304,13 +229,20 @@ public class DataMedia {
         }
     }
 
-    /**
-     * Setter-method.
-     * 
-     * @param type
-     *            The new type of this medium.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataMedia#setType(int)
      */
     public void setType(int type) {
         this.type = type;
+    }
+
+    /**
+     * Getter-method. The returned String is enough to open the file.
+     * 
+     * @return The path to the medium on the devices medium. (Should generally
+     *         be not null, except some idiot misused methods)
+     */
+    private String getFullPath() {
+        return path + File.separator + name;
     }
 }

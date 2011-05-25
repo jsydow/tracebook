@@ -37,7 +37,7 @@ import de.fu.tracebook.util.LogIt;
  * WayPointList objects are any objects that consist of a series of nodes like
  * Areas and Ways.
  */
-public class DataPointsList extends DataMapObject {
+public class DataPointsList extends DataMapObject implements IDataPointsList {
     /**
      * Way node is a XML-node labeled "way". This method restores a
      * DataPointsList from such a XML-Node.
@@ -51,7 +51,7 @@ public class DataPointsList extends DataMapObject {
     public static DataPointsList deserialize(Node waynode,
             List<DataNode> allnodes) {
         // the returned DataPointsList
-        DataPointsList ret = new DataPointsList();
+        DataPointsList ret = new DataPointsList(false);
 
         // get all attributes
         NamedNodeMap nodeattributes = waynode.getAttributes();
@@ -119,34 +119,20 @@ public class DataPointsList extends DataMapObject {
     protected LinkedList<DataNode> nodes;
 
     /**
-     * Default constructor.
-     */
-    public DataPointsList() {
-        super();
-        nodes = new LinkedList<DataNode>();
-        overlayRoute = new OverlayWay();
-    }
-
-    /**
      * Constructor which initializes the Object as an Area.
      * 
      * @param isArea
      *            Whether object is an Area.
      */
     public DataPointsList(boolean isArea) {
-        this();
+        super();
+        nodes = new LinkedList<DataNode>();
+        overlayRoute = new OverlayWay();
         this.isArea = isArea;
     }
 
-    /**
-     * This method deletes a Node on the working memory and devices memory
-     * completely.
-     * 
-     * @param nodeId
-     *            The id of the node to be deleted. If this node does not exist
-     *            nothing is done.
-     * @return A reference to the deleted DataNode object if it exists, null
-     *         otherwise.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#deleteNode(int)
      */
     public IDataNode deleteNode(int nodeId) {
         ListIterator<DataNode> lit = nodes.listIterator();
@@ -162,12 +148,8 @@ public class DataPointsList extends DataMapObject {
         return null;
     }
 
-    /**
-     * Searches for a Node in this Track by the specified id.
-     * 
-     * @param nodeId
-     *            The id of the Node that is being searched for.
-     * @return The DataNode where get_id() == id, or null if not found.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#getNodeById(int)
      */
     public DataNode getNodeById(int nodeId) {
         for (DataNode dn : nodes) {
@@ -178,44 +160,29 @@ public class DataPointsList extends DataMapObject {
         return null;
     }
 
-    /**
-     * Getter-method that returns a list of all nodes. The returned List is the
-     * one stored in this object. Changing the returned List will therefore
-     * change this list
-     * 
-     * @return The list of all nodes stored in this object. (not null)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#getNodes()
      */
     public List<DataNode> getNodes() {
         return nodes;
     }
 
-    /**
-     * Gets the route Object used by MapsForge to display this way.
-     * 
-     * @return The {@link OverlayWay} of this way. (can be null)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#getOverlayRoute()
      */
     public OverlayWay getOverlayRoute() {
         return overlayRoute;
     }
 
-    /**
-     * Getter-method.
-     * 
-     * @return True if object resembles an Area.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#isArea()
      */
     public boolean isArea() {
         return isArea;
     }
 
-    /**
-     * Add a new Node at the end of the list. Call this method if you want to
-     * extend the Way or Area. Additionally the Location-constructor of the
-     * DataNode is called.
-     * 
-     * @param location
-     *            The Location of this node. Node is initialized with this
-     *            location.
-     * @return The newly created DataNode.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#newNode(org.mapsforge.android.maps.GeoPoint)
      */
     public DataNode newNode(GeoPoint location) {
         DataNode dn = new DataNode(location, this);
@@ -297,47 +264,22 @@ public class DataPointsList extends DataMapObject {
         }
     }
 
-    /**
-     * Setter-method.
-     * 
-     * @param isArea
-     *            Whether object is an Area.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#setArea(boolean)
      */
     public void setArea(boolean isArea) {
         this.isArea = isArea;
     }
 
-    /**
-     * Sets the {@link OverlayWay}, an object used by MapsForge for
-     * visualization.
-     * 
-     * @param overlayRoute
-     *            The new OverlayWay.
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#setOverlayRoute(org.mapsforge.android.maps.OverlayWay)
      */
     public void setOverlayRoute(OverlayWay overlayRoute) {
         this.overlayRoute = overlayRoute;
     }
 
-    /**
-     * Returns an array of GeoPoints representing the current way for being
-     * displayed in a RouteOverlay. If isArea() is true, the first point will be
-     * added as last point, this is a requirement of the RouteOverlay.
-     * 
-     * @return The array of GeoPoints. (not null)
-     */
-    public GeoPoint[] toGeoPointArray() {
-        return toGeoPointArray(null);
-    }
-
-    /**
-     * Returns an array of GeoPoints representing the current way for being
-     * displayed in a RouteOverlay. If isArea() is true, the first point will be
-     * added as last point, this is a requirement of the RouteOverlay.
-     * 
-     * @param additional
-     *            additional GeoPoint to be added to the way, may be null
-     * 
-     * @return The array of GeoPoints. (not null)
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#toGeoPointArray(org.mapsforge.android.maps.GeoPoint)
      */
     public GeoPoint[] toGeoPointArray(GeoPoint additional) {
         GeoPoint[] tmp = new GeoPoint[nodes.size()
@@ -361,20 +303,8 @@ public class DataPointsList extends DataMapObject {
         return tmp;
     }
 
-    /**
-     * Calls for an update of the OverlayRoute according to the changed data of
-     * this track.
-     */
-    public void updateOverlayRoute() {
-        overlayRoute.setWayData(toGeoPointArray(null));
-    }
-
-    /**
-     * Adds one additional Point to the OverlayRoute without affecting the
-     * actual data of the way.
-     * 
-     * @param additional
-     *            The additional node
+    /* (non-Javadoc)
+     * @see de.fu.tracebook.core.data.IDataPointsList#updateOverlayRoute(org.mapsforge.android.maps.GeoPoint)
      */
     public void updateOverlayRoute(GeoPoint additional) {
         overlayRoute.setWayData(toGeoPointArray(additional));

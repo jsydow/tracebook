@@ -34,13 +34,13 @@ import org.xmlpull.v1.XmlSerializer;
  * Any object that can have media attached. Media can be added and retrieved.
  * This class is abstract.
  */
-public abstract class DataMediaHolder {
+public abstract class DataMediaHolder implements IDataMediaHolder {
     /**
      * Creates a time stamp of the current time formatted according to W3C.
      * 
      * @return A time stamp String.
      */
-    public static String getW3CFormattedTimeStamp() {
+    private static String getW3CFormattedTimeStamp() {
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         return sdf.format(new Date());
@@ -64,29 +64,27 @@ public abstract class DataMediaHolder {
         this.datetime = getW3CFormattedTimeStamp();
     }
 
-    /**
-     * Add a new medium to this object. Does nothing if parameter is null.
+    /*
+     * (non-Javadoc)
      * 
-     * @param medium
-     *            The Media object.
+     * @see
+     * de.fu.tracebook.core.data.IDataMediaHolder#addMedia(de.fu.tracebook.core
+     * .data.DataMedia)
      */
-    public void addMedia(DataMedia medium) {
+    public void addMedia(IDataMedia medium) {
         if (medium != null) {
-            media.add(medium);
+            media.add((DataMedia) medium);
         }
     }
 
-    /**
-     * Deletes a medium from the working memory (i.e. that object) and the
-     * devices memory. Warning: Make sure no other object has a reference to
-     * this medium!
+    /*
+     * (non-Javadoc)
      * 
-     * @param id
-     *            The id of the medium to be deleted.
+     * @see de.fu.tracebook.core.data.IDataMediaHolder#deleteMedia(int)
      */
     public void deleteMedia(int id) {
         ListIterator<DataMedia> lit = media.listIterator();
-        DataMedia dm;
+        IDataMedia dm;
         while (lit.hasNext()) {
             dm = lit.next();
             if (dm.getId() == id) {
@@ -120,21 +118,19 @@ public abstract class DataMediaHolder {
         }
     }
 
-    /**
-     * Getter-method. The creation time string.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The creation time of this object as String. (Could be null)
+     * @see de.fu.tracebook.core.data.IDataMediaHolder#getDatetime()
      */
     public String getDatetime() {
         return datetime;
     }
 
-    /**
-     * Getter-method that returns a list of all media. The returned List is the
-     * one stored in the MediaHolder. Changing the returned List will therefore
-     * change this list.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The list of all media. (not null)
+     * @see de.fu.tracebook.core.data.IDataMediaHolder#getMedia()
      */
     public List<DataMedia> getMedia() {
         return media;
@@ -153,12 +149,11 @@ public abstract class DataMediaHolder {
         }
     }
 
-    /**
-     * Set the Creation time of this MediaHolder. Used to restore an old
-     * MediaHolder while deserialization.
+    /*
+     * (non-Javadoc)
      * 
-     * @param datetime
-     *            The new time stamp as String.
+     * @see
+     * de.fu.tracebook.core.data.IDataMediaHolder#setDatetime(java.lang.String)
      */
     public void setDatetime(String datetime) {
         this.datetime = datetime;
