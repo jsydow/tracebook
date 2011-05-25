@@ -158,7 +158,11 @@ public class WaypointLogService extends Service implements LocationListener {
             stopGPS();
 
             if (storage.getTrack() != null) {
+
+                long start = System.currentTimeMillis();
                 storage.serialize();
+                long stop = System.currentTimeMillis() - start;
+                LogIt.d(LOG_TAG, "#### Stop saving. Time: " + stop);
                 storage.unloadAllTracks();
                 return 1;
             }

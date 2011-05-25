@@ -23,6 +23,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mapsforge.android.maps.GeoPoint;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -219,6 +221,20 @@ public class NewTrackActivity extends TabActivity {
                     }
                 });
         alert.show();
+
+        // TODO test
+        IDataTrack currtrack = StorageFactory.getStorage().getTrack();
+        for (int i = 0; i < 100; ++i) {
+            IDataNode node = currtrack.newNode(new GeoPoint(10, 10));
+            node.getTags().put("motorway", "highway");
+        }
+        for (int i = 0; i < 10; ++i) {
+            IDataPointsList way = currtrack.newWay();
+            for (int j = 0; j < 100; ++j) {
+                IDataNode node = way.newNode(new GeoPoint(10, 10));
+                node.getTags().put("motorway", "highway");
+            }
+        }
     }
 
     /**

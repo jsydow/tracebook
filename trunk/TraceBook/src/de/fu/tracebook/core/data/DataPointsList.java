@@ -98,6 +98,7 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
             }
         }
 
+        LogIt.d("TraceBookWay", "Got " + ret.nodes.size() + " nodes");
         return ret;
     }
 

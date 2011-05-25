@@ -173,6 +173,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             return null;
         }
 
+        LogIt.d("TraceBookDeserialisation", "Got " + ret.nodes.size()
+                + " POIs and " + ret.ways.size() + " ways");
         return ret;
     }
 
