@@ -140,8 +140,12 @@ public final class DataStorage implements IDataStorage {
      * 
      * @see de.fu.tracebook.core.data.IDataStorage#getTrack()
      */
-    public DataTrack getTrack() {
+    public IDataTrack getTrack() {
         return track;
+    }
+
+    public DataTrackInfo getTrackInfo(String trackName) {
+        return DataTrackInfo.deserialize(trackName);
     }
 
     /*
@@ -149,8 +153,8 @@ public final class DataStorage implements IDataStorage {
      * 
      * @see de.fu.tracebook.core.data.IDataStorage#newTrack()
      */
-    public DataTrack newTrack() {
-        DataTrack dt = new DataTrack();
+    public IDataTrack newTrack() {
+        IDataTrack dt = new DataTrack();
         return dt;
     }
 
@@ -170,8 +174,8 @@ public final class DataStorage implements IDataStorage {
      * de.fu.tracebook.core.data.IDataStorage#setTrack(de.fu.tracebook.core.
      * data.DataTrack)
      */
-    public DataTrack setTrack(DataTrack currentTrack) {
-        this.track = currentTrack;
+    public IDataTrack setTrack(IDataTrack currentTrack) {
+        this.track = (DataTrack) currentTrack;
         return currentTrack;
     }
 

@@ -55,6 +55,7 @@ import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.DataTrack;
+import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagSearchResult;
 import de.fu.tracebook.core.logger.ServiceConnector;
@@ -202,7 +203,7 @@ public final class Helper {
      * 
      * @return the current DataTrack object
      */
-    public static DataTrack currentTrack() {
+    public static IDataTrack currentTrack() {
         return StorageFactory.getStorage().getTrack();
     }
 

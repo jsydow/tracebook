@@ -200,7 +200,8 @@ public class LoadTrackActivity extends ListActivity {
             return true;
 
         case R.id.cm_loadtrackActivity_info:
-            DataTrackInfo trackinfo = DataTrackInfo.deserialize(trackname);
+            DataTrackInfo trackinfo = StorageFactory.getStorage().getTrackInfo(
+                    trackname);
 
             final Dialog infoDialog = new Dialog(this);
             // dialog.getWindow().setGravity(Gravity.FILL);
@@ -628,7 +629,8 @@ public class LoadTrackActivity extends ListActivity {
                 List<String> names = new ArrayList<String>(StorageFactory
                         .getStorage().getAllTracks());
                 for (String name : names) {
-                    DataTrackInfo trackinfo = DataTrackInfo.deserialize(name);
+                    DataTrackInfo trackinfo = StorageFactory.getStorage()
+                            .getTrackInfo(name);
                     if (trackinfo != null) {
                         trackInfos.add(trackinfo);
                     }
