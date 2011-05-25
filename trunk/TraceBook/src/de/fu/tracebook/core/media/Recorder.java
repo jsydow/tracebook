@@ -22,7 +22,8 @@ package de.fu.tracebook.core.media;
 import java.io.File;
 
 import de.fu.tracebook.core.data.DataMedia;
-import de.fu.tracebook.core.data.DataMediaHolder;
+import de.fu.tracebook.core.data.IDataMedia;
+import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
 
 /**
@@ -77,8 +78,8 @@ public abstract class Recorder {
      * @return A reference to the created media file object in the global data
      *         structure.
      */
-    public DataMedia appendFileToObject(DataMediaHolder parent) {
-        DataMedia dm = new DataMedia(getPath(), getFilename());
+    public IDataMedia appendFileToObject(IDataMediaHolder parent) {
+        DataMedia dm = new DataMedia(getBaseDir(), getFilename());
 
         parent.addMedia(dm);
         return dm;

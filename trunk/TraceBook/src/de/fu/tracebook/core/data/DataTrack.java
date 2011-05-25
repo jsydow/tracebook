@@ -387,7 +387,7 @@ public class DataTrack extends DataMediaHolder {
             }
         }
 
-        for (DataPointsList dpl : getWays()) {
+        for (IDataPointsList dpl : getWays()) {
             IDataNode dldn = dpl.deleteNode(id);
             if (dldn != null) { // deleted
                 if (dldn.getOverlayItem() != null)
@@ -451,7 +451,7 @@ public class DataTrack extends DataMediaHolder {
             return res;
         }
 
-        for (DataPointsList dpl : getWays()) {
+        for (IDataPointsList dpl : getWays()) {
             res = dpl.getNodeById(id);
             if (res != null) {
                 return res;
@@ -485,7 +485,7 @@ public class DataTrack extends DataMediaHolder {
             }
         }
 
-        for (DataPointsList dpl : ways) {
+        for (IDataPointsList dpl : ways) {
             DataNode dn = dpl.getNodeById(id);
             if (dn != null)
                 return dn;
@@ -511,7 +511,7 @@ public class DataTrack extends DataMediaHolder {
             if (item.equals(dn.getOverlayItem()))
                 return dn;
 
-        for (DataPointsList dpl : ways)
+        for (IDataPointsList dpl : ways)
             for (DataNode dn : dpl.getNodes())
                 if (item.equals(dn.getOverlayItem()))
                     return dn;
@@ -597,7 +597,7 @@ public class DataTrack extends DataMediaHolder {
      * @return The newly created Way.
      */
     public DataPointsList newWay() {
-        DataPointsList dpl = new DataPointsList();
+        DataPointsList dpl = new DataPointsList(false);
         ways.add(dpl);
         return dpl;
     }
@@ -610,7 +610,7 @@ public class DataTrack extends DataMediaHolder {
      *            The text to save
      * @return DataMedia object which references the Text just saved.
      */
-    public DataMedia saveText(String text) {
+    public IDataMedia saveText(String text) {
         File txtfile = new File(getTrackDirPath() + File.separator
                 + getFilenameCompatibleTimeStamp() + ".txt");
         try {
@@ -726,7 +726,7 @@ public class DataTrack extends DataMediaHolder {
      *            The new currently edited Way.
      * @return Returns the parameter currentWay for further use.
      */
-    public DataPointsList setCurrentWay(DataPointsList currentWay) {
+    public IDataPointsList setCurrentWay(DataPointsList currentWay) {
         this.currentWay = currentWay;
         return currentWay;
     }

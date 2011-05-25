@@ -39,7 +39,7 @@ public interface IDataNode {
      * 
      * @return The DataPointsList this point is in. (can be null)
      */
-    DataPointsList getDataPointsList();
+    IDataPointsList getDataPointsList();
 
     /**
      * Getter-method.

@@ -45,7 +45,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.HistoryDb;
 import de.fu.tracebook.core.data.db.TagSearchResult;
@@ -89,7 +89,7 @@ public class AddPointMetaActivity extends ListActivity {
     /**
      * Reference to the current DataMapObject in use.
      */
-    DataMapObject node;
+    IDataMapObject node;
 
     /**
      * Cancel Button clicked.
