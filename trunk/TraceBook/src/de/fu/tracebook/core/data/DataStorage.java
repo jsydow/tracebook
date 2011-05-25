@@ -104,6 +104,10 @@ public final class DataStorage implements IDataStorage {
         lastID = 1;
     }
 
+    public void deleteTrack(String trackname) {
+        DataTrack.delete(trackname);
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -113,6 +117,10 @@ public final class DataStorage implements IDataStorage {
     public DataTrack deserializeTrack(String name) {
         DataTrack dt = DataTrack.deserialize(name);
         return dt;
+    }
+
+    public boolean doesTrackExist(String trackname) {
+        return DataTrack.exists(trackname);
     }
 
     /*
@@ -156,6 +164,10 @@ public final class DataStorage implements IDataStorage {
     public IDataTrack newTrack() {
         IDataTrack dt = new DataTrack();
         return dt;
+    }
+
+    public int renameTrack(String oldname, String newname) {
+        return DataTrack.rename(oldname, newname);
     }
 
     /*

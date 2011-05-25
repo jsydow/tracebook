@@ -162,7 +162,8 @@ public class LoadTrackActivity extends ListActivity {
                                 int whichButton) {
                             String value = input.getText().toString().trim();
 
-                            int res = DataTrack.rename(trackname, value);
+                            int res = StorageFactory.getStorage().renameTrack(
+                                    trackname, value);
                             switch (res) {
                             case 0:
                                 break;
@@ -262,7 +263,8 @@ public class LoadTrackActivity extends ListActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface d, int id) {
 
-                                    DataTrack.delete(trackname);
+                                    StorageFactory.getStorage().deleteTrack(
+                                            trackname);
                                     // may crash here (did so previously).
                                     showDialogForAdapterUpdate();
 
@@ -451,7 +453,7 @@ public class LoadTrackActivity extends ListActivity {
                         getResources().getString(R.string.alert_global_yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DataTrack.delete(trname);
+                                StorageFactory.getStorage().deleteTrack(trname);
                                 LogIt.d("DEBUG", "delete " + trname);
                                 // showDialogForAdapterUpdate();
                             }

@@ -153,7 +153,8 @@ public final class Helper {
                                 String trackname = StorageFactory.getStorage()
                                         .getTrack().getName();
 
-                                if (DataTrack.exists(trackname)) {
+                                if (StorageFactory.getStorage().doesTrackExist(
+                                        trackname)) {
                                     try {
                                         StorageFactory.getStorage()
                                                 .unloadAllTracks();
@@ -173,7 +174,8 @@ public final class Helper {
                                         e.printStackTrace();
                                     }
 
-                                    DataTrack.delete(trackname);
+                                    StorageFactory.getStorage().deleteTrack(
+                                            trackname);
                                     activity.finish();
                                 }
                             }

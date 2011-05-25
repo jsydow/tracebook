@@ -60,12 +60,22 @@ import de.fu.tracebook.util.LogIt;
 public class DataTrack extends DataMediaHolder implements IDataTrack {
 
     /**
+     * Creates a time stamp of the current time which can be used as a filename.
+     * 
+     * @return The time stamp String.
+     */
+    private static String getFilenameCompatibleTimeStamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        return sdf.format(new Date());
+    }
+
+    /**
      * Deletes a Track with all its contents from the devices memory.
      * 
      * @param trackname
      *            The name of the track/directory.
      */
-    public static void delete(String trackname) {
+    static void delete(String trackname) {
         DataStorage.deleteDirectory(new File(getTrackDirPath(trackname)));
     }
 
@@ -80,7 +90,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * @return The deserialized DataTrack object or null if such a Track does
      *         not exist.
      */
-    public static DataTrack deserialize(String name) {
+    static DataTrack deserialize(String name) {
 
         // cache all nodes
         List<DataNode> allnodes = new LinkedList<DataNode>();
@@ -175,19 +185,9 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      *            The name of th track to check.
      * @return True if there is such a track, false otherwise.
      */
-    public static boolean exists(String name) {
+    static boolean exists(String name) {
         File trackfile = new File(getPathOfTrackTbTFile(name));
         return trackfile.exists();
-    }
-
-    /**
-     * Creates a time stamp of the current time which can be used as a filename.
-     * 
-     * @return The time stamp String.
-     */
-    public static String getFilenameCompatibleTimeStamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        return sdf.format(new Date());
     }
 
     /**
@@ -197,7 +197,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      *            The String of the track name
      * @return The path as String.
      */
-    public static String getPathOfTrackTbTFile(String trackname) {
+    static String getPathOfTrackTbTFile(String trackname) {
         return getTrackDirPath(trackname) + File.separator + "track.tbt";
     }
 
@@ -209,24 +209,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      *            Name of the track directory
      * @return The complete path to the track directory.
      */
-    public static String getTrackDirPath(String dir) {
+    static String getTrackDirPath(String dir) {
         return DataStorage.getTraceBookDirPath() + File.separator + dir;
-    }
-
-    /**
-     * Renames a Track on the devices memory.
-     * 
-     * @param oldTrackName
-     *            Name of the track as it is on the devices memory.
-     * @param newTrackName
-     *            The new name of the track.
-     * @return Returns 0 if renaming was successful, -1 if track could not be
-     *         found, -2 if there is a track with the new track name and -3 if
-     *         the renaming fails otherwise.
-     */
-    public static int rename(String oldTrackName, String newTrackName) {
-        DataTrack oldTrack = new DataTrack(oldTrackName);
-        return oldTrack.renameTrack(newTrackName);
     }
 
     /**
@@ -261,6 +245,22 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             LogIt.e("OpenFile", "Could not open new file " + file.getPath());
         }
         return fileos;
+    }
+
+    /**
+     * Renames a Track on the devices memory.
+     * 
+     * @param oldTrackName
+     *            Name of the track as it is on the devices memory.
+     * @param newTrackName
+     *            The new name of the track.
+     * @return Returns 0 if renaming was successful, -1 if track could not be
+     *         found, -2 if there is a track with the new track name and -3 if
+     *         the renaming fails otherwise.
+     */
+    static int rename(String oldTrackName, String newTrackName) {
+        DataTrack oldTrack = new DataTrack(oldTrackName);
+        return oldTrack.renameTrack(newTrackName);
     }
 
     /**

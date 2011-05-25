@@ -34,25 +34,6 @@ import de.fu.tracebook.util.LogIt;
 public class DataMedia implements IDataMedia {
 
     private static String[] extensions = { ".txt", ".jpg", ".m4a", ".mp4" };
-    private static String[] typesAsString = { "text", "picture", "audio",
-            "video" };
-
-    /**
-     * This method loads a medium reference from the devices memory.
-     * 
-     * @param path
-     *            The complete path to the medium.
-     * @return The deserialized DataMedia object or null if medium doesn't
-     *         exist.
-     */
-    public static DataMedia deserialize(String path) {
-        File medium = new File(path);
-        if (medium.exists()) {
-            return new DataMedia(medium.getParent(), medium.getName());
-        }
-        LogIt.w("Media", "Medium was not found. Was trying to load a medium.");
-        return null;
-    }
 
     /**
      * Given a filename this method retrieves the type of the medium.
@@ -63,7 +44,7 @@ public class DataMedia implements IDataMedia {
      *         returns -1 if type of medium is not known or understood by
      *         TraceBook.
      */
-    public static int getTypeFromFilename(String filename) {
+    private static int getTypeFromFilename(String filename) {
         if (filename.endsWith(typeToExtension(TYPE_TEXT))) {
             return TYPE_TEXT;
         }
@@ -88,24 +69,27 @@ public class DataMedia implements IDataMedia {
      * @return The extension String or empty String if parameter type has
      *         illegal value.
      */
-    public static String typeToExtension(int paramType) {
+    private static String typeToExtension(int paramType) {
         if (paramType > TYPE_VIDEO || paramType < TYPE_TEXT)
             return "";
         return extensions[paramType];
     }
 
     /**
-     * Basically a toString()-method of the type-variable.
+     * This method loads a medium reference from the devices memory.
      * 
-     * @param paramType
-     *            The type-variable of this class/object.
-     * @return The type as String or empty String if parameter type has illegal
-     *         value.
+     * @param path
+     *            The complete path to the medium.
+     * @return The deserialized DataMedia object or null if medium doesn't
+     *         exist.
      */
-    public static String typeToString(int paramType) {
-        if (paramType > TYPE_VIDEO || paramType < TYPE_TEXT)
-            return "";
-        return typesAsString[paramType];
+    static DataMedia deserialize(String path) {
+        File medium = new File(path);
+        if (medium.exists()) {
+            return new DataMedia(medium.getParent(), medium.getName());
+        }
+        LogIt.w("Media", "Medium was not found. Was trying to load a medium.");
+        return null;
     }
 
     /**
@@ -145,7 +129,9 @@ public class DataMedia implements IDataMedia {
         this.type = getTypeFromFilename(name);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#delete()
      */
     public void delete() {
@@ -157,28 +143,36 @@ public class DataMedia implements IDataMedia {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#getId()
      */
     public int getId() {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#getName()
      */
     public String getName() {
         return name;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#getPath()
      */
     public String getPath() {
         return path;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#getType()
      */
     public int getType() {
@@ -206,7 +200,9 @@ public class DataMedia implements IDataMedia {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#setName(java.lang.String)
      */
     public void setName(String newname) {
@@ -220,7 +216,9 @@ public class DataMedia implements IDataMedia {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#setPath(java.lang.String)
      */
     public void setPath(String path) {
@@ -229,7 +227,9 @@ public class DataMedia implements IDataMedia {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMedia#setType(int)
      */
     public void setType(int type) {
