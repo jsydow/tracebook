@@ -29,15 +29,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xmlpull.v1.XmlSerializer;
 
-import android.location.Location;
-import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.LogIt;
 
 /**
  * A node. A node can be a POI or an element of a list of way points that belong
  * to a Way or Area.
  */
-public class DataNode extends DataMapObject {
+public class DataNode extends DataMapObject implements IDataNode {
 
     /**
      * 'nodenode" is a XML-node labeled "node". This method restores a DataNode
@@ -49,7 +47,7 @@ public class DataNode extends DataMapObject {
      */
     public static DataNode deserialize(Node nodenode) {
         // the returned DataNode, must be initialized
-        DataNode ret = new DataNode();
+        DataNode ret;
 
         // get all attributes
         NamedNodeMap nodeattributes = nodenode.getAttributes();
@@ -59,7 +57,7 @@ public class DataNode extends DataMapObject {
         // get Longitude
         final double lon = Double.parseDouble(nodeattributes
                 .getNamedItem("lon").getNodeValue());
-        ret.setLocation(new GeoPoint(lat, lon));
+        ret = new DataNode(new GeoPoint(lat, lon), null);
         // get time stamp
         ret.setDatetime(nodeattributes.getNamedItem("timestamp").getNodeValue());
         // get id
@@ -90,27 +88,6 @@ public class DataNode extends DataMapObject {
     private DataPointsList parentWay;
 
     /**
-     * Default constructor. Longitude and Latitude stay unchanged.
-     */
-    public DataNode() {
-        super();
-        setLocation(new Location(""));
-    }
-
-    /**
-     * This constructor initializes the Latitude and Longitude with data from a
-     * {@link GeoPoint} object.
-     * 
-     * @param coordinates
-     *            The {@link GeoPoint} of the new node. Initializes latitude and
-     *            longitude.
-     */
-    public DataNode(GeoPoint coordinates) {
-        super();
-        setLocation(coordinates);
-    }
-
-    /**
      * Constructs a DataNode of a Way with given coordinates.
      * 
      * @param coordinates
@@ -120,90 +97,48 @@ public class DataNode extends DataMapObject {
      */
     public DataNode(GeoPoint coordinates, DataPointsList parentWay) {
         super();
-        this.coordinates = coordinates;
+        setLocation(coordinates);
         this.parentWay = parentWay;
     }
 
-    /**
-     * This constructor initializes the Latitude and Longitude with data from a
-     * Location object.
+    /*
+     * (non-Javadoc)
      * 
-     * @param location
-     *            The Location of the new node. Initializes latitude and
-     *            longitude.
+     * @see de.fu.tracebook.core.data.IDataNode#getCoordinates()
      */
-    public DataNode(Location location) {
-        super();
-        setLocation(location);
+    public GeoPoint getCoordinates() {
+        if (coordinates == null) {
+            return new GeoPoint(0, 0);
+        }
+        return coordinates;
     }
 
-    /**
-     * This constructor initializes the Latitude and Longitude with data from a
-     * Location object, as well as the DataPointsList that contains this node.
+    /*
+     * (non-Javadoc)
      * 
-     * @param loc
-     *            The {@link Location} of the new node. Initializes latitude and
-     *            longitude.
-     * @param way
-     *            The {@link DataPointsList} this node is belongs to
-     */
-    public DataNode(Location loc, DataPointsList way) {
-        super();
-        setLocation(loc);
-        setDataPointsList(way);
-    }
-
-    /**
-     * If this node is part of a {@link DataPointsList}, this function will
-     * return a reference to this object. Otherwise the return value is null.
-     * 
-     * @return The DataPointsList this point is in. (can be null)
+     * @see de.fu.tracebook.core.data.IDataNode#getDataPointsList()
      */
     public DataPointsList getDataPointsList() {
         return parentWay;
     }
 
-    /**
-     * Getter-method.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The latitude.
-     */
-    public double getLat() {
-        if (coordinates == null)
-            return 0;
-        return coordinates.getLatitude();
-    }
-
-    /**
-     * Getter-method.
-     * 
-     * @return The longitude.
-     */
-    public double getLon() {
-        if (coordinates == null)
-            return 0;
-        return coordinates.getLongitude();
-    }
-
-    /**
-     * Getter-method.
-     * 
-     * @return A reference to the OverlayItem that is drawn and handled by
-     *         MapsForge's overlay.
+     * @see de.fu.tracebook.core.data.IDataNode#getOverlayItem()
      */
     public OverlayItem getOverlayItem() {
         return overlayItem;
     }
 
-    /**
-     * A Point may have been added uninitialized, in this case it does not
-     * contain any valid positional data - this may be added later once a GPS
-     * fix is obtained.
+    /*
+     * (non-Javadoc)
      * 
-     * @return true if the Node contains data of a valid GPS fix
+     * @see de.fu.tracebook.core.data.IDataNode#isValid()
      */
     public boolean isValid() {
-        return coordinates != null;
+        return coordinates.getLatitudeE6() != 0
+                || coordinates.getLongitudeE6() != 0;
     }
 
     /**
@@ -222,8 +157,10 @@ public class DataNode extends DataMapObject {
 
         try {
             serializer.startTag(null, "node");
-            serializer.attribute(null, "lat", df.format(this.getLat()));
-            serializer.attribute(null, "lon", df.format(this.getLon()));
+            serializer.attribute(null, "lat",
+                    df.format(this.getCoordinates().getLatitude()));
+            serializer.attribute(null, "lon",
+                    df.format(this.getCoordinates().getLongitude()));
             serializer.attribute(null, "id", Integer.toString(this.getId()));
             serializer.attribute(null, "timestamp", this.getDatetime());
             serializer.attribute(null, "version", "1");
@@ -244,72 +181,44 @@ public class DataNode extends DataMapObject {
         }
     }
 
-    /**
-     * Associates this DataNode with a {@link DataPointsList}, meaning this
-     * point is part of the way.
+    /*
+     * (non-Javadoc)
      * 
-     * @param way
-     *            The way that contains this point.
+     * @see
+     * de.fu.tracebook.core.data.IDataNode#setDataPointsList(de.fu.tracebook
+     * .core.data.DataPointsList)
      */
     public void setDataPointsList(DataPointsList way) {
         this.parentWay = way;
     }
 
-    /**
-     * Sets the position of this DataNode to the location of the GeoPoint.
+    /*
+     * (non-Javadoc)
      * 
-     * @param gp
-     *            New position of the node.
+     * @see
+     * de.fu.tracebook.core.data.IDataNode#setLocation(org.mapsforge.android
+     * .maps.GeoPoint)
      */
     public void setLocation(GeoPoint gp) {
-        this.coordinates = gp;
+        if (gp != null) {
+            this.coordinates = gp;
+        } else {
+            this.coordinates = new GeoPoint(0, 0);
+        }
 
         if (overlayItem != null)
             overlayItem.setPoint(coordinates);
     }
 
-    /**
-     * Set the latitude and longitude to the position given by the Location
-     * object which is received from the GPS module.
+    /*
+     * (non-Javadoc)
      * 
-     * @param location
-     *            The Location object that the GPS module delivers.
-     */
-    public void setLocation(Location location) {
-        if (location == null)
-            this.coordinates = null;
-        else
-            setLocation(new GeoPoint(location.getLatitude(),
-                    location.getLongitude()));
-    }
-
-    /**
-     * Set the {@link OverlayItem}, used by {@link MapsForgeActivity}.
-     * 
-     * @param overlayItem
-     *            The new OverlayItem.
+     * @see
+     * de.fu.tracebook.core.data.IDataNode#setOverlayItem(org.mapsforge.android
+     * .maps.OverlayItem)
      */
     public void setOverlayItem(OverlayItem overlayItem) {
         this.overlayItem = overlayItem;
         this.overlayItem.setPoint(coordinates);
-    }
-
-    /**
-     * Converts the DataNode to a GeoPoint.
-     * 
-     * @return A GeoPoint with the coordinates of the DataNode.
-     */
-    public GeoPoint toGeoPoint() {
-        return coordinates;
-    }
-
-    /**
-     * Returns a String with id and longitude and latitude of this node.
-     * 
-     * @return String "id=<id> (<longitude>, <latitude>)"
-     */
-    @Override
-    public String toString() {
-        return "id=" + getId() + " (" + getLon() + ", " + getLat() + ")";
     }
 }

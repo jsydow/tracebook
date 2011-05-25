@@ -22,6 +22,8 @@ package de.fu.tracebook.core.logger;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.mapsforge.android.maps.GeoPoint;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -58,31 +60,34 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public int beginWay(boolean doOneShot) {
-            one_shot = doOneShot;
+            oneShot = doOneShot;
 
             if (currentWay() == null) // start a new way
                 storage.getTrack().setCurrentWay(storage.getTrack().newWay());
 
-            if (one_shot) // in one_shot mode, add a new point
-                current_nodes.add(currentWay().newNode());
+            if (oneShot) // in one_shot mode, add a new point
+                currentNodes.add(currentWay().newNode(lastCoordinate));
 
             return currentWay().getId();
         }
 
         public int createPOI(boolean onWay) {
-            DataNode tmpnode = null;
-            if (onWay && currentWay() != null)
-                tmpnode = currentWay().newNode();
-            else
-                tmpnode = storage.getTrack().newNode();
-            current_nodes.add(tmpnode);
+            if (currentWay() != null) {
+                DataNode tmpnode = null;
+                if (onWay)
+                    tmpnode = currentWay().newNode(lastCoordinate);
+                else
+                    tmpnode = storage.getTrack().newNode(lastCoordinate);
+                currentNodes.add(tmpnode);
 
-            return tmpnode.getId();
+                return tmpnode.getId();
+            }
+            return 0;
         }
 
         public synchronized int endWay() {
-            if (one_shot) // add the last point if in one_shot mode
-                beginWay(one_shot);
+            if (oneShot) // add the last point if in one_shot mode
+                beginWay(oneShot);
 
             DataPointsList tmp = currentWay();
 
@@ -93,7 +98,7 @@ public class WaypointLogService extends Service implements LocationListener {
                 if (tmp.getNodes().size() < 2)
                     storage.getTrack().deleteWay(tmp.getId());
                 else {
-                    if (!one_shot) {
+                    if (!oneShot) {
                         WayFilter.smoothenPoints(tmp.getNodes(), 3, 3);
                         WayFilter.filterPoints(tmp.getNodes(), 2);
                     }
@@ -101,6 +106,18 @@ public class WaypointLogService extends Service implements LocationListener {
                     return tmp.getId();
                 }
             return -1;
+        }
+
+        public double getLastLatitude() {
+            return lastCoordinate.getLatitude();
+        }
+
+        public double getLongitudeLatitude() {
+            return lastCoordinate.getLongitude();
+        }
+
+        public boolean hasFix() {
+            return lastCoordinate != null;
         }
 
         public boolean isAreaLogging() {
@@ -172,13 +189,18 @@ public class WaypointLogService extends Service implements LocationListener {
      * otherwise it contains references to the {@link DataNode}s waiting for a
      * GPS fix.
      */
-    Queue<DataNode> current_nodes = new LinkedList<DataNode>();
+    Queue<DataNode> currentNodes = new LinkedList<DataNode>();
+
+    /**
+     * The last received coordinate.
+     */
+    GeoPoint lastCoordinate;
 
     /**
      * One shot mode - no continuous tracking, points are only added to the way
      * on request.
      */
-    boolean one_shot = false;
+    boolean oneShot = false;
 
     /**
      * Reference to the {@link DataStorage} singleton.
@@ -215,31 +237,48 @@ public class WaypointLogService extends Service implements LocationListener {
     /** GPS related Methods. **/
 
     public synchronized void onLocationChanged(Location loc) {
-        sender.sendCurrentPosition(loc, one_shot);
+        sender.sendCurrentPosition(loc, oneShot);
 
-        if (!current_nodes.isEmpty()) { // one_shot or POI mode
-            for (DataNode node : current_nodes) {
-                node.setLocation(loc); // update node with proper GPS fix
+        if (loc != null) {
+            lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
 
-                if (currentWay() != null) {
-                    LogIt.d("Logger", "new one-shot way point");
-                    sender.sendWayUpdate(currentWay().getId(), node.getId()); // one_shot
-                    // update
-                } else
-                    sender.sendWayUpdate(-1, node.getId()); // after end way in
-                                                            // one_shot mode, we
-                                                            // send an update
-                                                            // for the last
-                                                            // waypoint
+            if (!currentNodes.isEmpty()) { // one_shot or POI mode
+                for (DataNode node : currentNodes) {
+                    node.setLocation(new GeoPoint(loc.getLatitude(), loc
+                            .getLongitude())); // update node with proper GPS
+                                               // fix
+
+                    if (currentWay() != null) {
+                        LogIt.d("Logger", "new one-shot way point");
+                        sender.sendWayUpdate(currentWay().getId(), node.getId()); // one_shot
+                        // update
+                    } else
+                        sender.sendWayUpdate(-1, node.getId()); // after end way
+                                                                // in
+                                                                // one_shot
+                                                                // mode, we
+                                                                // send an
+                                                                // update
+                                                                // for the last
+                                                                // waypoint
+                }
+                currentNodes.clear(); // no node waiting for GPS position any
+                                      // more
+            } else if (currentWay() != null && !oneShot) { // Continuous mode
+                DataNode nn = currentWay().newNode(
+                        new GeoPoint(loc.getLatitude(), loc.getLongitude())); // POI
+                                                                              // in
+                                                                              // track
+                                                                              // was
+                                                                              // already
+                // added before
+                sender.sendWayUpdate(currentWay().getId(), nn.getId()); // call
+                                                                        // for
+                                                                        // an
+                                                                        // update
+                                                                        // of
+                // the way
             }
-            current_nodes.clear(); // no node waiting for GPS position any more
-        } else if (currentWay() != null && !one_shot) { // Continuous mode
-            DataNode nn = currentWay().newNode(loc); // POI in track was already
-                                                     // added before
-            sender.sendWayUpdate(currentWay().getId(), nn.getId()); // call for
-                                                                    // an update
-                                                                    // of
-            // the way
         }
     }
 

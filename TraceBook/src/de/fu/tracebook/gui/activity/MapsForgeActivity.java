@@ -47,6 +47,7 @@ import android.view.MotionEvent;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
+import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.util.DataNodeArrayItemizedOverlay;
@@ -144,7 +145,7 @@ public class MapsForgeActivity extends MapActivity {
                             routesOverlay.requestRedraw();
 
                         if (pointId > 0) { // new waypoint
-                            DataNode node = Helper.currentTrack().getNodeById(
+                            IDataNode node = Helper.currentTrack().getNodeById(
                                     pointId);
                             if (node != null)
                                 routesOverlay.putWaypoint(node);
@@ -153,7 +154,7 @@ public class MapsForgeActivity extends MapActivity {
                     } else
                         LogIt.d(LOG_TAG, "Way can not be found.");
                 } else if (pointId > 0) {
-                    DataNode node = Helper.currentTrack().getNodeById(pointId);
+                    IDataNode node = Helper.currentTrack().getNodeById(pointId);
                     if (node != null) { // last node of a one_shot way after
                         // stopWay() was called
                         routesOverlay.putWaypoint(node);
@@ -390,7 +391,7 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     private void fillOverlays() {
-        for (DataNode n : Helper.currentTrack().getNodes()) {
+        for (IDataNode n : Helper.currentTrack().getNodes()) {
             if (n.getOverlayItem() == null)
                 n.setOverlayItem(Helper.getOverlayItem(this));
             pointsOverlay.addItem(n.getOverlayItem());

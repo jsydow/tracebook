@@ -32,7 +32,6 @@ import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
 import de.fu.tracebook.util.LogIt;
-import android.location.Location;
 
 /**
  * WayPointList objects are any objects that consist of a series of nodes like
@@ -93,7 +92,7 @@ public class DataPointsList extends DataMapObject {
         }
 
         // is this Way an Area?
-        String value = ret.getTags().get("key");
+        String value = ret.getTags().get("area");
         if (value != null) {
             if (value.equals("yes")) {
                 ret.setArea(true);
@@ -149,7 +148,7 @@ public class DataPointsList extends DataMapObject {
      * @return A reference to the deleted DataNode object if it exists, null
      *         otherwise.
      */
-    public DataNode deleteNode(int nodeId) {
+    public IDataNode deleteNode(int nodeId) {
         ListIterator<DataNode> lit = nodes.listIterator();
         DataNode dn;
         while (lit.hasNext()) {
@@ -210,19 +209,6 @@ public class DataPointsList extends DataMapObject {
 
     /**
      * Add a new Node at the end of the list. Call this method if you want to
-     * extend the Way or Area.
-     * 
-     * @return The newly created DataNode.
-     */
-    public DataNode newNode() {
-        DataNode dn = new DataNode();
-        dn.setDataPointsList(this);
-        nodes.add(dn);
-        return dn;
-    }
-
-    /**
-     * Add a new Node at the end of the list. Call this method if you want to
      * extend the Way or Area. Additionally the Location-constructor of the
      * DataNode is called.
      * 
@@ -231,7 +217,7 @@ public class DataPointsList extends DataMapObject {
      *            location.
      * @return The newly created DataNode.
      */
-    public DataNode newNode(Location location) {
+    public DataNode newNode(GeoPoint location) {
         DataNode dn = new DataNode(location, this);
         nodes.add(dn);
         return dn;
@@ -359,8 +345,8 @@ public class DataPointsList extends DataMapObject {
         GeoPoint first = null;
 
         int i = 0;
-        for (DataNode n : nodes) {
-            tmp[i] = n.toGeoPoint();
+        for (IDataNode n : nodes) {
+            tmp[i] = n.getCoordinates();
             if (first == null)
                 first = tmp[i];
             ++i;
