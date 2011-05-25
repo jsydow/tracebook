@@ -54,8 +54,8 @@ import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataNode;
 import de.fu.tracebook.core.data.DataPointsList;
-import de.fu.tracebook.core.data.DataStorage;
 import de.fu.tracebook.core.data.DataTrack;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagSearchResult;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
@@ -86,7 +86,7 @@ public final class Helper {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         final EditText input = new EditText(activity);
-        input.setHint(DataStorage.getInstance().getTrack().getName());
+        input.setHint(StorageFactory.getStorage().getTrack().getName());
         builder.setView(input);
         builder.setTitle(activity.getResources().getString(
                 R.string.alert_newtrackActivity_saveSetTrack));
@@ -103,7 +103,7 @@ public final class Helper {
                                 String value = input.getText().toString()
                                         .trim();
                                 if (!value.equals("")) {
-                                    DataStorage.getInstance().getTrack()
+                                    StorageFactory.getStorage().getTrack()
                                             .setName(value);
                                 }
 
@@ -114,9 +114,8 @@ public final class Helper {
                                                 .getString(
                                                         R.string.alert_global_trackName)
                                                 + " "
-                                                + DataStorage.getInstance()
-                                                        .getTrack()
-                                                        .getName());
+                                                + StorageFactory.getStorage()
+                                                        .getTrack().getName());
 
                                 // stop logging
                                 try {
@@ -150,12 +149,12 @@ public final class Helper {
                                     int which) {
                                 dialog.cancel();
 
-                                String trackname = DataStorage.getInstance()
+                                String trackname = StorageFactory.getStorage()
                                         .getTrack().getName();
 
                                 if (DataTrack.exists(trackname)) {
                                     try {
-                                        DataStorage.getInstance()
+                                        StorageFactory.getStorage()
                                                 .unloadAllTracks();
                                         ServiceConnector.getLoggerService()
                                                 .pauseLogging();
@@ -204,7 +203,7 @@ public final class Helper {
      * @return the current DataTrack object
      */
     public static DataTrack currentTrack() {
-        return DataStorage.getInstance().getTrack();
+        return StorageFactory.getStorage().getTrack();
     }
 
     /**
@@ -229,8 +228,8 @@ public final class Helper {
      * @return the current list of {@link DataNode}s
      */
     public static List<DataNode> getNodes() {
-        if (DataStorage.getInstance().getTrack() != null) {
-            return DataStorage.getInstance().getTrack().getNodes();
+        if (StorageFactory.getStorage().getTrack() != null) {
+            return StorageFactory.getStorage().getTrack().getNodes();
         }
         return null;
     }
@@ -311,8 +310,8 @@ public final class Helper {
      * @return the current {@link DataPointsList} ways
      */
     public static List<DataPointsList> getWays() {
-        if (DataStorage.getInstance().getTrack() != null) {
-            return DataStorage.getInstance().getTrack().getWays();
+        if (StorageFactory.getStorage().getTrack() != null) {
+            return StorageFactory.getStorage().getTrack().getWays();
         }
         return null;
     }

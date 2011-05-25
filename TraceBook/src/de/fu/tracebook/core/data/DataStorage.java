@@ -22,9 +22,7 @@ package de.fu.tracebook.core.data;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.os.Environment;
 import de.fu.tracebook.util.LogIt;
@@ -40,27 +38,8 @@ import de.fu.tracebook.util.LogIt;
  * when needed. These names can be used to actually load a Track completely into
  * memory. The primary reason for the names is the list of all Tracks without
  * loading them all.
- * 
- * It is a Singleton!
  */
-public final class DataStorage {
-
-    /**
-     * Singleton instance.
-     */
-    private static DataStorage instance;
-
-    /**
-     * Singleton implementation. This method returns the one and only instance
-     * of this class.
-     * 
-     * @return The instance of this class.
-     */
-    public static synchronized DataStorage getInstance() {
-        if (instance == null)
-            instance = new DataStorage();
-        return instance;
-    }
+public final class DataStorage implements IDataStorage {
 
     /**
      * Return a String of the path to the TraceBook directory without an ending
@@ -101,22 +80,6 @@ public final class DataStorage {
     }
 
     /**
-     * This method removes duplicates in a list of Strings.
-     * 
-     * @param list
-     *            The list of Strings.
-     */
-    static void removeDuplicatesInStringList(List<String> list) {
-        synchronized (list) {
-            Set<String> tmp = new HashSet<String>(list);
-            list.clear();
-            list.addAll(tmp);
-            Collections.sort(list);
-        }
-        return;
-    }
-
-    /**
      * Last given ID for a MapObject.
      */
     private int lastID;
@@ -135,64 +98,90 @@ public final class DataStorage {
     /**
      * Default private constructor for Singleton implementation.
      */
-    private DataStorage() {
+    DataStorage() {
         names = Collections.synchronizedList(new ArrayList<String>());
         retrieveTrackNames();
         lastID = 1;
     }
 
-    /**
-     * Loads the complete Track (with everything it contains) into working
-     * memory. If such a Track does not exist nothing is done.
+    /*
+     * (non-Javadoc)
      * 
-     * @param name
-     *            The name of the Track.
-     * @return The deserialized Track or null if track does not exist.
+     * @see
+     * de.fu.tracebook.core.data.IDataStorage#deserializeTrack(java.lang.String)
      */
     public DataTrack deserializeTrack(String name) {
         DataTrack dt = DataTrack.deserialize(name);
         return dt;
     }
 
-    /**
-     * Returns a list of the names of all tracks that are currently stored in
-     * this DataStorage object. The names can be used as argument to getTrack().
+    /*
+     * (non-Javadoc)
      * 
-     * @return List of the names of all tracks. If there are no tracks stored
-     *         then the list will be empty.
+     * @see de.fu.tracebook.core.data.IDataStorage#getAllTracks()
      */
     public List<String> getAllTracks() {
         retrieveTrackNames();
         return names;
     }
 
-    /**
-     * Create a new unique id to use for a new map object.
+    /*
+     * (non-Javadoc)
      * 
-     * @return A new unique id > 0.
+     * @see de.fu.tracebook.core.data.IDataStorage#getID()
      */
     public synchronized int getID() {
         lastID--;
         return lastID;
     }
 
-    /**
-     * Getter-method.
+    /*
+     * (non-Javadoc)
      * 
-     * @return The currently edited Track is returned.(may be null)
+     * @see de.fu.tracebook.core.data.IDataStorage#getTrack()
      */
     public DataTrack getTrack() {
         return track;
     }
 
-    /**
-     * Create a new Track in working memory. Don't forget to serialize it!
+    /*
+     * (non-Javadoc)
      * 
-     * @return The newly created Track.
+     * @see de.fu.tracebook.core.data.IDataStorage#newTrack()
      */
     public DataTrack newTrack() {
         DataTrack dt = new DataTrack();
         return dt;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.fu.tracebook.core.data.IDataStorage#serialize()
+     */
+    public void serialize() {
+        track.serialize();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataStorage#setTrack(de.fu.tracebook.core.
+     * data.DataTrack)
+     */
+    public DataTrack setTrack(DataTrack currentTrack) {
+        this.track = currentTrack;
+        return currentTrack;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.fu.tracebook.core.data.IDataStorage#unloadAllTracks()
+     */
+    public void unloadAllTracks() {
+        setTrack(null);
     }
 
     /**
@@ -200,7 +189,7 @@ public final class DataStorage {
      * empties the current list of track names. These names can be returned by
      * getAllTracks().
      */
-    public void retrieveTrackNames() {
+    private void retrieveTrackNames() {
         File tracebookdir = new File(getTraceBookDirPath());
 
         if (tracebookdir.isDirectory()) {
@@ -226,33 +215,6 @@ public final class DataStorage {
             LogIt.w("TraceBookDirectory",
                     "The TraceBook directory path doesn't point to a directory! wtf?");
         }
-    }
-
-    /**
-     * Will serialize all tracks that are currently stored in this DataStorage.
-     */
-    public void serialize() {
-        track.serialize();
-    }
-
-    /**
-     * Setter-method for the currently edited Track.
-     * 
-     * @param currentTrack
-     *            The new currently edited Track.
-     * @return The parameter currentTrack is simple returned for further use.
-     */
-    public DataTrack setTrack(DataTrack currentTrack) {
-        this.track = currentTrack;
-        return currentTrack;
-    }
-
-    /**
-     * Unloads all tracks from memory without saving them!
-     */
-    public void unloadAllTracks() {
-        setTrack(null);
-        retrieveTrackNames();
     }
 
 }

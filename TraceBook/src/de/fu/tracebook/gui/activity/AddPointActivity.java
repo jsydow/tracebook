@@ -51,7 +51,7 @@ import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.DataMapObject;
 import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataStorage;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
 import de.fu.tracebook.core.data.db.TagSearchResult;
 import de.fu.tracebook.core.logger.ServiceConnector;
@@ -140,7 +140,7 @@ public class AddPointActivity extends ListActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String values = input.getText().toString().trim();
 
-                node.addMedia(DataStorage.getInstance().getTrack()
+                node.addMedia(StorageFactory.getStorage().getTrack()
                         .saveText(values));
             }
         });
@@ -235,7 +235,7 @@ public class AddPointActivity extends ListActivity {
 
             if (extras.containsKey("DataNodeId")) {
                 int nodeId = extras.getInt("DataNodeId");
-                node = DataStorage.getInstance().getTrack()
+                node = StorageFactory.getStorage().getTrack()
                         .getDataMapObjectById(nodeId);
                 if (node == null) {
                     LogIt.popup(

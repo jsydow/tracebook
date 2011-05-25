@@ -26,17 +26,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import de.fu.tracebook.core.data.DataMapObject;
-import de.fu.tracebook.core.data.DataStorage;
-import de.fu.tracebook.core.data.db.HistoryDb;
-import de.fu.tracebook.core.data.db.TagSearchResult;
-import de.fu.tracebook.core.logger.ServiceConnector;
-import de.fu.tracebook.gui.adapter.GenericAdapter;
-import de.fu.tracebook.gui.adapter.GenericAdapterData;
-import de.fu.tracebook.gui.adapter.GenericItemDescription;
-import de.fu.tracebook.util.Helper;
-import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.R;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,6 +44,17 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.data.db.HistoryDb;
+import de.fu.tracebook.core.data.db.TagSearchResult;
+import de.fu.tracebook.core.logger.ServiceConnector;
+import de.fu.tracebook.gui.adapter.GenericAdapter;
+import de.fu.tracebook.gui.adapter.GenericAdapterData;
+import de.fu.tracebook.gui.adapter.GenericItemDescription;
+import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * In this Activity you can choose your Tags via an AutoComplete feature. Tags
@@ -148,7 +148,7 @@ public class AddPointMetaActivity extends ListActivity {
 
         if (extras != null) {
             int nodeId = extras.getInt("DataNodeId");
-            node = DataStorage.getInstance().getTrack()
+            node = StorageFactory.getStorage().getTrack()
                     .getDataMapObjectById(nodeId);
 
             if (extras.containsKey("DataNodeKey")) {

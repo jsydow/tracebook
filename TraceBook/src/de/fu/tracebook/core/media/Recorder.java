@@ -23,14 +23,13 @@ import java.io.File;
 
 import de.fu.tracebook.core.data.DataMedia;
 import de.fu.tracebook.core.data.DataMediaHolder;
-import de.fu.tracebook.core.data.DataStorage;
-
+import de.fu.tracebook.core.data.StorageFactory;
 
 /**
  * Mother of all TraceBook media files. This class is the common ancestor of all
  * implementations for acquiring media files in TraceBook.
  * 
- *
+ * 
  */
 public abstract class Recorder {
     /**
@@ -67,7 +66,7 @@ public abstract class Recorder {
      * Construct0r! Sets the base directory according to our current track.
      */
     public Recorder() {
-        baseDir = DataStorage.getInstance().getTrack().getTrackDirPath();
+        baseDir = StorageFactory.getStorage().getTrack().getTrackDirPath();
     }
 
     /**

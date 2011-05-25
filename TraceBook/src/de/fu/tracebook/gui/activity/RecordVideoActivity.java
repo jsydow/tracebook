@@ -21,13 +21,6 @@ package de.fu.tracebook.gui.activity;
 
 import java.io.IOException;
 
-import de.fu.tracebook.core.data.DataMapObject;
-import de.fu.tracebook.core.data.DataStorage;
-import de.fu.tracebook.core.logger.ServiceConnector;
-import de.fu.tracebook.core.media.VideoRecorder;
-import de.fu.tracebook.util.Helper;
-import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.R;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -37,6 +30,13 @@ import android.preference.PreferenceManager;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.logger.ServiceConnector;
+import de.fu.tracebook.core.media.VideoRecorder;
+import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * Activity that starts recording a video and stops recording it upon hitting a
@@ -71,7 +71,7 @@ public class RecordVideoActivity extends Activity implements
 
         if (extras != null) {
             int nodeId = extras.getInt("DataNodeId");
-            node = DataStorage.getInstance().getTrack()
+            node = StorageFactory.getStorage().getTrack()
                     .getDataMapObjectById(nodeId);
         }
 
