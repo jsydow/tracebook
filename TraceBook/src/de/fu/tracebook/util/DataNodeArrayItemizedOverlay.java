@@ -30,8 +30,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.RemoteException;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataPointsList;
+import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.activity.AddPointActivity;
 
@@ -119,7 +119,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                 context.getResources().getString(
                         R.string.cm_DataNodeArrayItemizedOverlay_delete) };
 
-        private DataNode node = null;
+        private IDataNode node = null;
 
         private GpsMessage sender;
 
@@ -143,7 +143,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                 sender.sendMovePoint(node.getId());
                 break;
             case 2: // delete this
-                DataPointsList way = null;
+                IDataPointsList way = null;
                 if (node != null) {
                     way = node.getDataPointsList();
                     if (Helper.currentTrack() != null
@@ -162,7 +162,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
             }
         }
 
-        public void setNode(DataNode node) {
+        public void setNode(IDataNode node) {
             this.node = node;
         }
     }
@@ -194,7 +194,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
     @Override
     protected boolean onTap(int index) {
         final OverlayItem item = createItem(index);
-        final DataNode node = Helper.currentTrack().getNodeByOverlayItem(item);
+        final IDataNode node = Helper.currentTrack().getNodeByOverlayItem(item);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 

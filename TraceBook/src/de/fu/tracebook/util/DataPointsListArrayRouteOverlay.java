@@ -30,7 +30,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
@@ -112,7 +111,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     }
 
     /**
-     * Adds a {@link DataPointsList} to the overlay.
+     * Adds a {@link IDataPointsList} to the overlay.
      * 
      * @param way
      *            The DataPointList representing the way
@@ -132,19 +131,19 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     /**
      * Add a list of ways to the Overlay.
      * 
-     * @param ways
-     *            a list of the {@link DataPointsList}s, adding all of them to
+     * @param list
+     *            a list of the {@link IDataPointsList}s, adding all of them to
      *            the overlay
      */
-    public void addWays(List<DataPointsList> ways) {
-        for (IDataPointsList l : ways) {
+    public void addWays(List<IDataPointsList> list) {
+        for (IDataPointsList l : list) {
             l.updateOverlayRoute(null);
             addWay(l, false);
         }
     }
 
     /**
-     * Sets a color for the {@link OverlayWay} in the {@link DataPointsList}.
+     * Sets a color for the {@link OverlayWay} in the {@link IDataPointsList}.
      * 
      * @param way
      *            The way to be colored

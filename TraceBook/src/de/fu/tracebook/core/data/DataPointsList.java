@@ -48,8 +48,7 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
      *            All DataNodes that were already retrieved from that XML-file
      * @return The new DataPointsList
      */
-    public static DataPointsList deserialize(Node waynode,
-            List<DataNode> allnodes) {
+    static DataPointsList deserialize(Node waynode, List<DataNode> allnodes) {
         // the returned DataPointsList
         DataPointsList ret = new DataPointsList(false);
 
@@ -131,7 +130,9 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
         this.isArea = isArea;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#deleteNode(int)
      */
     public IDataNode deleteNode(int nodeId) {
@@ -148,7 +149,9 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#getNodeById(int)
      */
     public DataNode getNodeById(int nodeId) {
@@ -160,29 +163,39 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#getNodes()
      */
-    public List<DataNode> getNodes() {
-        return nodes;
+    public List<IDataNode> getNodes() {
+        return new LinkedList<IDataNode>(nodes);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#getOverlayRoute()
      */
     public OverlayWay getOverlayRoute() {
         return overlayRoute;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#isArea()
      */
     public boolean isArea() {
         return isArea;
     }
 
-    /* (non-Javadoc)
-     * @see de.fu.tracebook.core.data.IDataPointsList#newNode(org.mapsforge.android.maps.GeoPoint)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataPointsList#newNode(org.mapsforge.android
+     * .maps.GeoPoint)
      */
     public DataNode newNode(GeoPoint location) {
         DataNode dn = new DataNode(location, this);
@@ -264,22 +277,32 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataPointsList#setArea(boolean)
      */
     public void setArea(boolean isArea) {
         this.isArea = isArea;
     }
 
-    /* (non-Javadoc)
-     * @see de.fu.tracebook.core.data.IDataPointsList#setOverlayRoute(org.mapsforge.android.maps.OverlayWay)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataPointsList#setOverlayRoute(org.mapsforge
+     * .android.maps.OverlayWay)
      */
     public void setOverlayRoute(OverlayWay overlayRoute) {
         this.overlayRoute = overlayRoute;
     }
 
-    /* (non-Javadoc)
-     * @see de.fu.tracebook.core.data.IDataPointsList#toGeoPointArray(org.mapsforge.android.maps.GeoPoint)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataPointsList#toGeoPointArray(org.mapsforge
+     * .android.maps.GeoPoint)
      */
     public GeoPoint[] toGeoPointArray(GeoPoint additional) {
         GeoPoint[] tmp = new GeoPoint[nodes.size()
@@ -303,8 +326,12 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
         return tmp;
     }
 
-    /* (non-Javadoc)
-     * @see de.fu.tracebook.core.data.IDataPointsList#updateOverlayRoute(org.mapsforge.android.maps.GeoPoint)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.fu.tracebook.core.data.IDataPointsList#updateOverlayRoute(org.mapsforge
+     * .android.maps.GeoPoint)
      */
     public void updateOverlayRoute(GeoPoint additional) {
         overlayRoute.setWayData(toGeoPointArray(additional));

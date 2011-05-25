@@ -19,12 +19,12 @@
 
 package de.fu.tracebook.util;
 
-import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataStorage;
-import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataStorage;
+import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
 /**
  * To send messages to the {@link MapsForgeActivity} this class offers some
@@ -60,7 +60,7 @@ public class GpsMessage {
 
     /**
      * Type of the Intent that signals an update to an object in
-     * {@link DataStorage}.
+     * {@link IDataStorage}.
      */
     public static final int UPDATE_OBJECT = 1;
 
@@ -120,7 +120,7 @@ public class GpsMessage {
     }
 
     /**
-     * Start moving of a {@link DataNode}.
+     * Start moving of a {@link IDataNode}.
      * 
      * @param id
      *            the ID of the DataNode that will enter edit mode

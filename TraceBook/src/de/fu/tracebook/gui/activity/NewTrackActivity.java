@@ -54,9 +54,8 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataNode;
-import de.fu.tracebook.core.data.DataPointsList;
 import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
@@ -636,15 +635,15 @@ public class NewTrackActivity extends TabActivity {
         desc.addResourceId("NodeStats", R.id.tv_listviewedit_stats);
         desc.addResourceId("WayPOIs", R.id.tv_listviewedit_poiCount);
 
-        List<DataNode> nodeList = StorageFactory.getStorage().getTrack()
+        List<IDataNode> nodeList = StorageFactory.getStorage().getTrack()
                 .getNodes();
 
-        List<DataPointsList> wayList = StorageFactory.getStorage().getTrack()
+        List<IDataPointsList> wayList = StorageFactory.getStorage().getTrack()
                 .getWays();
 
         List<GenericAdapterData> listData = new ArrayList<GenericAdapterData>();
 
-        for (DataNode dn : nodeList) {
+        for (IDataNode dn : nodeList) {
             GenericAdapterData item = new GenericAdapterData(desc);
 
             item.setText("NodeId", " " + dn.getId());
@@ -667,7 +666,7 @@ public class NewTrackActivity extends TabActivity {
             listData.add(item);
         }
 
-        for (DataPointsList dn : wayList) {
+        for (IDataPointsList dn : wayList) {
             GenericAdapterData item = new GenericAdapterData(desc);
             item.setText("NodeId", " " + dn.getId());
 

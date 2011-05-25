@@ -24,7 +24,7 @@ import org.mapsforge.android.maps.OverlayItem;
 
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
-public interface IDataNode {
+public interface IDataNode extends IDataMapObject {
 
     /**
      * Converts the DataNode to a GeoPoint.

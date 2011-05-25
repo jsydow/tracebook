@@ -31,7 +31,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataMapObject;
+import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.VideoRecorder;
@@ -46,7 +46,7 @@ import de.fu.tracebook.util.LogIt;
 public class RecordVideoActivity extends Activity implements
         SurfaceHolder.Callback {
 
-    private DataMapObject node;
+    private IDataMapObject node;
     private SurfaceHolder surfaceHolder;
 
     /**

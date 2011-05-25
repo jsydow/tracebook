@@ -49,8 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataMapObject;
-import de.fu.tracebook.core.data.DataNode;
+import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
@@ -79,7 +78,7 @@ public class AddPointActivity extends ListActivity {
     /**
      * Here we save a reference to the current DataMapObject which is in use.
      */
-    DataMapObject node;
+    IDataMapObject node;
 
     /**
      * PicutreRecoder to take pictures.
@@ -290,7 +289,7 @@ public class AddPointActivity extends ListActivity {
     public void onDestroy() {
         // We do do not want to store empty nodes
         if (node != null && !node.hasAdditionalInfo()
-                && node instanceof DataNode
+                && node instanceof IDataNode
                 && ((IDataNode) node).getDataPointsList() == null) {
             LogIt.d("AddPoint", "POI is empty, will not keep it");
             Helper.currentTrack().deleteNode(node.getId());

@@ -25,7 +25,7 @@ import java.util.List;
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.OverlayItem;
 
-public interface IDataTrack {
+public interface IDataTrack extends IDataMediaHolder {
 
     /**
      * Returns a list of {@link OverlayItem}s whose {@link DataNode} does no
@@ -119,7 +119,7 @@ public interface IDataTrack {
      * 
      * @return All POI's of this Track. (not null)
      */
-    List<DataNode> getNodes();
+    List<IDataNode> getNodes();
 
     /**
      * Get a DataPointsList with a given id.
@@ -144,7 +144,7 @@ public interface IDataTrack {
      * 
      * @return All ways of this Track. (not null)
      */
-    List<DataPointsList> getWays();
+    List<IDataPointsList> getWays();
 
     /**
      * Marks an {@link OverlayItem} as invalid so it can be removed later.
