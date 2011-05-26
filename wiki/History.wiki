@@ -13,3 +13,7 @@ Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
 25.05.
   * Datenmodell in Interfaces auslagern, sodass Implementierung leicht geaendert werden kann.
   * Erste Zeitmessung fuer Laden und Speichern von Tracks
+
+26.5.
+  * Pseudo-UML-Diagramm des Datenmodell gemalt um darauf basierend Relationen fuer eine DB zu entwerfen
+  * Implementierung des Ladevorgangs verbessert um 2/3 
