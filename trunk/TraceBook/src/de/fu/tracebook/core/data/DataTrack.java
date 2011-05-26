@@ -23,14 +23,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -46,6 +49,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
@@ -175,6 +181,111 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
 
         LogIt.d("TraceBookDeserialisation", "Got " + ret.nodes.size()
                 + " POIs and " + ret.ways.size() + " ways");
+        return ret;
+    }
+
+    /**
+     * @param trackname
+     * @param notUsed
+     * @return
+     */
+    static DataTrack deserialize(String trackname, boolean notUsed) {
+        DataTrack ret = new DataTrack(trackname);
+        DataPointsList currentWay = new DataPointsList(false);
+        DataMapObject currentDataMapObject = currentWay;
+        DataMediaHolder currentMediaHolder = ret;
+        Map<Integer, DataNode> allnodes = new HashMap<Integer, DataNode>();
+
+        DataTrackInfo info = DataTrackInfo.deserialize(trackname);
+        if (info != null) {
+            ret.setComment(info.getComment());
+            ret.setDatetime(info.getTimestamp());
+        }
+
+        XmlPullParserFactory factory;
+        try {
+
+            factory = XmlPullParserFactory.newInstance();
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(new FileReader(getPathOfTrackTbTFile(trackname)));
+
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+                    String elementName = xpp.getName();
+
+                    if (elementName.equals("node")) {
+                        DataNode node = new DataNode(new GeoPoint(0, 0), null);
+                        GeoPoint coord = new GeoPoint(Double.parseDouble(xpp
+                                .getAttributeValue(null, "lat")),
+                                Double.parseDouble(xpp.getAttributeValue(null,
+                                        "lon")));
+                        node.setLocation(coord);
+                        node.setDatetime(xpp.getAttributeValue(null,
+                                "timestamp"));
+
+                        allnodes.put(
+                                new Integer(xpp.getAttributeValue(null, "id")),
+                                node);
+
+                        currentDataMapObject = node;
+                        currentMediaHolder = node;
+                    } else if (elementName.equals("nd")) {
+                        Integer id = new Integer(xpp.getAttributeValue(null,
+                                "ref"));
+
+                        if (allnodes.containsKey(id)) {
+                            DataNode node = allnodes.remove(id);
+                            currentWay.nodes.add(node);
+                            node.setDataPointsList(currentWay);
+                        }
+
+                    } else if (elementName.equals("way")) {
+                        DataPointsList way = new DataPointsList(false);
+                        way.setDatetime(xpp
+                                .getAttributeValue(null, "timestamp"));
+
+                        currentDataMapObject = way;
+                        currentMediaHolder = way;
+                        currentWay = way;
+                        ret.addWay(way);
+
+                    } else if (elementName.equals("tag")) {
+                        currentDataMapObject.getTags().put(
+                                xpp.getAttributeValue(null, "k"),
+                                xpp.getAttributeValue(null, "v"));
+
+                    } else if (elementName.equals("link")) {
+                        currentMediaHolder.addMedia(DataMedia
+                                .deserialize(getTrackDirPath(xpp
+                                        .getAttributeValue(null, "href"))));
+                    }
+                }
+                eventType = xpp.next();
+            }
+
+        } catch (XmlPullParserException e) {
+            LogIt.e("TraceBook Deserialization", e.getMessage());
+        } catch (FileNotFoundException e) {
+            LogIt.e("TraceBook Deserialization", e.getMessage());
+        } catch (IOException e) {
+            LogIt.e("TraceBook Deserialization", e.getMessage());
+        } catch (NullPointerException e) {
+            LogIt.e("TraceBook Deserialization", e.getMessage());
+        }
+
+        ret.nodes.addAll(allnodes.values());
+
+        for (IDataPointsList dpl : ret.getWays()) {
+            if ("yes".equals(dpl.getTags().get("area"))) {
+                dpl.setArea(true);
+            }
+            LogIt.d("@@@@@@@@", "way has " + dpl.getNodes().size() + " nodes.");
+        }
+
+        LogIt.d("@@@@@@@@", "ways: " + ret.getWays().size() + ", nodes: "
+                + ret.getNodes().size());
+
         return ret;
     }
 
@@ -707,6 +818,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             serializer.attribute(null, "version", "0.6");
             serializer.attribute(null, "generator", "TraceBook");
 
+            serializeMedia(serializer);
+
             for (DataNode dn : nodes) {
                 dn.serialize(serializer, shouldSerialiseMedia);
                 totalMedia += dn.getMedia().size();
@@ -718,8 +831,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             for (DataPointsList dpl : ways) {
                 dpl.serializeWay(serializer, shouldSerialiseMedia);
             }
-
-            serializeMedia(serializer);
 
             serializer.endTag(null, "osm");
             serializer.flush();

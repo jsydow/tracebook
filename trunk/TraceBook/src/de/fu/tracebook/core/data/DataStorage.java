@@ -115,7 +115,7 @@ public final class DataStorage implements IDataStorage {
      * de.fu.tracebook.core.data.IDataStorage#deserializeTrack(java.lang.String)
      */
     public DataTrack deserializeTrack(String name) {
-        DataTrack dt = DataTrack.deserialize(name);
+        DataTrack dt = DataTrack.deserialize(name, false);
         return dt;
     }
 
