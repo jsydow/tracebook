@@ -256,8 +256,12 @@ public class AddPointActivity extends ListActivity {
         bInflater.inflate(R.layout.dynamic_metamediabuttons, layoutHolder);
 
         // Initial ServiceConnector
-        ServiceConnector.startService(this);
-        ServiceConnector.initService();
+        // ServiceConnector.startService(this);
+        // ServiceConnector.initService();
+
+        if (node == null) {
+            LogIt.e("############", "node null");
+        }
 
         registerForContextMenu(getListView());
         setNodeInformation();

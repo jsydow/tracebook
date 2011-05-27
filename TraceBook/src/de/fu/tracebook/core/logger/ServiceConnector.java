@@ -19,10 +19,10 @@
 
 package de.fu.tracebook.core.logger;
 
-import de.fu.tracebook.util.LogIt;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * This class provides methods for controlling the {@link WaypointLogService}.
