@@ -71,17 +71,17 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public int createPOI(boolean onWay) {
-            if (currentWay() != null) {
-                IDataNode tmpnode = null;
-                if (onWay)
-                    tmpnode = currentWay().newNode(lastCoordinate);
-                else
-                    tmpnode = storage.getTrack().newNode(lastCoordinate);
-                currentNodes.add(tmpnode);
+            IDataNode tmpnode = null;
 
-                return tmpnode.getId();
+            if (onWay && currentWay() != null) {
+                tmpnode = currentWay().newNode(lastCoordinate);
+            } else {
+                tmpnode = storage.getTrack().newNode(lastCoordinate);
             }
-            return 0;
+
+            currentNodes.add(tmpnode);
+
+            return tmpnode.getId();
         }
 
         public synchronized int endWay() {

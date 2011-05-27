@@ -187,8 +187,9 @@ public class NewTrackActivity extends TabActivity {
         try {
             nodeId = ServiceConnector.getLoggerService().createPOI(false);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            LogIt.e("###############", "no service: " + e.getMessage());
         }
+        LogIt.d("TraceBook", "nodeid " + nodeId);
 
         final Intent intent = new Intent(this, AddPointActivity.class);
         intent.putExtra("DataNodeId", nodeId);
@@ -358,8 +359,8 @@ public class NewTrackActivity extends TabActivity {
         initListView();
 
         // Initialize ServiceConnector
-        ServiceConnector.startService(this);
-        ServiceConnector.initService();
+        // ServiceConnector.startService(this);
+        // ServiceConnector.initService();
 
         setButtonList(false, 0);
 
@@ -608,6 +609,17 @@ public class NewTrackActivity extends TabActivity {
         default:
             break;
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.ActivityGroup#onDestroy()
+     */
+    @Override
+    protected void onDestroy() {
+        ServiceConnector.releaseService();
+        super.onDestroy();
     }
 
     @Override
