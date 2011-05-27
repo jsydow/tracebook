@@ -17,3 +17,6 @@ Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
 26.5.
   * Pseudo-UML-Diagramm des Datenmodell gemalt um darauf basierend Relationen fuer eine DB zu entwerfen
   * Implementierung des Ladevorgangs verbessert um 2/3 
+
+27.5.
+  * Bugs gefixt
