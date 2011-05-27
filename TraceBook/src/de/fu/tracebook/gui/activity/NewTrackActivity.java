@@ -179,6 +179,11 @@ public class NewTrackActivity extends TabActivity {
     public void addPointBtn(View view) {
         int nodeId = 0;
 
+        long start = System.currentTimeMillis();
+        StorageFactory.getStorage().getTrack().getDataMapObjectById(1);
+        long end = System.currentTimeMillis() - start;
+        LogIt.d("TraceBookOperation", "@@@@@@ Took " + end + " ms");
+
         try {
             nodeId = ServiceConnector.getLoggerService().createPOI(false);
         } catch (RemoteException e) {
@@ -224,13 +229,13 @@ public class NewTrackActivity extends TabActivity {
 
         // TODO test
         IDataTrack currtrack = StorageFactory.getStorage().getTrack();
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 500; ++i) {
             IDataNode node = currtrack.newNode(new GeoPoint(10, 10));
             node.getTags().put("motorway", "highway");
         }
         for (int i = 0; i < 10; ++i) {
             IDataPointsList way = currtrack.newWay();
-            for (int j = 0; j < 100; ++j) {
+            for (int j = 0; j < 400; ++j) {
                 IDataNode node = way.newNode(new GeoPoint(10, 10));
                 node.getTags().put("motorway", "highway");
             }
