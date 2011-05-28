@@ -23,10 +23,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import de.fu.tracebook.core.data.DataStorage;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import de.fu.tracebook.core.data.DataStorage;
 
 /**
  * This a general logging class and should be used for all logging action. It
@@ -36,11 +36,11 @@ import android.widget.Toast;
  * equivalent to verbose in logcat.
  */
 public final class LogIt {
+
     /**
      * Log using the Android logging method.
      */
     public static final int LOGMETHOD_ANDROID = 1;
-
     /**
      * Log to file.
      */
@@ -55,6 +55,8 @@ public final class LogIt {
      * Minimum value for a logging level.
      */
     public static final int MIN_LOG_LEVEL = 1;
+
+    public static final String TRACEBOOK_TAG = "TraceBook";
 
     private static final String LOG_PREFIX = "TraceBook";
 

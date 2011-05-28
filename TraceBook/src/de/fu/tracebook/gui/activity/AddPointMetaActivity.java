@@ -134,9 +134,7 @@ public class AddPointMetaActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         Helper.setTheme(this);
         super.onCreate(savedInstanceState);
-        // If status bar visible remove the activity title bar.
-        if (Helper.checkStatusbarVisibility(this))
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_addpointmetaactivity);
         setTitle(R.string.string_addpointmetaActivity_title);

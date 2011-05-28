@@ -123,6 +123,16 @@ public final class DataStorage implements IDataStorage {
         return DataTrack.exists(trackname);
     }
 
+    public void ensureThatTraceBookDirExists() {
+        File dir = new File(getTraceBookDirPath());
+        if (!dir.isDirectory()) {
+            if (!dir.mkdir()) {
+                LogIt.e(LogIt.TRACEBOOK_TAG,
+                        "Could not create TraceBook-directory");
+            }
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -232,5 +242,4 @@ public final class DataStorage implements IDataStorage {
                     "The TraceBook directory path doesn't point to a directory! wtf?");
         }
     }
-
 }

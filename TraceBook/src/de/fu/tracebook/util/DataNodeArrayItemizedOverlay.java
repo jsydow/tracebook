@@ -40,6 +40,7 @@ import de.fu.tracebook.gui.activity.AddPointActivity;
  * {@link #onTap(int)} method.
  */
 public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
+
     private class CurrentPosListener implements DialogInterface.OnClickListener {
         private final CharSequence[] items_default = {
                 context.getResources().getString(
@@ -83,7 +84,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     else
                         ServiceConnector.getLoggerService().beginWay(true);
                 } catch (RemoteException e) {
-                    Helper.handleNastyException(context, e, LOG_TAG);
+                    LogIt.e(LogIt.TRACEBOOK_TAG, "");
                 }
                 break;
             case 2: // add way point / Start Area
@@ -93,7 +94,8 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     else
                         ServiceConnector.getLoggerService().beginArea(true);
                 } catch (RemoteException e) {
-                    Helper.handleNastyException(context, e, LOG_TAG);
+                    LogIt.e(LogIt.TRACEBOOK_TAG,
+                            "Could not start new way/area becauseof logger service.");
                 }
                 break;
             default:

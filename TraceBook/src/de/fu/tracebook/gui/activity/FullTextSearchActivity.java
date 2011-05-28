@@ -242,16 +242,17 @@ public class FullTextSearchActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         Helper.setTheme(this);
         super.onCreate(savedInstanceState);
-        // If status bar visible remove the activity title bar.
-        if (Helper.checkStatusbarVisibility(this))
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_fulltextsearchactivity);
         setTitle(R.string.string_fulltextsearchActivity_title);
 
         // Set status bar
-        Helper.setStatusBar(this, getResources().getString(
-                R.string.tv_statusbar_fulltextsearchTitle), getResources()
-                .getString(R.string.tv_statusbar_fulltextsearchDesc),
+        Helper.setStatusBar(
+                this,
+                getResources().getString(
+                        R.string.tv_statusbar_fulltextsearchTitle),
+                getResources().getString(
+                        R.string.tv_statusbar_fulltextsearchDesc),
                 R.id.ly_fulltextsearchActivity_statusbar, true);
 
         EditText editBox = checkEditText();
@@ -307,9 +308,12 @@ public class FullTextSearchActivity extends ListActivity {
      *            not used
      */
     public void statusBarTitleBtn(View v) {
-        Helper.setActivityInfoDialog(this, getResources().getString(
-                R.string.tv_statusbar_fulltextsearchTitle), getResources()
-                .getString(R.string.tv_statusbar_fulltextsearchDesc));
+        Helper.setActivityInfoDialog(
+                this,
+                getResources().getString(
+                        R.string.tv_statusbar_fulltextsearchTitle),
+                getResources().getString(
+                        R.string.tv_statusbar_fulltextsearchDesc));
     }
 
     /**
