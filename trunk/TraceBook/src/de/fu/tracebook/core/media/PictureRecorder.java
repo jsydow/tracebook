@@ -1,6 +1,6 @@
 /*======================================================================
  *
- * This file is part of TraceBook.
+yd * This file is part of TraceBook.
  *
  * TraceBook is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -34,7 +34,7 @@ import android.provider.MediaStore;
  * structure appropriately, using the onActivityResult callback provided by the
  * activity using PictureRecorder.
  * 
- *
+ * 
  */
 public class PictureRecorder extends Recorder {
     /*

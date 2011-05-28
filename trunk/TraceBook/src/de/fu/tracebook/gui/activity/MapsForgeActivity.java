@@ -376,7 +376,8 @@ public class MapsForgeActivity extends MapActivity {
                             NewTrackActivity.class, true);
                 }
             } catch (RemoteException ex) {
-                Helper.handleNastyException(this, ex, LOG_TAG);
+                LogIt.e(LogIt.TRACEBOOK_TAG,
+                        "There is a problem with the logger service.");
             }
 
             return true;

@@ -358,9 +358,7 @@ public class NewTrackActivity extends TabActivity {
         // Initialize ListView
         initListView();
 
-        // Initialize ServiceConnector
-        // ServiceConnector.startService(this);
-        // ServiceConnector.initService();
+        checkGpsStatus();
 
         setButtonList(false, 0);
 
@@ -618,7 +616,6 @@ public class NewTrackActivity extends TabActivity {
      */
     @Override
     protected void onDestroy() {
-        ServiceConnector.releaseService();
         super.onDestroy();
     }
 
@@ -626,7 +623,6 @@ public class NewTrackActivity extends TabActivity {
     protected void onResume() {
         super.onResume();
         initListView();
-        checkGpsStatus();
         try {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,

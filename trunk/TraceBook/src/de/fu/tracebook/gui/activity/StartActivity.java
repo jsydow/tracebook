@@ -19,13 +19,11 @@
 
 package de.fu.tracebook.gui.activity;
 
-import java.io.File;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.RemoteException;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.view.HelpWebView;
@@ -49,12 +48,11 @@ public class StartActivity extends Activity {
      * Called if the loadTrack button pressed. Start the LoadTrackActivity.
      * 
      * @param view
-     *            the view
+     *            The button.
      */
     public void loadTrackBtn(View view) {
         Intent intent = new Intent(this, LoadTrackActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
 
     /**
@@ -66,16 +64,18 @@ public class StartActivity extends Activity {
      */
     public void newTrackBtn(View view) {
 
+        // Start new track only if there is no current Track
+        // resume otherwise
         if (Helper.currentTrack() == null)
             try {
                 ServiceConnector.getLoggerService().startTrack();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LogIt.e(LogIt.TRACEBOOK_TAG,
+                        "Could not start new track as logger service cannot be reached.");
             }
 
         Intent intent = new Intent(this, NewTrackActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
 
     /*
@@ -122,15 +122,8 @@ public class StartActivity extends Activity {
         ServiceConnector.startService(this);
         ServiceConnector.initService();
 
-        // create TraceBook-folder
-        File dir = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "TraceBook");
-        if (!dir.isDirectory()) {
-            if (!dir.mkdir()) {
-                LogIt.e("TraceBookMainActiviy",
-                        "Could not create TraceBook-directory");
-            }
-        }
+        // create TraceBook-folder if not exists
+        StorageFactory.getStorage().ensureThatTraceBookDirExists();
     }
 
     @Override
@@ -156,26 +149,30 @@ public class StartActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         final Intent intent;
-        switch (item.getItemId()) {
-        case R.id.opt_startActivity_close:
 
+        switch (item.getItemId()) {
+        // close application
+        case R.id.opt_startActivity_close:
             try {
                 ServiceConnector.getLoggerService().stopTrack();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not stop track.");
             }
             ServiceConnector.stopService();
             finish();
             return true;
+            // show about dialog
         case R.id.opt_startActivity_about:
             intent = new Intent(this, HelpWebView.class);
             intent.putExtra("About", Locale.getDefault().getLanguage());
             startActivity(intent);
             return true;
+            // go to preference menu
         case R.id.opt_startActivity_preferences:
             intent = new Intent(this, PreferencesActivity.class);
             startActivity(intent);
             return true;
+            // show Help Dialog
         case R.id.opt_startActivity_help:
             intent = new Intent(this, HelpWebView.class);
             intent.putExtra("Help", Locale.getDefault().getLanguage());
@@ -196,7 +193,7 @@ public class StartActivity extends Activity {
             ServiceConnector.releaseService();
             ServiceConnector.stopService();
         } catch (IllegalArgumentException e) {
-            LogIt.e("TraceBook", "@@@@@@@" + e.getMessage());
+            LogIt.e(LogIt.TRACEBOOK_TAG, "Releasing service failed.");
         }
     }
 
@@ -205,6 +202,7 @@ public class StartActivity extends Activity {
         super.onResume();
 
         Helper.stopUserNotification(this);
+        // Set Button text of New Track button
         Button startresumeBtn = (Button) findViewById(R.id.btn_startActivity_newTrack);
         if (Helper.currentTrack() == null)
             startresumeBtn.setText(getResources().getString(

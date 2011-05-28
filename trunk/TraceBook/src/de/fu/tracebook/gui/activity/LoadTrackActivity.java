@@ -31,10 +31,8 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -99,18 +97,18 @@ public class LoadTrackActivity extends ListActivity {
      *            used to get the text of the view. Could be dangerous.
      * 
      */
-    public void deleteTrackBtn(View v) {
-        if (v == null) {
-            LogIt.w("BUTTON", "view is null");
-            return;
-        }
-        if (v.getTag() == null) {
-            LogIt.w("BUTTON", "tag is null");
-            return;
-        }
-        LogIt.w("BUTTON", (String) v.getTag());
-        deleteTrack((String) v.getTag());
-    }
+    // public void deleteTrackBtn(View v) {
+    // if (v == null) {
+    // LogIt.w("BUTTON", "view is null");
+    // return;
+    // }
+    // if (v.getTag() == null) {
+    // LogIt.w("BUTTON", "tag is null");
+    // return;
+    // }
+    // LogIt.w("BUTTON", (String) v.getTag());
+    // deleteTrack((String) v.getTag());
+    // }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -132,15 +130,17 @@ public class LoadTrackActivity extends ListActivity {
         final String trackname = datum.getText("TrackName");
 
         switch (item.getItemId()) {
+        // load Track
         case R.id.cm_loadtrackActivity_load:
             IDataTrack track = StorageFactory.getStorage().deserializeTrack(
                     trackname);
+            // TODO
             if (track != null) {
                 StorageFactory.getStorage().setTrack(track);
                 final Intent intent = new Intent(this, NewTrackActivity.class);
                 startActivity(intent);
             } else {
-                LogIt.e("RenameTrack",
+                LogIt.e(LogIt.TRACEBOOK_TAG,
                         "Track to load was not found or is corrupt.");
                 LogIt.popup(this,
                         "Track to load could not be opened. Missing or corrupt.");
@@ -148,6 +148,7 @@ public class LoadTrackActivity extends ListActivity {
 
             return true;
 
+            // rename
         case R.id.cm_loadtrackActivity_rename:
 
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -160,6 +161,7 @@ public class LoadTrackActivity extends ListActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                 int whichButton) {
+                            // rename Track
                             String value = input.getText().toString().trim();
 
                             int res = StorageFactory.getStorage().renameTrack(
@@ -168,15 +170,15 @@ public class LoadTrackActivity extends ListActivity {
                             case 0:
                                 break;
                             case -1:
-                                LogIt.e("RenameTrack",
+                                LogIt.e(LogIt.TRACEBOOK_TAG,
                                         "Track to rename was not found or is corrupt.");
                                 break;
                             case -2:
-                                LogIt.e("RenameTrack",
+                                LogIt.e(LogIt.TRACEBOOK_TAG,
                                         "There is already a track with this name.");
                                 break;
                             case -3:
-                                LogIt.e("RenameTrack",
+                                LogIt.e(LogIt.TRACEBOOK_TAG,
                                         "Track could not be renamed.");
                                 break;
                             default:
@@ -200,12 +202,12 @@ public class LoadTrackActivity extends ListActivity {
 
             return true;
 
+            // show track info
         case R.id.cm_loadtrackActivity_info:
             DataTrackInfo trackinfo = StorageFactory.getStorage().getTrackInfo(
                     trackname);
 
             final Dialog infoDialog = new Dialog(this);
-            // dialog.getWindow().setGravity(Gravity.FILL);
             infoDialog.setContentView(R.layout.dialog_trackinfo);
             infoDialog.setTitle(R.string.string_trackInfoDialog_title);
             infoDialog.setCancelable(true);
@@ -252,6 +254,8 @@ public class LoadTrackActivity extends ListActivity {
             infoDialog.show();
 
             return true;
+
+            // delete Track
         case R.id.cm_loadtrackActivity_delete:
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(
@@ -265,7 +269,6 @@ public class LoadTrackActivity extends ListActivity {
 
                                     StorageFactory.getStorage().deleteTrack(
                                             trackname);
-                                    // may crash here (did so previously).
                                     showDialogForAdapterUpdate();
 
                                 }
@@ -296,9 +299,8 @@ public class LoadTrackActivity extends ListActivity {
         Helper.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        // If status bar visible remove the activity title bar.
-        if (Helper.checkStatusbarVisibility(this))
-            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getApplicationContext()
                 .setTheme(android.R.style.Theme_Black_NoTitleBar);
@@ -406,11 +408,11 @@ public class LoadTrackActivity extends ListActivity {
      */
     public void statusBarSearchBtn(View v) {
         EditText searchBox = (EditText) findViewById(R.id.et_statusbar_search);
-        if (searchBox.getVisibility() == 8) {
+        if (searchBox.getVisibility() == View.GONE) {
             searchBox.setVisibility(1);
             setTextChangedListenerToSearchBox(searchBox);
         } else
-            searchBox.setVisibility(8);
+            searchBox.setVisibility(View.GONE);
     }
 
     /**
@@ -427,20 +429,11 @@ public class LoadTrackActivity extends ListActivity {
     }
 
     private EditText checkEditText() {
-
-        // Get the app's shared preferences
-        SharedPreferences appPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-
-        // Get the value for the status bar check box - default false
-        if (appPreferences.getBoolean("check_visbilityStatusbar", false)) {
-            EditText loadTrackSearch = (EditText) findViewById(R.id.et_loadtrackactivity_search);
-            loadTrackSearch.setVisibility(8);
-            TextView loadTrackFilter = (TextView) findViewById(R.id.tv_loadtrackactivity_filter);
-            loadTrackFilter.setVisibility(8);
-            return (EditText) findViewById(R.id.et_statusbar_search);
-        } else
-            return (EditText) findViewById(R.id.et_loadtrackactivity_search);
+        EditText loadTrackSearch = (EditText) findViewById(R.id.et_loadtrackactivity_search);
+        loadTrackSearch.setVisibility(View.GONE);
+        TextView loadTrackFilter = (TextView) findViewById(R.id.tv_loadtrackactivity_filter);
+        loadTrackFilter.setVisibility(View.GONE);
+        return (EditText) findViewById(R.id.et_statusbar_search);
     }
 
     private void deleteTrack(final String trname) {
@@ -664,9 +657,9 @@ public class LoadTrackActivity extends ListActivity {
                             new Comparator<DataTrackInfo>() {
                                 public int compare(DataTrackInfo info1,
                                         DataTrackInfo info2) {
-                                    return info1.getTimestamp()
+                                    return info2.getTimestamp()
                                             .compareToIgnoreCase(
-                                                    info2.getTimestamp());
+                                                    info1.getTimestamp());
                                 }
                             });
                 }

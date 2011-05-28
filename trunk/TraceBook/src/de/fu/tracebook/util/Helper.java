@@ -52,7 +52,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -225,18 +224,6 @@ public final class Helper {
     }
 
     /**
-     * Gets the list of Nodes in current {@link IDataTrack}.
-     * 
-     * @return the current list of {@link IDataNode}s
-     */
-    public static List<IDataNode> getNodes() {
-        if (StorageFactory.getStorage().getTrack() != null) {
-            return StorageFactory.getStorage().getTrack().getNodes();
-        }
-        return null;
-    }
-
-    /**
      * Gets a OverlayItem with default marker and no position added.
      * 
      * @param ctx
@@ -248,21 +235,6 @@ public final class Helper {
             defaultMarker = ItemizedOverlay.boundCenterBottom(ctx
                     .getResources().getDrawable(R.drawable.card_marker_red));
         return new OverlayItem(null, null, null, defaultMarker);
-    }
-
-    /**
-     * Creates a new {@link OverlayItem}.
-     * 
-     * @param pos
-     *            position of the marker
-     * @param marker
-     *            Graphics object to be displayed at the position
-     * @return the new OverlayItem
-     */
-    public static OverlayItem getOverlayItem(GeoPoint pos, Drawable marker) {
-        final OverlayItem oi = new OverlayItem(pos, null, null);
-        oi.setMarker(marker);
-        return oi;
     }
 
     /**
@@ -316,26 +288,6 @@ public final class Helper {
             return StorageFactory.getStorage().getTrack().getWays();
         }
         return null;
-    }
-
-    /**
-     * Do something to handle a fatal exception in user interaction namely show
-     * a toast and log the error.
-     * 
-     * @param context
-     *            Context of the Activity
-     * @param ex
-     *            Exception that occurred
-     * @param logTag
-     *            tag of the class the exception occurred in
-     */
-    public static void handleNastyException(Context context, Exception ex,
-            String logTag) {
-        LogIt.popup(
-                context,
-                context.getResources().getString(
-                        R.string.toast_applicationError));
-        LogIt.e(logTag, ex.getMessage());
     }
 
     /**
@@ -488,36 +440,31 @@ public final class Helper {
             String activityTitle, String activityDesc, int layoutPosition,
             boolean searchBox) {
 
-        // Get the app's shared preferences
-        SharedPreferences appPreferences = PreferenceManager
-                .getDefaultSharedPreferences(activity);
+        // inflate statusbar view
+        LayoutInflater statusListInflater = (LayoutInflater) activity
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout statuslayoutHolder = (LinearLayout) activity
+                .findViewById(layoutPosition);
+        statusListInflater.inflate(R.layout.statusbar_global,
+                statuslayoutHolder);
 
-        // Get the value for the status bar check box - default false
-        if (appPreferences.getBoolean("check_visbilityStatusbar", false)) {
-            LayoutInflater statusListInflater = (LayoutInflater) activity
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            LinearLayout statuslayoutHolder = (LinearLayout) activity
-                    .findViewById(layoutPosition);
-            statusListInflater.inflate(R.layout.statusbar_global,
-                    statuslayoutHolder);
-            // Set visibility of the search button in the status bar.
-            if (!searchBox) {
-                final ImageButton searchBtn = (ImageButton) activity
-                        .findViewById(R.id.ib_statusbar_searchBtn);
-                searchBtn.setVisibility(8);
-                final ImageView seperator = (ImageView) activity
-                        .findViewById(R.id.ib_statusbar_seperator);
-                seperator.setVisibility(8);
+        // Set visibility of the search button in the status bar.
+        if (!searchBox) {
+            final ImageButton searchBtn = (ImageButton) activity
+                    .findViewById(R.id.ib_statusbar_searchBtn);
+            searchBtn.setVisibility(8);
+            final ImageView seperator = (ImageView) activity
+                    .findViewById(R.id.ib_statusbar_seperator);
+            seperator.setVisibility(8);
 
-            }
-
-            Button title = (Button) activity
-                    .findViewById(R.id.btn_statusbar_activityTitle);
-            Button desc = (Button) activity
-                    .findViewById(R.id.btn_statusbar_activityDescription);
-            title.setText(activityTitle);
-            desc.setText(cutString(activityDesc, 40));
         }
+
+        Button title = (Button) activity
+                .findViewById(R.id.btn_statusbar_activityTitle);
+        Button desc = (Button) activity
+                .findViewById(R.id.btn_statusbar_activityDescription);
+        title.setText(activityTitle);
+        desc.setText(cutString(activityDesc, 40));
 
     }
 

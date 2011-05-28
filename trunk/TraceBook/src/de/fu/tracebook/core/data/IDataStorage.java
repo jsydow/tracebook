@@ -26,6 +26,11 @@ import java.util.List;
  */
 public interface IDataStorage {
 
+    /**
+     * Will create the TraceBook directory if it does not exist.
+     */
+    public void ensureThatTraceBookDirExists();
+
     void deleteTrack(String trackname);
 
     /**

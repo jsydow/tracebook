@@ -19,9 +19,6 @@
 
 package de.fu.tracebook.gui.activity;
 
-import de.fu.tracebook.util.Helper;
-import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +29,8 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import de.fu.tracebook.R;
+import de.fu.tracebook.util.Helper;
 
 /**
  * This Activity show our preference menu for the application.
@@ -91,10 +90,6 @@ public class PreferencesActivity extends PreferenceActivity {
 
             String filename = data.getExtras().getString(
                     FilePicker.RESULT_CODE_FILE);
-            LogIt.d("Preferences",
-                    "got: "
-                            + data.getExtras().getString(
-                                    FilePicker.RESULT_CODE_FILE));
 
             Editor editor = appPreferences.edit();
 
