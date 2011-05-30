@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
 import org.mapsforge.android.maps.ArrayWayOverlay;
+import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
 
 import android.app.Activity;
@@ -32,6 +33,7 @@ import android.graphics.Paint;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
 /**
@@ -122,7 +124,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         if (way.getNodes().size() == 0) // skip empty ways
             return;
         color(way, editing);
-        this.addWay(way.getOverlayRoute());
+        this.addWay(StorageFactory.getStorage().getOverlayManager()
+                .getOverlayRoute(way));
 
         if (showWaypoints)
             addWaypoints(way);
@@ -137,7 +140,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      */
     public void addWays(List<IDataPointsList> list) {
         for (IDataPointsList l : list) {
-            l.updateOverlayRoute(null);
+            StorageFactory.getStorage().getOverlayManager()
+                    .updateOverlayRoute(l, null);
             addWay(l, false);
         }
     }
@@ -152,7 +156,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      */
     public void color(IDataPointsList way, boolean editing) {
         Pair<Paint, Paint> col = getColor(editing, way.isArea());
-        way.getOverlayRoute().setPaint(col.first, col.second);
+        StorageFactory.getStorage().getOverlayManager().getOverlayRoute(way)
+                .setPaint(col.first, col.second);
     }
 
     /**
@@ -162,11 +167,19 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      *            DataNode that should get a marker
      */
     public void putWaypoint(IDataNode n) {
-        if (n.getOverlayItem() == null)
-            n.setOverlayItem(Helper.getOverlayItem(n.getCoordinates(),
-                    R.drawable.card_dot_blue, context, true));
-        if (showWaypoints)
-            pointsOverlay.addItem(n.getOverlayItem());
+        OverlayItem item;
+        if (StorageFactory.getStorage().getOverlayManager().getOverlayItem(n) == null) {
+            item = Helper.getOverlayItem(n.getCoordinates(),
+                    R.drawable.card_dot_blue, context, true);
+            StorageFactory.getStorage().getOverlayManager()
+                    .setOverlayItem(item, n);
+        } else {
+            item = StorageFactory.getStorage().getOverlayManager()
+                    .getOverlayItem(n);
+        }
+        if (showWaypoints) {
+            pointsOverlay.addItem(item);
+        }
     }
 
     /**
@@ -189,7 +202,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
 
     private void removeWaypoints(IDataPointsList way) {
         for (IDataNode n : way.getNodes())
-            pointsOverlay.removeItem(n.getOverlayItem());
+            pointsOverlay.removeItem(StorageFactory.getStorage()
+                    .getOverlayManager().getOverlayItem(n));
     }
 
     /**

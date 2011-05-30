@@ -19,11 +19,9 @@
 
 package de.fu.tracebook.core.data;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayItem;
 
 public interface IDataTrack extends IDataMediaHolder {
 
@@ -37,7 +35,7 @@ public interface IDataTrack extends IDataMediaHolder {
      * @return The list of invalid OverlayItems. It will be cleared by this
      *         call.
      */
-    Collection<OverlayItem> clearInvalidItems();
+    // Collection<OverlayItem> clearInvalidItems();
 
     /**
      * This method deletes a Node (POI) of this Track or a node of one of the
@@ -102,17 +100,6 @@ public interface IDataTrack extends IDataMediaHolder {
     DataNode getNodeById(int id);
 
     /**
-     * Tries to find the {@link DataNode} containing the given
-     * {@link OverlayItem}.
-     * 
-     * @param item
-     *            The OverlayItem that should be searched for.
-     * @return The DataNode containing the OverlayItem, or null if no DataNode
-     *         with the OverlayItem was found
-     */
-    DataNode getNodeByOverlayItem(OverlayItem item);
-
-    /**
      * Getter-method that returns a list of all nodes. The returned List is the
      * one stored in this object. Changing the returned List will therefore
      * change this list
@@ -152,8 +139,6 @@ public interface IDataTrack extends IDataMediaHolder {
      * @param overlayItem
      *            The outdated OverlayItem
      */
-
-    void invalidateOverlayItem(OverlayItem overlayItem);
 
     /**
      * Create a new Node (i.e. POI) and add it to the Track

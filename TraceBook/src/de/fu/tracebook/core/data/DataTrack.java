@@ -27,22 +27,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -387,12 +383,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     private DataPointsList currentWay;
 
     /**
-     * This list stores all discarded OverlayItems, MapsActivity will poll and
-     * remove them.
-     */
-    private Queue<OverlayItem> invalidItems;
-
-    /**
      * Display name of the Track. Serves as id and should therefore be unique.
      * Is initialized with the DateTime of the first creation of this object.
      */
@@ -416,7 +406,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
         super();
         ways = new LinkedList<DataPointsList>();
         nodes = new LinkedList<DataNode>();
-        invalidItems = new ConcurrentLinkedQueue<OverlayItem>();
         this.name = getFilenameCompatibleTimeStamp();
         this.comment = "";
         createNewTrackFolder();
@@ -436,17 +425,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     /*
      * (non-Javadoc)
      * 
-     * @see de.fu.tracebook.core.data.IDataTrack#clearInvalidItems()
-     */
-    public Collection<OverlayItem> clearInvalidItems() {
-        Collection<OverlayItem> tmp = invalidItems;
-        invalidItems = new ConcurrentLinkedQueue<OverlayItem>();
-        return tmp;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see de.fu.tracebook.core.data.IDataTrack#deleteNode(int)
      */
     public IDataNode deleteNode(int id) {
@@ -455,8 +433,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
         while (lit.hasNext()) {
             dn = lit.next();
             if (dn.getId() == id) {
-                if (dn.getOverlayItem() != null)
-                    invalidItems.add(dn.getOverlayItem());
+                StorageFactory.getStorage().getOverlayManager()
+                        .invalidateOverlayOfNode(dn);
                 lit.remove();
                 return dn;
             }
@@ -465,8 +443,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
         for (IDataPointsList dpl : getWays()) {
             IDataNode dldn = dpl.deleteNode(id);
             if (dldn != null) { // deleted
-                if (dldn.getOverlayItem() != null)
-                    invalidItems.add(dldn.getOverlayItem());
+                StorageFactory.getStorage().getOverlayManager()
+                        .invalidateOverlayOfNode(dldn);
                 return dldn;
             }
         }
@@ -564,29 +542,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * de.fu.tracebook.core.data.IDataTrack#getNodeByOverlayItem(org.mapsforge
-     * .android.maps.OverlayItem)
-     */
-    public DataNode getNodeByOverlayItem(OverlayItem item) {
-        if (item == null)
-            return null;
-
-        for (DataNode dn : nodes)
-            if (item.equals(dn.getOverlayItem()))
-                return dn;
-
-        for (IDataPointsList dpl : ways)
-            for (IDataNode dn : dpl.getNodes())
-                if (item.equals(((DataNode) dn).getOverlayItem()))
-                    return (DataNode) dn;
-
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see de.fu.tracebook.core.data.IDataTrack#getNodes()
      */
     public List<IDataNode> getNodes() {
@@ -623,19 +578,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      */
     public List<IDataPointsList> getWays() {
         return new LinkedList<IDataPointsList>(ways);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.fu.tracebook.core.data.IDataTrack#invalidateOverlayItem(org.mapsforge
-     * .android.maps.OverlayItem)
-     */
-
-    public void invalidateOverlayItem(OverlayItem overlayItem) {
-        if (overlayItem != null)
-            invalidItems.add(overlayItem);
     }
 
     /*

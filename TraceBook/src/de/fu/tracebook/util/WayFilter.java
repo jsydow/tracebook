@@ -27,6 +27,7 @@ import java.util.Queue;
 import org.mapsforge.android.maps.GeoPoint;
 
 import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.StorageFactory;
 
 /**
  * This class offers methods used to filter unnecessary waypoints. It is
@@ -81,8 +82,8 @@ public final class WayFilter {
                             pending.getCoordinates(), n.getCoordinates()) < threshold
                             * weight
                             && !n.hasAdditionalInfo() && iter.hasNext()) {
-                        Helper.currentTrack().invalidateOverlayItem(
-                                n.getOverlayItem());
+                        StorageFactory.getStorage().getOverlayManager()
+                                .invalidateOverlayOfNode(n);
                         iter.remove();
                     }
                     firstNode = pending;

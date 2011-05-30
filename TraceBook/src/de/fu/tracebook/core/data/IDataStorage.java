@@ -61,6 +61,8 @@ public interface IDataStorage {
      */
     int getID();
 
+    OverlayManager getOverlayManager();
+
     /**
      * Getter-method.
      * 

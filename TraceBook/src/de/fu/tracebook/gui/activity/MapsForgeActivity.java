@@ -37,7 +37,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -118,7 +117,10 @@ public class MapsForgeActivity extends MapActivity {
                     IDataPointsList currentWay = Helper.currentTrack()
                             .getCurrentWay();
                     if (currentWay != null) {
-                        currentWay.updateOverlayRoute(currentGeoPoint);
+                        StorageFactory
+                                .getStorage()
+                                .getOverlayManager()
+                                .updateOverlayRoute(currentWay, currentGeoPoint);
                         routesOverlay.requestRedraw();
                     }
                 }
@@ -136,7 +138,8 @@ public class MapsForgeActivity extends MapActivity {
                     IDataPointsList way = Helper.currentTrack()
                             .getPointsListById(wayId);
                     if (way != null) {
-                        way.updateOverlayRoute(null);
+                        StorageFactory.getStorage().getOverlayManager()
+                                .updateOverlayRoute(way, null);
                         if (oldWayId != wayId) {
                             oldWayId = wayId;
                             routesOverlay.addWay(way, true);
@@ -158,7 +161,11 @@ public class MapsForgeActivity extends MapActivity {
                         // stopWay() was called
                         routesOverlay.putWaypoint(node);
                         if (node.getDataPointsList() != null) {
-                            node.getDataPointsList().updateOverlayRoute(null);
+                            StorageFactory
+                                    .getStorage()
+                                    .getOverlayManager()
+                                    .updateOverlayRoute(
+                                            node.getDataPointsList(), null);
                             routesOverlay.requestRedraw();
                         }
                     }
@@ -177,7 +184,8 @@ public class MapsForgeActivity extends MapActivity {
                 IDataPointsList way = Helper.currentTrack().getPointsListById(
                         wayId);
                 if (way != null) {
-                    way.updateOverlayRoute(null);
+                    StorageFactory.getStorage().getOverlayManager()
+                            .updateOverlayRoute(way, null);
                     routesOverlay.color(way, false);
                     routesOverlay.requestRedraw();
                 }
@@ -196,8 +204,8 @@ public class MapsForgeActivity extends MapActivity {
         private void removeInvalidItems() {
             LogIt.d(LOG_TAG, "Request to remove invalid nodes");
 
-            Collection<OverlayItem> invalids = Helper.currentTrack()
-                    .clearInvalidItems();
+            Collection<OverlayItem> invalids = StorageFactory.getStorage()
+                    .getOverlayManager().getAndClearInvalidOverlayItems();
             for (OverlayItem oi : invalids)
                 pointsOverlay.removeItem(oi);
         }
@@ -277,7 +285,8 @@ public class MapsForgeActivity extends MapActivity {
 
             editNode.setLocation(projection);
             if (editNode.getDataPointsList() != null) {
-                editNode.getDataPointsList().updateOverlayRoute(null);
+                StorageFactory.getStorage().getOverlayManager()
+                        .updateOverlayRoute(editNode.getDataPointsList(), null);
                 LogIt.d(LOG_TAG, "Requesting redraw");
                 routesOverlay.requestRedraw();
             }
@@ -391,11 +400,8 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     private void fillOverlays() {
-        for (IDataNode n : Helper.currentTrack().getNodes()) {
-            if (n.getOverlayItem() == null)
-                n.setOverlayItem(Helper.getOverlayItem(this));
-            pointsOverlay.addItem(n.getOverlayItem());
-        }
+        pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
+                .getOverlayItems(this));
 
         routesOverlay.addWays(Helper.currentTrack().getWays());
     }
@@ -422,6 +428,9 @@ public class MapsForgeActivity extends MapActivity {
         super.onCreate(savedInstanceState);
 
         LogIt.d(LOG_TAG, "Creating MapActivity");
+
+        setContentView(R.layout.activity_mapsforgeactivity);
+        mapView = (MapView) findViewById(R.id.ly_mapsforgeMapView);
 
         pointsOverlay = new DataNodeArrayItemizedOverlay(this);
         routesOverlay = new DataPointsListArrayRouteOverlay(this, pointsOverlay);
@@ -456,60 +465,61 @@ public class MapsForgeActivity extends MapActivity {
         pointsOverlay.clear();
         fillOverlays();
 
-        if (mapView == null) {
-            (new Thread() {
-                @Override
-                public void run() {
-                    // with out looper it won't work
-                    Looper.prepare();
+        mapView.setClickable(true);
+        mapView.setBuiltInZoomControls(true);
+        mapView.setScaleBar(true);
 
-                    /*
-                     * We init the map in a thread to archive a better ui
-                     * experience. But on one core cpu system the thread still
-                     * slows the ui down. So we wait one second to give the ui
-                     * some time to smoothly init its self.
-                     */
-                    if (Runtime.getRuntime().availableProcessors() == 1) {
-                        try {
-                            // Give the Gui Thread some time to do its init
-                            // stuff
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            LogIt.e(LOG_TAG, e.getMessage());
-                        }
-                    }
-                    mapView = new MapView(MapsForgeActivity.this);
-                    mapView.setClickable(true);
-                    mapView.setBuiltInZoomControls(true);
-                    mapView.setScaleBar(true);
-
-                    mapView.setMemoryCardCachePersistence(PreferenceManager
-                            .getDefaultSharedPreferences(MapsForgeActivity.this)
-                            .getBoolean("check_activateLocalTitleMapCache",
-                                    false));
-
-                    mapView.getOverlays().add(routesOverlay);
-                    mapView.getOverlays().add(pointsOverlay);
-
-                    mapController = mapView.getController();
-
-                    changeMapViewToOfflineRendering();
-
-                    runOnUiThread(new Runnable() {
-
-                        public void run() {
-                            setContentView(mapView);
-
-                        }
-                    });
-
-                    registerReceiver(gpsReceiver, new IntentFilter(
-                            GpsMessage.TAG));
-                }
-
-            }).start();
-        } else
-            registerReceiver(gpsReceiver, new IntentFilter(GpsMessage.TAG));
+        // if (mapView == null) {
+        // (new Thread() {
+        // @Override
+        // public void run() {
+        // // with out looper it won't work
+        // Looper.prepare();
+        //
+        // /*
+        // * We init the map in a thread to archive a better ui
+        // * experience. But on one core cpu system the thread still
+        // * slows the ui down. So we wait one second to give the ui
+        // * some time to smoothly init its self.
+        // */
+        // if (Runtime.getRuntime().availableProcessors() == 1) {
+        // try {
+        // // Give the Gui Thread some time to do its init
+        // // stuff
+        // Thread.sleep(500);
+        // } catch (InterruptedException e) {
+        // LogIt.e(LOG_TAG, e.getMessage());
+        // }
+        // }
+        // mapView = new MapView(MapsForgeActivity.this);
+        // mapView.setClickable(true);
+        // mapView.setBuiltInZoomControls(true);
+        // mapView.setScaleBar(true);
+        //
+        // mapView.setMemoryCardCachePersistence(PreferenceManager
+        // .getDefaultSharedPreferences(MapsForgeActivity.this)
+        // .getBoolean("check_activateLocalTitleMapCache",
+        // false));
+        //
+        // mapView.getOverlays().add(routesOverlay);
+        // mapView.getOverlays().add(pointsOverlay);
+        //
+        // mapController = mapView.getController();
+        //
+        // changeMapViewToOfflineRendering();
+        //
+        // // runOnUiThread(new Runnable() {
+        // //
+        // // public void run() {
+        // // setContentView(mapView);
+        // //
+        // // }
+        // // });
+        // }
+        //
+        // }).start();
+        // }
+        registerReceiver(gpsReceiver, new IntentFilter(GpsMessage.TAG));
     }
 
     /**

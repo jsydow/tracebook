@@ -24,7 +24,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayItem;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xmlpull.v1.XmlSerializer;
@@ -77,11 +76,6 @@ public class DataNode extends DataMapObject implements IDataNode {
     private GeoPoint coordinates;
 
     /**
-     * The overlay Item used by the GUI, associated with a certain POI.
-     */
-    private OverlayItem overlayItem;
-
-    /**
      * The {@link DataPointsList} object associated with this node. Null if this
      * node is not part of a DataPointsList.
      */
@@ -120,15 +114,6 @@ public class DataNode extends DataMapObject implements IDataNode {
      */
     public DataPointsList getDataPointsList() {
         return parentWay;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataNode#getOverlayItem()
-     */
-    public OverlayItem getOverlayItem() {
-        return overlayItem;
     }
 
     /*
@@ -206,19 +191,6 @@ public class DataNode extends DataMapObject implements IDataNode {
             this.coordinates = new GeoPoint(0, 0);
         }
 
-        if (overlayItem != null)
-            overlayItem.setPoint(coordinates);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.fu.tracebook.core.data.IDataNode#setOverlayItem(org.mapsforge.android
-     * .maps.OverlayItem)
-     */
-    public void setOverlayItem(OverlayItem overlayItem) {
-        this.overlayItem = overlayItem;
-        this.overlayItem.setPoint(coordinates);
+        StorageFactory.getStorage().getOverlayManager().setLocation(this, gp);
     }
 }

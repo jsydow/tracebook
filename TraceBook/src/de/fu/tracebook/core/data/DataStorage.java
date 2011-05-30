@@ -90,6 +90,8 @@ public final class DataStorage implements IDataStorage {
      */
     private List<String> names;
 
+    private OverlayManager overlays = new OverlayManager();
+
     /**
      * Currently active Track.
      */
@@ -151,6 +153,10 @@ public final class DataStorage implements IDataStorage {
     public synchronized int getID() {
         lastID--;
         return lastID;
+    }
+
+    public OverlayManager getOverlayManager() {
+        return overlays;
     }
 
     /*

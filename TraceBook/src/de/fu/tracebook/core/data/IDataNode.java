@@ -20,9 +20,6 @@
 package de.fu.tracebook.core.data;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayItem;
-
-import de.fu.tracebook.gui.activity.MapsForgeActivity;
 
 public interface IDataNode extends IDataMapObject {
 
@@ -40,14 +37,6 @@ public interface IDataNode extends IDataMapObject {
      * @return The DataPointsList this point is in. (can be null)
      */
     IDataPointsList getDataPointsList();
-
-    /**
-     * Getter-method.
-     * 
-     * @return A reference to the OverlayItem that is drawn and handled by
-     *         MapsForge's overlay.
-     */
-    OverlayItem getOverlayItem();
 
     /**
      * A Point may have been added uninitialized, in this case it does not
@@ -74,13 +63,5 @@ public interface IDataNode extends IDataMapObject {
      *            New position of the node.
      */
     void setLocation(GeoPoint gp);
-
-    /**
-     * Set the {@link OverlayItem}, used by {@link MapsForgeActivity}.
-     * 
-     * @param overlayItem
-     *            The new OverlayItem.
-     */
-    void setOverlayItem(OverlayItem overlayItem);
 
 }
