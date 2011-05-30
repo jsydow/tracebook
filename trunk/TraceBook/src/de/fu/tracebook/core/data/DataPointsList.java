@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayWay;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -103,11 +102,6 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
     }
 
     /**
-     * Route Object for MapsForge.
-     */
-    private OverlayWay overlayRoute;
-
-    /**
      * Is this Object an Area?
      */
     protected boolean isArea;
@@ -127,7 +121,6 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
     public DataPointsList(boolean isArea) {
         super();
         nodes = new LinkedList<DataNode>();
-        overlayRoute = new OverlayWay();
         this.isArea = isArea;
     }
 
@@ -171,15 +164,6 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
      */
     public List<IDataNode> getNodes() {
         return new LinkedList<IDataNode>(nodes);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataPointsList#getOverlayRoute()
-     */
-    public OverlayWay getOverlayRoute() {
-        return overlayRoute;
     }
 
     /*
@@ -291,17 +275,6 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
      * (non-Javadoc)
      * 
      * @see
-     * de.fu.tracebook.core.data.IDataPointsList#setOverlayRoute(org.mapsforge
-     * .android.maps.OverlayWay)
-     */
-    public void setOverlayRoute(OverlayWay overlayRoute) {
-        this.overlayRoute = overlayRoute;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * de.fu.tracebook.core.data.IDataPointsList#toGeoPointArray(org.mapsforge
      * .android.maps.GeoPoint)
      */
@@ -325,16 +298,5 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
             tmp[i++] = tmp[0];
 
         return tmp;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.fu.tracebook.core.data.IDataPointsList#updateOverlayRoute(org.mapsforge
-     * .android.maps.GeoPoint)
-     */
-    public void updateOverlayRoute(GeoPoint additional) {
-        overlayRoute.setWayData(toGeoPointArray(additional));
     }
 }

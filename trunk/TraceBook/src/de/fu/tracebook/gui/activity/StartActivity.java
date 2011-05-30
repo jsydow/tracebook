@@ -55,6 +55,19 @@ public class StartActivity extends Activity {
         startActivity(intent);
     }
 
+    public void mapBtn(View view) {
+        if (Helper.currentTrack() == null)
+            try {
+                ServiceConnector.getLoggerService().startTrack();
+            } catch (RemoteException e) {
+                LogIt.e(LogIt.TRACEBOOK_TAG,
+                        "Could not start new track as logger service cannot be reached.");
+            }
+
+        Intent intent = new Intent(this, MapsForgeActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * Called if the newTrack button pressed. Start the NewTrackActivity and the
      * tracking notification for the user

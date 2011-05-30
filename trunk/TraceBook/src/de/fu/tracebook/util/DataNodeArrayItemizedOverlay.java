@@ -32,6 +32,7 @@ import android.os.RemoteException;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.activity.AddPointActivity;
 
@@ -150,7 +151,8 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     way = node.getDataPointsList();
                     if (Helper.currentTrack() != null
                             && Helper.currentTrack().deleteNode(node.getId()) != null) {
-                        removeItem(node.getOverlayItem());
+                        removeItem(StorageFactory.getStorage()
+                                .getOverlayManager().getOverlayItem(node));
                         if (way != null) // we have to redraw the way
                             sender.sendWayUpdate(way.getId(), -1);
                     } else {
@@ -196,7 +198,8 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
     @Override
     protected boolean onTap(int index) {
         final OverlayItem item = createItem(index);
-        final IDataNode node = Helper.currentTrack().getNodeByOverlayItem(item);
+        final IDataNode node = StorageFactory.getStorage().getOverlayManager()
+                .getNodeByOverlayItem(item);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 

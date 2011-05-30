@@ -22,7 +22,6 @@ package de.fu.tracebook.core.data;
 import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayWay;
 
 public interface IDataPointsList extends IDataMapObject {
 
@@ -57,13 +56,6 @@ public interface IDataPointsList extends IDataMapObject {
     List<IDataNode> getNodes();
 
     /**
-     * Gets the route Object used by MapsForge to display this way.
-     * 
-     * @return The {@link OverlayWay} of this way. (can be null)
-     */
-    OverlayWay getOverlayRoute();
-
-    /**
      * Getter-method.
      * 
      * @return True if object resembles an Area.
@@ -91,15 +83,6 @@ public interface IDataPointsList extends IDataMapObject {
     void setArea(boolean isArea);
 
     /**
-     * Sets the {@link OverlayWay}, an object used by MapsForge for
-     * visualization.
-     * 
-     * @param overlayRoute
-     *            The new OverlayWay.
-     */
-    void setOverlayRoute(OverlayWay overlayRoute);
-
-    /**
      * Returns an array of GeoPoints representing the current way for being
      * displayed in a RouteOverlay. If isArea() is true, the first point will be
      * added as last point, this is a requirement of the RouteOverlay.
@@ -110,14 +93,5 @@ public interface IDataPointsList extends IDataMapObject {
      * @return The array of GeoPoints. (not null)
      */
     GeoPoint[] toGeoPointArray(GeoPoint additional);
-
-    /**
-     * Adds one additional Point to the OverlayRoute without affecting the
-     * actual data of the way.
-     * 
-     * @param additional
-     *            The additional node
-     */
-    void updateOverlayRoute(GeoPoint additional);
 
 }
