@@ -26,8 +26,8 @@ import java.util.Set;
 
 public class BiMap<K, V> implements Map<K, V> {
 
-    private HashMap<V, K> backward;
-    private HashMap<K, V> forward;
+    private HashMap<V, K> backward = new HashMap<V, K>();
+    private HashMap<K, V> forward = new HashMap<K, V>();
 
     public BiMap() {
         // do nothing
