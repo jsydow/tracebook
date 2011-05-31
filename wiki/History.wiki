@@ -20,3 +20,12 @@ Hier steht eine Uebersicht der Aktivitaeten zu dieser Bachelorarbeit.
 
 27.5.
   * Bugs gefixt
+
+29.5.
+  * Versuch der Map noch Buttons hinzuzufügen
+
+30.5.
+  * Overlayhandling in OverlayManager ausgelagert
+
+31.5.
+  * SQLite Implementierung
