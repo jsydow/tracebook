@@ -62,6 +62,17 @@ import de.fu.tracebook.util.LogIt;
 public class DataTrack extends DataMediaHolder implements IDataTrack {
 
     /**
+     * Returns the complete String of the path to the track.tbt file of a track.
+     * 
+     * @param trackname
+     *            The String of the track name
+     * @return The path as String.
+     */
+    public static String getPathOfTrackTbTFile(String trackname) {
+        return getTrackDirPath(trackname) + File.separator + "track.tbt";
+    }
+
+    /**
      * Creates a time stamp of the current time which can be used as a filename.
      * 
      * @return The time stamp String.
@@ -297,17 +308,6 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     static boolean exists(String name) {
         File trackfile = new File(getPathOfTrackTbTFile(name));
         return trackfile.exists();
-    }
-
-    /**
-     * Returns the complete String of the path to the track.tbt file of a track.
-     * 
-     * @param trackname
-     *            The String of the track name
-     * @return The path as String.
-     */
-    static String getPathOfTrackTbTFile(String trackname) {
-        return getTrackDirPath(trackname) + File.separator + "track.tbt";
     }
 
     /**

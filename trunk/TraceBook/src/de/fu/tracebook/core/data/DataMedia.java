@@ -219,17 +219,6 @@ public class DataMedia implements IDataMedia {
     /*
      * (non-Javadoc)
      * 
-     * @see de.fu.tracebook.core.data.IDataMedia#setPath(java.lang.String)
-     */
-    public void setPath(String path) {
-        if (path != null) {
-            this.path = path;
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see de.fu.tracebook.core.data.IDataMedia#setType(int)
      */
     public void setType(int type) {

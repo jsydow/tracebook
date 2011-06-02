@@ -19,6 +19,7 @@
 
 package de.fu.tracebook.gui.activity;
 
+import java.sql.SQLException;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -30,9 +31,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.j256.ormlite.dao.Dao;
+
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
+import de.fu.tracebook.core.data.implementation.DBTrack;
+import de.fu.tracebook.core.data.implementation.DataOpenHelper;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.view.HelpWebView;
 import de.fu.tracebook.util.Helper;
@@ -130,6 +136,24 @@ public class StartActivity extends Activity {
 
             }
         }).start();
+
+        DataOpenHelper helper = new DataOpenHelper(this);
+        helper.setInstance();
+        Dao<DBTrack, String> dao = helper.getTrackDAO();
+        DBTrack track = new DBTrack();
+        track.name = "L" + System.currentTimeMillis();
+        try {
+            dao.create(track);
+        } catch (SQLException e) {
+            LogIt.e(LogIt.TRACEBOOK_TAG, "Do not happen!");
+        }
+        try {
+            for (DBTrack t : dao.queryForAll()) {
+                LogIt.d(LogIt.TRACEBOOK_TAG, "§§§§§§§ YAY " + t.name);
+            }
+        } catch (SQLException e) {
+            LogIt.e(LogIt.TRACEBOOK_TAG, "Do not happen 2!");
+        }
 
         // Initialize ServiceConnector
         ServiceConnector.startService(this);

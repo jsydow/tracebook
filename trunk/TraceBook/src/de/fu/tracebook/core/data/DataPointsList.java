@@ -38,7 +38,7 @@ import de.fu.tracebook.util.LogIt;
  */
 public class DataPointsList extends DataMapObject implements IDataPointsList {
     /**
-     * Way node is a XML-node labeled "way". This method restores a
+     * Way node is a XML-node labelled "way". This method restores a
      * DataPointsList from such a XML-Node.
      * 
      * @param waynode
