@@ -84,15 +84,6 @@ public interface IDataMedia {
     void setName(String newname);
 
     /**
-     * Setter-method. The path should normally not be changed but one never
-     * knows. Method does nothing if parameter is null.
-     * 
-     * @param path
-     *            The new path of the medium.
-     */
-    void setPath(String path);
-
-    /**
      * Setter-method.
      * 
      * @param type
