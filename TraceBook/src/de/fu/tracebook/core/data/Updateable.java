@@ -17,33 +17,8 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.data.implementation;
+package de.fu.tracebook.core.data;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.table.DatabaseTable;
-
-@DatabaseTable(tableName = "nodes")
-public class DBNode {
-
-    @DatabaseField
-    public String datetime;
-    @DatabaseField(id = true)
-    public long id;
-    @DatabaseField
-    public int latitude;
-    @DatabaseField
-    public int longitude;
-
-    @ForeignCollectionField
-    public ForeignCollection<DBMedia> media;
-    @ForeignCollectionField
-    public ForeignCollection<DBTag> tags;
-
-    @DatabaseField(foreign = true)
-    public DBTrack track;
-
-    @DatabaseField(foreign = true)
-    public DBPointsList way;
+public abstract class Updateable {
+    abstract void update();
 }

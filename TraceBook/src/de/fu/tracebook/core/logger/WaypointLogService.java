@@ -67,7 +67,7 @@ public class WaypointLogService extends Service implements LocationListener {
             if (oneShot) // in one_shot mode, add a new point
                 currentNodes.add(currentWay().newNode(lastCoordinate));
 
-            return currentWay().getId();
+            return (int) currentWay().getId();
         }
 
         public int createPOI(boolean onWay) {
@@ -81,7 +81,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
             currentNodes.add(tmpnode);
 
-            return tmpnode.getId();
+            return (int) tmpnode.getId();
         }
 
         public synchronized int endWay() {
@@ -95,14 +95,14 @@ public class WaypointLogService extends Service implements LocationListener {
             if (tmp != null)
                 /* do not store non-ways */
                 if (tmp.getNodes().size() < 2)
-                    storage.getTrack().deleteWay(tmp.getId());
+                    storage.getTrack().deleteWay((int) tmp.getId());
                 else {
                     if (!oneShot) {
                         WayFilter.smoothenPoints(tmp.getNodes(), 3, 3);
                         WayFilter.filterPoints(tmp.getNodes(), 2);
                     }
-                    getSender().sendEndWay(tmp.getId());
-                    return tmp.getId();
+                    getSender().sendEndWay((int) tmp.getId());
+                    return (int) tmp.getId();
                 }
             return -1;
         }
@@ -162,7 +162,7 @@ public class WaypointLogService extends Service implements LocationListener {
                 long start = System.currentTimeMillis();
                 storage.serialize();
                 long stop = System.currentTimeMillis() - start;
-                LogIt.d(LOG_TAG, "#### Stop saving. Time: " + stop);
+                LogIt.d("#### Stop saving. Time: " + stop);
                 storage.unloadAllTracks();
                 return 1;
             }
@@ -252,18 +252,20 @@ public class WaypointLogService extends Service implements LocationListener {
                                                // fix
 
                     if (currentWay() != null) {
-                        LogIt.d("Logger", "new one-shot way point");
-                        sender.sendWayUpdate(currentWay().getId(), node.getId()); // one_shot
+                        LogIt.d("new one-shot way point");
+                        sender.sendWayUpdate((int) currentWay().getId(),
+                                (int) node.getId()); // one_shot
                         // update
                     } else
-                        sender.sendWayUpdate(-1, node.getId()); // after end way
-                                                                // in
-                                                                // one_shot
-                                                                // mode, we
-                                                                // send an
-                                                                // update
-                                                                // for the last
-                                                                // waypoint
+                        sender.sendWayUpdate(-1, (int) node.getId()); // after
+                                                                      // end way
+                    // in
+                    // one_shot
+                    // mode, we
+                    // send an
+                    // update
+                    // for the last
+                    // waypoint
                 }
                 currentNodes.clear(); // no node waiting for GPS position any
                                       // more
@@ -275,12 +277,8 @@ public class WaypointLogService extends Service implements LocationListener {
                                                                               // was
                                                                               // already
                 // added before
-                sender.sendWayUpdate(currentWay().getId(), nn.getId()); // call
-                                                                        // for
-                                                                        // an
-                                                                        // update
-                                                                        // of
-                // the way
+                sender.sendWayUpdate((int) currentWay().getId(),
+                        (int) nn.getId()); // call for an update of the way
             }
         }
     }

@@ -66,8 +66,7 @@ public class StartActivity extends Activity {
             try {
                 ServiceConnector.getLoggerService().startTrack();
             } catch (RemoteException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "Could not start new track as logger service cannot be reached.");
+                LogIt.e("Could not start new track as logger service cannot be reached.");
             }
 
         Intent intent = new Intent(this, MapsForgeActivity.class);
@@ -89,8 +88,7 @@ public class StartActivity extends Activity {
             try {
                 ServiceConnector.getLoggerService().startTrack();
             } catch (RemoteException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "Could not start new track as logger service cannot be reached.");
+                LogIt.e("Could not start new track as logger service cannot be reached.");
             }
 
         Intent intent = new Intent(this, NewTrackActivity.class);
@@ -145,14 +143,14 @@ public class StartActivity extends Activity {
         try {
             dao.create(track);
         } catch (SQLException e) {
-            LogIt.e(LogIt.TRACEBOOK_TAG, "Do not happen!");
+            LogIt.e("Do not happen!");
         }
         try {
             for (DBTrack t : dao.queryForAll()) {
-                LogIt.d(LogIt.TRACEBOOK_TAG, "§§§§§§§ YAY " + t.name);
+                LogIt.d("§§§§§§§ YAY " + t.name);
             }
         } catch (SQLException e) {
-            LogIt.e(LogIt.TRACEBOOK_TAG, "Do not happen 2!");
+            LogIt.e("Do not happen 2!");
         }
 
         // Initialize ServiceConnector
@@ -193,7 +191,7 @@ public class StartActivity extends Activity {
             try {
                 ServiceConnector.getLoggerService().stopTrack();
             } catch (RemoteException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not stop track.");
+                LogIt.e("Could not stop track.");
             }
             ServiceConnector.stopService();
             finish();
@@ -230,7 +228,7 @@ public class StartActivity extends Activity {
             ServiceConnector.releaseService();
             ServiceConnector.stopService();
         } catch (IllegalArgumentException e) {
-            LogIt.e(LogIt.TRACEBOOK_TAG, "Releasing service failed.");
+            LogIt.e("Releasing service failed.");
         }
     }
 

@@ -28,21 +28,21 @@ import com.j256.ormlite.table.DatabaseTable;
 public class DBPointsList {
 
     @DatabaseField
-    String datetime;
+    public String datetime;
     @DatabaseField(id = true)
-    long id;
+    public long id;
     @DatabaseField
-    boolean isArea;
+    public boolean isArea;
 
     @ForeignCollectionField
-    ForeignCollection<DBMedia> media;
+    public ForeignCollection<DBMedia> media;
 
     @ForeignCollectionField
-    ForeignCollection<DBNode> nodes;
+    public ForeignCollection<DBNode> nodes;
 
     @ForeignCollectionField
-    ForeignCollection<DBTag> tags;
+    public ForeignCollection<DBTag> tags;
 
     @DatabaseField(foreign = true)
-    DBTrack track;
+    public DBTrack track;
 }

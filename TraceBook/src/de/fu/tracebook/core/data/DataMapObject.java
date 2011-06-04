@@ -34,7 +34,8 @@ import de.fu.tracebook.util.LogIt;
  * Basic class for any object that is stored in OSM. All objects have an id and
  * some tags. Additionally all objects can have media attached.
  */
-public abstract class DataMapObject extends DataMediaHolder implements IDataMapObject {
+public abstract class DataMapObject extends DataMediaHolder implements
+        IDataMapObject {
     /**
      * An id for this object. It is not an id for OSM which is set to -1 for all
      * new objects but it is a program internal id. It should be unique.
@@ -78,21 +79,27 @@ public abstract class DataMapObject extends DataMediaHolder implements IDataMapO
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMapObject#getId()
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMapObject#getTags()
      */
     public Map<String, String> getTags() {
         return tags;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.fu.tracebook.core.data.IDataMapObject#hasAdditionalInfo()
      */
     public boolean hasAdditionalInfo() {
@@ -116,11 +123,11 @@ public abstract class DataMapObject extends DataMediaHolder implements IDataMapO
                 serializer.endTag(null, "tag");
             }
         } catch (IllegalArgumentException e) {
-            LogIt.e("TagSerialisation", "Should not happen");
+            LogIt.e("Should not happen");
         } catch (IllegalStateException e) {
-            LogIt.e("TagSerialisation", "Illegal state");
+            LogIt.e("Illegal state");
         } catch (IOException e) {
-            LogIt.e("TagSerialisation", "Could not serialize tags");
+            LogIt.e("Could not serialize tags");
         }
         return;
     }

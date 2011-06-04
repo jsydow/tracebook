@@ -146,7 +146,7 @@ public class DataNode extends DataMapObject implements IDataNode {
                     df.format(this.getCoordinates().getLatitude()));
             serializer.attribute(null, "lon",
                     df.format(this.getCoordinates().getLongitude()));
-            serializer.attribute(null, "id", Integer.toString(this.getId()));
+            serializer.attribute(null, "id", Long.toString(this.getId()));
             serializer.attribute(null, "timestamp", this.getDatetime());
             serializer.attribute(null, "version", "1");
 
@@ -158,11 +158,11 @@ public class DataNode extends DataMapObject implements IDataNode {
             serializer.endTag(null, "node");
 
         } catch (IllegalArgumentException e) {
-            LogIt.e("NodeSerialisation", "Should not happen");
+            LogIt.e("Should not happen");
         } catch (IllegalStateException e) {
-            LogIt.e("NodeSerialisation", "Illegal state");
+            LogIt.e("Illegal state");
         } catch (IOException e) {
-            LogIt.e("NodeSerialisation", "Could not serialize node");
+            LogIt.e("Could not serialize node");
         }
     }
 

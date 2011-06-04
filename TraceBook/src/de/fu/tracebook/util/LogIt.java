@@ -56,6 +56,9 @@ public final class LogIt {
      */
     public static final int MIN_LOG_LEVEL = 1;
 
+    /**
+     * The tag for logging.
+     */
     public static final String TRACEBOOK_TAG = "TraceBook";
 
     private static final String LOG_PREFIX = "TraceBook";
@@ -68,26 +71,20 @@ public final class LogIt {
 
     /**
      * Logs message with debug priority.
-     * 
-     * @param tag
-     *            prefix of the log message
      * @param message
      *            The message to be logged
      */
-    public static synchronized void d(String tag, String message) {
-        log(tag, message, 2);
+    public static synchronized void d(String message) {
+        log(TRACEBOOK_TAG, message, 2);
     }
 
     /**
      * Logs message with error priority.
-     * 
-     * @param tag
-     *            prefix of the log message
      * @param message
      *            The message to be logged
      */
-    public static synchronized void e(String tag, String message) {
-        log(tag, message, 5);
+    public static synchronized void e(String message) {
+        log(TRACEBOOK_TAG, message, 5);
     }
 
     /**
@@ -112,7 +109,7 @@ public final class LogIt {
                     fw.append(prefix + ": " + message);
                     fw.close();
                 } catch (IOException e) {
-                    LogIt.e(LOG_PREFIX, "Logging error: Could not log to file!");
+                    LogIt.e("Logging error: Could not log to file!");
                 }
                 break;
             case LOGMETHOD_ANDROID:
@@ -195,14 +192,11 @@ public final class LogIt {
 
     /**
      * Logs message with error priority.
-     * 
-     * @param tag
-     *            prefix of the log message
      * @param message
      *            The message to be logged
      */
-    public static synchronized void w(String tag, String message) {
-        log(tag, message, 4);
+    public static synchronized void w(String message) {
+        log(TRACEBOOK_TAG, message, 4);
     }
 
     private LogIt() {

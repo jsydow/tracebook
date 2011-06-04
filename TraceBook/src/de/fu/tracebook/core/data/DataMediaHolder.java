@@ -54,13 +54,13 @@ public abstract class DataMediaHolder implements IDataMediaHolder {
     /**
      * The list of Media.
      */
-    protected List<DataMedia> media;
+    protected List<IDataMedia> media;
 
     /**
      * Default constructor.
      */
     public DataMediaHolder() {
-        media = new LinkedList<DataMedia>();
+        media = new LinkedList<IDataMedia>();
         this.datetime = getW3CFormattedTimeStamp();
     }
 
@@ -83,7 +83,7 @@ public abstract class DataMediaHolder implements IDataMediaHolder {
      * @see de.fu.tracebook.core.data.IDataMediaHolder#deleteMedia(int)
      */
     public void deleteMedia(int id) {
-        ListIterator<DataMedia> lit = media.listIterator();
+        ListIterator<IDataMedia> lit = media.listIterator();
         IDataMedia dm;
         while (lit.hasNext()) {
             dm = lit.next();
@@ -132,7 +132,7 @@ public abstract class DataMediaHolder implements IDataMediaHolder {
      * 
      * @see de.fu.tracebook.core.data.IDataMediaHolder#getMedia()
      */
-    public List<DataMedia> getMedia() {
+    public List<IDataMedia> getMedia() {
         return media;
     }
 
@@ -144,8 +144,8 @@ public abstract class DataMediaHolder implements IDataMediaHolder {
      *            An XmlSerializer that is initialized.
      */
     public void serializeMedia(XmlSerializer serializer) {
-        for (DataMedia m : media) {
-            m.serialize(serializer);
+        for (IDataMedia m : media) {
+            ((DataMedia) m).serialize(serializer);
         }
     }
 

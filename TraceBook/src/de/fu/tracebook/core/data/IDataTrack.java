@@ -26,28 +26,15 @@ import org.mapsforge.android.maps.GeoPoint;
 public interface IDataTrack extends IDataMediaHolder {
 
     /**
-     * Returns a list of {@link OverlayItem}s whose {@link DataNode} does no
-     * longer exist. For efficiency reasons they are stored in a list, so when
-     * e.g. a way is deleted, the Overlay will not be redrawn for every deleted
-     * waypoint, but receive a notification that invalid OverlayItems exist when
-     * the removal procedure has finished.
-     * 
-     * @return The list of invalid OverlayItems. It will be cleared by this
-     *         call.
-     */
-    // Collection<OverlayItem> clearInvalidItems();
-
-    /**
      * This method deletes a Node (POI) of this Track or a node of one of the
      * ways of this track from the devices memory and the working memory. If
      * this node does not exist nothing is done.
      * 
      * @param id
      *            The id of the POI to delete.
-     * @return A reference to the deleted DataNode object if it exists, null
-     *         otherwise..
+     * @return true if deleting node was successful
      */
-    IDataNode deleteNode(int id);
+    boolean deleteNode(int id);
 
     /**
      * This method deletes a Way of this Track from the devices memory and the
@@ -70,7 +57,7 @@ public interface IDataTrack extends IDataMediaHolder {
      * 
      * @return The current Way. Current Way can be null if not initialized.
      */
-    DataPointsList getCurrentWay();
+    IDataPointsList getCurrentWay();
 
     /**
      * Search the whole track for an DataMapObject by id. This may be a DataNode
@@ -81,7 +68,7 @@ public interface IDataTrack extends IDataMediaHolder {
      * @return The DataMapObject where get_id()==id or null if there is not such
      *         an object.
      */
-    DataMapObject getDataMapObjectById(int id);
+    IDataMapObject getDataMapObjectById(int id);
 
     /**
      * Getter-method.
@@ -97,7 +84,7 @@ public interface IDataTrack extends IDataMediaHolder {
      *            The id of the DataNode
      * @return The DataNode or null if there is none with such an id.
      */
-    DataNode getNodeById(int id);
+    IDataNode getNodeById(int id);
 
     /**
      * Getter-method that returns a list of all nodes. The returned List is the
@@ -115,7 +102,7 @@ public interface IDataTrack extends IDataMediaHolder {
      *            The id of the DataPointsList
      * @return The DataPointsList or null if there is none with such an id.
      */
-    DataPointsList getPointsListById(int id);
+    IDataPointsList getPointsListById(int id);
 
     /**
      * Returns the complete absolute path to this Track directory.
@@ -147,14 +134,14 @@ public interface IDataTrack extends IDataMediaHolder {
      *            The GeoPoint object to be used for constructing the new Node.
      * @return The newly created POI.
      */
-    DataNode newNode(GeoPoint coordinates);
+    IDataNode newNode(GeoPoint coordinates);
 
     /**
      * Create a new Way/Area in this Track.
      * 
      * @return The newly created Way.
      */
-    DataPointsList newWay();
+    IDataPointsList newWay();
 
     /**
      * This method saves a String to a .txt file and generates a
@@ -181,7 +168,7 @@ public interface IDataTrack extends IDataMediaHolder {
      *            The new currently edited Way.
      * @return Returns the parameter currentWay for further use.
      */
-    IDataPointsList setCurrentWay(DataPointsList currentWay);
+    IDataPointsList setCurrentWay(IDataPointsList currentWay);
 
     /**
      * Setter-method. Renames a Track in the devices and working memory.

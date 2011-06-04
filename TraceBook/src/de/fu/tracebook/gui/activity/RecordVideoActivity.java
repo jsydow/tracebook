@@ -162,7 +162,7 @@ public class RecordVideoActivity extends Activity implements
         try {
             recorder.prepare(maxDuration, holder.getSurface());
         } catch (IOException e) {
-            LogIt.e("TraceBook", e.toString());
+            LogIt.e(e.toString());
         }
     }
 

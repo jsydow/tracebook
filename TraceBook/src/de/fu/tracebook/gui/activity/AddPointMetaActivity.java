@@ -399,11 +399,11 @@ public class AddPointMetaActivity extends ListActivity {
 
         } catch (XmlPullParserException xe) {
             parser.close();
-            LogIt.e("PARSE_TAGS", "Couldn't parse tags from xml");
+            LogIt.e("Couldn't parse tags from xml");
             return new String[0];
         } catch (IOException e) {
             parser.close();
-            LogIt.e("PARSE_TAGS", "Couldn't parse tags from xml");
+            LogIt.e("Couldn't parse tags from xml");
             return new String[0];
         } finally {
             parser.close();

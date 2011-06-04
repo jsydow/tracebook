@@ -24,15 +24,18 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "media")
 public class DBMedia {
-    @DatabaseField
-    String name;
-    @DatabaseField(foreign = true)
-    DBNode node;
+    @DatabaseField(generatedId = true)
+    public long id;
 
     @DatabaseField
-    String path;
+    public String name;
     @DatabaseField(foreign = true)
-    DBTrack track;
+    public DBNode node;
+
+    @DatabaseField
+    public String path;
     @DatabaseField(foreign = true)
-    DBPointsList way;
+    public DBTrack track;
+    @DatabaseField(foreign = true)
+    public DBPointsList way;
 }

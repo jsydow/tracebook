@@ -41,8 +41,15 @@ public interface IDataStorage {
      *            The name of the Track.
      * @return The deserialized Track or null if track does not exist.
      */
-    DataTrack deserializeTrack(String name);
+    IDataTrack deserializeTrack(String name);
 
+    /**
+     * Tests if this track exists.
+     * 
+     * @param trackname
+     *            The name of the track.
+     * @return True if track exists.
+     */
     boolean doesTrackExist(String trackname);
 
     /**

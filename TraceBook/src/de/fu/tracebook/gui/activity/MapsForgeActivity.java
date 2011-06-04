@@ -131,7 +131,7 @@ public class MapsForgeActivity extends MapActivity {
                 break;
             // Receive an update of a way and update the overlay accordingly
             case GpsMessage.UPDATE_OBJECT:
-                LogIt.d(LOG_TAG, "UPDATE_OBJECT received, way: " + wayId
+                LogIt.d("UPDATE_OBJECT received, way: " + wayId
                         + " node: " + pointId);
 
                 if (wayId > 0) {
@@ -154,7 +154,7 @@ public class MapsForgeActivity extends MapActivity {
                         }
 
                     } else
-                        LogIt.d(LOG_TAG, "Way can not be found.");
+                        LogIt.d("Way can not be found.");
                 } else if (pointId > 0) {
                     IDataNode node = Helper.currentTrack().getNodeById(pointId);
                     if (node != null) { // last node of a one_shot way after
@@ -173,13 +173,13 @@ public class MapsForgeActivity extends MapActivity {
 
                 break;
             case GpsMessage.MOVE_POINT:
-                LogIt.d(LOG_TAG, "Enter edit mode for Point " + pointId);
+                LogIt.d("Enter edit mode for Point " + pointId);
 
                 editNode = Helper.currentTrack().getNodeById(pointId);
 
                 break;
             case GpsMessage.END_WAY:
-                LogIt.d(LOG_TAG, "End way for way " + wayId + " received.");
+                LogIt.d("End way for way " + wayId + " received.");
 
                 IDataPointsList way = Helper.currentTrack().getPointsListById(
                         wayId);
@@ -195,14 +195,13 @@ public class MapsForgeActivity extends MapActivity {
                 removeInvalidItems();
                 break;
             default:
-                LogIt.e(LOG_TAG,
-                        "unhandled Message, ID="
-                                + intend.getIntExtra("type", -1));
+                LogIt.e("unhandled Message, ID="
+                        + intend.getIntExtra("type", -1));
             }
         }
 
         private void removeInvalidItems() {
-            LogIt.d(LOG_TAG, "Request to remove invalid nodes");
+            LogIt.d("Request to remove invalid nodes");
 
             Collection<OverlayItem> invalids = StorageFactory.getStorage()
                     .getOverlayManager().getAndClearInvalidOverlayItems();
@@ -287,15 +286,14 @@ public class MapsForgeActivity extends MapActivity {
             if (editNode.getDataPointsList() != null) {
                 StorageFactory.getStorage().getOverlayManager()
                         .updateOverlayRoute(editNode.getDataPointsList(), null);
-                LogIt.d(LOG_TAG, "Requesting redraw");
+                LogIt.d("Requesting redraw");
                 routesOverlay.requestRedraw();
             }
 
             pointsOverlay.requestRedraw();
 
             if (ev.getAction() == MotionEvent.ACTION_UP) {
-                LogIt.d(LOG_TAG,
-                        "Exiting edit mode for point " + editNode.getId());
+                LogIt.d("Exiting edit mode for point " + editNode.getId());
                 editNode = null;
             }
 
@@ -385,8 +383,7 @@ public class MapsForgeActivity extends MapActivity {
                             NewTrackActivity.class, true);
                 }
             } catch (RemoteException ex) {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "There is a problem with the logger service.");
+                LogIt.e("There is a problem with the logger service.");
             }
 
             return true;
@@ -427,7 +424,7 @@ public class MapsForgeActivity extends MapActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LogIt.d(LOG_TAG, "Creating MapActivity");
+        LogIt.d("Creating MapActivity");
 
         setContentView(R.layout.activity_mapsforgeactivity);
         mapView = (MapView) findViewById(R.id.ly_mapsforgeMapView);
@@ -445,20 +442,20 @@ public class MapsForgeActivity extends MapActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogIt.d(LOG_TAG, "Destroying map activity");
+        LogIt.d("Destroying map activity");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LogIt.d(LOG_TAG, "Pausing MapActivity");
+        LogIt.d("Pausing MapActivity");
         unregisterReceiver(gpsReceiver);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogIt.d(LOG_TAG, "Resuming MapActivity");
+        LogIt.d("Resuming MapActivity");
 
         // redraw all overlays to account for the events we've missed paused
         routesOverlay.clear();
