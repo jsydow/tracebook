@@ -258,7 +258,7 @@ public class AddPointActivity extends ListActivity {
         // ServiceConnector.initService();
 
         if (node == null) {
-            LogIt.e("############", "node null");
+            LogIt.e("node null");
         }
 
         registerForContextMenu(getListView());
@@ -293,8 +293,8 @@ public class AddPointActivity extends ListActivity {
         if (node != null && !node.hasAdditionalInfo()
                 && node instanceof IDataNode
                 && ((IDataNode) node).getDataPointsList() == null) {
-            LogIt.d("AddPoint", "POI is empty, will not keep it");
-            Helper.currentTrack().deleteNode(node.getId());
+            LogIt.d("POI is empty, will not keep it");
+            Helper.currentTrack().deleteNode((int) node.getId());
             (new GpsMessage(this)).sendDiscardIntent();
         }
 

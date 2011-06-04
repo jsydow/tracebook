@@ -20,18 +20,13 @@
 package de.fu.tracebook.core.data;
 
 import java.io.File;
-import java.io.IOException;
+import java.sql.SQLException;
 
-import org.xmlpull.v1.XmlSerializer;
-
+import de.fu.tracebook.core.data.implementation.DBMedia;
+import de.fu.tracebook.core.data.implementation.DataOpenHelper;
 import de.fu.tracebook.util.LogIt;
 
-/**
- * This is an object that refers to a medium. The medium itself is stored on the
- * background memory of the device. Only the name and path of the actual medium
- * is stored in this object.
- */
-public class DataMedia implements IDataMedia {
+public class NewMedia implements IDataMedia {
 
     private static String[] extensions = { ".txt", ".jpg", ".m4a", ".mp4" };
 
@@ -75,65 +70,32 @@ public class DataMedia implements IDataMedia {
         return extensions[paramType];
     }
 
+    private DBMedia thisMedium;
+
     /**
-     * This method loads a medium reference from the devices memory.
+     * Create a NewMedia object from a DBMedia object from the database.
      * 
-     * @param path
-     *            The complete path to the medium.
-     * @return The deserialized DataMedia object or null if medium doesn't
-     *         exist.
+     * @param medium
+     *            The existing medium.
      */
-    static DataMedia deserialize(String path) {
-        File medium = new File(path);
-        if (medium.exists()) {
-            return new DataMedia(medium.getParent(), medium.getName());
-        }
-        LogIt.w("Medium was not found. Was trying to load a medium.");
-        return null;
+    public NewMedia(DBMedia medium) {
+        this.thisMedium = medium;
     }
 
     /**
-     * The internal id for this medium.
-     */
-    private int id;
-
-    /**
-     * This name is the displayed name and filename (contains extension).
-     */
-    private String name;
-
-    /**
-     * The path to the file of the medium on the memory. This path+name should
-     * be sufficient to open the file. Path is therefore the base name.
-     */
-    private String path;
-
-    /**
-     * This is the type of the medium. Use the TYPE_****-constants!
-     */
-    private int type;
-
-    /**
-     * Constructor that initializes the medium.
+     * Create a new DBMedia object.
      * 
      * @param path
-     *            Path to the file (basename).
-     * @param name
-     *            Name of the medium (filename).
+     *            The path to the medium.
+     * @param filename
+     *            The filename of the medium.
      */
-    public DataMedia(String path, String name) {
-        super();
-        this.id = StorageFactory.getStorage().getID();
-        this.path = path;
-        this.name = name;
-        this.type = getTypeFromFilename(name);
+    public NewMedia(String path, String filename) {
+        this.thisMedium = new DBMedia();
+        thisMedium.path = path;
+        thisMedium.name = filename;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#delete()
-     */
     public void delete() {
         File medium = new File(getFullPath());
         if (medium.isFile()) {
@@ -141,70 +103,25 @@ public class DataMedia implements IDataMedia {
                 LogIt.w("Could not delete medium");
             }
         }
+
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#getId()
-     */
     public int getId() {
-        return id;
+        return (int) thisMedium.id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#getName()
-     */
     public String getName() {
-        return name;
+        return thisMedium.name;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#getPath()
-     */
     public String getPath() {
-        return path;
+        return thisMedium.path;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#getType()
-     */
     public int getType() {
-        return type;
+        return getTypeFromFilename(thisMedium.name);
     }
 
-    /**
-     * Generates a link tag for this medium.
-     * 
-     * @param serializer
-     *            The initialized XmlSerialiser.
-     */
-    public void serialize(XmlSerializer serializer) {
-        try {
-            serializer.startTag(null, "link");
-            // serializer.attribute(null, "type", typeToString(type)); not used
-            serializer.attribute(null, "href", name);
-            serializer.endTag(null, "link");
-        } catch (IllegalArgumentException e) {
-            LogIt.e("Should not happen");
-        } catch (IllegalStateException e) {
-            LogIt.e("Illegal state");
-        } catch (IOException e) {
-            LogIt.e("Could not serialize medium " + name);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#setName(java.lang.String)
-     */
     public void setName(String newname) {
         File oldfile = new File(getFullPath());
         File newfile = new File(getPath() + File.separator + newname);
@@ -212,17 +129,18 @@ public class DataMedia implements IDataMedia {
         if (!success) {
             LogIt.e("Could not rename medium.");
         } else {
-            this.name = newname;
+            thisMedium.name = newname;
+            try {
+                DataOpenHelper.getInstance().getMediaDAO().update(thisMedium);
+            } catch (SQLException e) {
+                LogIt.e("Could not update name of medium.");
+            }
         }
+
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.fu.tracebook.core.data.IDataMedia#setType(int)
-     */
     public void setType(int type) {
-        this.type = type;
+        // do nothing
     }
 
     /**
@@ -232,6 +150,7 @@ public class DataMedia implements IDataMedia {
      *         be not null, except some idiot misused methods)
      */
     private String getFullPath() {
-        return path + File.separator + name;
+        return thisMedium.path + File.separator + thisMedium.name;
     }
+
 }

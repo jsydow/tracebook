@@ -182,14 +182,14 @@ public class NewTrackActivity extends TabActivity {
         long start = System.currentTimeMillis();
         StorageFactory.getStorage().getTrack().getDataMapObjectById(1);
         long end = System.currentTimeMillis() - start;
-        LogIt.d("TraceBookOperation", "@@@@@@ Took " + end + " ms");
+        LogIt.d("@@@@@@ Took " + end + " ms");
 
         try {
             nodeId = ServiceConnector.getLoggerService().createPOI(false);
         } catch (RemoteException e) {
-            LogIt.e("###############", "no service: " + e.getMessage());
+            LogIt.e("no service: " + e.getMessage());
         }
-        LogIt.d("TraceBook", "nodeid " + nodeId);
+        LogIt.d("nodeid " + nodeId);
 
         final Intent intent = new Intent(this, AddPointActivity.class);
         intent.putExtra("DataNodeId", nodeId);
@@ -757,7 +757,7 @@ public class NewTrackActivity extends TabActivity {
                     int position, long id) {
 
                 GenericAdapterData data = adapter.getItem(position);
-                LogIt.d(ACTIVITY_SERVICE, "NodeID: " + data.getText("NodeId"));
+                LogIt.d("NodeID: " + data.getText("NodeId"));
 
                 int nodeId = Integer.parseInt(data.getText("NodeId").trim());
                 intent.putExtra("DataNodeId", nodeId);

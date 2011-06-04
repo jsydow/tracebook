@@ -85,7 +85,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     else
                         ServiceConnector.getLoggerService().beginWay(true);
                 } catch (RemoteException e) {
-                    LogIt.e(LogIt.TRACEBOOK_TAG, "");
+                    LogIt.e("");
                 }
                 break;
             case 2: // add way point / Start Area
@@ -95,8 +95,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     else
                         ServiceConnector.getLoggerService().beginArea(true);
                 } catch (RemoteException e) {
-                    LogIt.e(LogIt.TRACEBOOK_TAG,
-                            "Could not start new way/area becauseof logger service.");
+                    LogIt.e("Could not start new way/area becauseof logger service.");
                 }
                 break;
             default:
@@ -143,18 +142,19 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                 context.startActivity(intent);
                 break;
             case 1: // move this
-                sender.sendMovePoint(node.getId());
+                sender.sendMovePoint((int) node.getId());
                 break;
             case 2: // delete this
                 IDataPointsList way = null;
                 if (node != null) {
                     way = node.getDataPointsList();
                     if (Helper.currentTrack() != null
-                            && Helper.currentTrack().deleteNode(node.getId()) != null) {
+                            && Helper.currentTrack().deleteNode(
+                                    (int) node.getId())) {
                         removeItem(StorageFactory.getStorage()
                                 .getOverlayManager().getOverlayItem(node));
                         if (way != null) // we have to redraw the way
-                            sender.sendWayUpdate(way.getId(), -1);
+                            sender.sendWayUpdate((int) way.getId(), -1);
                     } else {
                         LogIt.popup(context,
                                 "Can not delete Node id=" + node.getId());
@@ -170,8 +170,6 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
             this.node = node;
         }
     }
-
-    private static final String LOG_TAG = "DNAIO";
 
     private CurrentPosListener contextMenueCurrentPosListener;
     private DefaultListener contextMenueListener;

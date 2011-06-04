@@ -28,7 +28,7 @@ public interface IDataMapObject extends IDataMediaHolder {
      * 
      * @return The id of the object.
      */
-    int getId();
+    long getId();
 
     /**
      * Getter-method for a all tags stored as a Map of String. Tags that are no

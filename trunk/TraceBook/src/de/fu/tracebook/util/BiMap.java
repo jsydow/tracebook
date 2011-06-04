@@ -24,11 +24,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author js
+ * 
+ *         This is an implementation of a bidirectional map. It maps Keys to
+ *         Values and Values to Keys.
+ * 
+ * @param <K>
+ *            The Key.
+ * @param <V>
+ *            The Value.
+ */
 public class BiMap<K, V> implements Map<K, V> {
 
     private HashMap<V, K> backward = new HashMap<V, K>();
     private HashMap<K, V> forward = new HashMap<K, V>();
 
+    /**
+     * Default constructor.
+     */
     public BiMap() {
         // do nothing
     }
@@ -59,6 +73,11 @@ public class BiMap<K, V> implements Map<K, V> {
         return forward.get(key);
     }
 
+    /**
+     * Inverts the Bimap for value to key mapping.
+     * 
+     * @return The inverse Bimap.
+     */
     public BiMap<V, K> inverse() {
         return new BiMap<V, K>(backward, forward);
     }

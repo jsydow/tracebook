@@ -55,7 +55,7 @@ public interface IDataMediaHolder {
      * 
      * @return The list of all media. (not null)
      */
-    List<DataMedia> getMedia();
+    List<IDataMedia> getMedia();
 
     /**
      * Set the Creation time of this MediaHolder. Used to restore an old

@@ -44,7 +44,7 @@ public interface IDataPointsList extends IDataMapObject {
      *            The id of the Node that is being searched for.
      * @return The DataNode where get_id() == id, or null if not found.
      */
-    DataNode getNodeById(int nodeId);
+    IDataNode getNodeById(int nodeId);
 
     /**
      * Getter-method that returns a list of all nodes. The returned List is the
@@ -72,7 +72,7 @@ public interface IDataPointsList extends IDataMapObject {
      *            location.
      * @return The newly created DataNode.
      */
-    DataNode newNode(GeoPoint location);
+    IDataNode newNode(GeoPoint location);
 
     /**
      * Setter-method.

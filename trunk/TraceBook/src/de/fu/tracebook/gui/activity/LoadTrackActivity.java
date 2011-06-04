@@ -140,8 +140,7 @@ public class LoadTrackActivity extends ListActivity {
                 final Intent intent = new Intent(this, NewTrackActivity.class);
                 startActivity(intent);
             } else {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "Track to load was not found or is corrupt.");
+                LogIt.e("Track to load was not found or is corrupt.");
                 LogIt.popup(this,
                         "Track to load could not be opened. Missing or corrupt.");
             }
@@ -170,16 +169,13 @@ public class LoadTrackActivity extends ListActivity {
                             case 0:
                                 break;
                             case -1:
-                                LogIt.e(LogIt.TRACEBOOK_TAG,
-                                        "Track to rename was not found or is corrupt.");
+                                LogIt.e("Track to rename was not found or is corrupt.");
                                 break;
                             case -2:
-                                LogIt.e(LogIt.TRACEBOOK_TAG,
-                                        "There is already a track with this name.");
+                                LogIt.e("There is already a track with this name.");
                                 break;
                             case -3:
-                                LogIt.e(LogIt.TRACEBOOK_TAG,
-                                        "Track could not be renamed.");
+                                LogIt.e("Track could not be renamed.");
                                 break;
                             default:
                                 break;
@@ -447,7 +443,7 @@ public class LoadTrackActivity extends ListActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 StorageFactory.getStorage().deleteTrack(trname);
-                                LogIt.d("DEBUG", "delete " + trname);
+                                LogIt.d("delete " + trname);
                                 // showDialogForAdapterUpdate();
                             }
                         })
@@ -545,9 +541,8 @@ public class LoadTrackActivity extends ListActivity {
                                                                 trackname));
                                         long stop = System.currentTimeMillis()
                                                 - start;
-                                        LogIt.d("TraceBook",
-                                                "#### Stop loading. Time: "
-                                                        + stop);
+                                        LogIt.d("#### Stop loading. Time: "
+                                                + stop);
                                         startActivity(intent);
                                         overridePendingTransition(
                                                 R.anim.zoom_enter,
@@ -575,13 +570,13 @@ public class LoadTrackActivity extends ListActivity {
                                 StorageFactory.getStorage().deserializeTrack(
                                         trackname));
                 long stop = System.currentTimeMillis() - start;
-                LogIt.d("TraceBook", "#### Stop loading. Time: " + stop);
+                LogIt.d("#### Stop loading. Time: " + stop);
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
 
         } else {
-            LogIt.e("RenameTrack", "Track to load was not found or is corrupt.");
+            LogIt.e("Track to load was not found or is corrupt.");
             LogIt.popup(this,
                     "Track to load could not be opened. Missing or corrupt.");
         }

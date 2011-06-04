@@ -75,7 +75,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             try {
                 mediaDAO = getDao(DBMedia.class);
             } catch (SQLException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not create DAO object.");
+                LogIt.e("Could not create DAO object.");
             }
         }
 
@@ -90,7 +90,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             try {
                 nodeDAO = getDao(DBNode.class);
             } catch (SQLException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not create DAO object.");
+                LogIt.e("Could not create DAO object.");
             }
         }
 
@@ -105,7 +105,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             try {
                 pointslistDAO = getDao(DBPointsList.class);
             } catch (SQLException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not create DAO object.");
+                LogIt.e("Could not create DAO object.");
             }
         }
 
@@ -120,7 +120,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             try {
                 tagDAO = getDao(DBTag.class);
             } catch (SQLException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG, "Could not create DAO object.");
+                LogIt.e("Could not create DAO object.");
             }
         }
 
@@ -135,8 +135,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             try {
                 trackDAO = getDao(DBTrack.class);
             } catch (SQLException e) {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "Could not create DAO object." + e.getMessage());
+                LogIt.e("Could not create DAO object." + e.getMessage());
             }
         }
 
@@ -154,7 +153,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             // TODO create tables here
 
         } catch (SQLException e) {
-            LogIt.e(LogIt.TRACEBOOK_TAG, "Could not create table.");
+            LogIt.e("Could not create table.");
         }
 
     }
@@ -171,7 +170,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             // TODO drop tables here
             onCreate(db, connectionSource);
         } catch (SQLException e) {
-            LogIt.e(LogIt.TRACEBOOK_TAG, "Could not drop table.");
+            LogIt.e("Could not drop table.");
             throw new RuntimeException(e);
         }
     }

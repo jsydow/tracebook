@@ -98,18 +98,16 @@ public class DataTrackInfo {
                             info.numberOfMedia = Integer.parseInt(value);
                         }
                     } else {
-                        LogIt.w("DeserialisingDataTrackInfo",
-                                "XML-file is invalid. A data-node has no key-attribute.");
+                        LogIt.w("XML-file is invalid. A data-node has no key-attribute.");
                     }
                 }
 
             } catch (ParserConfigurationException e) {
-                LogIt.e("DeserialisingDataTrackInfo", "This should not happen!");
+                LogIt.e("This should not happen!");
             } catch (SAXException e) {
-                LogIt.e("DeserialisingDataTrackInfo", "XML-file is not valid.!");
+                LogIt.e("XML-file is not valid.!");
             } catch (IOException e) {
-                LogIt.e("DeserialisingDataTrackInfo",
-                        "Error while reading XML file!");
+                LogIt.e("Error while reading XML file!");
             }
         } else {
             info.comment = "";
@@ -261,16 +259,16 @@ public class DataTrackInfo {
             serializer.endTag(null, "info");
             serializer.flush();
         } catch (IllegalArgumentException e) {
-            LogIt.e(LOG_TAG, e.getMessage());
+            LogIt.e(e.getMessage());
         } catch (IllegalStateException e) {
-            LogIt.e(LOG_TAG, e.getMessage());
+            LogIt.e(e.getMessage());
         } catch (IOException e) {
-            LogIt.e(LOG_TAG, e.getMessage());
+            LogIt.e(e.getMessage());
         } finally {
             try {
                 fileos.close();
             } catch (IOException e) {
-                LogIt.e(LOG_TAG, "Unable to read file: " + e.getMessage());
+                LogIt.e("Unable to read file: " + e.getMessage());
             }
         }
 

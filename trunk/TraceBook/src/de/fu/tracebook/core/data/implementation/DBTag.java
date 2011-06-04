@@ -25,12 +25,12 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "tags")
 public class DBTag {
     @DatabaseField
-    String key;
+    public String key;
     @DatabaseField(foreign = true)
-    DBNode node;
+    public DBNode node;
 
     @DatabaseField
-    String value;
+    public String value;
     @DatabaseField(foreign = true)
-    DBPointsList way;
+    public DBPointsList way;
 }

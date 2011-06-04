@@ -171,23 +171,22 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                 ret.getNodes().addAll(allnodes);
 
             } catch (IOException e) {
-                LogIt.e("TrackDeserialisation", "Error while reading XML file.");
+                LogIt.e("Error while reading XML file.");
                 return null;
             } catch (ParserConfigurationException e) {
-                LogIt.e("TrackDeserialisation", "XML parser doesn't work.");
+                LogIt.e("XML parser doesn't work.");
                 return null;
             } catch (SAXException e) {
-                LogIt.e("TrackDeserialisation", "Error while parsing XML file.");
+                LogIt.e("Error while parsing XML file.");
                 return null;
             }
         } else {
-            LogIt.e("TrackDeserialisation",
-                    "Track was not found. Path should be " + track.getPath());
+            LogIt.e("Track was not found. Path should be " + track.getPath());
             return null;
         }
 
-        LogIt.d("TraceBookDeserialisation", "Got " + ret.nodes.size()
-                + " POIs and " + ret.ways.size() + " ways");
+        LogIt.d("Got " + ret.nodes.size() + " POIs and " + ret.ways.size()
+                + " ways");
         return ret;
     }
 
@@ -272,13 +271,13 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             }
 
         } catch (XmlPullParserException e) {
-            LogIt.e("TraceBook Deserialization", e.getMessage());
+            LogIt.e(e.getMessage());
         } catch (FileNotFoundException e) {
-            LogIt.e("TraceBook Deserialization", e.getMessage());
+            LogIt.e(e.getMessage());
         } catch (IOException e) {
-            LogIt.e("TraceBook Deserialization", e.getMessage());
+            LogIt.e(e.getMessage());
         } catch (NullPointerException e) {
-            LogIt.e("TraceBook Deserialization", e.getMessage());
+            LogIt.e(e.getMessage());
         }
 
         ret.nodes.addAll(allnodes.values());
@@ -287,10 +286,10 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             if ("yes".equals(dpl.getTags().get("area"))) {
                 dpl.setArea(true);
             }
-            LogIt.d("@@@@@@@@", "way has " + dpl.getNodes().size() + " nodes.");
+            LogIt.d("way has " + dpl.getNodes().size() + " nodes.");
         }
 
-        LogIt.d("@@@@@@@@", "ways: " + ret.getWays().size() + ", nodes: "
+        LogIt.d("ways: " + ret.getWays().size() + ", nodes: "
                 + ret.getNodes().size());
 
         return ret;
@@ -333,25 +332,23 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
         try {
             if (file.exists()) {
                 if (!file.delete()) {
-                    LogIt.e("OpenFile", "Deleting old file " + file.getName()
-                            + " failed");
+                    LogIt.e("Deleting old file " + file.getName() + " failed");
                     return null;
                 }
             }
             if (!file.createNewFile()) {
-                LogIt.e("OpenFile", "Creating new file " + file.getName()
-                        + " failed");
+                LogIt.e("Creating new file " + file.getName() + " failed");
                 return null;
             }
 
         } catch (IOException e) {
-            LogIt.e("OpenFile", "Could not create new file " + file.getPath());
+            LogIt.e("Could not create new file " + file.getPath());
         }
         FileOutputStream fileos = null;
         try {
             fileos = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
-            LogIt.e("OpenFile", "Could not open new file " + file.getPath());
+            LogIt.e("Could not open new file " + file.getPath());
         }
         return fileos;
     }
@@ -380,7 +377,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     /**
      * The currently edited Way.
      */
-    private DataPointsList currentWay;
+    private IDataPointsList currentWay;
 
     /**
      * Display name of the Track. Serves as id and should therefore be unique.
@@ -427,7 +424,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#deleteNode(int)
      */
-    public IDataNode deleteNode(int id) {
+    public boolean deleteNode(int id) {
         ListIterator<DataNode> lit = nodes.listIterator();
         DataNode dn;
         while (lit.hasNext()) {
@@ -436,7 +433,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                 StorageFactory.getStorage().getOverlayManager()
                         .invalidateOverlayOfNode(dn);
                 lit.remove();
-                return dn;
+                return true;
             }
         }
 
@@ -445,10 +442,10 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             if (dldn != null) { // deleted
                 StorageFactory.getStorage().getOverlayManager()
                         .invalidateOverlayOfNode(dldn);
-                return dldn;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     /*
@@ -482,7 +479,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#getCurrentWay()
      */
-    public DataPointsList getCurrentWay() {
+    public IDataPointsList getCurrentWay() {
         return currentWay;
     }
 
@@ -491,9 +488,9 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#getDataMapObjectById(int)
      */
-    public DataMapObject getDataMapObjectById(int id) {
+    public IDataMapObject getDataMapObjectById(int id) {
 
-        DataMapObject res = getNodeById(id);
+        IDataMapObject res = getNodeById(id);
         if (res != null) {
             return res;
         }
@@ -523,7 +520,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * 
      * @see de.fu.tracebook.core.data.IDataTrack#getNodeById(int)
      */
-    public DataNode getNodeById(int id) {
+    public IDataNode getNodeById(int id) {
         for (DataNode dn : nodes) {
             if (dn.getId() == id) {
                 return dn;
@@ -531,7 +528,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
         }
 
         for (IDataPointsList dpl : ways) {
-            DataNode dn = dpl.getNodeById(id);
+            IDataNode dn = dpl.getNodeById(id);
             if (dn != null)
                 return dn;
         }
@@ -618,11 +615,10 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                 buf.write(text);
                 buf.close();
             } else {
-                LogIt.w("MediaSavingText",
-                        "Text file with this timestamp already exists.");
+                LogIt.w("Text file with this timestamp already exists.");
             }
         } catch (IOException e) {
-            LogIt.e("MediaSavingText", "Error while writing text file.");
+            LogIt.e("Error while writing text file.");
             return null;
         }
         return new DataMedia(txtfile.getParent(), txtfile.getName());
@@ -644,7 +640,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * de.fu.tracebook.core.data.IDataTrack#setCurrentWay(de.fu.tracebook.core
      * .data.DataPointsList)
      */
-    public IDataPointsList setCurrentWay(DataPointsList currentWay) {
+    public IDataPointsList setCurrentWay(IDataPointsList currentWay) {
         this.currentWay = currentWay;
         return currentWay;
     }
@@ -668,8 +664,8 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      * @param way
      *            the DataPointsList to be added
      */
-    private void addWay(DataPointsList way) {
-        ways.add(way);
+    private void addWay(IDataPointsList way) {
+        ways.add((DataPointsList) way);
     }
 
     /**
@@ -681,8 +677,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                 + name);
         if (!dir.isDirectory()) {
             if (!dir.mkdir()) {
-                LogIt.e("DataStorage", "Could not create new track folder "
-                        + name);
+                LogIt.e("Could not create new track folder " + name);
             }
         }
     }
@@ -702,16 +697,15 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             File newtrackdir = new File(getTrackDirPath(newname));
             if (!newtrackdir.isDirectory()) {
                 if (!trackdir.renameTo(newtrackdir)) {
-                    LogIt.w("RenamingTrack", "Could not rename Track.");
+                    LogIt.w("Could not rename Track.");
                     return -3;
                 }
             } else {
-                LogIt.w("RenamingTrack",
-                        "Track of new trackname already exists.");
+                LogIt.w("Track of new trackname already exists.");
                 return -2;
             }
         } else {
-            LogIt.w("RenamingTrack", "Could not find Track " + getName());
+            LogIt.w("Could not find Track " + getName());
             return -1;
         }
         return 0;
@@ -737,7 +731,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
     void serialize(boolean shouldSerialiseMedia) {
         int totalMedia = media.size();
 
-        LogIt.d("DataTrack", "Ways: " + ways.size() + ", POIs: " + nodes.size());
+        LogIt.d("Ways: " + ways.size() + ", POIs: " + nodes.size());
 
         if (!(new File(getTrackDirPath()).isDirectory())) {
             createNewTrackFolder();
@@ -777,18 +771,16 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
             serializer.endTag(null, "osm");
             serializer.flush();
         } catch (IllegalArgumentException e) {
-            LogIt.e("DataTrackSerialisation",
-                    "Should not happen. Internal error.");
+            LogIt.e("Should not happen. Internal error.");
         } catch (IllegalStateException e) {
-            LogIt.e("DataTrackSerialisation",
-                    "Should not happen. Internal error.");
+            LogIt.e("Should not happen. Internal error.");
         } catch (IOException e) {
-            LogIt.e("DataTrackSerialisation", "Error while reading file.");
+            LogIt.e("Error while reading file.");
         } finally {
             try {
                 fileos.close();
             } catch (IOException e) {
-                LogIt.e("TrackInfo", "Error closing file: " + e.getMessage());
+                LogIt.e("Error closing file: " + e.getMessage());
             }
         }
 

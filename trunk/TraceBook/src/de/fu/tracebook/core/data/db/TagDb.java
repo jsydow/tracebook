@@ -90,7 +90,7 @@ public class TagDb {
 
             closeDb();
         } else {
-            LogIt.e("TagDataBase", "Could not open database.");
+            LogIt.e("Could not open database.");
         }
 
         return result;
@@ -142,7 +142,7 @@ public class TagDb {
             closeDb();
             return tags;
         } else {
-            LogIt.e("TagDataBase", "Could not open Database.");
+            LogIt.e("Could not open Database.");
             return null;
         }
     }
@@ -294,12 +294,12 @@ public class TagDb {
                     });
         } catch (SAXException e) {
             e.printStackTrace();
-            LogIt.e("XMLFileParsing", "XML parsing error.");
+            LogIt.e("XML parsing error.");
         } catch (FileNotFoundException e) {
-            LogIt.e("XMLFileParsing", "XML file not found.");
+            LogIt.e("XML file not found.");
             e.printStackTrace();
         } catch (IOException e) {
-            LogIt.e("XMLFileParsing", "Error while reading XML file");
+            LogIt.e("Error while reading XML file");
             e.printStackTrace();
         }
 
@@ -309,7 +309,7 @@ public class TagDb {
         if (crs.getCount() > 0) {
             crs.moveToFirst();
             LogIt
-                    .d("InitDbWithFile", "inserted " + crs.getString(0)
+                    .d("inserted " + crs.getString(0)
                             + " rows.");
         }
         crs.close();

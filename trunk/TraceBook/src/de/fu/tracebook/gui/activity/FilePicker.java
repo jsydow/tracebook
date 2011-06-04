@@ -238,8 +238,7 @@ public class FilePicker extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
         case RESULT_OK:
-            LogIt.d("FilePicker",
-                    "got: " + data.getExtras().getString(RESULT_CODE_FILE));
+            LogIt.d("got: " + data.getExtras().getString(RESULT_CODE_FILE));
             returnWithResult(data.getExtras().getString(RESULT_CODE_FILE));
             break;
         case RESULT_CANCELED:
@@ -298,7 +297,7 @@ public class FilePicker extends ListActivity {
         Intent result = new Intent();
         result.putExtra(RESULT_CODE_FILE, path);
         setResult(RESULT_OK, result);
-        LogIt.d("FilePicker", "Returns: " + path);
+        LogIt.d("Returns: " + path);
         finish();
     }
 

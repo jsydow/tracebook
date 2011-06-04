@@ -97,7 +97,7 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
             }
         }
 
-        LogIt.d("TraceBookWay", "Got " + ret.nodes.size() + " nodes");
+        LogIt.d("Got " + ret.nodes.size() + " nodes");
         return ret;
     }
 
@@ -222,13 +222,13 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
                 serializer.startTag(null, "way");
                 serializer.attribute(null, "version", "1");
                 serializer.attribute(null, "timestamp", getDatetime());
-                serializer.attribute(null, "id", Integer.toString(getId()));
+                serializer.attribute(null, "id", Long.toString(getId()));
 
                 for (DataNode dn : nodes) {
                     serializer.startTag(null, "nd");
 
-                    serializer.attribute(null, "ref",
-                            Integer.toString(dn.getId()));
+                    serializer
+                            .attribute(null, "ref", Long.toString(dn.getId()));
 
                     serializer.endTag(null, "nd");
                 }
@@ -236,7 +236,7 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
                     DataNode lastNode = nodes.getFirst();
                     serializer.startTag(null, "nd");
                     serializer.attribute(null, "ref",
-                            Integer.toString(lastNode.getId()));
+                            Long.toString(lastNode.getId()));
                     serializer.endTag(null, "nd");
 
                     serializer.startTag(null, "tag");
@@ -253,11 +253,11 @@ public class DataPointsList extends DataMapObject implements IDataPointsList {
                 serializer.endTag(null, "way");
 
             } catch (IllegalArgumentException e) {
-                LogIt.e("WaySerialisation", "Should not happen");
+                LogIt.e("Should not happen");
             } catch (IllegalStateException e) {
-                LogIt.e("WaySerialisation", "Illegal state");
+                LogIt.e("Illegal state");
             } catch (IOException e) {
-                LogIt.e("WaySerialisation", "Could not serialize way");
+                LogIt.e("Could not serialize way");
             }
         }
     }

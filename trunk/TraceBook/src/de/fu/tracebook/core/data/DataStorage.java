@@ -65,15 +65,13 @@ public final class DataStorage implements IDataStorage {
             for (File f : files) {
                 if (f.isFile()) {
                     if (!f.delete()) {
-                        LogIt.e("DeleteDirectory",
-                                "Could not delete file " + f.getName()
-                                        + " in directory " + dir.getPath());
+                        LogIt.e("Could not delete file " + f.getName()
+                                + " in directory " + dir.getPath());
                     }
                 }
             }
             if (!dir.delete()) {
-                LogIt.e("DeleteDirectory",
-                        "Could not delete directory " + dir.getName());
+                LogIt.e("Could not delete directory " + dir.getName());
 
             }
         }
@@ -129,8 +127,7 @@ public final class DataStorage implements IDataStorage {
         File dir = new File(getTraceBookDirPath());
         if (!dir.isDirectory()) {
             if (!dir.mkdir()) {
-                LogIt.e(LogIt.TRACEBOOK_TAG,
-                        "Could not create TraceBook-directory");
+                LogIt.e("Could not create TraceBook-directory");
             }
         }
     }
@@ -244,8 +241,7 @@ public final class DataStorage implements IDataStorage {
             }
 
         } else {
-            LogIt.w("TraceBookDirectory",
-                    "The TraceBook directory path doesn't point to a directory! wtf?");
+            LogIt.w("The TraceBook directory path doesn't point to a directory! wtf?");
         }
     }
 }

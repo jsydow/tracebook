@@ -52,9 +52,9 @@ public final class ServiceConnector {
             intent.setClassName(activity.getPackageName(),
                     WaypointLogService.class.getName());
             activity.bindService(intent, conn, Context.BIND_AUTO_CREATE);
-            LogIt.d(LOG_TAG, "bindService()");
+            LogIt.d("bindService()");
         } else
-            LogIt.d(LOG_TAG, "Cannot bind - service already bound");
+            LogIt.d("Cannot bind - service already bound");
     }
 
     /**
@@ -64,9 +64,9 @@ public final class ServiceConnector {
         if (conn != null) {
             activity.unbindService(conn);
             conn = null;
-            LogIt.d(LOG_TAG, "unbindService()");
+            LogIt.d("unbindService()");
         } else
-            LogIt.d(LOG_TAG, "Cannot unbind - service not bound");
+            LogIt.d("Cannot unbind - service not bound");
     }
 
     /**
@@ -79,13 +79,13 @@ public final class ServiceConnector {
     public static void startService(Activity act) {
         activity = act;
         if (started) {
-            LogIt.d(LOG_TAG, "Service already started");
+            LogIt.d("Service already started");
         } else {
             Intent intent = new Intent();
             intent.setClassName(activity.getPackageName(),
                     WaypointLogService.class.getName());
             activity.startService(intent);
-            LogIt.d(LOG_TAG, "startService()");
+            LogIt.d("startService()");
             started = true;
         }
     }
@@ -95,13 +95,13 @@ public final class ServiceConnector {
      */
     public static void stopService() {
         if (!started) {
-            LogIt.d(LOG_TAG, "Service not yet started");
+            LogIt.d("Service not yet started");
         } else {
             Intent intent = new Intent();
             intent.setClassName(activity.getPackageName(),
                     WaypointLogService.class.getName());
             activity.stopService(intent);
-            LogIt.d(LOG_TAG, "stopService()");
+            LogIt.d("stopService()");
         }
     }
 

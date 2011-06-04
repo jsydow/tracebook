@@ -68,7 +68,7 @@ public class HistoryDb {
             closeDb();
             return tags;
         } else {
-            LogIt.e("TagDataBase", "Could not open Database.");
+            LogIt.e("Could not open Database.");
             return null;
         }
     }
@@ -97,7 +97,7 @@ public class HistoryDb {
                         + "='" + value + "'");
                 wdb.close();
             } else {
-                LogIt.e("HistoryDb", "Could not open database to write.");
+                LogIt.e("Could not open database to write.");
             }
         } else {
             SQLiteDatabase wdb = helper.getWritableDatabase();
@@ -112,7 +112,7 @@ public class HistoryDb {
                 wdb.insert(TagDbOpenHelper.getHistoryTableName(), null, values);
                 wdb.close();
             } else {
-                LogIt.e("HistoryDb", "Could not open database to write.");
+                LogIt.e("Could not open database to write.");
             }
         }
         return;
@@ -208,7 +208,7 @@ public class HistoryDb {
             crs.close();
             closeDb();
         } else {
-            LogIt.e("TagDataBase", "Could not open Database.");
+            LogIt.e("Could not open Database.");
         }
         return rowCount;
     }
