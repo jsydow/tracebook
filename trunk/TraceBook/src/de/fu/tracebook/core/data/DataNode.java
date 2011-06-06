@@ -173,8 +173,8 @@ public class DataNode extends DataMapObject implements IDataNode {
      * de.fu.tracebook.core.data.IDataNode#setDataPointsList(de.fu.tracebook
      * .core.data.DataPointsList)
      */
-    public void setDataPointsList(DataPointsList way) {
-        this.parentWay = way;
+    public void setDataPointsList(IDataPointsList way) {
+        this.parentWay = (DataPointsList) way;
     }
 
     /*

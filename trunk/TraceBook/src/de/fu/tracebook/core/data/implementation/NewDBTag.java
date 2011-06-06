@@ -44,19 +44,7 @@ public class NewDBTag implements NewDBObject {
     }
 
     public static NewDBTag getById(long tagID) {
-        NewDBTag ret = null;
-        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "key",
-                "value", "node", "way" }, "id = " + tagID, null, null, null,
-                null);
-        if (result.moveToFirst()) {
-            ret = createNewObject(result);
-        } else {
-            LogIt.e("Could not get a tag with id " + tagID);
-        }
-        result.close();
-
-        return ret;
+        return fillObject(tagID, new NewDBTag());
     }
 
     public static List<NewDBTag> getByNode(long nodeId) {
@@ -68,7 +56,7 @@ public class NewDBTag implements NewDBObject {
                 "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBTag(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a tag with node id " + nodeId);
@@ -87,7 +75,7 @@ public class NewDBTag implements NewDBObject {
                 "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBTag(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a tag with way id " + wayId);
@@ -97,13 +85,28 @@ public class NewDBTag implements NewDBObject {
         return ret;
     }
 
-    private static NewDBTag createNewObject(Cursor crs) {
-        NewDBTag ret = new NewDBTag();
-        ret.id = crs.getLong(crs.getColumnIndex("id"));
-        ret.key = crs.getString(crs.getColumnIndex("key"));
-        ret.value = crs.getString(crs.getColumnIndex("value"));
-        ret.node = crs.getLong(crs.getColumnIndex("node"));
-        ret.way = crs.getLong(crs.getColumnIndex("way"));
+    private static NewDBTag createNewObject(NewDBTag tag, Cursor crs) {
+        tag.id = crs.getLong(crs.getColumnIndex("id"));
+        tag.key = crs.getString(crs.getColumnIndex("key"));
+        tag.value = crs.getString(crs.getColumnIndex("value"));
+        tag.node = crs.getLong(crs.getColumnIndex("node"));
+        tag.way = crs.getLong(crs.getColumnIndex("way"));
+        return tag;
+    }
+
+    private static NewDBTag fillObject(long tagId, NewDBTag tag) {
+        NewDBTag ret = null;
+        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
+        Cursor result = db.query(TABLENAME, new String[] { "id", "key",
+                "value", "node", "way" }, "id = " + tagId, null, null, null,
+                null);
+        if (result.moveToFirst()) {
+            ret = createNewObject(tag, result);
+        } else {
+            LogIt.e("Could not get a tag with id " + tagId);
+        }
+        result.close();
+
         return ret;
     }
 
@@ -111,6 +114,7 @@ public class NewDBTag implements NewDBObject {
     public String key;
     public long node;
     public String value;
+
     public long way;
 
     public void delete() {
@@ -128,14 +132,17 @@ public class NewDBTag implements NewDBObject {
         values.put("value", value);
         values.put("node", node);
         values.put("way", way);
-        if (db.insert(TABLENAME, null, values) == -1) {
+        long rowID = db.insert(TABLENAME, null, values);
+        if (rowID == -1) {
             LogIt.e("Could not insert tag");
+        } else {
+            this.id = rowID;
         }
         db.close();
 
     }
 
-    public void update() {
+    public void save() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("key", key);
@@ -146,6 +153,10 @@ public class NewDBTag implements NewDBObject {
             LogIt.e("Could not update tag");
         }
         db.close();
+    }
+
+    public void update() {
+        fillObject(id, this);
     }
 
 }

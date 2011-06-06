@@ -32,7 +32,7 @@ public class NewDBNode implements NewDBObject {
     private final static String CREATE = "CREATE TABLE IF NOT EXISTS nodes "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " datetime TEXT,"
             + " latitude INTEGER," + " longitude INTEGER," + " way INTEGER,"
-            + " track INTEGER );";
+            + " track String );";
     private final static String DROP = "DROP TABLE IF EXISTS nodes";
     private final static String TABLENAME = "nodes";
 
@@ -45,34 +45,22 @@ public class NewDBNode implements NewDBObject {
     }
 
     public static NewDBNode getById(long nodeId) {
-        NewDBNode ret = null;
-        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "latitude", "longitude", "way", "track " }, "id = " + nodeId,
-                null, null, null, null);
-        if (result.moveToFirst()) {
-            ret = createNewObject(result);
-        } else {
-            LogIt.e("Could not get a node with id " + nodeId);
-        }
-        result.close();
-
-        return ret;
+        return fillObject(nodeId, new NewDBNode());
     }
 
-    public static List<NewDBNode> getByTrack(long trackId) {
+    public static List<NewDBNode> getByTrack(String name) {
         List<NewDBNode> ret = new ArrayList<NewDBNode>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
         Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "latitude", "longitude", "way", "track " }, "track = "
-                + trackId, null, null, null, "id ASC");
+                "latitude", "longitude", "way", "track " }, "track = '" + name
+                + "'", null, null, null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBNode(), result));
             } while (result.moveToNext());
         } else {
-            LogIt.e("Could not get a node with track id " + trackId);
+            LogIt.e("Could not get a node with track id " + name);
         }
         result.close();
 
@@ -88,7 +76,7 @@ public class NewDBNode implements NewDBObject {
                 null, null, null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBNode(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a node with way id " + wayId);
@@ -98,14 +86,29 @@ public class NewDBNode implements NewDBObject {
         return ret;
     }
 
-    private static NewDBNode createNewObject(Cursor crs) {
-        NewDBNode ret = new NewDBNode();
-        ret.id = crs.getLong(crs.getColumnIndex("id"));
-        ret.datetime = crs.getString(crs.getColumnIndex("datetime"));
-        ret.latitude = crs.getInt(crs.getColumnIndex("latitude"));
-        ret.longitude = crs.getInt(crs.getColumnIndex("longitude"));
-        ret.way = crs.getLong(crs.getColumnIndex("way"));
-        ret.track = crs.getLong(crs.getColumnIndex("track"));
+    private static NewDBNode createNewObject(NewDBNode node, Cursor crs) {
+        node.id = crs.getLong(crs.getColumnIndex("id"));
+        node.datetime = crs.getString(crs.getColumnIndex("datetime"));
+        node.latitude = crs.getInt(crs.getColumnIndex("latitude"));
+        node.longitude = crs.getInt(crs.getColumnIndex("longitude"));
+        node.way = crs.getLong(crs.getColumnIndex("way"));
+        node.track = crs.getString(crs.getColumnIndex("track"));
+        return node;
+    }
+
+    private static NewDBNode fillObject(long nodeId, NewDBNode node) {
+        NewDBNode ret = null;
+        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
+        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
+                "latitude", "longitude", "way", "track " }, "id = " + nodeId,
+                null, null, null, null);
+        if (result.moveToFirst()) {
+            ret = createNewObject(node, result);
+        } else {
+            LogIt.e("Could not get a node with id " + nodeId);
+        }
+        result.close();
+
         return ret;
     }
 
@@ -113,7 +116,8 @@ public class NewDBNode implements NewDBObject {
     public long id;
     public int latitude;
     public int longitude;
-    public long track;
+    public String track;
+
     public long way;
 
     public void delete() {
@@ -132,14 +136,17 @@ public class NewDBNode implements NewDBObject {
         values.put("longitude", longitude);
         values.put("track", track);
         values.put("way", way);
-        if (db.insert(TABLENAME, null, values) == -1) {
+        long rowID = db.insert(TABLENAME, null, values);
+        if (rowID == -1) {
             LogIt.e("Could not insert node");
+        } else {
+            this.id = rowID;
         }
         db.close();
 
     }
 
-    public void update() {
+    public void save() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
@@ -151,6 +158,10 @@ public class NewDBNode implements NewDBObject {
             LogIt.e("Could not update node");
         }
         db.close();
+    }
+
+    public void update() {
+        fillObject(id, this);
     }
 
 }

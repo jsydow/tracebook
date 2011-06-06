@@ -54,7 +54,7 @@ public interface IDataNode extends IDataMapObject {
      * @param way
      *            The way that contains this point.
      */
-    void setDataPointsList(DataPointsList way);
+    void setDataPointsList(IDataPointsList way);
 
     /**
      * Sets the position of this DataNode to the location of the GeoPoint.

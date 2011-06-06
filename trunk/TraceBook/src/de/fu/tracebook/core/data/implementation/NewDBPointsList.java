@@ -32,7 +32,7 @@ public class NewDBPointsList implements NewDBObject {
     private final static String CREATE = "CREATE TABLE IF NOT EXISTS pointslists "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + " datetime TEXT,"
-            + " isArea INTEGER," + " track INTEGER );";
+            + " isarea INTEGER," + " track TEXT );";
     private final static String DROP = "DROP TABLE IF EXISTS pointslists";
     private final static String TABLENAME = "pointslists";
 
@@ -44,53 +44,57 @@ public class NewDBPointsList implements NewDBObject {
         return DROP;
     }
 
-    public static NewDBPointsList getById(long nodeId) {
-        NewDBPointsList ret = null;
-        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query("nodes", new String[] { "id", "datetime",
-                "isArea", "track " }, "id = " + nodeId, null, null, null, null);
-        if (result.moveToFirst()) {
-            ret = createNewObject(result);
-        } else {
-            LogIt.e("Could not get a way with id " + nodeId);
-        }
-        result.close();
-
-        return ret;
+    public static NewDBPointsList getById(long wayId) {
+        return fillObject(wayId, new NewDBPointsList());
     }
 
-    public static List<NewDBPointsList> getByTrack(long trackId) {
+    public static List<NewDBPointsList> getByTrack(String name) {
         List<NewDBPointsList> ret = new ArrayList<NewDBPointsList>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
         Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "isArea", "track " }, "track = " + trackId, null, null, null,
-                "id ASC");
+                "isarea", "track " }, "track = '" + name + "'", null, null,
+                null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBPointsList(), result));
             } while (result.moveToNext());
         } else {
-            LogIt.e("Could not get a way with track id " + trackId);
+            LogIt.e("Could not get a way with track id " + name);
         }
         result.close();
 
         return ret;
     }
 
-    private static NewDBPointsList createNewObject(Cursor crs) {
-        NewDBPointsList ret = new NewDBPointsList();
-        ret.id = crs.getLong(crs.getColumnIndex("id"));
-        ret.datetime = crs.getString(crs.getColumnIndex("datetime"));
-        ret.isArea = crs.getInt(crs.getColumnIndex("isArea")) != 0;
-        ret.track = crs.getLong(crs.getColumnIndex("track"));
+    private static NewDBPointsList createNewObject(NewDBPointsList way,
+            Cursor crs) {
+        way.id = crs.getLong(crs.getColumnIndex("id"));
+        way.datetime = crs.getString(crs.getColumnIndex("datetime"));
+        way.isArea = crs.getInt(crs.getColumnIndex("isarea")) != 0;
+        way.track = crs.getString(crs.getColumnIndex("track"));
+        return way;
+    }
+
+    private static NewDBPointsList fillObject(long wayId, NewDBPointsList way) {
+        NewDBPointsList ret = null;
+        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
+        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
+                "isarea", "track " }, "id = " + wayId, null, null, null, null);
+        if (result.moveToFirst()) {
+            ret = createNewObject(way, result);
+        } else {
+            LogIt.e("Could not get a way with id " + wayId);
+        }
+        result.close();
+
         return ret;
     }
 
     public String datetime;
     public long id;
     public boolean isArea;
-    public long track;
+    public String track;
 
     public void delete() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
@@ -105,23 +109,30 @@ public class NewDBPointsList implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isArea", isArea);
-        if (db.insert(TABLENAME, null, values) == -1) {
+        values.put("isarea", isArea);
+        long rowID = db.insert(TABLENAME, null, values);
+        if (rowID == -1) {
             LogIt.e("Could not insert way");
+        } else {
+            this.id = rowID;
         }
         db.close();
 
     }
 
-    public void update() {
+    public void save() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isArea", isArea);
+        values.put("isarea", isArea);
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update way");
         }
         db.close();
+    }
+
+    public void update() {
+        fillObject(id, this);
     }
 }

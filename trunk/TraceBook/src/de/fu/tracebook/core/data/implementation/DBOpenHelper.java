@@ -28,7 +28,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static DBOpenHelper instance;
 
     private static final String name = "tracebookdb";
-    private static final int version = 1;
+    private static final int version = 2;
 
     public static DBOpenHelper getInstance() {
         return instance;

@@ -145,7 +145,7 @@ public class AddPointMetaActivity extends ListActivity {
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("DataNodeId");
+            int nodeId = (int) extras.getLong("DataNodeId");
             node = StorageFactory.getStorage().getTrack()
                     .getDataMapObjectById(nodeId);
 

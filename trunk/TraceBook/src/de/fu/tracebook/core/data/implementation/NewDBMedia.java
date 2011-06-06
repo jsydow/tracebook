@@ -32,7 +32,7 @@ public class NewDBMedia implements NewDBObject {
     private final static String CREATE = "CREATE TABLE IF NOT EXISTS media "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " name TEXT,"
             + " path TEXT," + " node INTEGER," + " way INTEGER,"
-            + " track INTEGER );";
+            + " track TEXT );";
     private final static String DROP = "DROP TABLE IF EXISTS media";
     private final static String TABLENAME = "media";
 
@@ -45,19 +45,7 @@ public class NewDBMedia implements NewDBObject {
     }
 
     public static NewDBMedia getById(long mediaId) {
-        NewDBMedia ret = null;
-        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "name",
-                "path", "node", "way", "track " }, "id = " + mediaId, null,
-                null, null, null);
-        if (result.moveToFirst()) {
-            ret = createNewObject(result);
-        } else {
-            LogIt.e("Could not get a media with id " + mediaId);
-        }
-        result.close();
-
-        return ret;
+        return fillObject(mediaId, new NewDBMedia());
     }
 
     public static List<NewDBMedia> getByNode(long nodeId) {
@@ -69,7 +57,7 @@ public class NewDBMedia implements NewDBObject {
                 null, null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a media with node id " + nodeId);
@@ -79,16 +67,16 @@ public class NewDBMedia implements NewDBObject {
         return ret;
     }
 
-    public static List<NewDBMedia> getByTrack(long trackId) {
+    public static List<NewDBMedia> getByTrack(String trackId) {
         List<NewDBMedia> ret = new ArrayList<NewDBMedia>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
         Cursor result = db.query(TABLENAME, new String[] { "id", "name",
-                "path", "node", "way", "track " }, "track = " + trackId, null,
-                null, null, "id ASC");
+                "path", "node", "way", "track " }, "track = '" + trackId + "'",
+                null, null, null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a media with track id " + trackId);
@@ -107,7 +95,7 @@ public class NewDBMedia implements NewDBObject {
                 null, null, "id ASC");
         if (result.moveToFirst()) {
             do {
-                ret.add(createNewObject(result));
+                ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
         } else {
             LogIt.e("Could not get a media with way id " + wayId);
@@ -117,14 +105,28 @@ public class NewDBMedia implements NewDBObject {
         return ret;
     }
 
-    private static NewDBMedia createNewObject(Cursor crs) {
-        NewDBMedia ret = new NewDBMedia();
+    private static NewDBMedia createNewObject(NewDBMedia ret, Cursor crs) {
         ret.id = crs.getLong(crs.getColumnIndex("id"));
         ret.path = crs.getString(crs.getColumnIndex("path"));
         ret.name = crs.getString(crs.getColumnIndex("name"));
         ret.node = crs.getLong(crs.getColumnIndex("node"));
         ret.way = crs.getLong(crs.getColumnIndex("way"));
-        ret.track = crs.getLong(crs.getColumnIndex("track"));
+        ret.track = crs.getString(crs.getColumnIndex("track"));
+        return ret;
+    }
+
+    private static NewDBMedia fillObject(long mediaId, NewDBMedia media) {
+        NewDBMedia ret = null;
+        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
+        Cursor result = db.query(TABLENAME, new String[] { "id", "name",
+                "path", "node", "way", "track " }, "id = " + mediaId, null,
+                null, null, null);
+        if (result.moveToFirst()) {
+            ret = createNewObject(media, result);
+        } else {
+            LogIt.e("Could not get a media with id " + mediaId);
+        }
+        result.close();
         return ret;
     }
 
@@ -132,7 +134,8 @@ public class NewDBMedia implements NewDBObject {
     public String name;
     public long node;
     public String path;
-    public long track;
+    public String track;
+
     public long way;
 
     public void delete() {
@@ -151,14 +154,17 @@ public class NewDBMedia implements NewDBObject {
         values.put("node", node);
         values.put("track", track);
         values.put("way", way);
-        if (db.insert(TABLENAME, null, values) == -1) {
+        long rowID = db.insert(TABLENAME, null, values);
+        if (rowID == -1) {
             LogIt.e("Could not insert media");
+        } else {
+            this.id = rowID;
         }
         db.close();
 
     }
 
-    public void update() {
+    public void save() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
@@ -170,6 +176,10 @@ public class NewDBMedia implements NewDBObject {
             LogIt.e("Could not update media");
         }
         db.close();
+    }
+
+    public void update() {
+        fillObject(id, this);
     }
 
 }

@@ -20,10 +20,8 @@
 package de.fu.tracebook.core.data;
 
 import java.io.File;
-import java.sql.SQLException;
 
-import de.fu.tracebook.core.data.implementation.DBMedia;
-import de.fu.tracebook.core.data.implementation.DataOpenHelper;
+import de.fu.tracebook.core.data.implementation.NewDBMedia;
 import de.fu.tracebook.util.LogIt;
 
 public class NewMedia implements IDataMedia {
@@ -70,7 +68,7 @@ public class NewMedia implements IDataMedia {
         return extensions[paramType];
     }
 
-    private DBMedia thisMedium;
+    private NewDBMedia thisMedium;
 
     /**
      * Create a NewMedia object from a DBMedia object from the database.
@@ -78,7 +76,7 @@ public class NewMedia implements IDataMedia {
      * @param medium
      *            The existing medium.
      */
-    public NewMedia(DBMedia medium) {
+    public NewMedia(NewDBMedia medium) {
         this.thisMedium = medium;
     }
 
@@ -91,9 +89,10 @@ public class NewMedia implements IDataMedia {
      *            The filename of the medium.
      */
     public NewMedia(String path, String filename) {
-        this.thisMedium = new DBMedia();
+        this.thisMedium = new NewDBMedia();
         thisMedium.path = path;
         thisMedium.name = filename;
+        thisMedium.insert();
     }
 
     public void delete() {
@@ -104,6 +103,10 @@ public class NewMedia implements IDataMedia {
             }
         }
 
+    }
+
+    public NewDBMedia getDBMedia() {
+        return thisMedium;
     }
 
     public int getId() {
@@ -130,11 +133,7 @@ public class NewMedia implements IDataMedia {
             LogIt.e("Could not rename medium.");
         } else {
             thisMedium.name = newname;
-            try {
-                DataOpenHelper.getInstance().getMediaDAO().update(thisMedium);
-            } catch (SQLException e) {
-                LogIt.e("Could not update name of medium.");
-            }
+            thisMedium.save();
         }
 
     }

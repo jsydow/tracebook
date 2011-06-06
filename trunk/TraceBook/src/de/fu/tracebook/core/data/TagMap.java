@@ -20,29 +20,32 @@
 package de.fu.tracebook.core.data;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
-import com.j256.ormlite.dao.CloseableIterator;
-import com.j256.ormlite.dao.ForeignCollection;
-
-import de.fu.tracebook.core.data.implementation.DBTag;
+import de.fu.tracebook.core.data.implementation.NewDBTag;
 
 public class TagMap extends HashMap<String, String> {
 
-    private Updateable object;
-    private ForeignCollection<DBTag> tags;
+    private NewNode node;
+    private List<NewDBTag> tags;
+    private NewPointsList way;
 
     /**
      * Creates a tag map.
      * 
-     * @param object
-     *            The object to update after change.
      * @param tags
      *            The tags.
+     * @param node
+     *            The node, can be null if tags belong to way.
+     * @param way
+     *            The way, can be null if tags belong to node.
      */
-    TagMap(Updateable object, ForeignCollection<DBTag> tags) {
-        this.object = object;
+    TagMap(List<NewDBTag> tags, NewNode node, NewPointsList way) {
         this.tags = tags;
-        for (DBTag t : tags) {
+        this.way = way;
+        this.node = node;
+        for (NewDBTag t : tags) {
             this.put(t.key, t.value);
         }
 
@@ -55,11 +58,17 @@ public class TagMap extends HashMap<String, String> {
      */
     @Override
     public String put(String key, String value) {
-        DBTag tag = new DBTag();
+        NewDBTag tag = new NewDBTag();
         tag.key = key;
         tag.value = value;
+        if (node != null) {
+            tag.node = node.getId();
+        }
+        if (way != null) {
+            tag.way = way.getId();
+        }
+        tag.insert();
         tags.add(tag);
-        object.update();
 
         return super.put(key, value);
     }
@@ -72,14 +81,14 @@ public class TagMap extends HashMap<String, String> {
     @Override
     public String remove(Object key) {
 
-        CloseableIterator<DBTag> iter = tags.closeableIterator();
+        Iterator<NewDBTag> iter = tags.iterator();
         while (iter.hasNext()) {
-            DBTag t = iter.next();
+            NewDBTag t = iter.next();
             if (t.key.equals(key)) {
+                t.delete();
                 iter.remove();
             }
         }
-        object.update();
 
         return super.remove(key);
     }
