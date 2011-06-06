@@ -62,6 +62,7 @@ public class NewDBTag implements NewDBObject {
             LogIt.e("Could not get a tag with node id " + nodeId);
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -81,6 +82,7 @@ public class NewDBTag implements NewDBObject {
             LogIt.e("Could not get a tag with way id " + wayId);
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -106,6 +108,7 @@ public class NewDBTag implements NewDBObject {
             LogIt.e("Could not get a tag with id " + tagId);
         }
         result.close();
+        db.close();
 
         return ret;
     }

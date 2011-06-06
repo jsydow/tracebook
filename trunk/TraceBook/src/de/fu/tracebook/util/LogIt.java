@@ -71,6 +71,7 @@ public final class LogIt {
 
     /**
      * Logs message with debug priority.
+     * 
      * @param message
      *            The message to be logged
      */
@@ -80,6 +81,7 @@ public final class LogIt {
 
     /**
      * Logs message with error priority.
+     * 
      * @param message
      *            The message to be logged
      */
@@ -152,6 +154,12 @@ public final class LogIt {
                 .show();
     }
 
+    public static void printStackTrace() {
+        for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
+            d(e.toString());
+        }
+    }
+
     /**
      * Sets the method of logging. Use the constants above.
      * 
@@ -192,6 +200,7 @@ public final class LogIt {
 
     /**
      * Logs message with error priority.
+     * 
      * @param message
      *            The message to be logged
      */

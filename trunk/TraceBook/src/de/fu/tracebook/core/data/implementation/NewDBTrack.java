@@ -57,6 +57,7 @@ public class NewDBTrack implements NewDBObject {
             LogIt.e("Could not get all track names ");
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -85,6 +86,7 @@ public class NewDBTrack implements NewDBObject {
             LogIt.e("Could not get a track with name " + trackName);
         }
         result.close();
+        db.close();
 
         return ret;
     }

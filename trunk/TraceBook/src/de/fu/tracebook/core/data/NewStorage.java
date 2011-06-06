@@ -181,8 +181,8 @@ public class NewStorage implements IDataStorage {
     }
 
     public void unloadAllTracks() {
-        // TODO Auto-generated method stub
-
+        // TODO ?
+        this.track = null;
     }
 
     /**

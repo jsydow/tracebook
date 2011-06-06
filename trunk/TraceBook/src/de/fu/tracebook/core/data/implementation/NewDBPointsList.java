@@ -63,6 +63,7 @@ public class NewDBPointsList implements NewDBObject {
             LogIt.e("Could not get a way with track id " + name);
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -87,6 +88,7 @@ public class NewDBPointsList implements NewDBObject {
             LogIt.e("Could not get a way with id " + wayId);
         }
         result.close();
+        db.close();
 
         return ret;
     }

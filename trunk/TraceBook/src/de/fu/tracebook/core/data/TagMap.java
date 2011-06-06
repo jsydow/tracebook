@@ -45,10 +45,12 @@ public class TagMap extends HashMap<String, String> {
         this.tags = tags;
         this.way = way;
         this.node = node;
-        for (NewDBTag t : tags) {
-            this.put(t.key, t.value);
-        }
+        HashMap<String, String> tmp = new HashMap<String, String>();
 
+        for (NewDBTag t : tags) {
+            tmp.put(t.key, t.value);
+        }
+        this.putAll(tmp);
     }
 
     /*
