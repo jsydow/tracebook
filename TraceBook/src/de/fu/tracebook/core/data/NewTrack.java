@@ -23,22 +23,18 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 
-import com.j256.ormlite.dao.CloseableIterator;
-import com.j256.ormlite.dao.Dao;
-
-import de.fu.tracebook.core.data.implementation.DBMedia;
-import de.fu.tracebook.core.data.implementation.DBNode;
-import de.fu.tracebook.core.data.implementation.DBPointsList;
-import de.fu.tracebook.core.data.implementation.DBTrack;
-import de.fu.tracebook.core.data.implementation.DataOpenHelper;
+import de.fu.tracebook.core.data.implementation.NewDBMedia;
+import de.fu.tracebook.core.data.implementation.NewDBNode;
+import de.fu.tracebook.core.data.implementation.NewDBPointsList;
+import de.fu.tracebook.core.data.implementation.NewDBTrack;
 import de.fu.tracebook.util.LogIt;
 
 /**
@@ -70,7 +66,7 @@ public class NewTrack implements IDataTrack {
     }
 
     private String name;
-    private DBTrack thisTrack;
+    private NewDBTrack thisTrack;
 
     private IDataPointsList way;
 
@@ -79,16 +75,10 @@ public class NewTrack implements IDataTrack {
      */
     public NewTrack() {
         this.name = getFilenameCompatibleTimeStamp();
-        DBTrack track = new DBTrack();
-        track.name = this.name;
-        track.datetime = this.name;
-        try {
-            DataOpenHelper.getInstance().getTrackDAO().create(track);
-            thisTrack = DataOpenHelper.getInstance().getTrackDAO()
-                    .queryForId(name);
-        } catch (SQLException e) {
-            LogIt.e("Could not create new track.");
-        }
+        thisTrack = new NewDBTrack();
+        thisTrack.name = this.name;
+        thisTrack.datetime = this.name;
+        thisTrack.insert();
     }
 
     /**
@@ -97,66 +87,47 @@ public class NewTrack implements IDataTrack {
      * @param track
      *            The track which is in the database.
      */
-    public NewTrack(DBTrack track) {
+    public NewTrack(NewDBTrack track) {
         this.name = track.name;
         thisTrack = track;
     }
 
     public void addMedia(IDataMedia medium) {
-        DBMedia media = new DBMedia();
-        media.name = medium.getName();
-        media.path = medium.getPath();
-        thisTrack.media.add(media);
-        update();
+        NewDBMedia media = ((NewMedia) medium).getDBMedia();
+        media.track = name;
+        media.save();
     }
 
     public void deleteMedia(int id) {
-        CloseableIterator<DBMedia> media = thisTrack.media.closeableIterator();
+        Iterator<NewDBMedia> media = NewDBMedia.getByTrack(name).iterator();
         while (media.hasNext()) {
-            DBMedia m = media.next();
+            NewDBMedia m = media.next();
             if (m.id == id) {
-                media.remove();
                 NewMedia medium = new NewMedia(m);
                 medium.delete();
             }
         }
-        try {
-            media.close();
-        } catch (SQLException e) {
-            // do nothing
-        }
-        update();
     }
 
     public boolean deleteNode(int id) {
-        DBNode node;
-        try {
-            node = DataOpenHelper.getInstance().getNodeDAO()
-                    .queryForId(new Long(id));
-            if (node == null) {
-                return false;
-            }
-            DataOpenHelper.getInstance().getNodeDAO().delete(node);
-            StorageFactory.getStorage().getOverlayManager()
-                    .invalidateOverlayOfNode(new NewNode(node));
-        } catch (SQLException e) {
-            LogIt.e("Could not delete node.");
+        NewDBNode node;
+        node = NewDBNode.getById(id);
+        if (node == null) {
             return false;
         }
+        node.delete();
+        StorageFactory.getStorage().getOverlayManager()
+                .invalidateOverlayOfNode(new NewNode(node));
         return true;
     }
 
     public void deleteWay(int id) {
-        try {
-            DBPointsList pointslist = DataOpenHelper.getInstance()
-                    .getPointslistDAO().queryForId(new Long(id));
-            if (pointslist == null) {
-                return;
-            }
-            DataOpenHelper.getInstance().getPointslistDAO().delete(pointslist);
-        } catch (SQLException e) {
-            LogIt.e("Could not delete way.");
+        NewDBPointsList pointslist = NewDBPointsList.getById(id);
+        if (pointslist == null) {
+            return;
         }
+        pointslist.delete();
+
     }
 
     public String getComment() {
@@ -182,17 +153,9 @@ public class NewTrack implements IDataTrack {
 
     public List<IDataMedia> getMedia() {
         List<IDataMedia> media = new LinkedList<IDataMedia>();
-        if (!thisTrack.media.isEmpty()) {
-            CloseableIterator<DBMedia> iter = thisTrack.media
-                    .closeableIterator();
-            for (DBMedia m = iter.next(); iter.hasNext(); m = iter.next()) {
-                media.add(new NewMedia(m));
-            }
-            try {
-                iter.close();
-            } catch (SQLException e) {
-                // do nothing
-            }
+        List<NewDBMedia> dbmedia = NewDBMedia.getByTrack(name);
+        for (NewDBMedia m : dbmedia) {
+            media.add(new NewMedia(m));
         }
         return media;
     }
@@ -202,52 +165,28 @@ public class NewTrack implements IDataTrack {
     }
 
     public IDataNode getNodeById(int id) {
-        DBNode node;
-        try {
-            node = DataOpenHelper.getInstance().getNodeDAO()
-                    .queryForId(new Long(id));
-        } catch (SQLException e) {
-            LogIt.e("Could not get node");
-            return null;
-        }
+        NewDBNode node = NewDBNode.getById(id);
         if (node == null) {
             return null;
         }
-
         return new NewNode(node);
     }
 
     public List<IDataNode> getNodes() {
         List<IDataNode> nodes = new LinkedList<IDataNode>();
-        if (!thisTrack.nodes.isEmpty()) {
-            CloseableIterator<DBNode> iter = thisTrack.nodes
-                    .closeableIterator();
-            for (DBNode n = iter.next(); iter.hasNext(); n = iter.next()) {
-                nodes.add(new NewNode(n));
-            }
-            try {
-                iter.close();
-            } catch (SQLException e) {
-                // do nothing
-            }
+        List<NewDBNode> dbnodes = NewDBNode.getByTrack(name);
+        for (NewDBNode n : dbnodes) {
+            nodes.add(new NewNode(n));
         }
         return nodes;
     }
 
     public IDataPointsList getPointsListById(int id) {
-        DBPointsList newway;
-        try {
-            newway = DataOpenHelper.getInstance().getPointslistDAO()
-                    .queryForId(new Long(id));
-        } catch (SQLException e) {
-            LogIt.e("Could not get node");
+        NewDBPointsList way = NewDBPointsList.getById(id);
+        if (way == null) {
             return null;
         }
-        if (newway == null) {
-            return null;
-        }
-
-        return new NewPointsList(newway);
+        return new NewPointsList(way);
     }
 
     public String getTrackDirPath() {
@@ -256,34 +195,20 @@ public class NewTrack implements IDataTrack {
 
     public List<IDataPointsList> getWays() {
         List<IDataPointsList> ways = new LinkedList<IDataPointsList>();
-        if (!thisTrack.ways.isEmpty()) {
-            CloseableIterator<DBPointsList> iter = thisTrack.ways
-                    .closeableIterator();
-            for (DBPointsList p = iter.next(); iter.hasNext(); p = iter.next()) {
-                ways.add(new NewPointsList(p));
-            }
-
-            try {
-                iter.close();
-            } catch (SQLException e) {
-                // do nothing
-            }
+        List<NewDBPointsList> dbnodes = NewDBPointsList.getByTrack(name);
+        for (NewDBPointsList pl : dbnodes) {
+            ways.add(new NewPointsList(pl));
         }
         return ways;
     }
 
     public IDataNode newNode(GeoPoint coordinates) {
         NewNode node = new NewNode(coordinates, thisTrack);
-        thisTrack.nodes.add(node.getDBNode());
-        update();
         return node;
     }
 
     public IDataPointsList newWay() {
         NewPointsList newway = new NewPointsList(thisTrack);
-        thisTrack.ways.add(newway.getDBPointsList());
-        newway.reinit();
-        update();
         return newway;
     }
 
@@ -306,41 +231,24 @@ public class NewTrack implements IDataTrack {
     }
 
     public void setComment(String comment) {
-        this.thisTrack.comment = comment;
-        update();
+        thisTrack.comment = comment;
+        thisTrack.save();
     }
 
     public IDataPointsList setCurrentWay(IDataPointsList currentWay) {
-        this.way = currentWay;
+        way = currentWay;
         return way;
     }
 
     public void setDatetime(String datetime) {
-        this.thisTrack.datetime = datetime;
-        update();
+        thisTrack.datetime = datetime;
+        thisTrack.save();
     }
 
     public int setName(String newname) {
-        int result;
-        DBTrack track;
-        try {
-            track = getDao().queryForId(name);
-            if (track == null) {
-                return -3;
-            }
-            getDao().updateId(track, newname);
-            result = renameTrack(newname);
-            if (result == 0) {
-                this.name = newname;
-            }
-        } catch (SQLException e) {
-            LogIt.e("Setting new name for track failed.");
-        }
-        return 0;
-    }
-
-    private Dao<DBTrack, String> getDao() {
-        return DataOpenHelper.getInstance().getTrackDAO();
+        thisTrack.name = name;
+        thisTrack.save();
+        return renameTrack(newname);
     }
 
     /**
@@ -371,13 +279,4 @@ public class NewTrack implements IDataTrack {
         }
         return 0;
     }
-
-    private void update() {
-        try {
-            getDao().update(thisTrack);
-        } catch (SQLException e) {
-            LogIt.e("Updating track failed.");
-        }
-    }
-
 }

@@ -19,44 +19,28 @@
 
 package de.fu.tracebook.core.data;
 
-import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.mapsforge.android.maps.GeoPoint;
 
-import com.j256.ormlite.dao.CloseableIterator;
-import com.j256.ormlite.dao.Dao;
-
-import de.fu.tracebook.core.data.implementation.DBMedia;
-import de.fu.tracebook.core.data.implementation.DBNode;
-import de.fu.tracebook.core.data.implementation.DBPointsList;
-import de.fu.tracebook.core.data.implementation.DBTrack;
-import de.fu.tracebook.core.data.implementation.DataOpenHelper;
-import de.fu.tracebook.util.LogIt;
+import de.fu.tracebook.core.data.implementation.NewDBMedia;
+import de.fu.tracebook.core.data.implementation.NewDBNode;
+import de.fu.tracebook.core.data.implementation.NewDBPointsList;
+import de.fu.tracebook.core.data.implementation.NewDBTag;
+import de.fu.tracebook.core.data.implementation.NewDBTrack;
 
 /**
  * The IDataNode implementation using ORMLite. It represents a single coordinate
  * and can be a point of interest.
  * 
  */
-public class NewNode extends Updateable implements IDataNode {
+public class NewNode implements IDataNode {
 
     private long id;
-    private DBNode thisNode;
-
-    /**
-     * Create a NewNode object out of an existing DBNode object that is already
-     * in the database.
-     * 
-     * @param node
-     *            The DBNode object.
-     */
-    public NewNode(DBNode node) {
-        this.id = node.id;
-        thisNode = node;
-    }
+    private NewDBNode thisNode;
 
     /**
      * Create a new Node that is inserted into the database.
@@ -66,22 +50,15 @@ public class NewNode extends Updateable implements IDataNode {
      * @param way
      *            The parent way.
      */
-    public NewNode(GeoPoint coordinates, DBPointsList way) {
-        DBNode node = new DBNode();
-        node.id = StorageFactory.getStorage().getID();
+    public NewNode(GeoPoint coordinates, NewDBPointsList way) {
+        thisNode = new NewDBNode();
         if (coordinates != null) {
-            node.latitude = coordinates.getLatitudeE6();
-            node.longitude = coordinates.getLongitudeE6();
+            thisNode.latitude = coordinates.getLatitudeE6();
+            thisNode.longitude = coordinates.getLongitudeE6();
         }
-        node.way = way;
-
-        try {
-            DataOpenHelper.getInstance().getNodeDAO().create(node);
-            thisNode = DataOpenHelper.getInstance().getNodeDAO()
-                    .queryForId(new Long(id));
-        } catch (SQLException e) {
-            LogIt.e("Could not create new node.");
-        }
+        thisNode.way = way.id;
+        thisNode.insert();
+        this.id = thisNode.id;
     }
 
     /**
@@ -92,49 +69,44 @@ public class NewNode extends Updateable implements IDataNode {
      * @param track
      *            The parent track.
      */
-    public NewNode(GeoPoint coordinates, DBTrack track) {
-        DBNode node = new DBNode();
-        node.id = StorageFactory.getStorage().getID();
+    public NewNode(GeoPoint coordinates, NewDBTrack track) {
+        thisNode = new NewDBNode();
         if (coordinates != null) {
-            node.latitude = coordinates.getLatitudeE6();
-            node.longitude = coordinates.getLongitudeE6();
+            thisNode.latitude = coordinates.getLatitudeE6();
+            thisNode.longitude = coordinates.getLongitudeE6();
         }
-        node.track = track;
+        thisNode.track = track.name;
+        thisNode.insert();
+        this.id = thisNode.id;
+    }
 
-        try {
-            DataOpenHelper.getInstance().getNodeDAO().create(node);
-            thisNode = DataOpenHelper.getInstance().getNodeDAO()
-                    .queryForId(new Long(id));
-        } catch (SQLException e) {
-            LogIt.e("Could not create new node.");
-        }
+    /**
+     * Create a NewNode object out of an existing DBNode object that is already
+     * in the database.
+     * 
+     * @param node
+     *            The DBNode object.
+     */
+    public NewNode(NewDBNode node) {
+        this.id = node.id;
+        thisNode = node;
     }
 
     public void addMedia(IDataMedia medium) {
-        DBMedia media = new DBMedia();
-        media.name = medium.getName();
-        media.path = medium.getPath();
-        thisNode.media.add(media);
-        update();
+        NewDBMedia media = ((NewMedia) medium).getDBMedia();
+        media.node = id;
+        media.save();
     }
 
     public void deleteMedia(int mId) {
-        CloseableIterator<DBMedia> media = thisNode.media.closeableIterator();
+        Iterator<NewDBMedia> media = NewDBMedia.getByNode(id).iterator();
         while (media.hasNext()) {
-            DBMedia m = media.next();
+            NewDBMedia m = media.next();
             if (m.id == id) {
-                media.remove();
                 NewMedia medium = new NewMedia(m);
                 medium.delete();
             }
         }
-        try {
-            media.close();
-        } catch (SQLException e) {
-            // do nothing
-        }
-        update();
-
     }
 
     public GeoPoint getCoordinates() {
@@ -142,7 +114,11 @@ public class NewNode extends Updateable implements IDataNode {
     }
 
     public IDataPointsList getDataPointsList() {
-        return new NewPointsList(thisNode.way);
+        NewDBPointsList way = NewDBPointsList.getById(thisNode.way);
+        if (way == null) {
+            return null;
+        }
+        return new NewPointsList(way);
     }
 
     public String getDatetime() {
@@ -154,7 +130,7 @@ public class NewNode extends Updateable implements IDataNode {
      * 
      * @return The DBNode object.
      */
-    public DBNode getDBNode() {
+    public NewDBNode getDBNode() {
         return thisNode;
     }
 
@@ -164,63 +140,44 @@ public class NewNode extends Updateable implements IDataNode {
 
     public List<IDataMedia> getMedia() {
         List<IDataMedia> media = new LinkedList<IDataMedia>();
-        if (!thisNode.media.isEmpty()) {
-            CloseableIterator<DBMedia> iter = thisNode.media
-                    .closeableIterator();
-            for (DBMedia m = iter.next(); iter.hasNext(); m = iter.next()) {
-                media.add(new NewMedia(m));
-            }
-            try {
-                iter.close();
-            } catch (SQLException e) {
-                // do nothing
-            }
+        List<NewDBMedia> dbmedia = NewDBMedia.getByNode(id);
+        for (NewDBMedia m : dbmedia) {
+            media.add(new NewMedia(m));
         }
         return media;
     }
 
     public Map<String, String> getTags() {
-        return new TagMap(this, thisNode.tags);
+        return new TagMap(NewDBTag.getByNode(id), this, null);
     }
 
     public boolean hasAdditionalInfo() {
-        return !(thisNode.tags.isEmpty() && thisNode.media.isEmpty());
+        return !(NewDBTag.getByNode(id).isEmpty() && NewDBMedia.getByNode(id)
+                .isEmpty());
     }
 
     public boolean isValid() {
         return thisNode.latitude != 0 || thisNode.longitude != 0;
     }
 
-    public void setDataPointsList(DataPointsList way) {
-        // do nothing
+    public void setDataPointsList(IDataPointsList way) {
+        thisNode.way = way.getId();
+        thisNode.save();
+    }
+
+    public void setDataTrack(IDataTrack track) {
+        thisNode.track = track.getName();
+        thisNode.save();
     }
 
     public void setDatetime(String datetime) {
         thisNode.datetime = datetime;
-        update();
+        thisNode.save();
     }
 
     public void setLocation(GeoPoint gp) {
         thisNode.latitude = gp.getLatitudeE6();
         thisNode.longitude = gp.getLongitudeE6();
-        update();
-
+        thisNode.save();
     }
-
-    private Dao<DBNode, Long> getDao() {
-        return DataOpenHelper.getInstance().getNodeDAO();
-    }
-
-    /**
-     * Updates internal DBNode to Database.
-     */
-    @Override
-    void update() {
-        try {
-            getDao().update(thisNode);
-        } catch (SQLException e) {
-            LogIt.e("Updating node failed.");
-        }
-    }
-
 }

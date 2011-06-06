@@ -20,16 +20,10 @@
 package de.fu.tracebook.core.data;
 
 import java.io.File;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Environment;
-
-import com.j256.ormlite.dao.CloseableIterator;
-
-import de.fu.tracebook.core.data.implementation.DBTrack;
-import de.fu.tracebook.core.data.implementation.DataOpenHelper;
+import de.fu.tracebook.core.data.implementation.NewDBTrack;
 import de.fu.tracebook.util.LogIt;
 
 /**
@@ -102,47 +96,29 @@ public class NewStorage implements IDataStorage {
     private IDataTrack track;
 
     NewStorage() {
-        // do nothing
+        // do nothing, just reduce visibility.
     }
 
     public void deleteTrack(String trackname) {
-        try {
-            DBTrack existingTrack = DataOpenHelper.getInstance().getTrackDAO()
-                    .queryForId(trackname);
-            if (existingTrack == null) {
-                return;
-            }
-            DataOpenHelper.getInstance().getTrackDAO().delete(existingTrack);
-        } catch (SQLException e) {
-            LogIt.e("Deleting track from database failed");
+        NewDBTrack existingTrack = NewDBTrack.getById(trackname);
+        if (existingTrack == null) {
             return;
         }
+        existingTrack.delete();
         deleteDirectory(new File(getTrackDirPath(trackname)));
 
     }
 
     public IDataTrack deserializeTrack(String name) {
-        try {
-            DBTrack loadedTrack = DataOpenHelper.getInstance().getTrackDAO()
-                    .queryForId(name);
-            if (loadedTrack == null) {
-                return null;
-            }
-            return new NewTrack(loadedTrack);
-        } catch (SQLException e) {
-            LogIt.e("Could not load track");
+        NewDBTrack loadedTrack = NewDBTrack.getById(name);
+        if (loadedTrack == null) {
             return null;
         }
+        return new NewTrack(loadedTrack);
     }
 
     public boolean doesTrackExist(String trackname) {
-        try {
-            DBTrack existingTrack = DataOpenHelper.getInstance().getTrackDAO()
-                    .queryForId(trackname);
-            if (existingTrack == null) {
-                return false;
-            }
-        } catch (SQLException e) {
+        if (NewDBTrack.getById(trackname) == null) {
             return false;
         }
         return true;
@@ -158,20 +134,7 @@ public class NewStorage implements IDataStorage {
     }
 
     public List<String> getAllTracks() {
-        List<String> names = new ArrayList<String>();
-        CloseableIterator<DBTrack> tracks = DataOpenHelper.getInstance()
-                .getTrackDAO().iterator();
-
-        while (tracks.hasNext()) {
-            names.add(tracks.next().name);
-        }
-
-        try {
-            tracks.close();
-        } catch (SQLException e) {
-            LogIt.e("Closing cursor after getting list of all track names failed.");
-        }
-        return names;
+        return NewDBTrack.getAllNames();
     }
 
     public int getID() {

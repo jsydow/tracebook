@@ -25,5 +25,7 @@ public interface NewDBObject {
 
     void insert();
 
+    void save();
+
     void update();
 }

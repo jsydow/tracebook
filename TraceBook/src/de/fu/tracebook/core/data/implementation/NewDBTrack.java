@@ -62,12 +62,25 @@ public class NewDBTrack implements NewDBObject {
     }
 
     public static NewDBTrack getById(String trackName) {
+        return fillObject(trackName, new NewDBTrack());
+    }
+
+    private static NewDBTrack createNewObject(NewDBTrack track, Cursor crs) {
+        track.name = crs.getString(crs.getColumnIndex("name"));
+        track.datetime = crs.getString(crs.getColumnIndex("datetime"));
+        track.comment = crs.getString(crs.getColumnIndex("comment"));
+        track.oldname = track.name;
+        return track;
+    }
+
+    private static NewDBTrack fillObject(String trackName, NewDBTrack track) {
         NewDBTrack ret = null;
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
         Cursor result = db.query(TABLENAME, new String[] { "name", "datetime",
-                "comment" }, "name = " + trackName, null, null, null, null);
+                "comment" }, "name = '" + trackName + "'", null, null, null,
+                null);
         if (result.moveToFirst()) {
-            ret = createNewObject(result);
+            ret = createNewObject(track, result);
         } else {
             LogIt.e("Could not get a track with name " + trackName);
         }
@@ -76,23 +89,15 @@ public class NewDBTrack implements NewDBObject {
         return ret;
     }
 
-    private static NewDBTrack createNewObject(Cursor crs) {
-        NewDBTrack ret = new NewDBTrack();
-        ret.name = crs.getString(crs.getColumnIndex("name"));
-        ret.datetime = crs.getString(crs.getColumnIndex("datetime"));
-        ret.comment = crs.getString(crs.getColumnIndex("comment"));
-        ret.oldname = ret.name;
-        return ret;
-    }
-
     public String comment;
     public String datetime;
     public String name;
+
     private String oldname;
 
     public void delete() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
-        if (db.delete(TABLENAME, "name = " + name, null) == -1) {
+        if (db.delete(TABLENAME, "name = '" + name + "'", null) == -1) {
             LogIt.e("Could not delete track");
         }
         db.close();
@@ -112,17 +117,21 @@ public class NewDBTrack implements NewDBObject {
 
     }
 
-    public void update() {
+    public void save() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("name", name);
         values.put("comment", comment);
-        if (db.update(TABLENAME, values, "name = " + oldname, null) == -1) {
+        if (db.update(TABLENAME, values, "name = '" + oldname + "'", null) == -1) {
             LogIt.e("Could not update track");
         }
         oldname = name;
         db.close();
+    }
+
+    public void update() {
+        fillObject(name, this);
     }
 
 }
