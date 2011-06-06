@@ -665,18 +665,21 @@ public class LoadTrackActivity extends ListActivity {
                     GenericAdapterData dataItem = new GenericAdapterData(desc);
                     dataItem.setText("TrackName", trackinfo.getName());
 
-                    if (trackinfo.getComment().length() > 80) {
-                        comment = getResources().getString(
-                                R.string.string_loadtrackactivity_comment)
-                                + trackinfo.getComment().trim()
-                                        .substring(0, 77) + "...";
-                    } else if (trackinfo.getComment().length() > 0) {
-                        comment = getResources().getString(
-                                R.string.string_loadtrackactivity_comment)
-                                + trackinfo.getComment() + "...";
-                    } else {
-                        comment = getResources().getString(
-                                R.string.string_loadtrackactivity_nocomment);
+                    if (trackinfo.getComment() != null) {
+                        if (trackinfo.getComment().length() > 80) {
+                            comment = getResources().getString(
+                                    R.string.string_loadtrackactivity_comment)
+                                    + trackinfo.getComment().trim()
+                                            .substring(0, 77) + "...";
+                        } else if (trackinfo.getComment().length() > 0) {
+                            comment = getResources().getString(
+                                    R.string.string_loadtrackactivity_comment)
+                                    + trackinfo.getComment() + "...";
+                        } else {
+                            comment = getResources()
+                                    .getString(
+                                            R.string.string_loadtrackactivity_nocomment);
+                        }
                     }
 
                     dataItem.setText("TrackComment", comment);

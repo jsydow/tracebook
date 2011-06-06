@@ -31,6 +31,8 @@ import com.j256.ormlite.dao.Dao;
 
 import de.fu.tracebook.core.data.implementation.DBMedia;
 import de.fu.tracebook.core.data.implementation.DBNode;
+import de.fu.tracebook.core.data.implementation.DBPointsList;
+import de.fu.tracebook.core.data.implementation.DBTrack;
 import de.fu.tracebook.core.data.implementation.DataOpenHelper;
 import de.fu.tracebook.util.LogIt;
 
@@ -61,20 +63,51 @@ public class NewNode extends Updateable implements IDataNode {
      * 
      * @param coordinates
      *            The coordinates of this node.
+     * @param way
+     *            The parent way.
      */
-    public NewNode(GeoPoint coordinates) {
+    public NewNode(GeoPoint coordinates, DBPointsList way) {
         DBNode node = new DBNode();
         node.id = StorageFactory.getStorage().getID();
-        node.latitude = coordinates.getLatitudeE6();
-        node.longitude = coordinates.getLongitudeE6();
-        this.id = node.id;
-        thisNode = node;
+        if (coordinates != null) {
+            node.latitude = coordinates.getLatitudeE6();
+            node.longitude = coordinates.getLongitudeE6();
+        }
+        node.way = way;
 
-        // try {
-        // DataOpenHelper.getInstance().getNodeDAO().create(node);
-        // } catch (SQLException e) {
-        // LogIt.e("Could not create new node.");
-        // }
+        try {
+            DataOpenHelper.getInstance().getNodeDAO().create(node);
+            thisNode = DataOpenHelper.getInstance().getNodeDAO()
+                    .queryForId(new Long(id));
+        } catch (SQLException e) {
+            LogIt.e("Could not create new node.");
+        }
+    }
+
+    /**
+     * Create a new Node that is inserted into the database.
+     * 
+     * @param coordinates
+     *            The coordinates of this node.
+     * @param track
+     *            The parent track.
+     */
+    public NewNode(GeoPoint coordinates, DBTrack track) {
+        DBNode node = new DBNode();
+        node.id = StorageFactory.getStorage().getID();
+        if (coordinates != null) {
+            node.latitude = coordinates.getLatitudeE6();
+            node.longitude = coordinates.getLongitudeE6();
+        }
+        node.track = track;
+
+        try {
+            DataOpenHelper.getInstance().getNodeDAO().create(node);
+            thisNode = DataOpenHelper.getInstance().getNodeDAO()
+                    .queryForId(new Long(id));
+        } catch (SQLException e) {
+            LogIt.e("Could not create new node.");
+        }
     }
 
     public void addMedia(IDataMedia medium) {

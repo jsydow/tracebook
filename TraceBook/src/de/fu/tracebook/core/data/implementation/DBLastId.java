@@ -17,25 +17,15 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.data;
+package de.fu.tracebook.core.data.implementation;
 
-/**
- * A factory for the DataStorage. It returns an implementation of IDataStorage.
- */
-public class StorageFactory {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-    private static IDataStorage instance;
-
-    public static IDataMedia getMediaObject(String path, String name) {
-        return new NewMedia(path, name);
-    }
-
-    /**
-     * @return Valid instance of IDataStorage
-     */
-    public static IDataStorage getStorage() {
-        if (instance == null)
-            instance = new NewStorage();
-        return instance;
-    }
+@DatabaseTable(tableName = "lastid")
+public class DBLastId {
+    @DatabaseField(generatedId = true)
+    public long id;
+    @DatabaseField
+    public long lastId;
 }
