@@ -27,14 +27,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
-public class NewDBNode implements NewDBObject {
+public class NewDBTag implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS nodes "
-            + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " datetime TEXT,"
-            + " latitude INTEGER," + " longitude INTEGER," + " way INTEGER,"
-            + " track INTEGER );";
-    private final static String DROP = "DROP TABLE IF EXISTS nodes";
-    private final static String TABLENAME = "nodes";
+    private final static String CREATE = "CREATE TABLE IF NOT EXISTS tags "
+            + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " key TEXT,"
+            + " value TEXT," + " node INTEGER," + " way INTEGER );";
+    private final static String DROP = "DROP TABLE IF EXISTS tags";
+    private final static String TABLENAME = "tags";
 
     public static String createTable() {
         return CREATE;
@@ -44,82 +43,80 @@ public class NewDBNode implements NewDBObject {
         return DROP;
     }
 
-    public static NewDBNode getById(long nodeId) {
-        NewDBNode ret = null;
+    public static NewDBTag getById(long tagID) {
+        NewDBTag ret = null;
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "latitude", "longitude", "way", "track " }, "id = " + nodeId,
-                null, null, null, null);
+        Cursor result = db.query(TABLENAME, new String[] { "id", "key",
+                "value", "node", "way" }, "id = " + tagID, null, null, null,
+                null);
         if (result.moveToFirst()) {
             ret = createNewObject(result);
         } else {
-            LogIt.e("Could not get a node with id " + nodeId);
+            LogIt.e("Could not get a tag with id " + tagID);
         }
         result.close();
 
         return ret;
     }
 
-    public static List<NewDBNode> getByTrack(long trackId) {
-        List<NewDBNode> ret = new ArrayList<NewDBNode>();
+    public static List<NewDBTag> getByNode(long nodeId) {
+        List<NewDBTag> ret = new ArrayList<NewDBTag>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "latitude", "longitude", "way", "track " }, "track = "
-                + trackId, null, null, null, "id ASC");
+        Cursor result = db.query(TABLENAME, new String[] { "id", "key",
+                "value", "node", "way" }, "node = " + nodeId, null, null, null,
+                "id ASC");
         if (result.moveToFirst()) {
             do {
                 ret.add(createNewObject(result));
             } while (result.moveToNext());
         } else {
-            LogIt.e("Could not get a node with track id " + trackId);
+            LogIt.e("Could not get a tag with node id " + nodeId);
         }
         result.close();
 
         return ret;
     }
 
-    public static List<NewDBNode> getByWay(long wayId) {
-        List<NewDBNode> ret = new ArrayList<NewDBNode>();
+    public static List<NewDBTag> getByWay(long wayId) {
+        List<NewDBTag> ret = new ArrayList<NewDBTag>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        Cursor result = db.query(TABLENAME, new String[] { "id", "datetime",
-                "latitude", "longitude", "way", "track " }, "way = " + wayId,
-                null, null, null, "id ASC");
+        Cursor result = db.query(TABLENAME, new String[] { "id", "key",
+                "value", "node", "way" }, "way = " + wayId, null, null, null,
+                "id ASC");
         if (result.moveToFirst()) {
             do {
                 ret.add(createNewObject(result));
             } while (result.moveToNext());
         } else {
-            LogIt.e("Could not get a node with way id " + wayId);
+            LogIt.e("Could not get a tag with way id " + wayId);
         }
         result.close();
 
         return ret;
     }
 
-    private static NewDBNode createNewObject(Cursor crs) {
-        NewDBNode ret = new NewDBNode();
+    private static NewDBTag createNewObject(Cursor crs) {
+        NewDBTag ret = new NewDBTag();
         ret.id = crs.getLong(crs.getColumnIndex("id"));
-        ret.datetime = crs.getString(crs.getColumnIndex("datetime"));
-        ret.latitude = crs.getInt(crs.getColumnIndex("latitude"));
-        ret.longitude = crs.getInt(crs.getColumnIndex("longitude"));
+        ret.key = crs.getString(crs.getColumnIndex("key"));
+        ret.value = crs.getString(crs.getColumnIndex("value"));
+        ret.node = crs.getLong(crs.getColumnIndex("node"));
         ret.way = crs.getLong(crs.getColumnIndex("way"));
-        ret.track = crs.getLong(crs.getColumnIndex("track"));
         return ret;
     }
 
-    public String datetime;
     public long id;
-    public int latitude;
-    public int longitude;
-    public long track;
+    public String key;
+    public long node;
+    public String value;
     public long way;
 
     public void delete() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "id = " + id, null) == -1) {
-            LogIt.e("Could not delete node");
+            LogIt.e("Could not delete tag");
         }
         db.close();
     }
@@ -127,13 +124,12 @@ public class NewDBNode implements NewDBObject {
     public void insert() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("datetime", datetime);
-        values.put("latitude", latitude);
-        values.put("longitude", longitude);
-        values.put("track", track);
+        values.put("key", key);
+        values.put("value", value);
+        values.put("node", node);
         values.put("way", way);
         if (db.insert(TABLENAME, null, values) == -1) {
-            LogIt.e("Could not insert node");
+            LogIt.e("Could not insert tag");
         }
         db.close();
 
@@ -142,13 +138,12 @@ public class NewDBNode implements NewDBObject {
     public void update() {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("datetime", datetime);
-        values.put("latitude", latitude);
-        values.put("longitude", longitude);
-        values.put("track", track);
+        values.put("key", key);
+        values.put("value", value);
+        values.put("node", node);
         values.put("way", way);
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
-            LogIt.e("Could not update node");
+            LogIt.e("Could not update tag");
         }
         db.close();
     }

@@ -45,12 +45,20 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(NewDBNode.createTable());
+        db.execSQL(NewDBTag.createTable());
+        db.execSQL(NewDBTrack.createTable());
+        db.execSQL(NewDBPointsList.createTable());
+        db.execSQL(NewDBMedia.createTable());
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(NewDBNode.dropTable());
+        db.execSQL(NewDBTag.dropTable());
+        db.execSQL(NewDBTrack.dropTable());
+        db.execSQL(NewDBPointsList.dropTable());
+        db.execSQL(NewDBMedia.dropTable());
         onCreate(db);
     }
 
