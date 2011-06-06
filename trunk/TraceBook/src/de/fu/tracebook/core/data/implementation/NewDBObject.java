@@ -17,25 +17,13 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.data;
+package de.fu.tracebook.core.data.implementation;
 
-/**
- * A factory for the DataStorage. It returns an implementation of IDataStorage.
- */
-public class StorageFactory {
+public interface NewDBObject {
 
-    private static IDataStorage instance;
+    void delete();
 
-    public static IDataMedia getMediaObject(String path, String name) {
-        return new NewMedia(path, name);
-    }
+    void insert();
 
-    /**
-     * @return Valid instance of IDataStorage
-     */
-    public static IDataStorage getStorage() {
-        if (instance == null)
-            instance = new NewStorage();
-        return instance;
-    }
+    void update();
 }

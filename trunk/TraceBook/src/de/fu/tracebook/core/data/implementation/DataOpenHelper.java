@@ -40,7 +40,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
     private static DataOpenHelper instance = null;
 
     private static final String name = "ormtracebookdb";
-    private static final int version = 2;
+    private static final int version = 3;
 
     /**
      * @return the instance
@@ -49,14 +49,15 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
         return instance;
     }
 
-    private Dao<DBMedia, Object> mediaDAO = null;
+    private Dao<DBLastId, Long> idDAO = null;
 
+    private Dao<DBMedia, Object> mediaDAO = null;
     private Dao<DBNode, Long> nodeDAO = null;
     private Dao<DBPointsList, Long> pointslistDAO = null;
     private Dao<DBTag, Object> tagDAO = null;
-
     private Dao<DBTrack, String> trackDAO = null;
 
+    // TODO create dao objects here
     /**
      * @param context
      *            context
@@ -65,7 +66,12 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
         super(context, name, null, version);
     }
 
-    // TODO create dao objects here
+    /**
+     * @return the idDAO
+     */
+    public Dao<DBLastId, Long> getIdDAO() {
+        return idDAO;
+    }
 
     /**
      * @return the mediaDAO
@@ -150,6 +156,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, DBNode.class);
             TableUtils.createTable(connectionSource, DBPointsList.class);
             TableUtils.createTable(connectionSource, DBTag.class);
+            TableUtils.createTable(connectionSource, DBLastId.class);
             // TODO create tables here
 
         } catch (SQLException e) {
@@ -167,6 +174,7 @@ public class DataOpenHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, DBNode.class, true);
             TableUtils.dropTable(connectionSource, DBPointsList.class, true);
             TableUtils.dropTable(connectionSource, DBTag.class, true);
+            TableUtils.dropTable(connectionSource, DBLastId.class, true);
             // TODO drop tables here
             onCreate(db, connectionSource);
         } catch (SQLException e) {

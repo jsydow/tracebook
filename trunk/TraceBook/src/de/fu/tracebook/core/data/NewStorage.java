@@ -101,6 +101,10 @@ public class NewStorage implements IDataStorage {
      */
     private IDataTrack track;
 
+    NewStorage() {
+        // do nothing
+    }
+
     public void deleteTrack(String trackname) {
         try {
             DBTrack existingTrack = DataOpenHelper.getInstance().getTrackDAO()

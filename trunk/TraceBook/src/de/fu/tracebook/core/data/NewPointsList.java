@@ -32,6 +32,7 @@ import com.j256.ormlite.dao.Dao;
 import de.fu.tracebook.core.data.implementation.DBMedia;
 import de.fu.tracebook.core.data.implementation.DBNode;
 import de.fu.tracebook.core.data.implementation.DBPointsList;
+import de.fu.tracebook.core.data.implementation.DBTrack;
 import de.fu.tracebook.core.data.implementation.DataOpenHelper;
 import de.fu.tracebook.util.LogIt;
 
@@ -40,16 +41,25 @@ public class NewPointsList extends Updateable implements IDataPointsList {
     private long id;
     private DBPointsList thisWay;
 
-    public NewPointsList() {
-        DBPointsList way = new DBPointsList();
-        way.id = StorageFactory.getStorage().getID();
-        this.id = way.id;
-        thisWay = way;
-    }
-
     public NewPointsList(DBPointsList newway) {
         this.thisWay = newway;
         this.id = newway.id;
+    }
+
+    public NewPointsList(DBTrack track) {
+        DBPointsList way = new DBPointsList();
+        way.id = StorageFactory.getStorage().getID();
+        way.datetime = NewTrack.getW3CFormattedTimeStamp();
+        way.track = track;
+        way.isArea = false;
+        this.id = way.id;
+        try {
+            DataOpenHelper.getInstance().getPointslistDAO().create(way);
+            thisWay = DataOpenHelper.getInstance().getPointslistDAO()
+                    .queryForId(new Long(id));
+        } catch (SQLException e) {
+            LogIt.e("Could not create new node.");
+        }
     }
 
     public void addMedia(IDataMedia medium) {
@@ -174,7 +184,7 @@ public class NewPointsList extends Updateable implements IDataPointsList {
     }
 
     public IDataNode newNode(GeoPoint location) {
-        NewNode node = new NewNode(location);
+        NewNode node = new NewNode(location, thisWay);
         thisWay.nodes.add(node.getDBNode());
         update();
         return node;
@@ -198,6 +208,15 @@ public class NewPointsList extends Updateable implements IDataPointsList {
 
     private Dao<DBPointsList, Long> getDao() {
         return DataOpenHelper.getInstance().getPointslistDAO();
+    }
+
+    void reinit() {
+        try {
+            thisWay = DataOpenHelper.getInstance().getPointslistDAO()
+                    .queryForId(new Long(id));
+        } catch (SQLException e) {
+            LogIt.e("Could not reinit way.");
+        }
     }
 
     /**

@@ -58,8 +58,20 @@ public class NewTrack implements IDataTrack {
         return sdf.format(new Date());
     }
 
+    /**
+     * Creates a time stamp of the current time formatted according to W3C.
+     * 
+     * @return A time stamp String.
+     */
+    static String getW3CFormattedTimeStamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        return sdf.format(new Date());
+    }
+
     private String name;
     private DBTrack thisTrack;
+
     private IDataPointsList way;
 
     /**
@@ -72,10 +84,11 @@ public class NewTrack implements IDataTrack {
         track.datetime = this.name;
         try {
             DataOpenHelper.getInstance().getTrackDAO().create(track);
+            thisTrack = DataOpenHelper.getInstance().getTrackDAO()
+                    .queryForId(name);
         } catch (SQLException e) {
             LogIt.e("Could not create new track.");
         }
-        thisTrack = track;
     }
 
     /**
@@ -260,15 +273,16 @@ public class NewTrack implements IDataTrack {
     }
 
     public IDataNode newNode(GeoPoint coordinates) {
-        NewNode node = new NewNode(coordinates);
+        NewNode node = new NewNode(coordinates, thisTrack);
         thisTrack.nodes.add(node.getDBNode());
         update();
         return node;
     }
 
     public IDataPointsList newWay() {
-        NewPointsList newway = new NewPointsList();
+        NewPointsList newway = new NewPointsList(thisTrack);
         thisTrack.ways.add(newway.getDBPointsList());
+        newway.reinit();
         update();
         return newway;
     }
