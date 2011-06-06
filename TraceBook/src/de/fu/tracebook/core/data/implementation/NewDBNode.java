@@ -63,6 +63,7 @@ public class NewDBNode implements NewDBObject {
             LogIt.e("Could not get a node with track id " + name);
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -82,6 +83,7 @@ public class NewDBNode implements NewDBObject {
             LogIt.e("Could not get a node with way id " + wayId);
         }
         result.close();
+        db.close();
 
         return ret;
     }
@@ -108,6 +110,7 @@ public class NewDBNode implements NewDBObject {
             LogIt.e("Could not get a node with id " + nodeId);
         }
         result.close();
+        db.close();
 
         return ret;
     }

@@ -227,7 +227,8 @@ public class NewTrack implements IDataTrack {
             LogIt.e("Error while writing text file.");
             return null;
         }
-        return new DataMedia(txtfile.getParent(), txtfile.getName());
+        return StorageFactory.getMediaObject(txtfile.getParent(),
+                txtfile.getName());
     }
 
     public void setComment(String comment) {

@@ -155,6 +155,8 @@ public final class Helper {
                                         trackname)) {
                                     try {
                                         StorageFactory.getStorage()
+                                                .deleteTrack(trackname);
+                                        StorageFactory.getStorage()
                                                 .unloadAllTracks();
                                         ServiceConnector.getLoggerService()
                                                 .pauseLogging();

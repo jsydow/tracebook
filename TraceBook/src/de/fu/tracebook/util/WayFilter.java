@@ -19,7 +19,6 @@
 
 package de.fu.tracebook.util;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -27,7 +26,6 @@ import java.util.Queue;
 import org.mapsforge.android.maps.GeoPoint;
 
 import de.fu.tracebook.core.data.IDataNode;
-import de.fu.tracebook.core.data.StorageFactory;
 
 /**
  * This class offers methods used to filter unnecessary waypoints. It is
@@ -46,54 +44,55 @@ public final class WayFilter {
      *            multiplied to form the threshold
      */
     public static void filterPoints(List<IDataNode> nodes, double weight) {
-        boolean calibrate = true;
-        double threshold = 0;
-
-        if (nodes.size() < 3)
-            return;
-
-        // we first iterate once to get the threshold, in the second run we
-        // actually remove the points
-        while (calibrate) {
-            if (threshold != 0)
-                calibrate = false;
-
-            IDataNode firstNode = null;
-            IDataNode pending = null;
-            Iterator<IDataNode> iter = nodes.iterator();
-
-            while (iter.hasNext()) {
-                IDataNode n = iter.next();
-                if (n == null || !n.isValid()) {
-                    iter.remove();
-                    continue;
-                }
-
-                if (firstNode == null) {
-                    firstNode = n;
-                    continue;
-                }
-
-                if (pending != null) {
-                    if (calibrate) {
-                        threshold += calculateArea(firstNode.getCoordinates(),
-                                pending.getCoordinates(), n.getCoordinates());
-                    } else if (calculateArea(firstNode.getCoordinates(),
-                            pending.getCoordinates(), n.getCoordinates()) < threshold
-                            * weight
-                            && !n.hasAdditionalInfo() && iter.hasNext()) {
-                        StorageFactory.getStorage().getOverlayManager()
-                                .invalidateOverlayOfNode(n);
-                        iter.remove();
-                    }
-                    firstNode = pending;
-                }
-
-                pending = n;
-            }
-            threshold /= nodes.size();
-            LogIt.log("filterPoints", "Average: " + threshold, 1);
-        }
+        return;
+        // boolean calibrate = true;
+        // double threshold = 0;
+        //
+        // if (nodes.size() < 3)
+        // return;
+        //
+        // // we first iterate once to get the threshold, in the second run we
+        // // actually remove the points
+        // while (calibrate) {
+        // if (threshold != 0)
+        // calibrate = false;
+        //
+        // IDataNode firstNode = null;
+        // IDataNode pending = null;
+        // Iterator<IDataNode> iter = nodes.iterator();
+        //
+        // while (iter.hasNext()) {
+        // IDataNode n = iter.next();
+        // if (n == null || !n.isValid()) {
+        // iter.remove();
+        // continue;
+        // }
+        //
+        // if (firstNode == null) {
+        // firstNode = n;
+        // continue;
+        // }
+        //
+        // if (pending != null) {
+        // if (calibrate) {
+        // threshold += calculateArea(firstNode.getCoordinates(),
+        // pending.getCoordinates(), n.getCoordinates());
+        // } else if (calculateArea(firstNode.getCoordinates(),
+        // pending.getCoordinates(), n.getCoordinates()) < threshold
+        // * weight
+        // && !n.hasAdditionalInfo() && iter.hasNext()) {
+        // StorageFactory.getStorage().getOverlayManager()
+        // .invalidateOverlayOfNode(n);
+        // iter.remove();
+        // }
+        // firstNode = pending;
+        // }
+        //
+        // pending = n;
+        // }
+        // threshold /= nodes.size();
+        // LogIt.log("filterPoints", "Average: " + threshold, 1);
+        // }
     }
 
     /**
@@ -110,7 +109,8 @@ public final class WayFilter {
      */
     public static void smoothenPoints(List<IDataNode> nodes, int weight,
             int bufferSize) {
-        smoothenPointsMiddle(nodes, weight, bufferSize);
+        // smoothenPointsMiddle(nodes, weight, bufferSize);
+        return;
     }
 
     /**

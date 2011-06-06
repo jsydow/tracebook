@@ -47,6 +47,7 @@ public class NewPointsList implements IDataPointsList {
         thisWay.datetime = NewTrack.getW3CFormattedTimeStamp();
         thisWay.track = track.name;
         thisWay.isArea = false;
+        thisWay.insert();
         this.id = thisWay.id;
     }
 
@@ -145,7 +146,14 @@ public class NewPointsList implements IDataPointsList {
     }
 
     public GeoPoint[] toGeoPointArray(GeoPoint additional) {
-        // TODO Auto-generated method stub
-        return null;
+        List<IDataNode> nodes = this.getNodes();
+        GeoPoint[] ret = new GeoPoint[nodes.size()];
+        int i = 0;
+        for (IDataNode node : nodes) {
+            ret[i] = node.getCoordinates();
+            ++i;
+        }
+
+        return ret;
     }
 }

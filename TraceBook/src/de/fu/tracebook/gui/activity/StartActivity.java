@@ -19,7 +19,6 @@
 
 package de.fu.tracebook.gui.activity;
 
-import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -35,7 +34,6 @@ import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
 import de.fu.tracebook.core.data.implementation.DBOpenHelper;
-import de.fu.tracebook.core.data.implementation.NewDBTrack;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.view.HelpWebView;
 import de.fu.tracebook.util.Helper;
@@ -136,14 +134,6 @@ public class StartActivity extends Activity {
         // helper.setInstance();
         DBOpenHelper helper = new DBOpenHelper(this);
         helper.setInstance(helper);
-        NewDBTrack track = new NewDBTrack();
-        track.name = "L" + System.currentTimeMillis();
-        track.insert();
-
-        List<String> tracks = NewDBTrack.getAllNames();
-        for (String t : tracks) {
-            LogIt.d("$$$$ trackname = " + t);
-        }
 
         // Initialize ServiceConnector
         ServiceConnector.startService(this);
