@@ -97,7 +97,6 @@ public class NewDBPointsList implements NewDBObject {
         if (db.delete(TABLENAME, "id = " + id, null) == -1) {
             LogIt.e("Could not delete way");
         }
-        db.close();
     }
 
     public void insert() {
@@ -112,7 +111,6 @@ public class NewDBPointsList implements NewDBObject {
         } else {
             this.id = rowID;
         }
-        db.close();
 
     }
 
@@ -125,7 +123,6 @@ public class NewDBPointsList implements NewDBObject {
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update way");
         }
-        db.close();
     }
 
     public void update() {

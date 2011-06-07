@@ -126,6 +126,24 @@ public class NewNode implements IDataNode {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof NewNode) {
+            if (((NewNode) o).id == this.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public GeoPoint getCoordinates() {
         return new GeoPoint(thisNode.latitude, thisNode.longitude);
     }

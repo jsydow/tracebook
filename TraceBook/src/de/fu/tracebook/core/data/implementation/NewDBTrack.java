@@ -96,7 +96,6 @@ public class NewDBTrack implements NewDBObject {
         if (db.delete(TABLENAME, "name = '" + name + "'", null) == -1) {
             LogIt.e("Could not delete track");
         }
-        db.close();
     }
 
     public void insert() {
@@ -109,7 +108,6 @@ public class NewDBTrack implements NewDBObject {
             LogIt.e("Could not insert track");
         }
         oldname = name;
-        db.close();
 
     }
 
@@ -123,7 +121,6 @@ public class NewDBTrack implements NewDBObject {
             LogIt.e("Could not update track");
         }
         oldname = name;
-        db.close();
     }
 
     public void update() {

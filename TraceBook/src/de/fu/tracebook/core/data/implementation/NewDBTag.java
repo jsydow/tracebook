@@ -116,7 +116,6 @@ public class NewDBTag implements NewDBObject {
         if (db.delete(TABLENAME, "id = " + id, null) == -1) {
             LogIt.e("Could not delete tag");
         }
-        db.close();
     }
 
     public void insert() {
@@ -132,7 +131,6 @@ public class NewDBTag implements NewDBObject {
         } else {
             this.id = rowID;
         }
-        db.close();
 
     }
 
@@ -146,7 +144,6 @@ public class NewDBTag implements NewDBObject {
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update tag");
         }
-        db.close();
     }
 
     public void update() {
