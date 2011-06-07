@@ -250,4 +250,6 @@
 	<string name="btn_searchInfoDialog_save">Apply</string>
 	<string name="btn_startActivity_reseumeTrack">Resume track</string>
 	<string name="popup_mapsforgeactivity_saved">Track has been saved.</string>
+<string name="tv_statusbar_mapsforgeTitle">Map</string>
+<string name="tv_statusbar_mapsforgeDesc">Shows the map with all tracked data.</string>
 </resources>

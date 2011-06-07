@@ -44,6 +44,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
@@ -395,6 +396,19 @@ public class MapsForgeActivity extends MapActivity {
         }
     }
 
+    /**
+     * This Method for the two (title and description) button from the status
+     * bar. This method starts the dialog with all activity informations.
+     * 
+     * @param v
+     *            not used
+     */
+    public void statusBarTitleBtn(View v) {
+        Helper.setActivityInfoDialog(this,
+                getResources().getString(R.string.tv_statusbar_mapsforgeTitle),
+                getResources().getString(R.string.tv_statusbar_mapsforgeDesc));
+    }
+
     private void fillOverlays() {
         pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
                 .getOverlayItems(this));
@@ -433,6 +447,12 @@ public class MapsForgeActivity extends MapActivity {
 
         // as this activity is destroyed when adding a POI, we get all POIs here
         fillOverlays();
+
+        // Set status bar
+        Helper.setStatusBar(this,
+                getResources().getString(R.string.tv_statusbar_mapsforgeTitle),
+                getResources().getString(R.string.tv_statusbar_mapsforgeDesc),
+                R.id.ly_mapsforgeActivity_statusbar, false);
 
         gpsReceiver = new GPSReceiver();
 
@@ -486,7 +506,7 @@ public class MapsForgeActivity extends MapActivity {
                         LogIt.e(e.getMessage());
                     }
                 }
-                mapView = new MapView(MapsForgeActivity.this);
+                // mapView = new MapView(MapsForgeActivity.this);
                 mapView.setClickable(true);
                 mapView.setBuiltInZoomControls(true);
                 mapView.setScaleBar(true);
@@ -506,8 +526,8 @@ public class MapsForgeActivity extends MapActivity {
                 runOnUiThread(new Runnable() {
 
                     public void run() {
-                        setContentView(mapView);
-
+                        // setContentView(mapView);
+                        mapView.invalidate();
                     }
                 });
             }
