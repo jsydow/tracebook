@@ -26,7 +26,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-import de.fu.tracebook.core.data.DataStorage;
+import de.fu.tracebook.core.data.NewStorage;
 
 /**
  * This a general logging class and should be used for all logging action. It
@@ -104,7 +104,7 @@ public final class LogIt {
         if ((logLevel <= maxLogLevel) || (logLevel <= minLogLevel)) {
             switch (method) {
             case LOGMETHOD_FILE:
-                File logFile = new File(DataStorage.getTraceBookDirPath()
+                File logFile = new File(NewStorage.getTraceBookDirPath()
                         + File.separator + "log.txt");
                 try {
                     FileWriter fw = new FileWriter(logFile);

@@ -77,7 +77,7 @@ public class NewStorage implements IDataStorage {
      * @return The complete path to the track directory.
      */
     static String getTrackDirPath(String dir) {
-        return DataStorage.getTraceBookDirPath() + File.separator + dir;
+        return NewStorage.getTraceBookDirPath() + File.separator + dir;
     }
 
     /**
@@ -190,7 +190,7 @@ public class NewStorage implements IDataStorage {
      * exist when track is serialized.
      */
     private void createNewTrackFolder(String name) {
-        File dir = new File(DataStorage.getTraceBookDirPath() + File.separator
+        File dir = new File(NewStorage.getTraceBookDirPath() + File.separator
                 + name);
         if (!dir.isDirectory()) {
             if (!dir.mkdir()) {
