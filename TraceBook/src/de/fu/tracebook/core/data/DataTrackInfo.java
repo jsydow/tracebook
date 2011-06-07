@@ -19,23 +19,6 @@
 
 package de.fu.tracebook.core.data;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlSerializer;
-
-import android.util.Xml;
-import de.fu.tracebook.util.LogIt;
 
 /**
  * A class that simply holds information of a track. It is a class that only
@@ -55,63 +38,7 @@ public class DataTrackInfo {
      */
     static DataTrackInfo deserialize(String trackname) {
         DataTrackInfo info = new DataTrackInfo();
-        info.name = trackname;
 
-        File trackinfo = new File(DataTrack.getTrackDirPath(trackname)
-                + File.separator + "info.xml");
-        if (trackinfo.isFile()) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory
-                    .newInstance();
-
-            try {
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document dom = builder.parse(trackinfo);
-
-                // get <trackinfo>-element
-                Element trackinfoelement = dom.getDocumentElement(); // root-element
-                if (trackinfoelement == null)
-                    throw new SAXException();
-
-                NodeList nodeelements = trackinfoelement
-                        .getElementsByTagName("data");
-                if (nodeelements == null)
-                    throw new SAXException();
-                // for each child
-                for (int i = 0; i < nodeelements.getLength(); ++i) {
-
-                    // get key and value attribute
-                    NamedNodeMap nnm = nodeelements.item(i).getAttributes();
-                    String key = nnm.getNamedItem("key").getNodeValue();
-                    String value = nnm.getNamedItem("value").getNodeValue();
-
-                    // what is key?
-                    if (key != null && value != null) {
-                        if (key.equals("timestamp")) {
-                            info.timestamp = value;
-                        } else if (key.equals("comment")) {
-                            info.comment = value;
-                        } else if (key.equals("pois")) {
-                            info.numberOfPOIs = Integer.parseInt(value);
-                        } else if (key.equals("ways")) {
-                            info.numberOfWays = Integer.parseInt(value);
-                        } else if (key.equals("media")) {
-                            info.numberOfMedia = Integer.parseInt(value);
-                        }
-                    } else {
-                        LogIt.w("XML-file is invalid. A data-node has no key-attribute.");
-                    }
-                }
-
-            } catch (ParserConfigurationException e) {
-                LogIt.e("This should not happen!");
-            } catch (SAXException e) {
-                LogIt.e("XML-file is not valid.!");
-            } catch (IOException e) {
-                LogIt.e("Error while reading XML file!");
-            }
-        } else {
-            info.comment = "";
-        }
         return info;
     }
 
@@ -217,61 +144,7 @@ public class DataTrackInfo {
      * the track.
      */
     void serialize() {
-        File file = new File(DataTrack.getTrackDirPath(name) + File.separator
-                + "info.xml");
-        FileOutputStream fileos = DataTrack.openFile(file);
-        if (fileos == null) {
-            return;
-        }
-        XmlSerializer serializer = Xml.newSerializer();
-
-        try {
-            serializer.setOutput(fileos, "UTF-8");
-            serializer.startDocument(null, Boolean.valueOf(true));
-            serializer.startTag(null, "info");
-
-            serializer.startTag(null, "data");
-            serializer.attribute(null, "key", "timestamp");
-            serializer.attribute(null, "value", timestamp);
-            serializer.endTag(null, "data");
-
-            serializer.startTag(null, "data");
-            serializer.attribute(null, "key", "comment");
-            serializer.attribute(null, "value", comment);
-            serializer.endTag(null, "data");
-
-            serializer.startTag(null, "data");
-            serializer.attribute(null, "key", "pois");
-            serializer.attribute(null, "value", Integer.toString(numberOfPOIs));
-            serializer.endTag(null, "data");
-
-            serializer.startTag(null, "data");
-            serializer.attribute(null, "key", "ways");
-            serializer.attribute(null, "value", Integer.toString(numberOfWays));
-            serializer.endTag(null, "data");
-
-            serializer.startTag(null, "data");
-            serializer.attribute(null, "key", "media");
-            serializer
-                    .attribute(null, "value", Integer.toString(numberOfMedia));
-            serializer.endTag(null, "data");
-
-            serializer.endTag(null, "info");
-            serializer.flush();
-        } catch (IllegalArgumentException e) {
-            LogIt.e(e.getMessage());
-        } catch (IllegalStateException e) {
-            LogIt.e(e.getMessage());
-        } catch (IOException e) {
-            LogIt.e(e.getMessage());
-        } finally {
-            try {
-                fileos.close();
-            } catch (IOException e) {
-                LogIt.e("Unable to read file: " + e.getMessage());
-            }
-        }
-
+        // do nothing
     }
 
 }
