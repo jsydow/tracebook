@@ -152,8 +152,8 @@ public class NewStorage implements IDataStorage {
     public DataTrackInfo getTrackInfo(String trackName) {
         IDataTrack infotrack = deserializeTrack(trackName);
         return new DataTrackInfo(infotrack.getName(), infotrack.getDatetime(),
-                infotrack.getComment(), infotrack.getNodes().size(), infotrack
-                        .getWays().size(), infotrack.getMedia().size());
+                infotrack.getComment(), 0, 0, 0);
+        // TODO do something with the 3 zeros
     }
 
     public IDataTrack newTrack() {

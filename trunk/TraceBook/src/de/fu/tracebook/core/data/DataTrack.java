@@ -257,7 +257,7 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
                         ret.addWay(way);
 
                     } else if (elementName.equals("tag")) {
-                        currentDataMapObject.getTags().put(
+                        currentDataMapObject.addTag(
                                 xpp.getAttributeValue(null, "k"),
                                 xpp.getAttributeValue(null, "v"));
 
@@ -575,6 +575,10 @@ public class DataTrack extends DataMediaHolder implements IDataTrack {
      */
     public List<IDataPointsList> getWays() {
         return new LinkedList<IDataPointsList>(ways);
+    }
+
+    public boolean isNew() {
+        return false;
     }
 
     /*

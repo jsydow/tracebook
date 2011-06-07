@@ -98,6 +98,14 @@ public class NewNode implements IDataNode {
         media.save();
     }
 
+    public void addTag(String key, String value) {
+        NewDBTag tag = new NewDBTag();
+        tag.key = key;
+        tag.value = value;
+        tag.node = id;
+        tag.insert();
+    }
+
     public void deleteMedia(int mId) {
         Iterator<NewDBMedia> media = NewDBMedia.getByNode(id).iterator();
         while (media.hasNext()) {
@@ -105,6 +113,15 @@ public class NewNode implements IDataNode {
             if (m.id == id) {
                 NewMedia medium = new NewMedia(m);
                 medium.delete();
+            }
+        }
+    }
+
+    public void deleteTag(String key) {
+        List<NewDBTag> tags = NewDBTag.getByNode(id);
+        for (NewDBTag tag : tags) {
+            if (tag.key == key) {
+                tag.delete();
             }
         }
     }

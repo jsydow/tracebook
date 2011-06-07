@@ -372,15 +372,12 @@ public class LoadTrackActivity extends ListActivity {
                 getResources().getString(
                         R.string.alert_loadtrackActivity_loadingTracks), true,
                 false);
-        (new Thread() {
-            @Override
-            public void run() {
-                updateAdapter();
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        }).start();
+
+        updateAdapter();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
     }
 
     /**

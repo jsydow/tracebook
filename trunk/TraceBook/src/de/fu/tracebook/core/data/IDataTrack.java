@@ -22,6 +22,7 @@ package de.fu.tracebook.core.data;
 import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.OverlayItem;
 
 public interface IDataTrack extends IDataMediaHolder {
 
@@ -126,6 +127,8 @@ public interface IDataTrack extends IDataMediaHolder {
      * @param overlayItem
      *            The outdated OverlayItem
      */
+
+    boolean isNew();
 
     /**
      * Create a new Node (i.e. POI) and add it to the Track

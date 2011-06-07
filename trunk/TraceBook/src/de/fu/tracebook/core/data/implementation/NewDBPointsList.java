@@ -59,11 +59,8 @@ public class NewDBPointsList implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBPointsList(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a way with track id " + name);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -84,11 +81,8 @@ public class NewDBPointsList implements NewDBObject {
                 "isarea", "track " }, "id = " + wayId, null, null, null, null);
         if (result.moveToFirst()) {
             ret = createNewObject(way, result);
-        } else {
-            LogIt.e("Could not get a way with id " + wayId);
         }
         result.close();
-        db.close();
 
         return ret;
     }

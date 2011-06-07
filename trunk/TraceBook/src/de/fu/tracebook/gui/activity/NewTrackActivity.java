@@ -229,18 +229,26 @@ public class NewTrackActivity extends TabActivity {
         alert.show();
 
         // TODO test
-        IDataTrack currtrack = StorageFactory.getStorage().getTrack();
-        for (int i = 0; i < 500; ++i) {
-            IDataNode node = currtrack.newNode(new GeoPoint(10, 10));
-            node.getTags().put("motorway", "highway");
-        }
-        for (int i = 0; i < 10; ++i) {
-            IDataPointsList way = currtrack.newWay();
-            for (int j = 0; j < 400; ++j) {
-                IDataNode node = way.newNode(new GeoPoint(10, 10));
-                node.getTags().put("motorway", "highway");
+        (new Thread() {
+            public void run() {
+                LogIt.d("@@@ STARTING TEST DATA");
+                IDataTrack currtrack = StorageFactory.getStorage().getTrack();
+                for (int i = 0; i < 500; ++i) {
+                    IDataNode node = currtrack.newNode(new GeoPoint(10, 10));
+                    node.addTag("motorway", "highway");
+                }
+                LogIt.d("@@@ HALF WAY TEST DATA");
+                for (int i = 0; i < 10; ++i) {
+                    IDataPointsList way = currtrack.newWay();
+                    for (int j = 0; j < 400; ++j) {
+                        IDataNode node = way.newNode(new GeoPoint(10, 10));
+                        node.addTag("motorway", "highway");
+                    }
+                    LogIt.d("@@@ WAY FINISHED TEST DATA");
+                }
+                LogIt.d("@@@ FINISHED TEST DATA");
             }
-        }
+        }).start();
     }
 
     /**
@@ -651,119 +659,143 @@ public class NewTrackActivity extends TabActivity {
      */
     void initListView() {
         final Intent intent = new Intent(this, AddPointActivity.class);
+        final Activity act = this;
+
         // Initialize ListView for EditTab
-        ListView listView = (ListView) findViewById(R.id.tracks_lvw);
+        final ListView listView = (ListView) findViewById(R.id.tracks_lvw);
         registerForContextMenu(listView);
-        NumberFormat nf = NumberFormat.getInstance();
+        final NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
 
-        GenericItemDescription desc = new GenericItemDescription();
-        desc.addResourceId("NodeId", R.id.tv_listviewedit_id);
-        desc.addResourceId("NodeCoord", R.id.tv_listviewedit_coordinates);
-        desc.addResourceId("NodeImg", R.id.iv_listviewedit_image);
-        desc.addResourceId("NodeStats", R.id.tv_listviewedit_stats);
-        desc.addResourceId("WayPOIs", R.id.tv_listviewedit_poiCount);
+        (new Thread() {
+            public void run() {
+                GenericItemDescription desc = new GenericItemDescription();
+                desc.addResourceId("NodeId", R.id.tv_listviewedit_id);
+                desc.addResourceId("NodeCoord",
+                        R.id.tv_listviewedit_coordinates);
+                desc.addResourceId("NodeImg", R.id.iv_listviewedit_image);
+                desc.addResourceId("NodeStats", R.id.tv_listviewedit_stats);
+                desc.addResourceId("WayPOIs", R.id.tv_listviewedit_poiCount);
 
-        List<IDataNode> nodeList = StorageFactory.getStorage().getTrack()
-                .getNodes();
+                List<IDataNode> nodeList = StorageFactory.getStorage()
+                        .getTrack().getNodes();
 
-        List<IDataPointsList> wayList = StorageFactory.getStorage().getTrack()
-                .getWays();
+                List<IDataPointsList> wayList = StorageFactory.getStorage()
+                        .getTrack().getWays();
 
-        List<GenericAdapterData> listData = new ArrayList<GenericAdapterData>();
+                List<GenericAdapterData> listData = new ArrayList<GenericAdapterData>();
 
-        for (IDataNode dn : nodeList) {
-            GenericAdapterData item = new GenericAdapterData(desc);
+                for (IDataNode dn : nodeList) {
+                    GenericAdapterData item = new GenericAdapterData(desc);
 
-            item.setText("NodeId", " " + dn.getId());
-            item.setText(
-                    "NodeCoord",
-                    getResources().getString(
-                            R.string.string_newtrackactivity_list_lat)
-                            + nf.format(dn.getCoordinates().getLatitude())
-                            + getResources().getString(
-                                    R.string.string_newtrackactivity_list_lon)
-                            + nf.format(dn.getCoordinates().getLatitude()));
+                    item.setText("NodeId", " " + dn.getId());
+                    item.setText(
+                            "NodeCoord",
+                            getResources().getString(
+                                    R.string.string_newtrackactivity_list_lat)
+                                    + nf.format(dn.getCoordinates()
+                                            .getLatitude())
+                                    + getResources()
+                                            .getString(
+                                                    R.string.string_newtrackactivity_list_lon)
+                                    + nf.format(dn.getCoordinates()
+                                            .getLatitude()));
 
-            item.setImage("NodeImg", R.drawable.ic_node);
-            item.setText(
-                    "NodeStats",
-                    getResources().getString(
-                            R.string.string_newtrackactivity_list_media)
-                            + dn.getMedia().size());
+                    item.setImage("NodeImg", R.drawable.ic_node);
+                    item.setText(
+                            "NodeStats",
+                            getResources()
+                                    .getString(
+                                            R.string.string_newtrackactivity_list_media)
+                                    + dn.getMedia().size());
 
-            listData.add(item);
-        }
+                    listData.add(item);
+                }
 
-        for (IDataPointsList dn : wayList) {
-            GenericAdapterData item = new GenericAdapterData(desc);
-            item.setText("NodeId", " " + dn.getId());
+                for (IDataPointsList dn : wayList) {
+                    GenericAdapterData item = new GenericAdapterData(desc);
+                    item.setText("NodeId", " " + dn.getId());
 
-            if (dn.getNodes().size() > 0) {
-                IDataNode start = dn.getNodes().get(0);
-                IDataNode end = dn.getNodes().get(dn.getNodes().size() - 1);
+                    if (dn.getNodes().size() > 0) {
+                        IDataNode start = dn.getNodes().get(0);
+                        IDataNode end = dn.getNodes().get(
+                                dn.getNodes().size() - 1);
 
-                String endCoord = dn.isArea() ? "" : (getResources().getString(
-                        R.string.string_newtrackactivity_list_end)
-                        + getResources().getString(
-                                R.string.string_newtrackactivity_list_lat)
-                        + nf.format(end.getCoordinates().getLatitude())
-                        + " "
-                        + getResources().getString(
-                                R.string.string_newtrackactivity_list_lon) + nf
-                        .format(end.getCoordinates().getLongitude()));
-
-                item.setText(
-                        "NodeCoord",
-                        getResources().getString(
-                                R.string.string_newtrackactivity_list_start)
-                                + getResources()
+                        String endCoord = dn.isArea() ? ""
+                                : (getResources()
                                         .getString(
-                                                R.string.string_newtrackactivity_list_lat)
-                                + nf.format(start.getCoordinates()
-                                        .getLatitude())
-                                + " "
-                                + getResources()
+                                                R.string.string_newtrackactivity_list_end)
+                                        + getResources()
+                                                .getString(
+                                                        R.string.string_newtrackactivity_list_lat)
+                                        + nf.format(end.getCoordinates()
+                                                .getLatitude())
+                                        + " "
+                                        + getResources()
+                                                .getString(
+                                                        R.string.string_newtrackactivity_list_lon) + nf
+                                        .format(end.getCoordinates()
+                                                .getLongitude()));
+
+                        item.setText(
+                                "NodeCoord",
+                                getResources()
                                         .getString(
-                                                R.string.string_newtrackactivity_list_lon)
-                                + nf.format(start.getCoordinates()
-                                        .getLongitude()) + endCoord);
+                                                R.string.string_newtrackactivity_list_start)
+                                        + getResources()
+                                                .getString(
+                                                        R.string.string_newtrackactivity_list_lat)
+                                        + nf.format(start.getCoordinates()
+                                                .getLatitude())
+                                        + " "
+                                        + getResources()
+                                                .getString(
+                                                        R.string.string_newtrackactivity_list_lon)
+                                        + nf.format(start.getCoordinates()
+                                                .getLongitude()) + endCoord);
+                    }
+
+                    item.setImage("NodeImg", dn.isArea() ? R.drawable.ic_area
+                            : R.drawable.ic_way);
+                    item.setText(
+                            "NodeStats",
+                            getResources()
+                                    .getString(
+                                            R.string.string_newtrackactivity_list_media)
+                                    + " " + dn.getMedia().size());
+                    item.setText(
+                            "WayPOIs",
+                            getResources()
+                                    .getString(
+                                            R.string.string_newtrackactivity_list_pointcount)
+                                    + " " + dn.getNodes().size());
+                    listData.add(item);
+
+                }
+
+                adapter = new GenericAdapter(act, R.layout.listview_edit,
+                        R.id.tracks_lvw, listData);
+                act.runOnUiThread(new Runnable() {
+                    public void run() {
+                        listView.setAdapter(adapter);
+                        // Get selected item
+                        listView.setOnItemClickListener(new OnItemClickListener() {
+                            public void onItemClick(AdapterView<?> parent,
+                                    View view, int position, long id) {
+
+                                GenericAdapterData data = adapter
+                                        .getItem(position);
+                                LogIt.d("NodeID: " + data.getText("NodeId"));
+
+                                int nodeId = Integer.parseInt(data.getText(
+                                        "NodeId").trim());
+                                intent.putExtra("DataNodeId", nodeId);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
             }
-
-            item.setImage("NodeImg", dn.isArea() ? R.drawable.ic_area
-                    : R.drawable.ic_way);
-            item.setText(
-                    "NodeStats",
-                    getResources().getString(
-                            R.string.string_newtrackactivity_list_media)
-                            + " " + dn.getMedia().size());
-            item.setText(
-                    "WayPOIs",
-                    getResources().getString(
-                            R.string.string_newtrackactivity_list_pointcount)
-                            + " " + dn.getNodes().size());
-            listData.add(item);
-
-        }
-
-        adapter = new GenericAdapter(this, R.layout.listview_edit,
-                R.id.tracks_lvw, listData);
-
-        listView.setAdapter(adapter);
-
-        // Get selected item
-        listView.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-
-                GenericAdapterData data = adapter.getItem(position);
-                LogIt.d("NodeID: " + data.getText("NodeId"));
-
-                int nodeId = Integer.parseInt(data.getText("NodeId").trim());
-                intent.putExtra("DataNodeId", nodeId);
-                startActivity(intent);
-            }
-        });
-
+        }).start();
     }
 }

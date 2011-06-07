@@ -205,13 +205,14 @@ public class StartActivity extends Activity {
      */
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        DBOpenHelper.getInstance().close();
         try {
             ServiceConnector.releaseService();
             ServiceConnector.stopService();
         } catch (IllegalArgumentException e) {
             LogIt.e("Releasing service failed.");
         }
+        super.onDestroy();
     }
 
     @Override

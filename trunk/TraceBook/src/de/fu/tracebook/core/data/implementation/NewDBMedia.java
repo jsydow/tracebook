@@ -59,11 +59,8 @@ public class NewDBMedia implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a media with node id " + nodeId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -79,11 +76,8 @@ public class NewDBMedia implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a media with track id " + trackId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -99,11 +93,8 @@ public class NewDBMedia implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBMedia(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a media with way id " + wayId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -126,11 +117,8 @@ public class NewDBMedia implements NewDBObject {
                 null, null, null);
         if (result.moveToFirst()) {
             ret = createNewObject(media, result);
-        } else {
-            LogIt.e("Could not get a media with id " + mediaId);
         }
         result.close();
-        db.close();
         return ret;
     }
 
