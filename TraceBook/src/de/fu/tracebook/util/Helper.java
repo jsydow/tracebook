@@ -154,8 +154,11 @@ public final class Helper {
                                 if (StorageFactory.getStorage().doesTrackExist(
                                         trackname)) {
                                     try {
-                                        StorageFactory.getStorage()
-                                                .deleteTrack(trackname);
+                                        if (StorageFactory.getStorage()
+                                                .getTrack().isNew()) {
+                                            StorageFactory.getStorage()
+                                                    .deleteTrack(trackname);
+                                        }
                                         StorageFactory.getStorage()
                                                 .unloadAllTracks();
                                         ServiceConnector.getLoggerService()
@@ -173,9 +176,11 @@ public final class Helper {
                                     } catch (RemoteException e) {
                                         e.printStackTrace();
                                     }
-
-                                    StorageFactory.getStorage().deleteTrack(
-                                            trackname);
+                                    if (StorageFactory.getStorage().getTrack()
+                                            .isNew()) {
+                                        StorageFactory.getStorage()
+                                                .deleteTrack(trackname);
+                                    }
                                     activity.finish();
                                 }
                             }

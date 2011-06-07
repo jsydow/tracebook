@@ -237,8 +237,8 @@ public class AddPointMetaActivity extends ListActivity {
         final AutoCompleteTextView autoComplCat = (AutoCompleteTextView) findViewById(R.id.ac_addpointmetaActivity_categorie);
 
         if (node != null) {
-            node.getTags().put(autoComplCat.getText().toString(),
-                    autoComplVal.getText().toString());
+            node.addTag(autoComplCat.getText().toString(), autoComplVal
+                    .getText().toString());
         }
         HistoryDb db = new HistoryDb(this);
         db.updateTag(autoComplCat.getText().toString(), autoComplVal.getText()

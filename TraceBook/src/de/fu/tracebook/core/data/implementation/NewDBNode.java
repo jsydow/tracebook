@@ -59,11 +59,8 @@ public class NewDBNode implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBNode(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a node with track id " + name);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -79,11 +76,8 @@ public class NewDBNode implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBNode(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a node with way id " + wayId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -106,11 +100,8 @@ public class NewDBNode implements NewDBObject {
                 null, null, null, null);
         if (result.moveToFirst()) {
             ret = createNewObject(node, result);
-        } else {
-            LogIt.e("Could not get a node with id " + nodeId);
         }
         result.close();
-        db.close();
 
         return ret;
     }

@@ -57,6 +57,15 @@ public class NewPointsList implements IDataPointsList {
         media.save();
     }
 
+    public void addTag(String key, String value) {
+        NewDBTag tag = new NewDBTag();
+        tag.key = key;
+        tag.value = value;
+        tag.way = id;
+        tag.insert();
+
+    }
+
     public void deleteMedia(int id) {
         Iterator<NewDBMedia> media = NewDBMedia.getByWay(id).iterator();
         while (media.hasNext()) {
@@ -71,6 +80,15 @@ public class NewPointsList implements IDataPointsList {
     public IDataNode deleteNode(int nodeId) {
         // not needed: see NewTrack
         return null;
+    }
+
+    public void deleteTag(String key) {
+        List<NewDBTag> tags = NewDBTag.getByWay(id);
+        for (NewDBTag tag : tags) {
+            if (tag.key == key) {
+                tag.delete();
+            }
+        }
     }
 
     public String getDatetime() {

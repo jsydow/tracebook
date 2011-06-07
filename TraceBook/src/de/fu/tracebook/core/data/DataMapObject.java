@@ -59,6 +59,15 @@ public abstract class DataMapObject extends DataMediaHolder implements
         id = StorageFactory.getStorage().getID();
     }
 
+    public void addTag(String key, String value) {
+        tags.put(key, value);
+    }
+
+    public void deleteTag(String key) {
+        tags.remove(key);
+
+    }
+
     /**
      * "a_node" is a Node which has <tag>-children. This method retrieves the
      * tags out of these <tag>s
@@ -74,7 +83,7 @@ public abstract class DataMapObject extends DataMediaHolder implements
                 NamedNodeMap attributes = metanodes.item(i).getAttributes();
                 Node key = attributes.getNamedItem("k");
                 Node value = attributes.getNamedItem("v");
-                getTags().put(key.getNodeValue(), value.getNodeValue());
+                addTag(key.getNodeValue(), value.getNodeValue());
             }
         }
     }

@@ -65,6 +65,7 @@ public class NewTrack implements IDataTrack {
         return sdf.format(new Date());
     }
 
+    private boolean isNew;
     private String name;
     private NewDBTrack thisTrack;
 
@@ -79,6 +80,7 @@ public class NewTrack implements IDataTrack {
         thisTrack.name = this.name;
         thisTrack.datetime = this.name;
         thisTrack.insert();
+        isNew = true;
     }
 
     /**
@@ -90,6 +92,7 @@ public class NewTrack implements IDataTrack {
     public NewTrack(NewDBTrack track) {
         this.name = track.name;
         thisTrack = track;
+        isNew = false;
     }
 
     public void addMedia(IDataMedia medium) {
@@ -200,6 +203,10 @@ public class NewTrack implements IDataTrack {
             ways.add(new NewPointsList(pl));
         }
         return ways;
+    }
+
+    public boolean isNew() {
+        return isNew;
     }
 
     public IDataNode newNode(GeoPoint coordinates) {

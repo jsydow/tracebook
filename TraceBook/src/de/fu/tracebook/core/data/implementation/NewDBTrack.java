@@ -53,12 +53,8 @@ public class NewDBTrack implements NewDBObject {
             do {
                 ret.add(result.getString(result.getColumnIndex("name")));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get all track names ");
         }
         result.close();
-        db.close();
-
         return ret;
     }
 
@@ -76,17 +72,15 @@ public class NewDBTrack implements NewDBObject {
 
     private static NewDBTrack fillObject(String trackName, NewDBTrack track) {
         NewDBTrack ret = null;
+
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
         Cursor result = db.query(TABLENAME, new String[] { "name", "datetime",
                 "comment" }, "name = '" + trackName + "'", null, null, null,
                 null);
         if (result.moveToFirst()) {
             ret = createNewObject(track, result);
-        } else {
-            LogIt.e("Could not get a track with name " + trackName);
         }
         result.close();
-        db.close();
 
         return ret;
     }

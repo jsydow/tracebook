@@ -58,11 +58,8 @@ public class NewDBTag implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBTag(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a tag with node id " + nodeId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -78,11 +75,8 @@ public class NewDBTag implements NewDBObject {
             do {
                 ret.add(createNewObject(new NewDBTag(), result));
             } while (result.moveToNext());
-        } else {
-            LogIt.e("Could not get a tag with way id " + wayId);
         }
         result.close();
-        db.close();
 
         return ret;
     }
@@ -104,11 +98,8 @@ public class NewDBTag implements NewDBObject {
                 null);
         if (result.moveToFirst()) {
             ret = createNewObject(tag, result);
-        } else {
-            LogIt.e("Could not get a tag with id " + tagId);
         }
         result.close();
-        db.close();
 
         return ret;
     }

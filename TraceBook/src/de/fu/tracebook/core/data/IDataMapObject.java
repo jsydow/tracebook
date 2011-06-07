@@ -23,6 +23,10 @@ import java.util.Map;
 
 public interface IDataMapObject extends IDataMediaHolder {
 
+    void addTag(String key, String value);
+
+    void deleteTag(String key);
+
     /**
      * Getter-method.
      * 

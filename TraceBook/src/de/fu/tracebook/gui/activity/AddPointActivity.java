@@ -200,7 +200,7 @@ public class AddPointActivity extends ListActivity {
         switch (item.getItemId()) {
         case R.id.cm_addpointActivity_deleteTag:
 
-            node.getTags().remove(itemData.getText("NodeKey"));
+            node.deleteTag(itemData.getText("NodeKey"));
             setNodeInformation();
             initAdapter();
             adapter.notifyDataSetChanged();
