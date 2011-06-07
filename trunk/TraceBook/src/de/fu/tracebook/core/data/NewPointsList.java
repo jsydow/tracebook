@@ -91,6 +91,24 @@ public class NewPointsList implements IDataPointsList {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof NewPointsList) {
+            if (((NewPointsList) o).id == this.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getDatetime() {
         return thisWay.datetime;
     }

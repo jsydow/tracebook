@@ -465,56 +465,54 @@ public class MapsForgeActivity extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         mapView.setScaleBar(true);
 
-        if (mapView == null) {
-            (new Thread() {
-                @Override
-                public void run() {
-                    // with out looper it won't work
-                    Looper.prepare();
+        (new Thread() {
+            @Override
+            public void run() {
+                // with out looper it won't work
+                Looper.prepare();
 
-                    /*
-                     * We init the map in a thread to archive a better ui
-                     * experience. But on one core cpu system the thread still
-                     * slows the ui down. So we wait one second to give the ui
-                     * some time to smoothly init its self.
-                     */
-                    if (Runtime.getRuntime().availableProcessors() == 1) {
-                        try {
-                            // Give the Gui Thread some time to do its init
-                            // stuff
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            LogIt.e(e.getMessage());
-                        }
+                /*
+                 * We init the map in a thread to archive a better ui
+                 * experience. But on one core cpu system the thread still slows
+                 * the ui down. So we wait one second to give the ui some time
+                 * to smoothly init its self.
+                 */
+                if (Runtime.getRuntime().availableProcessors() == 1) {
+                    try {
+                        // Give the Gui Thread some time to do its init
+                        // stuff
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        LogIt.e(e.getMessage());
                     }
-                    mapView = new MapView(MapsForgeActivity.this);
-                    mapView.setClickable(true);
-                    mapView.setBuiltInZoomControls(true);
-                    mapView.setScaleBar(true);
-
-                    mapView.setMemoryCardCachePersistence(PreferenceManager
-                            .getDefaultSharedPreferences(MapsForgeActivity.this)
-                            .getBoolean("check_activateLocalTitleMapCache",
-                                    false));
-
-                    mapView.getOverlays().add(routesOverlay);
-                    mapView.getOverlays().add(pointsOverlay);
-
-                    mapController = mapView.getController();
-
-                    changeMapViewToOfflineRendering();
-
-                    // runOnUiThread(new Runnable() {
-                    //
-                    // public void run() {
-                    // setContentView(mapView);
-                    //
-                    // }
-                    // });
                 }
+                mapView = new MapView(MapsForgeActivity.this);
+                mapView.setClickable(true);
+                mapView.setBuiltInZoomControls(true);
+                mapView.setScaleBar(true);
 
-            }).start();
-        }
+                mapView.setMemoryCardCachePersistence(PreferenceManager
+                        .getDefaultSharedPreferences(MapsForgeActivity.this)
+                        .getBoolean("check_activateLocalTitleMapCache", false));
+
+                mapView.getOverlays().add(routesOverlay);
+                mapView.getOverlays().add(pointsOverlay);
+                LogIt.d("added overlays");
+
+                mapController = mapView.getController();
+
+                changeMapViewToOfflineRendering();
+
+                runOnUiThread(new Runnable() {
+
+                    public void run() {
+                        setContentView(mapView);
+
+                    }
+                });
+            }
+
+        }).start();
         registerReceiver(gpsReceiver, new IntentFilter(GpsMessage.TAG));
     }
 

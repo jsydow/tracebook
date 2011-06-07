@@ -76,6 +76,7 @@ public class OverlayManager {
         OverlayWay res = routeToPointsList.inverse().get(way);
         if (res == null) {
             res = new OverlayWay();
+            setWayOverlay(res, way);
         }
 
         return res;
