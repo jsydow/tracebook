@@ -256,4 +256,9 @@
 <string name="btn_mapsforgeActivity_list">List</string>
 <string name="btn_mapsforgeActivity_bugs">Bugs</string>
 <string name="btn_mapsforgeActivity_new">New</string>
+<string name="alert_mapsforgeactivity_osb">Download Bugs</string>
+<string name="alert_mapsforgeactivity_newbug">New bug</string>
+<string name="alert_mapsforgeactivity_listbugs">List of bugs</string>
+<string name="alert_mapsforgeactivity_bugs">Map bugs</string>
+<string name="alert_mapsforgeactivity_faileddownload">Downloading bugs failed!</string>
 </resources>
