@@ -47,11 +47,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
+import de.fu.tracebook.util.BugOverlay;
 import de.fu.tracebook.util.DataNodeArrayItemizedOverlay;
 import de.fu.tracebook.util.DataPointsListArrayRouteOverlay;
 import de.fu.tracebook.util.GpsMessage;
@@ -79,11 +82,6 @@ public class MapsForgeActivity extends MapActivity {
          * when no GPS fix is available yet
          */
         boolean centerMap = true;
-
-        /**
-         * The last known {@link GeoPoint}.
-         */
-        GeoPoint currentGeoPoint = null;
 
         OverlayItem currentPosOI = null;
 
@@ -217,11 +215,16 @@ public class MapsForgeActivity extends MapActivity {
          * Requests the map to be centered to the current position.
          */
         void centerOnCurrentPosition() {
-            if (currentGeoPoint != null && mapController != null) {
-                mapController.setCenter(currentGeoPoint);
-                centerMap = false;
-            } else
-                centerMap = true;
+            MapsForgeActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    if (currentGeoPoint != null && mapController != null) {
+                        mapController.setCenter(currentGeoPoint);
+                        centerMap = false;
+                    } else {
+                        centerMap = true;
+                    }
+                }
+            });
         }
     }
 
@@ -244,6 +247,18 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     private boolean useInternet = false;
+
+    BugManager bugManager;
+
+    /**
+     * The Overlay containing all Bugs.
+     */
+    BugOverlay bugOverlay;
+
+    /**
+     * The last known {@link GeoPoint}.
+     */
+    GeoPoint currentGeoPoint = null;
 
     /**
      * Node currently edited.
@@ -277,17 +292,44 @@ public class MapsForgeActivity extends MapActivity {
     DataPointsListArrayRouteOverlay routesOverlay;
 
     public void bugsBtn(View v) {
-        final CharSequence[] items = { "Red", "Green", "Blue" };
+        final CharSequence[] items = {
+                getResources().getString(R.string.alert_mapsforgeactivity_osb),
+                getResources().getString(
+                        R.string.alert_mapsforgeactivity_newbug),
+                getResources().getString(
+                        R.string.alert_mapsforgeactivity_listbugs) };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick a color");
+        builder.setTitle(getResources().getString(
+                R.string.alert_mapsforgeactivity_bugs));
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                // Toast.makeText(getApplicationContext(), items[item],
-                // Toast.LENGTH_SHORT).show();
+                switch (item) {
+                case 0:
+                    if (currentGeoPoint == null) {
+                        LogIt.popup(
+                                MapsForgeActivity.this,
+                                MapsForgeActivity.this
+                                        .getResources()
+                                        .getString(
+                                                R.string.alert_mapsforgeactivity_faileddownload));
+                    } else {
+                        bugManager.downloadBugs(MapsForgeActivity.this,
+                                currentGeoPoint);
+                    }
+                    break;
+                case 1:
+                    LogIt.popup(MapsForgeActivity.this, "neuer bug");
+                    break;
+                case 2:
+
+                    LogIt.popup(MapsForgeActivity.this, "bugs auflisten");
+                    break;
+                }
             }
         });
         AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -318,6 +360,10 @@ public class MapsForgeActivity extends MapActivity {
             return super.dispatchTouchEvent(ev);
     }
 
+    public void fillBugs() {
+        bugOverlay.addItems(bugManager.getBugs());
+    }
+
     public void infoBtn(View v) {
 
     }
@@ -327,7 +373,6 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     public void newBtn(View v) {
-
     }
 
     /**
@@ -442,6 +487,8 @@ public class MapsForgeActivity extends MapActivity {
                 .getOverlayItems(this));
 
         routesOverlay.addWays(Helper.currentTrack().getWays());
+
+        bugOverlay.addItems(bugManager.getBugs());
     }
 
     /**
@@ -465,6 +512,8 @@ public class MapsForgeActivity extends MapActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         LogIt.d("Creating MapActivity");
 
         setContentView(R.layout.activity_mapsforgeactivity);
@@ -472,6 +521,10 @@ public class MapsForgeActivity extends MapActivity {
 
         pointsOverlay = new DataNodeArrayItemizedOverlay(this);
         routesOverlay = new DataPointsListArrayRouteOverlay(this, pointsOverlay);
+        bugOverlay = new BugOverlay(this); // new
+                                           // ArrayItemizedOverlay(getResources().getDrawable(
+        // R.drawable.card_marker_bug), this);
+        bugManager = BugManager.getInstance();
 
         // as this activity is destroyed when adding a POI, we get all POIs here
         fillOverlays();
@@ -543,9 +596,12 @@ public class MapsForgeActivity extends MapActivity {
                         .getDefaultSharedPreferences(MapsForgeActivity.this)
                         .getBoolean("check_activateLocalTitleMapCache", false));
 
-                mapView.getOverlays().add(routesOverlay);
-                mapView.getOverlays().add(pointsOverlay);
-                LogIt.d("added overlays");
+                if (mapView.getOverlays().size() == 0) {
+                    mapView.getOverlays().add(routesOverlay);
+                    mapView.getOverlays().add(pointsOverlay);
+                    mapView.getOverlays().add(bugOverlay);
+                    LogIt.d("added overlays");
+                }
 
                 mapController = mapView.getController();
 

@@ -49,6 +49,8 @@
         android:layout_below="@id/ly_mapsforgeActivity_statusbar"
         android:layout_above="@id/ly_mapsforgeActivity_menubar" 
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
 	>
 	</org.mapsforge.android.maps.MapView>
 	
