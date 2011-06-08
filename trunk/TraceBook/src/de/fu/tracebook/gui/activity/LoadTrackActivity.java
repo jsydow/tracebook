@@ -677,6 +677,9 @@ public class LoadTrackActivity extends ListActivity {
                                     .getString(
                                             R.string.string_loadtrackactivity_nocomment);
                         }
+                    } else {
+                        comment = getResources().getString(
+                                R.string.string_loadtrackactivity_nocomment);
                     }
 
                     dataItem.setText("TrackComment", comment);

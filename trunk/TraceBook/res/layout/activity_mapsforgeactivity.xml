@@ -16,32 +16,32 @@
 		android:layout_alignParentBottom="true">
 		
 		<Button android:id="@+id/btn_mapsforgeActivity_new" 
-			android:text="bla" 
+			android:text="@string/btn_mapsforgeActivity_new" 
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:onClick="makeMemoBtn"></Button>
+			android:onClick="newBtn"></Button>
 			
 		<Button android:id="@+id/btn_mapsforgeActivity_bugs" 
-			android:text="bla" 
+			android:text="@string/btn_mapsforgeActivity_bugs" 
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:onClick="makeMemoBtn"></Button>
+			android:onClick="bugsBtn"></Button>
 			
 		<Button android:id="@+id/btn_mapsforgeActivity_list" 
-			android:text="bla" 
+			android:text="@string/btn_mapsforgeActivity_list" 
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:onClick="makeMemoBtn"></Button>
+			android:onClick="listBtn"></Button>
 			
 		<Button android:id="@+id/btn_mapsforgeActivity_trackinfo" 
-			android:text="bla" 
+			android:text="@string/btn_mapsforgeActivity_trackinfo" 
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:onClick="makeMemoBtn"></Button>	
+			android:onClick="infoBtn"></Button>	
 	</LinearLayout>
 	
 	<org.mapsforge.android.maps.MapView android:id="@+id/ly_mapsforgeMapView" 

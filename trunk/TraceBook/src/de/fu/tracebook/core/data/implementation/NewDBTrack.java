@@ -96,6 +96,9 @@ public class NewDBTrack implements NewDBObject {
         if (db.delete(TABLENAME, "name = '" + name + "'", null) == -1) {
             LogIt.e("Could not delete track");
         }
+        NewDBMedia.deleteByTrack(name);
+        NewDBNode.deleteByTrack(name);
+        NewDBPointsList.deleteByTrack(name);
     }
 
     public void insert() {

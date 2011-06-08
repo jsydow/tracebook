@@ -30,8 +30,10 @@ import org.mapsforge.android.maps.MapViewMode;
 import org.mapsforge.android.maps.OverlayItem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -274,6 +276,20 @@ public class MapsForgeActivity extends MapActivity {
      */
     DataPointsListArrayRouteOverlay routesOverlay;
 
+    public void bugsBtn(View v) {
+        final CharSequence[] items = { "Red", "Green", "Blue" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick a color");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                // Toast.makeText(getApplicationContext(), items[item],
+                // Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alert = builder.create();
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // When a node is edited, the user can move it by
@@ -300,6 +316,18 @@ public class MapsForgeActivity extends MapActivity {
             return true;
         } else
             return super.dispatchTouchEvent(ev);
+    }
+
+    public void infoBtn(View v) {
+
+    }
+
+    public void listBtn(View v) {
+
+    }
+
+    public void newBtn(View v) {
+
     }
 
     /**
