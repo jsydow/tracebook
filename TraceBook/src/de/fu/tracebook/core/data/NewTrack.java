@@ -254,7 +254,7 @@ public class NewTrack implements IDataTrack {
     }
 
     public int setName(String newname) {
-        thisTrack.name = name;
+        thisTrack.name = newname;
         thisTrack.save();
         return renameTrack(newname);
     }

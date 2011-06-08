@@ -5,25 +5,30 @@
 
 	<Button android:id="@+id/btn_addMetaMedia_makePicture"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:drawableTop="@drawable/btn_photo" android:text="@string/btn_addMetaMedia_makePicture"
+		android:drawableTop="@drawable/btn_photo"
+		android:layout_weight="1"
+		android:text="@string/btn_addMetaMedia_makePicture"
 		android:onClick="makePictureBtn" />
 
 
 	<Button android:id="@+id/btn_addMetaMedia_makeVideo"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:drawableTop="@drawable/btn_video" android:text="@string/btn_addMetaMedia_makeVideo"
+		android:layout_weight="1"
 		android:onClick="makeVideoBtn" />
 
 
 	<Button android:id="@+id/btn_addMetaMedia_makeMemo"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:drawableTop="@drawable/btn_memo" android:onClick="makeMemoBtn"
+		android:layout_weight="1"
 		android:text="@string/btn_addMetaMedia_makeMemo" />
 
 
 	<Button android:id="@+id/btn_addMetaMedia_makeNotice"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:drawableTop="@drawable/btn_notice" android:onClick="makeNoticeBtn"
+		android:layout_weight="1"
 		android:text="@string/btn_addMetaMedia_makeNotice" />
 
 </LinearLayout>
