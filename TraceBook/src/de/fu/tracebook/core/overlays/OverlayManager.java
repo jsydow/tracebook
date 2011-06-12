@@ -17,7 +17,7 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.data;
+package de.fu.tracebook.core.overlays;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,6 +30,9 @@ import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
 
 import android.content.Context;
+import de.fu.tracebook.core.data.IDataMapObject;
+import de.fu.tracebook.core.data.IDataNode;
+import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.util.BiMap;
 import de.fu.tracebook.util.Helper;
 

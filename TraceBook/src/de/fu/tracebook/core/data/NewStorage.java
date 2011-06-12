@@ -24,6 +24,7 @@ import java.util.List;
 
 import android.os.Environment;
 import de.fu.tracebook.core.data.implementation.NewDBTrack;
+import de.fu.tracebook.core.overlays.OverlayManager;
 import de.fu.tracebook.util.LogIt;
 
 /**

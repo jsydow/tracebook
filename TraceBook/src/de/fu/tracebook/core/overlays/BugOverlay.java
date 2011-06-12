@@ -17,7 +17,7 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.util;
+package de.fu.tracebook.core.overlays;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
 import org.mapsforge.android.maps.OverlayItem;

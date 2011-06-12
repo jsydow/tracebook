@@ -39,6 +39,13 @@ public class NewDBTag implements NewDBObject {
         return CREATE;
     }
 
+    public static void deleteByNode(long nodeId) {
+        SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
+        if (db.delete(TABLENAME, "node = " + nodeId, null) == -1) {
+            LogIt.e("Could not delete media");
+        }
+    }
+
     public static void deleteByWay(long wayId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "way = " + wayId, null) == -1) {

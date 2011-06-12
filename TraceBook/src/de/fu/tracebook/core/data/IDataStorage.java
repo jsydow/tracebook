@@ -21,6 +21,8 @@ package de.fu.tracebook.core.data;
 
 import java.util.List;
 
+import de.fu.tracebook.core.overlays.OverlayManager;
+
 /**
  * DataStorage is the class from where the user can access all tracking data.
  */
