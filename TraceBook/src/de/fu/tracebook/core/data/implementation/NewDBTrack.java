@@ -25,6 +25,8 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import de.fu.tracebook.core.data.DataTrackInfo;
 import de.fu.tracebook.util.LogIt;
 
 public class NewDBTrack implements NewDBObject {
@@ -62,6 +64,31 @@ public class NewDBTrack implements NewDBObject {
         return fillObject(trackName, new NewDBTrack());
     }
 
+    public static DataTrackInfo getTrackInfo(String trackname) {
+        String name = trackname;
+        String datetime = "";
+        String comment = null;
+        int nodes = 0;
+        int ways = 0;
+
+        SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
+        SQLiteQueryBuilder query = new SQLiteQueryBuilder();
+        query.setTables("tracks LEFT OUTER JOIN pointslists ON tracks.name = pointslists.track LEFT OUTER JOIN nodes ON tracks.name = nodes.track");
+
+        Cursor result = query.query(db, new String[] { "name", "datetime",
+                "comment", "SUM(pointslists.id)  AS waycount",
+                "SUM(nodes.id) AS nodecount" }, "tracks.name = '" + trackname
+                + "'", null, "tracks.name", null, null);
+        if (result.moveToFirst()) {
+            datetime = result.getString(result.getColumnIndex("datetime"));
+            comment = result.getString(result.getColumnIndex("comment"));
+            nodes = result.getInt(result.getColumnIndex("nodecount"));
+            ways = result.getInt(result.getColumnIndex("waycount"));
+        }
+        result.close();
+        return new DataTrackInfo(name, datetime, comment, nodes, ways, 0);
+    }
+
     private static NewDBTrack createNewObject(NewDBTrack track, Cursor crs) {
         track.name = crs.getString(crs.getColumnIndex("name"));
         track.datetime = crs.getString(crs.getColumnIndex("datetime"));
@@ -87,6 +114,7 @@ public class NewDBTrack implements NewDBObject {
 
     public String comment;
     public String datetime;
+
     public String name;
 
     private String oldname;

@@ -44,6 +44,20 @@ public class NewStorage implements IDataStorage {
     }
 
     /**
+     * Creates new folder in .../TraceBook for this Track. Such a directory must
+     * exist when track is serialized.
+     */
+    static void createNewTrackFolder(String name) {
+        File dir = new File(NewStorage.getTraceBookDirPath() + File.separator
+                + name);
+        if (!dir.isDirectory()) {
+            if (!dir.mkdir()) {
+                LogIt.e("Could not create new track folder " + name);
+            }
+        }
+    }
+
+    /**
      * Deletes a directory and all files in it. If File is no directory nothing
      * is done.
      * 
@@ -150,10 +164,7 @@ public class NewStorage implements IDataStorage {
     }
 
     public DataTrackInfo getTrackInfo(String trackName) {
-        IDataTrack infotrack = deserializeTrack(trackName);
-        return new DataTrackInfo(infotrack.getName(), infotrack.getDatetime(),
-                infotrack.getComment(), 0, 0, 0);
-        // TODO do something with the 3 zeros
+        return NewDBTrack.getTrackInfo(trackName);
     }
 
     public IDataTrack newTrack() {
@@ -171,8 +182,7 @@ public class NewStorage implements IDataStorage {
     }
 
     public void serialize() {
-        // TODO Auto-generated method stub
-
+        new DataSerializer().serialize((NewTrack) track);
     }
 
     public IDataTrack setTrack(IDataTrack currentTrack) {
@@ -181,22 +191,7 @@ public class NewStorage implements IDataStorage {
     }
 
     public void unloadAllTracks() {
-        // TODO ?
         this.track = null;
-    }
-
-    /**
-     * Creates new folder in .../TraceBook for this Track. Such a directory must
-     * exist when track is serialized.
-     */
-    private void createNewTrackFolder(String name) {
-        File dir = new File(NewStorage.getTraceBookDirPath() + File.separator
-                + name);
-        if (!dir.isDirectory()) {
-            if (!dir.mkdir()) {
-                LogIt.e("Could not create new track folder " + name);
-            }
-        }
     }
 
 }
