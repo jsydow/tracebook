@@ -17,7 +17,7 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.util;
+package de.fu.tracebook.core.overlays;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
 import org.mapsforge.android.maps.GeoPoint;
@@ -35,6 +35,9 @@ import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.activity.AddPointActivity;
+import de.fu.tracebook.util.GpsMessage;
+import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * This class extends the {@link ArrayItemizedOverlay} in order to overwrite its

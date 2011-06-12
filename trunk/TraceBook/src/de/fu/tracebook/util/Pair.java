@@ -31,12 +31,12 @@ public class Pair<A, B> {
     /**
      * First value stored in the Pair.
      */
-    A first;
+    public A first;
 
     /**
      * Second value stored in the Pair.
      */
-    B second;
+    public B second;
 
     /**
      * Creates a new Pair.

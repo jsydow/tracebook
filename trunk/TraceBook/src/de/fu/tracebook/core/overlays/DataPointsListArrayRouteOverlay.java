@@ -17,7 +17,7 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.util;
+package de.fu.tracebook.core.overlays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,8 @@ import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
+import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.Pair;
 
 /**
  * Class wrapping the ·{@link ArrayWayOverlay} to get some methods out of

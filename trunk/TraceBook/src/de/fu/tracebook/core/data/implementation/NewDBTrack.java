@@ -75,8 +75,9 @@ public class NewDBTrack implements NewDBObject {
         SQLiteQueryBuilder query = new SQLiteQueryBuilder();
         query.setTables("tracks LEFT OUTER JOIN pointslists ON tracks.name = pointslists.track LEFT OUTER JOIN nodes ON tracks.name = nodes.track");
 
-        Cursor result = query.query(db, new String[] { "name", "datetime",
-                "comment", "SUM(pointslists.id)  AS waycount",
+        Cursor result = query.query(db, new String[] { "tracks.name",
+                "tracks.datetime", "tracks.comment",
+                "SUM(pointslists.id)  AS waycount",
                 "SUM(nodes.id) AS nodecount" }, "tracks.name = '" + trackname
                 + "'", null, "tracks.name", null, null);
         if (result.moveToFirst()) {

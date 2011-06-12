@@ -49,7 +49,7 @@ public class NewDBMedia implements NewDBObject {
 
     public static void deleteByTrack(String trackId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
-        if (db.delete(TABLENAME, "track = " + trackId, null) == -1) {
+        if (db.delete(TABLENAME, "track = '" + trackId + "'", null) == -1) {
             LogIt.e("Could not delete media");
         }
     }
