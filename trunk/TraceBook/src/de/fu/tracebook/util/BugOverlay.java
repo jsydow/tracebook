@@ -43,7 +43,12 @@ public class BugOverlay extends ArrayItemizedOverlay {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
-        builder.setTitle("id: ");
+        if (item.getTitle() != null) {
+            builder.setTitle(item.getTitle() + ": ");
+        } else {
+            builder.setTitle("Bug: ");
+
+        }
         if (item.getSnippet() != null) {
             builder.setMessage(item.getSnippet());
         }

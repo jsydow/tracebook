@@ -261,4 +261,5 @@
 <string name="alert_mapsforgeactivity_listbugs">List of bugs</string>
 <string name="alert_mapsforgeactivity_bugs">Map bugs</string>
 <string name="alert_mapsforgeactivity_faileddownload">Downloading bugs failed!</string>
+<string name="alert_mapsforgeactivity_exportbugs">Export Bugs</string>
 </resources>

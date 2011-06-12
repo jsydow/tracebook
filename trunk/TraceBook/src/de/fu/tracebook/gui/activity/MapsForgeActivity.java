@@ -48,7 +48,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.bugs.Bug;
 import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
@@ -292,12 +294,17 @@ public class MapsForgeActivity extends MapActivity {
     DataPointsListArrayRouteOverlay routesOverlay;
 
     public void bugsBtn(View v) {
+        final GeoPoint p = currentGeoPoint == null ? mapView.getMapCenter()
+                : currentGeoPoint;
+
         final CharSequence[] items = {
                 getResources().getString(R.string.alert_mapsforgeactivity_osb),
                 getResources().getString(
                         R.string.alert_mapsforgeactivity_newbug),
                 getResources().getString(
-                        R.string.alert_mapsforgeactivity_listbugs) };
+                        R.string.alert_mapsforgeactivity_listbugs),
+                getResources().getString(
+                        R.string.alert_mapsforgeactivity_exportbugs) };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(
@@ -306,24 +313,46 @@ public class MapsForgeActivity extends MapActivity {
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
                 case 0:
-                    if (currentGeoPoint == null) {
-                        LogIt.popup(
-                                MapsForgeActivity.this,
-                                MapsForgeActivity.this
-                                        .getResources()
-                                        .getString(
-                                                R.string.alert_mapsforgeactivity_faileddownload));
-                    } else {
-                        bugManager.downloadBugs(MapsForgeActivity.this,
-                                currentGeoPoint);
-                    }
+                    bugManager.downloadBugs(MapsForgeActivity.this, p);
                     break;
                 case 1:
-                    LogIt.popup(MapsForgeActivity.this, "neuer bug");
+                    dialog.cancel();
+                    AlertDialog.Builder bugDlgBuilder = new AlertDialog.Builder(
+                            MapsForgeActivity.this);
+                    final EditText input = new EditText(MapsForgeActivity.this);
+                    bugDlgBuilder.setView(input);
+                    bugDlgBuilder.setTitle("Bug Description:");// MapsForgeActivity.this.getResources().getString());
+                    bugDlgBuilder.setMessage("Test");
+                    bugDlgBuilder.setPositiveButton(
+                            MapsForgeActivity.this.getResources().getString(
+                                    R.string.alert_global_ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dlg, int id) {
+                                    BugManager.getInstance().addBug(
+                                            new Bug(input.getText().toString(),
+                                                    p));
+                                    fillBugs();
+                                }
+                            });
+                    bugDlgBuilder.setNegativeButton(
+                            MapsForgeActivity.this.getResources().getString(
+                                    R.string.alert_global_cancel),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dlg, int id) {
+                                    dlg.cancel();
+                                }
+                            });
+
+                    bugDlgBuilder.show();
+
                     break;
                 case 2:
 
                     LogIt.popup(MapsForgeActivity.this, "bugs auflisten");
+                    break;
+                case 3:
+
+                    LogIt.popup(MapsForgeActivity.this, "bugs exportieren");
                     break;
                 }
             }

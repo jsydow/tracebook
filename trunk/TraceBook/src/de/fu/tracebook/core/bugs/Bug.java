@@ -27,7 +27,7 @@ public class Bug {
 
     GeoPoint point;
 
-    Bug(String desc, GeoPoint point) {
+    public Bug(String desc, GeoPoint point) {
         this.desc = desc;
         this.point = point;
     }

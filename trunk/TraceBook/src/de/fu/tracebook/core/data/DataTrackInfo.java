@@ -19,14 +19,12 @@
 
 package de.fu.tracebook.core.data;
 
-
 /**
  * A class that simply holds information of a track. It is a class that only
  * provides information but cannot edit them. Use deserialize() to get such an
  * object.
  */
 public class DataTrackInfo {
-    private static final String LOG_TAG = "DataTrackInfo";
 
     /**
      * Deserializes a DataTrackInfo from an info.xml file of a track.
@@ -50,15 +48,6 @@ public class DataTrackInfo {
     private int numberOfWays;
     private String timestamp;
 
-    private DataTrackInfo() {
-        timestamp = "";
-        comment = "";
-        name = "";
-        numberOfPOIs = -1;
-        numberOfWays = -1;
-        numberOfMedia = -1;
-    }
-
     /**
      * An initializing constructor.
      * 
@@ -75,7 +64,7 @@ public class DataTrackInfo {
      * @param numberOfMedia
      *            The total number of media a track has.
      */
-    DataTrackInfo(String name, String timestamp, String comment,
+    public DataTrackInfo(String name, String timestamp, String comment,
             int numberOfPOIs, int numberOfWays, int numberOfMedia) {
         this.timestamp = timestamp;
         this.name = name;
@@ -83,6 +72,15 @@ public class DataTrackInfo {
         this.numberOfPOIs = numberOfPOIs;
         this.numberOfWays = numberOfWays;
         this.numberOfMedia = numberOfMedia;
+    }
+
+    DataTrackInfo() {
+        timestamp = "";
+        comment = "";
+        name = "";
+        numberOfPOIs = -1;
+        numberOfWays = -1;
+        numberOfMedia = -1;
     }
 
     /**
