@@ -133,7 +133,7 @@ public class StartActivity extends Activity {
         // DataOpenHelper helper = new DataOpenHelper(this);
         // helper.setInstance();
         DBOpenHelper helper = new DBOpenHelper(this);
-        helper.setInstance(helper);
+        DBOpenHelper.setInstance(helper);
 
         // Initialize ServiceConnector
         ServiceConnector.startService(this);
@@ -221,12 +221,18 @@ public class StartActivity extends Activity {
 
         Helper.stopUserNotification(this);
         // Set Button text of New Track button
-        Button startresumeBtn = (Button) findViewById(R.id.btn_startActivity_newTrack);
-        if (Helper.currentTrack() == null)
-            startresumeBtn.setText(getResources().getString(
+        Button newTrackBtn = (Button) findViewById(R.id.btn_startActivity_newTrack);
+        Button startTrackBtn = (Button) findViewById(R.id.btn_startActivity_map);
+        if (Helper.currentTrack() == null) {
+            newTrackBtn.setText(getResources().getString(
                     R.string.btn_startActivity_newTrack));
-        else
-            startresumeBtn.setText(getResources().getString(
-                    R.string.btn_startActivity_reseumeTrack));
+            startTrackBtn.setText(getResources().getString(
+                    R.string.btn_startActivity_newTrack));
+        } else {
+            newTrackBtn.setText(getResources().getString(
+                    R.string.btn_startActivity_resumeTrack));
+            startTrackBtn.setText(getResources().getString(
+                    R.string.btn_startActivity_resumeTrack));
+        }
     }
 }

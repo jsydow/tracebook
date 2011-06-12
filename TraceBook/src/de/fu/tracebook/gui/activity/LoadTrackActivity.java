@@ -28,10 +28,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,7 +49,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.DataTrackInfo;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.adapter.GenericAdapter;
@@ -71,6 +70,24 @@ import de.fu.tracebook.util.LogIt;
  */
 public class LoadTrackActivity extends ListActivity {
 
+    class DeleteTrackTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... args) {
+            if (args.length > 0) {
+                StorageFactory.getStorage().deleteTrack(args[0]);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            updateAdapter();
+            super.onPostExecute(result);
+        }
+
+    }
+
     /**
      * List of loaded TrackInfo.
      */
@@ -91,24 +108,6 @@ public class LoadTrackActivity extends ListActivity {
      * time.
      */
     boolean sortByName = true;
-
-    /**
-     * @param v
-     *            used to get the text of the view. Could be dangerous.
-     * 
-     */
-    // public void deleteTrackBtn(View v) {
-    // if (v == null) {
-    // LogIt.w("BUTTON", "view is null");
-    // return;
-    // }
-    // if (v.getTag() == null) {
-    // LogIt.w("BUTTON", "tag is null");
-    // return;
-    // }
-    // LogIt.w("BUTTON", (String) v.getTag());
-    // deleteTrack((String) v.getTag());
-    // }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -134,7 +133,6 @@ public class LoadTrackActivity extends ListActivity {
         case R.id.cm_loadtrackActivity_load:
             IDataTrack track = StorageFactory.getStorage().deserializeTrack(
                     trackname);
-            // TODO
             if (track != null) {
                 StorageFactory.getStorage().setTrack(track);
                 final Intent intent = new Intent(this, NewTrackActivity.class);
@@ -181,7 +179,7 @@ public class LoadTrackActivity extends ListActivity {
                                 break;
                             }
 
-                            showDialogForAdapterUpdate();
+                            updateAdapter();
 
                         }
                     });
@@ -200,8 +198,8 @@ public class LoadTrackActivity extends ListActivity {
 
             // show track info
         case R.id.cm_loadtrackActivity_info:
-            DataTrackInfo trackinfo = StorageFactory.getStorage().getTrackInfo(
-                    trackname);
+            IDataTrack trackinfo = StorageFactory.getStorage()
+                    .deserializeTrack(trackname);
 
             final Dialog infoDialog = new Dialog(this);
             infoDialog.setContentView(R.layout.dialog_trackinfo);
@@ -221,22 +219,7 @@ public class LoadTrackActivity extends ListActivity {
             // set up time
             TextView texttime = (TextView) infoDialog
                     .findViewById(R.id.tv_trackInfoDialog_timestamp);
-            texttime.setText(trackinfo.getTimestamp());
-
-            // set up pois
-            TextView textpois = (TextView) infoDialog
-                    .findViewById(R.id.tv_trackInfoDialog_pois);
-            textpois.setText(Integer.toString(trackinfo.getNumberOfPOIs()));
-
-            // set up ways
-            TextView textways = (TextView) infoDialog
-                    .findViewById(R.id.tv_trackInfoDialog_ways);
-            textways.setText(Integer.toString(trackinfo.getNumberOfWays()));
-
-            // set up media
-            TextView textmedia = (TextView) infoDialog
-                    .findViewById(R.id.tv_trackInfoDialog_media);
-            textmedia.setText(Integer.toString(trackinfo.getNumberOfMedia()));
+            texttime.setText(trackinfo.getDatetime());
 
             // set up button
             Button button = (Button) infoDialog
@@ -257,15 +240,12 @@ public class LoadTrackActivity extends ListActivity {
             builder.setMessage(
                     getResources().getString(
                             R.string.alert_loadtrackActivity_deleteTrack))
-                    .setCancelable(false)
                     .setPositiveButton(
                             getResources().getString(R.string.alert_global_yes),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface d, int id) {
-
-                                    StorageFactory.getStorage().deleteTrack(
-                                            trackname);
-                                    showDialogForAdapterUpdate();
+                                    new DeleteTrackTask()
+                                            .execute(new String[] { trackname });
 
                                 }
                             })
@@ -300,7 +280,7 @@ public class LoadTrackActivity extends ListActivity {
 
         getApplicationContext()
                 .setTheme(android.R.style.Theme_Black_NoTitleBar);
-        showDialogForAdapterUpdate();
+        updateAdapter();
         setTitle(R.string.string_loadtrackActivity_title);
         setContentView(R.layout.activity_loadtrackactivity);
         registerForContextMenu(getListView());
@@ -353,31 +333,11 @@ public class LoadTrackActivity extends ListActivity {
                         R.string.opt_loadtrack_sortByTimestamp));
                 sortByName = true;
             }
-            showDialogForAdapterUpdate();
+            updateAdapter();
             return true;
         default:
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * This Method show a dialog for the User if the update from the Adapter
-     * take a longer time.
-     */
-    public void showDialogForAdapterUpdate() {
-        final ProgressDialog dialog = ProgressDialog.show(
-                this,
-                getResources().getString(
-                        R.string.alert_loadtrackActivity_pleaseWait),
-                getResources().getString(
-                        R.string.alert_loadtrackActivity_loadingTracks), true,
-                false);
-
-        updateAdapter();
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
-
     }
 
     /**
@@ -427,33 +387,6 @@ public class LoadTrackActivity extends ListActivity {
         TextView loadTrackFilter = (TextView) findViewById(R.id.tv_loadtrackactivity_filter);
         loadTrackFilter.setVisibility(View.GONE);
         return (EditText) findViewById(R.id.et_statusbar_search);
-    }
-
-    private void deleteTrack(final String trname) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(
-                getResources().getString(
-                        R.string.alert_loadtrackActivity_deleteTrack))
-                .setCancelable(false)
-                .setPositiveButton(
-                        getResources().getString(R.string.alert_global_yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                StorageFactory.getStorage().deleteTrack(trname);
-                                LogIt.d("delete " + trname);
-                                // showDialogForAdapterUpdate();
-                            }
-                        })
-                .setNegativeButton(
-                        getResources().getString(R.string.alert_global_no),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                dialog.cancel();
-                            }
-                        });
-        builder.show();
     }
 
     private void setTextChangedListenerToSearchBox(EditText etFilter) {
@@ -587,7 +520,7 @@ public class LoadTrackActivity extends ListActivity {
             searchText = "";
         }
 
-        showDialogForAdapterUpdate();
+        updateAdapter();
 
     }
 
@@ -611,9 +544,9 @@ public class LoadTrackActivity extends ListActivity {
      */
     void updateAdapter() {
         final LoadTrackActivity thisActivity = this;
-        (new Thread() {
+        (new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
+            protected Void doInBackground(Void... params) {
                 GenericItemDescription desc = new GenericItemDescription();
 
                 desc.addResourceId("TrackName", R.id.tv_listviewloadtrack_track);
@@ -623,42 +556,29 @@ public class LoadTrackActivity extends ListActivity {
                 String comment = null;
 
                 // get all TrackInfo-objects
-                List<DataTrackInfo> trackInfos = new ArrayList<DataTrackInfo>();
-                List<String> names = new ArrayList<String>(StorageFactory
-                        .getStorage().getAllTracks());
-                for (String name : names) {
-                    DataTrackInfo trackinfo = StorageFactory.getStorage()
-                            .getTrackInfo(name);
-                    if (trackinfo != null) {
-                        trackInfos.add(trackinfo);
-                    }
-                }
+                List<IDataTrack> trackInfos = StorageFactory.getStorage()
+                        .getAllTracks();
 
                 // sort
                 if (sortByName) {
-                    Collections.sort(trackInfos,
-                            new Comparator<DataTrackInfo>() {
-                                public int compare(DataTrackInfo info1,
-                                        DataTrackInfo info2) {
-                                    return info1.getName().compareToIgnoreCase(
-                                            info2.getName());
-                                }
-                            });
+                    Collections.sort(trackInfos, new Comparator<IDataTrack>() {
+                        public int compare(IDataTrack info1, IDataTrack info2) {
+                            return info1.getName().compareToIgnoreCase(
+                                    info2.getName());
+                        }
+                    });
                 } else {
-                    Collections.sort(trackInfos,
-                            new Comparator<DataTrackInfo>() {
-                                public int compare(DataTrackInfo info1,
-                                        DataTrackInfo info2) {
-                                    return info2.getTimestamp()
-                                            .compareToIgnoreCase(
-                                                    info1.getTimestamp());
-                                }
-                            });
+                    Collections.sort(trackInfos, new Comparator<IDataTrack>() {
+                        public int compare(IDataTrack info1, IDataTrack info2) {
+                            return info2.getDatetime().compareToIgnoreCase(
+                                    info1.getDatetime());
+                        }
+                    });
                 }
 
                 // fill adapter
                 data.clear();
-                for (DataTrackInfo trackinfo : trackInfos) {
+                for (IDataTrack trackinfo : trackInfos) {
                     GenericAdapterData dataItem = new GenericAdapterData(desc);
                     dataItem.setText("TrackName", trackinfo.getName());
 
@@ -689,7 +609,8 @@ public class LoadTrackActivity extends ListActivity {
                 }
 
                 thisActivity.fillAdapter(data);
+                return null;
             }
-        }).start();
+        }).execute();
     }
 }

@@ -40,13 +40,6 @@ public class NewDBPointsList implements NewDBObject {
         return CREATE;
     }
 
-    public static void deleteByTrack(String trackId) {
-        SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
-        if (db.delete(TABLENAME, "track = " + trackId, null) == -1) {
-            LogIt.e("Could not delete media");
-        }
-    }
-
     public static String dropTable() {
         return DROP;
     }
@@ -104,9 +97,6 @@ public class NewDBPointsList implements NewDBObject {
         if (db.delete(TABLENAME, "id = " + id, null) == -1) {
             LogIt.e("Could not delete way");
         }
-        NewDBTag.deleteByWay(id);
-        NewDBNode.deleteByWay(id);
-        NewDBMedia.deleteByWay(id);
     }
 
     public void insert() {

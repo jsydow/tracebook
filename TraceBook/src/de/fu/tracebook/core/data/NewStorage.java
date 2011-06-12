@@ -20,6 +20,7 @@
 package de.fu.tracebook.core.data;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Environment;
@@ -98,7 +99,7 @@ public class NewStorage implements IDataStorage {
     /**
      * Last given ID for a MapObject.
      */
-    private int lastID;
+    private int lastID = 0;
 
     /**
      * The Overlaymanager
@@ -115,10 +116,12 @@ public class NewStorage implements IDataStorage {
     }
 
     public void deleteTrack(String trackname) {
-        NewDBTrack existingTrack = NewDBTrack.getById(trackname);
-        if (existingTrack == null) {
+        NewDBTrack dbtrack = NewDBTrack.getById(trackname);
+        if (dbtrack == null) {
             return;
         }
+
+        NewTrack existingTrack = new NewTrack(dbtrack);
         existingTrack.delete();
         deleteDirectory(new File(getTrackDirPath(trackname)));
 
@@ -148,12 +151,20 @@ public class NewStorage implements IDataStorage {
         }
     }
 
-    public List<String> getAllTracks() {
+    public List<String> getAllTrackNames() {
         return NewDBTrack.getAllNames();
     }
 
+    public List<IDataTrack> getAllTracks() {
+        List<IDataTrack> ret = new ArrayList<IDataTrack>();
+        for (NewDBTrack t : NewDBTrack.getAllTracks()) {
+            ret.add(new NewTrack(t));
+        }
+        return ret;
+    }
+
     public int getID() {
-        return ++lastID;
+        return --lastID;
     }
 
     public OverlayManager getOverlayManager() {
@@ -162,10 +173,6 @@ public class NewStorage implements IDataStorage {
 
     public IDataTrack getTrack() {
         return track;
-    }
-
-    public DataTrackInfo getTrackInfo(String trackName) {
-        return NewDBTrack.getTrackInfo(trackName);
     }
 
     public IDataTrack newTrack() {

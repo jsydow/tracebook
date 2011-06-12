@@ -40,6 +40,7 @@ import de.fu.tracebook.core.data.implementation.NewDBTrack;
 public class NewNode implements IDataNode {
 
     private long id;
+    private long outputNodeId = 0;
     private NewDBNode thisNode;
 
     /**
@@ -104,6 +105,12 @@ public class NewNode implements IDataNode {
         tag.value = value;
         tag.node = id;
         tag.insert();
+    }
+
+    public void delete() {
+        NewDBMedia.deleteByNode(id);
+        NewDBTag.deleteByNode(id);
+        thisNode.delete();
     }
 
     public void deleteMedia(int mId) {
@@ -180,6 +187,16 @@ public class NewNode implements IDataNode {
             media.add(new NewMedia(m));
         }
         return media;
+    }
+
+    /**
+     * @return the outputNode
+     */
+    public long getOutputId() {
+        if (outputNodeId == 0) {
+            outputNodeId = StorageFactory.getStorage().getID();
+        }
+        return outputNodeId;
     }
 
     public Map<String, String> getTags() {

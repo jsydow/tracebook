@@ -66,6 +66,15 @@ public class NewPointsList implements IDataPointsList {
 
     }
 
+    public void delete() {
+        NewDBMedia.deleteByWay(id);
+        NewDBTag.deleteByWay(id);
+        for (IDataNode n : getNodes()) {
+            ((NewNode) n).delete();
+        }
+        this.thisWay.delete();
+    }
+
     public void deleteMedia(int id) {
         Iterator<NewDBMedia> media = NewDBMedia.getByWay(id).iterator();
         while (media.hasNext()) {

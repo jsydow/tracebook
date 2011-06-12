@@ -78,7 +78,8 @@ public class DataSerializer {
                     df.format(dn.getCoordinates().getLatitude()));
             serializer.attribute(null, "lon",
                     df.format(dn.getCoordinates().getLongitude()));
-            serializer.attribute(null, "id", Long.toString(dn.getId()));
+            serializer.attribute(null, "id",
+                    Long.toString(((NewNode) dn).getOutputId()));
             serializer.attribute(null, "timestamp", dn.getDatetime());
             serializer.attribute(null, "version", "1");
 
@@ -124,12 +125,14 @@ public class DataSerializer {
             serializer.startTag(null, "way");
             serializer.attribute(null, "version", "1");
             serializer.attribute(null, "timestamp", dpl.getDatetime());
-            serializer.attribute(null, "id", Long.toString(dpl.getId()));
+            serializer.attribute(null, "id",
+                    Long.toString(StorageFactory.getStorage().getID()));
 
             for (IDataNode dn : nodes) {
                 serializer.startTag(null, "nd");
 
-                serializer.attribute(null, "ref", Long.toString(dn.getId()));
+                serializer.attribute(null, "ref",
+                        Long.toString(((NewNode) dn).getOutputId()));
 
                 serializer.endTag(null, "nd");
             }
