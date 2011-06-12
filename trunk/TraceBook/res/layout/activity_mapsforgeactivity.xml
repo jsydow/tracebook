@@ -42,6 +42,13 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:onClick="infoBtn"></Button>	
+			
+		<ImageButton android:id="@+id/btn_mapsforgeActivity_exit" 
+			android:src="@drawable/btn_stop"
+			android:layout_width="match_parent" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:onClick="exitBtn"></ImageButton>	
 	</LinearLayout>
 	
 	<org.mapsforge.android.maps.MapView android:id="@+id/ly_mapsforgeMapView" 

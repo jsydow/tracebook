@@ -25,8 +25,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
-import de.fu.tracebook.core.data.DataTrackInfo;
 import de.fu.tracebook.util.LogIt;
 
 public class NewDBTrack implements NewDBObject {
@@ -60,34 +58,23 @@ public class NewDBTrack implements NewDBObject {
         return ret;
     }
 
-    public static NewDBTrack getById(String trackName) {
-        return fillObject(trackName, new NewDBTrack());
-    }
-
-    public static DataTrackInfo getTrackInfo(String trackname) {
-        String name = trackname;
-        String datetime = "";
-        String comment = null;
-        int nodes = 0;
-        int ways = 0;
+    public static List<NewDBTrack> getAllTracks() {
+        List<NewDBTrack> ret = new ArrayList<NewDBTrack>();
 
         SQLiteDatabase db = DBOpenHelper.getInstance().getReadableDatabase();
-        SQLiteQueryBuilder query = new SQLiteQueryBuilder();
-        query.setTables("tracks LEFT OUTER JOIN pointslists ON tracks.name = pointslists.track LEFT OUTER JOIN nodes ON tracks.name = nodes.track");
-
-        Cursor result = query.query(db, new String[] { "tracks.name",
-                "tracks.datetime", "tracks.comment",
-                "SUM(pointslists.id)  AS waycount",
-                "SUM(nodes.id) AS nodecount" }, "tracks.name = '" + trackname
-                + "'", null, "tracks.name", null, null);
+        Cursor result = db.query(TABLENAME, new String[] { "name", "datetime",
+                "comment" }, null, null, null, null, "name ASC");
         if (result.moveToFirst()) {
-            datetime = result.getString(result.getColumnIndex("datetime"));
-            comment = result.getString(result.getColumnIndex("comment"));
-            nodes = result.getInt(result.getColumnIndex("nodecount"));
-            ways = result.getInt(result.getColumnIndex("waycount"));
+            do {
+                ret.add(createNewObject(new NewDBTrack(), result));
+            } while (result.moveToNext());
         }
         result.close();
-        return new DataTrackInfo(name, datetime, comment, nodes, ways, 0);
+        return ret;
+    }
+
+    public static NewDBTrack getById(String trackName) {
+        return fillObject(trackName, new NewDBTrack());
     }
 
     private static NewDBTrack createNewObject(NewDBTrack track, Cursor crs) {
@@ -125,9 +112,6 @@ public class NewDBTrack implements NewDBObject {
         if (db.delete(TABLENAME, "name = '" + name + "'", null) == -1) {
             LogIt.e("Could not delete track");
         }
-        NewDBMedia.deleteByTrack(name);
-        NewDBNode.deleteByTrack(name);
-        NewDBPointsList.deleteByTrack(name);
     }
 
     public void insert() {

@@ -101,6 +101,17 @@ public class NewTrack implements IDataTrack {
         media.save();
     }
 
+    public void delete() {
+        NewDBMedia.deleteByTrack(name);
+        for (IDataNode n : getNodes()) {
+            ((NewNode) n).delete();
+        }
+        for (IDataPointsList w : getWays()) {
+            ((NewPointsList) w).delete();
+        }
+        thisTrack.delete();
+    }
+
     public void deleteMedia(int id) {
         Iterator<NewDBMedia> media = NewDBMedia.getByTrack(name).iterator();
         while (media.hasNext()) {

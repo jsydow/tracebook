@@ -61,7 +61,9 @@ public interface IDataStorage {
      * @return List of the names of all tracks. If there are no tracks stored
      *         then the list will be empty.
      */
-    List<String> getAllTracks();
+    List<String> getAllTrackNames();
+
+    List<IDataTrack> getAllTracks();
 
     /**
      * Create a new unique id to use for a new map object.
@@ -78,13 +80,6 @@ public interface IDataStorage {
      * @return The currently edited Track is returned.(may be null)
      */
     IDataTrack getTrack();
-
-    /**
-     * @param trackName
-     *            The name of the track.
-     * @return The DataTrackInfo for that track or null.
-     */
-    DataTrackInfo getTrackInfo(String trackName);
 
     /**
      * Create a new Track in working memory. Don't forget to serialize it!

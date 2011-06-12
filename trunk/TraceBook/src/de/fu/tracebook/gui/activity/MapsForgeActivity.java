@@ -389,6 +389,10 @@ public class MapsForgeActivity extends MapActivity {
             return super.dispatchTouchEvent(ev);
     }
 
+    public void exitBtn(View v) {
+        Helper.alertStopTracking(this);
+    }
+
     public void fillBugs() {
         bugOverlay.addItems(bugManager.getBugs());
     }

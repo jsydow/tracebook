@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
@@ -114,9 +115,9 @@ public class AddMemoActivity extends Activity {
                 R.string.alert_addmemoactivity_progressdialog));
         dialog.setCancelable(false);
         dialog.show();
-        (new Thread() {
+        (new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
+            protected Void doInBackground(Void... params) {
                 try {
                     int step = 0;
 
@@ -155,8 +156,9 @@ public class AddMemoActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                return null;
             }
-        }).start();
+        }).execute();
     }
 
     /**
