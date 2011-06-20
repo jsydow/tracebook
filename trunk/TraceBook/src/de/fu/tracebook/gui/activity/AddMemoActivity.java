@@ -32,7 +32,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.IDataMapObject;
+import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.AudioRecorder;
@@ -48,7 +48,7 @@ public class AddMemoActivity extends Activity {
     /**
      * Here we save a reference to the current DataMapObject which is in use.
      */
-    IDataMapObject node;
+    IDataMediaHolder node;
 
     /**
      * Preferences for this activity.
@@ -73,9 +73,17 @@ public class AddMemoActivity extends Activity {
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("DataNodeId");
-            node = StorageFactory.getStorage().getTrack()
-                    .getDataMapObjectById(nodeId);
+            int nodeId = extras.getInt("NodeId");
+            int wayId = extras.getInt("WayId");
+            if (nodeId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getNodeById(nodeId);
+            } else if (wayId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getPointsListById(wayId);
+            } else {
+                node = StorageFactory.getStorage().getTrack();
+            }
         }
 
         preferences = PreferenceManager

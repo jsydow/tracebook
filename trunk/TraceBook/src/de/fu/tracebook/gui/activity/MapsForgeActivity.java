@@ -38,8 +38,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -302,8 +302,6 @@ public class MapsForgeActivity extends MapActivity {
                 getResources().getString(
                         R.string.alert_mapsforgeactivity_newbug),
                 getResources().getString(
-                        R.string.alert_mapsforgeactivity_listbugs),
-                getResources().getString(
                         R.string.alert_mapsforgeactivity_exportbugs) };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -346,13 +344,8 @@ public class MapsForgeActivity extends MapActivity {
                     bugDlgBuilder.show();
 
                     break;
-                case 2:
-
-                    LogIt.popup(MapsForgeActivity.this, "bugs auflisten");
-                    break;
                 case 3:
-
-                    LogIt.popup(MapsForgeActivity.this, "bugs exportieren");
+                    bugManager.serializeBugs();
                     break;
                 }
             }
@@ -599,11 +592,11 @@ public class MapsForgeActivity extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         mapView.setScaleBar(true);
 
-        (new Thread() {
+        (new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
+            public Void doInBackground(Void... arg0) {
                 // with out looper it won't work
-                Looper.prepare();
+                // Looper.prepare();
 
                 /*
                  * We init the map in a thread to archive a better ui
@@ -643,13 +636,14 @@ public class MapsForgeActivity extends MapActivity {
                 runOnUiThread(new Runnable() {
 
                     public void run() {
-                        // setContentView(mapView);
                         mapView.invalidate();
                     }
+
                 });
+                return null;
             }
 
-        }).start();
+        }).execute();
         registerReceiver(gpsReceiver, new IntentFilter(GpsMessage.TAG));
     }
 

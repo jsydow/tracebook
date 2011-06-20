@@ -32,7 +32,7 @@ public class NewDBNode implements NewDBObject {
     private final static String CREATE = "CREATE TABLE IF NOT EXISTS nodes "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " datetime TEXT,"
             + " latitude INTEGER," + " longitude INTEGER," + " way INTEGER,"
-            + " track String );";
+            + " track TEXT );";
     private final static String DROP = "DROP TABLE IF EXISTS nodes";
     private final static String TABLENAME = "nodes";
 

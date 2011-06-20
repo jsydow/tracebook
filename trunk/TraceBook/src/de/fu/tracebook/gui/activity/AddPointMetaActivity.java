@@ -145,9 +145,15 @@ public class AddPointMetaActivity extends ListActivity {
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = (int) extras.getLong("DataNodeId");
-            node = StorageFactory.getStorage().getTrack()
-                    .getDataMapObjectById(nodeId);
+            int nodeId = extras.getInt("NodeId");
+            int wayId = extras.getInt("WayId");
+            if (nodeId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getNodeById(nodeId);
+            } else if (wayId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getPointsListById(wayId);
+            }
 
             if (extras.containsKey("DataNodeKey")) {
                 String key = extras.getString("DataNodeKey");
