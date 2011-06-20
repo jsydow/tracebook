@@ -199,9 +199,6 @@ public class DataSerializer {
 
     void serialize(NewTrack track) {
         String name = track.getName();
-        if (!(new File(NewStorage.getTrackDirPath(name)).isDirectory())) {
-            NewStorage.createNewTrackFolder(name);
-        }
 
         File xmlfile = new File(getPathOfTrackTbTFile(name));
 
