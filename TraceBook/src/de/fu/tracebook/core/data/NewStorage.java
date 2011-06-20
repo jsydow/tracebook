@@ -93,6 +93,7 @@ public class NewStorage implements IDataStorage {
      * @return The complete path to the track directory.
      */
     static String getTrackDirPath(String dir) {
+        NewStorage.createNewTrackFolder(dir);
         return NewStorage.getTraceBookDirPath() + File.separator + dir;
     }
 
@@ -177,7 +178,6 @@ public class NewStorage implements IDataStorage {
 
     public IDataTrack newTrack() {
         IDataTrack newtrack = new NewTrack();
-        createNewTrackFolder(newtrack.getName());
         return newtrack;
     }
 

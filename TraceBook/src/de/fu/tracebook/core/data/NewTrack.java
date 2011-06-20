@@ -222,6 +222,7 @@ public class NewTrack implements IDataTrack {
     }
 
     public IDataMedia saveText(String text) {
+
         File txtfile = new File(getTrackDirPath() + File.separator
                 + getFilenameCompatibleTimeStamp() + ".txt");
         try {
