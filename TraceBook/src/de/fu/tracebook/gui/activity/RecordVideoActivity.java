@@ -31,7 +31,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.IDataMapObject;
+import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.media.VideoRecorder;
@@ -46,7 +46,7 @@ import de.fu.tracebook.util.LogIt;
 public class RecordVideoActivity extends Activity implements
         SurfaceHolder.Callback {
 
-    private IDataMapObject node;
+    private IDataMediaHolder node;
     private SurfaceHolder surfaceHolder;
 
     /**
@@ -70,9 +70,17 @@ public class RecordVideoActivity extends Activity implements
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("DataNodeId");
-            node = StorageFactory.getStorage().getTrack()
-                    .getDataMapObjectById(nodeId);
+            int nodeId = extras.getInt("NodeId");
+            int wayId = extras.getInt("WayId");
+            if (nodeId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getNodeById(nodeId);
+            } else if (wayId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getPointsListById(wayId);
+            } else {
+                node = StorageFactory.getStorage().getTrack();
+            }
         }
 
         preferences = PreferenceManager

@@ -179,11 +179,6 @@ public class NewTrackActivity extends TabActivity {
     public void addPointBtn(View view) {
         int nodeId = 0;
 
-        long start = System.currentTimeMillis();
-        StorageFactory.getStorage().getTrack().getDataMapObjectById(1);
-        long end = System.currentTimeMillis() - start;
-        LogIt.d("@@@@@@ Took " + end + " ms");
-
         try {
             nodeId = ServiceConnector.getLoggerService().createPOI(false);
         } catch (RemoteException e) {

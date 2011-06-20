@@ -20,6 +20,9 @@
 package de.fu.tracebook.core.bugs;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,8 +35,14 @@ import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.OverlayItem;
+import org.xmlpull.v1.XmlSerializer;
 
+import android.util.Xml;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.NewTrack;
+import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.overlays.BugOverlayItem;
+import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.LogIt;
 
@@ -116,14 +125,88 @@ public class BugManager {
     public Collection<OverlayItem> getBugs() {
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         for (Bug b : bugs) {
-            items.add(new OverlayItem(b.getPosition(), "Bug", b
-                    .getDescription()));
+            items.add(new BugOverlayItem(b, BugType.USERBUG));
         }
         for (Bug b : osbugs) {
-            items.add(new OverlayItem(b.getPosition(), "OpenStreetBug", b
-                    .getDescription()));
+            items.add(new BugOverlayItem(b, BugType.OPENSTREETBUG));
         }
         return items;
+    }
+
+    public void remove(Bug bug) {
+        if (!bugs.remove(bug)) {
+            osbugs.remove(bug);
+        }
+    }
+
+    public void serializeBugs() {
+        String path = StorageFactory.getStorage().getTrack().getTrackDirPath()
+                + File.separator + "bugs.xml";
+
+        long id = -1;
+        File file = new File(path);
+        boolean fileCreated = false;
+        try {
+            fileCreated = file.createNewFile();
+        } catch (IOException e) {
+            // will not happen
+        }
+
+        if (fileCreated) {
+            FileOutputStream fileos = null;
+            try {
+                fileos = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                LogIt.e("Could not open new file " + file.getPath());
+                return;
+            }
+
+            XmlSerializer serializer = Xml.newSerializer();
+
+            try {
+                serializer.setOutput(fileos, "UTF-8");
+                serializer.startDocument(null, Boolean.valueOf(true));
+                serializer.startTag(null, "osm");
+
+                serializer.attribute(null, "version", "0.6");
+                serializer.attribute(null, "generator", "TraceBook");
+
+                for (Bug b : bugs) {
+                    serializer.startTag(null, "node");
+                    serializer.attribute(null, "lat",
+                            Double.toString(b.getPosition().getLatitude()));
+                    serializer.attribute(null, "lon",
+                            Double.toString(b.getPosition().getLongitude()));
+                    serializer.attribute(null, "id", Long.toString(--id));
+                    serializer.attribute(null, "timestamp",
+                            NewTrack.getW3CFormattedTimeStamp());
+                    serializer.attribute(null, "version", "1");
+
+                    serializer.startTag(null, "tag");
+                    serializer.attribute(null, "k", "bug");
+                    serializer.attribute(null, "v", b.getDescription());
+                    serializer.endTag(null, "tag");
+
+                    serializer.endTag(null, "node");
+                }
+
+                serializer.endTag(null, "osm");
+                serializer.flush();
+            } catch (IllegalArgumentException e) {
+                LogIt.e("Should not happen. Internal error.");
+            } catch (IllegalStateException e) {
+                LogIt.e("Should not happen. Internal error.");
+            } catch (IOException e) {
+                LogIt.e("Error while reading file.");
+            } finally {
+                try {
+                    fileos.close();
+                } catch (IOException e) {
+                    LogIt.e("Error closing file: " + e.getMessage());
+                }
+            }
+
+        }
     }
 
     private List<String> splitLine(String line) {

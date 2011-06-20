@@ -17,31 +17,49 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.bugs;
+package de.fu.tracebook.core.overlays;
 
-import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.OverlayItem;
 
-public class Bug {
+import de.fu.tracebook.core.bugs.Bug;
 
-    String desc;
+public class BugOverlayItem extends OverlayItem {
 
-    GeoPoint point;
+    public static enum BugType {
+        OPENSTREETBUG("OpenStreetBug"), USERBUG("Bug");
 
-    public Bug(String desc, GeoPoint point) {
-        this.desc = desc;
-        this.point = point;
+        private String description;
+
+        BugType(String desc) {
+            description = desc;
+        }
+
+        public String getDesc() {
+            return description;
+        }
     }
 
-    public String getDescription() {
-        return desc;
+    private Bug bug;
+    private BugType type;
+
+    public BugOverlayItem(Bug bug, BugType type) {
+        super(bug.getPosition(), type.getDesc(), null);
+        this.bug = bug;
+        this.type = type;
     }
 
-    public GeoPoint getPosition() {
-        return point;
+    /**
+     * @return the bug
+     */
+    public Bug getBug() {
+        return bug;
     }
 
-    public void setDescription(String description) {
-        desc = description;
+    /**
+     * @return the type
+     */
+    public BugType getType() {
+        return type;
     }
 
 }

@@ -70,6 +70,8 @@ import de.fu.tracebook.util.LogIt;
  */
 public class AddPointActivity extends ListActivity {
 
+    private boolean isWay;
+
     /**
      * GenericAdapter for our ListView which we use in this activity.
      */
@@ -95,7 +97,7 @@ public class AddPointActivity extends ListActivity {
         // is required
         final Intent intent = new Intent(this, AddPointMetaActivity.class);
 
-        intent.putExtra("DataNodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
         startActivity(intent);
     }
 
@@ -119,7 +121,7 @@ public class AddPointActivity extends ListActivity {
      */
     public void makeMemoBtn(View view) {
         final Intent intent = new Intent(this, AddMemoActivity.class);
-        intent.putExtra("DataNodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
         startActivity(intent);
     }
 
@@ -175,7 +177,7 @@ public class AddPointActivity extends ListActivity {
      */
     public void makeVideoBtn(View view) {
         final Intent intent = new Intent(this, RecordVideoActivity.class);
-        intent.putExtra("DataNodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
         startActivity(intent);
     }
 
@@ -208,7 +210,7 @@ public class AddPointActivity extends ListActivity {
         case R.id.cm_addpointActivity_renameTag:
             final Intent intent = new Intent(this, AddPointMetaActivity.class);
 
-            intent.putExtra("DataNodeId", node.getId());
+            intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
             intent.putExtra("DataNodeKey", itemData.getText("NodeKey"));
             intent.putExtra("DataNodeValue", itemData.getText("NodeValue"));
             startActivity(intent);
@@ -230,19 +232,30 @@ public class AddPointActivity extends ListActivity {
          * Get the node of the sending Intent
          */
         if (extras != null) {
-
-            if (extras.containsKey("DataNodeId")) {
-                int nodeId = extras.getInt("DataNodeId");
+            int nodeId = extras.getInt("NodeId");
+            int wayId = extras.getInt("WayId");
+            if (nodeId != 0) {
                 node = StorageFactory.getStorage().getTrack()
-                        .getDataMapObjectById(nodeId);
-                if (node == null) {
-                    LogIt.popup(
-                            this,
-                            getResources().getString(
-                                    R.string.toast_noneExistentNode));
-                    finish();
-                }
+                        .getNodeById(nodeId);
+                isWay = false;
+            } else if (wayId != 0) {
+                node = StorageFactory.getStorage().getTrack()
+                        .getPointsListById(wayId);
+                isWay = true;
             }
+
+            // if (extras.containsKey("DataNodeId")) {
+            // int nodeId = extras.getInt("DataNodeId");
+            // node = StorageFactory.getStorage().getTrack()
+            // .getDataMapObjectById(nodeId);
+            // if (node == null) {
+            // LogIt.popup(
+            // this,
+            // getResources().getString(
+            // R.string.toast_noneExistentNode));
+            // finish();
+            // }
+            // }
         } else
             finish();
 
@@ -252,10 +265,6 @@ public class AddPointActivity extends ListActivity {
         LayoutInflater bInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layoutHolder = (LinearLayout) findViewById(R.id.ly_addpointaAtivity_metaMediaBtnPoint);
         bInflater.inflate(R.layout.dynamic_metamediabuttons, layoutHolder);
-
-        // Initial ServiceConnector
-        // ServiceConnector.startService(this);
-        // ServiceConnector.initService();
 
         if (node == null) {
             LogIt.e("node null");

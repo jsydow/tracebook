@@ -45,23 +45,23 @@ import de.fu.tracebook.util.LogIt;
 public class NewTrack implements IDataTrack {
 
     /**
+     * Creates a time stamp of the current time formatted according to W3C.
+     * 
+     * @return A time stamp String.
+     */
+    public static String getW3CFormattedTimeStamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        return sdf.format(new Date());
+    }
+
+    /**
      * Creates a time stamp of the current time which can be used as a filename.
      * 
      * @return The time stamp String.
      */
     private static String getFilenameCompatibleTimeStamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        return sdf.format(new Date());
-    }
-
-    /**
-     * Creates a time stamp of the current time formatted according to W3C.
-     * 
-     * @return A time stamp String.
-     */
-    static String getW3CFormattedTimeStamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         return sdf.format(new Date());
     }
 
@@ -150,15 +150,6 @@ public class NewTrack implements IDataTrack {
 
     public IDataPointsList getCurrentWay() {
         return way;
-    }
-
-    public IDataMapObject getDataMapObjectById(int id) {
-        IDataNode node = getNodeById(id);
-        if (node != null) {
-            return node;
-        }
-
-        return getPointsListById(id);
     }
 
     public String getDatetime() {

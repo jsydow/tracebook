@@ -20,12 +20,15 @@
 package de.fu.tracebook.core.overlays;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
-import org.mapsforge.android.maps.OverlayItem;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.EditText;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.bugs.Bug;
+import de.fu.tracebook.core.bugs.BugManager;
+import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 
 public class BugOverlay extends ArrayItemizedOverlay {
 
@@ -37,9 +40,34 @@ public class BugOverlay extends ArrayItemizedOverlay {
         this.context = context;
     }
 
+    public void showEditDialog(final Bug b) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+        final EditText edit = new EditText(context);
+        edit.setText(b.getDescription());
+
+        builder.setTitle(R.string.alert_bugoverlay_edit);
+        builder.setView(edit);
+
+        builder.setPositiveButton(
+                context.getResources().getString(R.string.alert_global_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        b.setDescription(edit.getText().toString());
+                    }
+                });
+        builder.setNegativeButton(
+                context.getResources().getString(R.string.alert_global_cancel),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        builder.show();
+    }
+
     @Override
     protected boolean onTap(int index) {
-        final OverlayItem item = createItem(index);
+        final BugOverlayItem item = (BugOverlayItem) createItem(index);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
@@ -49,8 +77,8 @@ public class BugOverlay extends ArrayItemizedOverlay {
             builder.setTitle("Bug: ");
 
         }
-        if (item.getSnippet() != null) {
-            builder.setMessage(item.getSnippet());
+        if (item.getBug().getDescription() != null) {
+            builder.setMessage(item.getBug().getDescription());
         }
         builder.setPositiveButton(
                 context.getResources().getString(R.string.alert_global_ok),
@@ -59,14 +87,28 @@ public class BugOverlay extends ArrayItemizedOverlay {
                         dialog.cancel();
                     }
                 });
-        builder.setNegativeButton(
-                context.getResources().getString(R.string.alert_global_ok),
+        if (item.getType() == BugType.USERBUG) {
+            builder.setNegativeButton(
+                    context.getResources().getString(
+                            R.string.alert_bugoverlay_edit),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            showEditDialog(item.getBug());
+                        }
+                    });
+        }
+        builder.setNeutralButton(
+                context.getResources().getString(
+                        R.string.alert_bugoverlay_delete),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO start edit bug window
+                        BugOverlay.this.removeItem(item);
+                        BugOverlay.this.requestRedraw();
+                        BugManager.getInstance().remove(item.getBug());
                     }
                 });
+
         builder.show();
         return true;
-    }
+    };
 }

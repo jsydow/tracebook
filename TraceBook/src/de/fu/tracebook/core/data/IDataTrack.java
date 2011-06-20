@@ -61,17 +61,6 @@ public interface IDataTrack extends IDataMediaHolder {
     IDataPointsList getCurrentWay();
 
     /**
-     * Search the whole track for an DataMapObject by id. This may be a DataNode
-     * or DataPointsList.
-     * 
-     * @param id
-     *            The id of the DataMapObject that is being searched for.
-     * @return The DataMapObject where get_id()==id or null if there is not such
-     *         an object.
-     */
-    IDataMapObject getDataMapObjectById(int id);
-
-    /**
      * Getter-method.
      * 
      * @return The name of the Track.
