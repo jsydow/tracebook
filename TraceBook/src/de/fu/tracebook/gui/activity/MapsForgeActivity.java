@@ -21,6 +21,8 @@ package de.fu.tracebook.gui.activity;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapActivity;
@@ -399,6 +401,90 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     public void newBtn(View v) {
+        final IDataPointsList way = StorageFactory.getStorage().getTrack()
+                .getCurrentWay();
+        List<String> itemStrings = new LinkedList<String>();
+        itemStrings.add(getResources().getString(
+                R.string.alert_mapsforgeactivity_newpoi));
+        if (way != null) {
+            itemStrings.add(getResources().getString(
+                    R.string.alert_mapsforgeactivity_stopway));
+            itemStrings.add(getResources().getString(
+                    R.string.alert_mapsforgeactivity_editway));
+        } else {
+            itemStrings.add(getResources().getString(
+                    R.string.alert_mapsforgeactivity_newway));
+        }
+        final CharSequence[] items = new CharSequence[itemStrings.size()];
+        itemStrings.toArray(items);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(
+                R.string.alert_mapsforgeactivity_newobj));
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                final Intent intent = new Intent(MapsForgeActivity.this,
+                        AddPointActivity.class);
+                switch (item) {
+                case 0:
+
+                    long nodeId = 0;
+
+                    try {
+                        nodeId = ServiceConnector.getLoggerService().createPOI(
+                                false);
+                    } catch (RemoteException e) {
+                        LogIt.e("no service: " + e.getMessage());
+                    }
+
+                    if (nodeId < 0) {
+                        LogIt.popup(
+                                MapsForgeActivity.this,
+                                getResources()
+                                        .getString(
+                                                R.string.popup_mapsforgeactivity_nocoords));
+                        break;
+                    }
+
+                    intent.putExtra("NodeId", nodeId);
+                    startActivity(intent);
+
+                    break;
+                case 1:
+                    // start or stop way
+                    if (way == null) {
+                        try {
+                            ServiceConnector.getLoggerService().beginWay(false);
+
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            ServiceConnector.getLoggerService().endWay();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    break;
+                case 2:
+                    // edit way
+                    if (way == null) {
+                        break;
+                    }
+
+                    long wayId = way.getId();
+
+                    intent.putExtra("WayId", wayId);
+                    startActivity(intent);
+
+                    break;
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     /**

@@ -232,16 +232,22 @@ public class AddPointActivity extends ListActivity {
          * Get the node of the sending Intent
          */
         if (extras != null) {
-            int nodeId = extras.getInt("NodeId");
-            int wayId = extras.getInt("WayId");
+            long nodeId = extras.getLong("NodeId");
+            long wayId = extras.getLong("WayId");
             if (nodeId != 0) {
                 node = StorageFactory.getStorage().getTrack()
                         .getNodeById(nodeId);
+                LogIt.d("node is: " + nodeId);
                 isWay = false;
             } else if (wayId != 0) {
                 node = StorageFactory.getStorage().getTrack()
                         .getPointsListById(wayId);
+                LogIt.d("way is: " + wayId);
                 isWay = true;
+            } else {
+                LogIt.d("Neither way nor node ...");
+                finish();
+                return;
             }
 
             // if (extras.containsKey("DataNodeId")) {
@@ -256,8 +262,11 @@ public class AddPointActivity extends ListActivity {
             // finish();
             // }
             // }
-        } else
+        } else {
+            LogIt.d("Object data missing, finishing... ");
             finish();
+            return;
+        }
 
         setTitle(R.string.string_addpointActivity_title);
         setContentView(R.layout.activity_addpointactivity);
@@ -268,6 +277,8 @@ public class AddPointActivity extends ListActivity {
 
         if (node == null) {
             LogIt.e("node null");
+            finish();
+            return;
         }
 
         registerForContextMenu(getListView());

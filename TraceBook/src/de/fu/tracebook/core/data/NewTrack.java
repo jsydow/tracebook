@@ -169,7 +169,7 @@ public class NewTrack implements IDataTrack {
         return name;
     }
 
-    public IDataNode getNodeById(int id) {
+    public IDataNode getNodeById(long id) {
         NewDBNode node = NewDBNode.getById(id);
         if (node == null) {
             return null;
@@ -186,12 +186,12 @@ public class NewTrack implements IDataTrack {
         return nodes;
     }
 
-    public IDataPointsList getPointsListById(int id) {
-        NewDBPointsList way = NewDBPointsList.getById(id);
-        if (way == null) {
+    public IDataPointsList getPointsListById(long id) {
+        NewDBPointsList way1 = NewDBPointsList.getById(id);
+        if (way1 == null) {
             return null;
         }
-        return new NewPointsList(way);
+        return new NewPointsList(way1);
     }
 
     public String getTrackDirPath() {

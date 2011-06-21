@@ -46,7 +46,7 @@ interface ILoggerService {
 	* @param on_way Whether the POI is on the current track.
 	* @return id of the new POI, -1 if creating of the POI has failed.
 	*/
-	int createPOI(boolean on_way);
+	long createPOI(boolean on_way);
 	
 	/**
 	 * Starts a new area.

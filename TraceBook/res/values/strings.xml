@@ -264,4 +264,10 @@
 <string name="alert_mapsforgeactivity_exportbugs">Export Bugs</string>
 <string name="alert_bugoverlay_edit">Edit</string>
 <string name="alert_bugoverlay_delete">Delete</string>
+<string name="alert_mapsforgeactivity_newpoi">New POI</string>
+<string name="alert_mapsforgeactivity_newway">New Way/Area</string>
+<string name="alert_mapsforgeactivity_editway">Edit Way</string>
+<string name="alert_mapsforgeactivity_stopway">Stop Way/Area</string>
+<string name="popup_mapsforgeactivity_nocoords">Current location unknown. Please wait for GPS fix.</string>
+<string name="alert_mapsforgeactivity_newobj">New</string>
 </resources>
