@@ -70,7 +70,7 @@ public class WaypointLogService extends Service implements LocationListener {
             return (int) currentWay().getId();
         }
 
-        public int createPOI(boolean onWay) {
+        public long createPOI(boolean onWay) {
             IDataNode tmpnode = null;
 
             if (onWay && currentWay() != null) {
@@ -81,7 +81,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
             currentNodes.add(tmpnode);
 
-            return (int) tmpnode.getId();
+            return tmpnode.getId();
         }
 
         public synchronized int endWay() {

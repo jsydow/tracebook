@@ -70,11 +70,11 @@ public interface IDataTrack extends IDataMediaHolder {
     /**
      * Get a DataNode with a given id.
      * 
-     * @param id
+     * @param nodeId
      *            The id of the DataNode
      * @return The DataNode or null if there is none with such an id.
      */
-    IDataNode getNodeById(int id);
+    IDataNode getNodeById(long nodeId);
 
     /**
      * Getter-method that returns a list of all nodes. The returned List is the
@@ -88,11 +88,11 @@ public interface IDataTrack extends IDataMediaHolder {
     /**
      * Get a DataPointsList with a given id.
      * 
-     * @param id
+     * @param wayId
      *            The id of the DataPointsList
      * @return The DataPointsList or null if there is none with such an id.
      */
-    IDataPointsList getPointsListById(int id);
+    IDataPointsList getPointsListById(long wayId);
 
     /**
      * Returns the complete absolute path to this Track directory.

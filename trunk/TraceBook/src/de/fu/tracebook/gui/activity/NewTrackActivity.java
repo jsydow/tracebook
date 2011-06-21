@@ -180,14 +180,14 @@ public class NewTrackActivity extends TabActivity {
         int nodeId = 0;
 
         try {
-            nodeId = ServiceConnector.getLoggerService().createPOI(false);
+            nodeId = (int) ServiceConnector.getLoggerService().createPOI(false);
         } catch (RemoteException e) {
             LogIt.e("no service: " + e.getMessage());
         }
         LogIt.d("nodeid " + nodeId);
 
         final Intent intent = new Intent(this, AddPointActivity.class);
-        intent.putExtra("DataNodeId", nodeId);
+        intent.putExtra("NodeId", nodeId);
         startActivity(intent);
     }
 
