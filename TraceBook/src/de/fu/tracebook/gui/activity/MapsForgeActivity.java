@@ -438,6 +438,7 @@ public class MapsForgeActivity extends MapActivity {
                     }
 
                     if (nodeId < 0) {
+                        fillOverlays();
                         LogIt.popup(
                                 MapsForgeActivity.this,
                                 getResources()
@@ -595,11 +596,15 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     private void fillOverlays() {
+        LogIt.d("MapsforgeActivity.fillOverlays()");
+        pointsOverlay.clear();
         pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
                 .getOverlayItems(this));
 
+        routesOverlay.clear();
         routesOverlay.addWays(Helper.currentTrack().getWays());
 
+        bugOverlay.clear();
         bugOverlay.addItems(bugManager.getBugs());
     }
 
@@ -670,8 +675,6 @@ public class MapsForgeActivity extends MapActivity {
         LogIt.d("Resuming MapActivity");
 
         // redraw all overlays to account for the events we've missed paused
-        routesOverlay.clear();
-        pointsOverlay.clear();
         fillOverlays();
 
         mapView.setClickable(true);

@@ -125,12 +125,7 @@ public class NewNode implements IDataNode {
     }
 
     public void deleteTag(String key) {
-        List<NewDBTag> tags = NewDBTag.getByNode(id);
-        for (NewDBTag tag : tags) {
-            if (tag.key == key) {
-                tag.delete();
-            }
-        }
+        NewDBTag.deleteByNode(id);
     }
 
     /*
