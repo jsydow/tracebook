@@ -145,8 +145,8 @@ public class AddPointMetaActivity extends ListActivity {
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("NodeId");
-            int wayId = extras.getInt("WayId");
+            long nodeId = extras.getLong("NodeId");
+            long wayId = extras.getLong("WayId");
             if (nodeId != 0) {
                 node = StorageFactory.getStorage().getTrack()
                         .getNodeById(nodeId);
@@ -245,6 +245,7 @@ public class AddPointMetaActivity extends ListActivity {
         if (node != null) {
             node.addTag(autoComplCat.getText().toString(), autoComplVal
                     .getText().toString());
+            LogIt.d("node has tags: " + node.getTags().size());
         }
         HistoryDb db = new HistoryDb(this);
         db.updateTag(autoComplCat.getText().toString(), autoComplVal.getText()

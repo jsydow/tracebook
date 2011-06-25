@@ -192,11 +192,14 @@ public class NewPointsList implements IDataPointsList {
 
     public GeoPoint[] toGeoPointArray(GeoPoint additional) {
         List<IDataNode> nodes = this.getNodes();
-        GeoPoint[] ret = new GeoPoint[nodes.size()];
+        GeoPoint[] ret = new GeoPoint[nodes.size() + (isArea() ? 1 : 0)];
         int i = 0;
         for (IDataNode node : nodes) {
             ret[i] = node.getCoordinates();
             ++i;
+        }
+        if (isArea()) {
+            ret[i] = ret[0];
         }
 
         return ret;
