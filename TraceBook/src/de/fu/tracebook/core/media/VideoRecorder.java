@@ -34,6 +34,8 @@ public class VideoRecorder extends Recorder {
     private boolean isReady = false;
     private MediaRecorder recorder;
 
+    // TODO funktioniert nicht
+
     /**
      * Because of the nature of recording a video with MediaRecorder, we have to
      * make sure a few certain properties have been set. Furthermore, we require

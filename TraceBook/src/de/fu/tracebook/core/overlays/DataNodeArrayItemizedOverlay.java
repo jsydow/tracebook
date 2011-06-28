@@ -198,6 +198,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
 
     @Override
     protected boolean onTap(int index) {
+        LogIt.d("DataNode.onTap()");
         final OverlayItem item = createItem(index);
         final IDataNode node = StorageFactory.getStorage().getOverlayManager()
                 .getNodeByOverlayItem(item);

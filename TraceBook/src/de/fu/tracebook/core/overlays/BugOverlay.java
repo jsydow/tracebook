@@ -29,6 +29,7 @@ import de.fu.tracebook.R;
 import de.fu.tracebook.core.bugs.Bug;
 import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
+import de.fu.tracebook.util.LogIt;
 
 public class BugOverlay extends ArrayItemizedOverlay {
 
@@ -67,6 +68,7 @@ public class BugOverlay extends ArrayItemizedOverlay {
 
     @Override
     protected boolean onTap(int index) {
+        LogIt.d("Bugs.onTap()");
         final BugOverlayItem item = (BugOverlayItem) createItem(index);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);

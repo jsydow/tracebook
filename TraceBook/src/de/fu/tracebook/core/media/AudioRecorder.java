@@ -33,6 +33,8 @@ public class AudioRecorder extends Recorder {
     private boolean isReady = false;
     private MediaRecorder recorder;
 
+    // TODO funktioniert nicht
+
     /**
      * Prepares the recorder.
      * 

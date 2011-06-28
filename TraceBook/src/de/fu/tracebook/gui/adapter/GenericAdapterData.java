@@ -174,6 +174,8 @@ public class GenericAdapterData {
 
     }
 
+    private Object additional;
+
     /**
      * Reference to a description object. See @GenericItemDescription
      */
@@ -209,6 +211,10 @@ public class GenericAdapterData {
 
     }
 
+    public Object getAdditional() {
+        return additional;
+    }
+
     /**
      * @param tag
      *            Tag which is associated with the TextView
@@ -218,6 +224,10 @@ public class GenericAdapterData {
         TextItem textItem = (TextItem) items.get(tag);
         return textItem.getCurrentText();
 
+    }
+
+    public void setAdditional(Object obj) {
+        additional = obj;
     }
 
     /**
