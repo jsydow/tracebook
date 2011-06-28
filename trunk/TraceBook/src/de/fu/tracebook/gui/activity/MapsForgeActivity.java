@@ -488,6 +488,16 @@ public class MapsForgeActivity extends MapActivity {
         alert.show();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onBackPressed()
+     */
+    @Override
+    public void onBackPressed() {
+        Helper.alertStopTracking(this);
+    }
+
     /**
      * Inflates the options menu for this activity.
      */
@@ -722,14 +732,13 @@ public class MapsForgeActivity extends MapActivity {
 
                 changeMapViewToOfflineRendering();
 
-                runOnUiThread(new Runnable() {
-
-                    public void run() {
-                        mapView.invalidate();
-                    }
-
-                });
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                mapView.invalidate();
+                LogIt.d("Overlays: " + mapView.getOverlays().size());
             }
 
         }).execute();

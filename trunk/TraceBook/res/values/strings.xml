@@ -270,4 +270,14 @@
 <string name="alert_mapsforgeactivity_stopway">Stop Way/Area</string>
 <string name="popup_mapsforgeactivity_nocoords">Current location unknown. Please wait for GPS fix.</string>
 <string name="alert_mapsforgeactivity_newobj">New</string>
+<string name="btn_addpointActivity_listMedia">Media</string>
+<string name="string_listMediaActivity_title">List of Media</string>
+<string name="tv_statusbar_listmediaTitle">List of Media</string>
+<string name="tv_statusbar_listmediaDesc">A list of a all media for a selected item is shown here. The media can be deleted and shown.</string>
+<string name="string_listmediaActivity_title">List of media</string>
+<string name="tv_listmediaActivity_noMedia">No media available for this object.</string>
+<string name="tv_listmediaActivity_availableMedia">Available media:</string>
+<string name="cm_listmediaActivity_showMedia">Show</string>
+<string name="cm_listmediaActivity_deleteMedia">Delete</string>
+<string name="cm_listmediaActivity_title">Edit Media</string>
 </resources>

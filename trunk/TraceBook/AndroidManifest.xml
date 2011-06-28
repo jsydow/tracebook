@@ -39,7 +39,8 @@
 		android:configChanges="orientation|keyboardHidden"  />
 		<activity android:name="de.fu.tracebook.gui.view.HelpWebView"
 			android:configChanges="orientation|keyboardHidden" />
-
-	<activity android:name="de.fu.tracebook.gui.activity.FilePicker"></activity>
+		<activity android:name="de.fu.tracebook.gui.activity.FilePicker"></activity>
+		<activity android:configChanges="orientation|keyboardHidden" 
+			android:name="de.fu.tracebook.gui.activity.ListMediaActivity"></activity>
 </application>
 </manifest>

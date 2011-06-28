@@ -80,7 +80,7 @@ public class AddPointActivity extends ListActivity {
     /**
      * Here we save a reference to the current DataMapObject which is in use.
      */
-    IDataMapObject node;
+    IDataMapObject object;
 
     /**
      * PicutreRecoder to take pictures.
@@ -97,7 +97,7 @@ public class AddPointActivity extends ListActivity {
         // is required
         final Intent intent = new Intent(this, AddPointMetaActivity.class);
 
-        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
         startActivity(intent);
     }
 
@@ -112,6 +112,12 @@ public class AddPointActivity extends ListActivity {
         finish();
     }
 
+    public void listMediaBtn(View v) {
+        final Intent intent = new Intent(this, ListMediaActivity.class);
+        intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
+        startActivity(intent);
+    }
+
     /**
      * The Method for the makeMemo Button (MediaTags) to start recording a Memo
      * at the AddMemoActivty.
@@ -121,7 +127,7 @@ public class AddPointActivity extends ListActivity {
      */
     public void makeMemoBtn(View view) {
         final Intent intent = new Intent(this, AddMemoActivity.class);
-        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
         startActivity(intent);
     }
 
@@ -142,7 +148,7 @@ public class AddPointActivity extends ListActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String values = input.getText().toString().trim();
 
-                node.addMedia(StorageFactory.getStorage().getTrack()
+                object.addMedia(StorageFactory.getStorage().getTrack()
                         .saveText(values));
             }
         });
@@ -177,7 +183,7 @@ public class AddPointActivity extends ListActivity {
      */
     public void makeVideoBtn(View view) {
         final Intent intent = new Intent(this, RecordVideoActivity.class);
-        intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
+        intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
         startActivity(intent);
     }
 
@@ -202,7 +208,7 @@ public class AddPointActivity extends ListActivity {
         switch (item.getItemId()) {
         case R.id.cm_addpointActivity_deleteTag:
 
-            node.deleteTag(itemData.getText("NodeKey"));
+            object.deleteTag(itemData.getText("NodeKey"));
             setNodeInformation();
             initAdapter();
             adapter.notifyDataSetChanged();
@@ -210,7 +216,7 @@ public class AddPointActivity extends ListActivity {
         case R.id.cm_addpointActivity_renameTag:
             final Intent intent = new Intent(this, AddPointMetaActivity.class);
 
-            intent.putExtra(isWay ? "WayId" : "NodeId", node.getId());
+            intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
             intent.putExtra("DataNodeKey", itemData.getText("NodeKey"));
             intent.putExtra("DataNodeValue", itemData.getText("NodeValue"));
             startActivity(intent);
@@ -235,12 +241,12 @@ public class AddPointActivity extends ListActivity {
             long nodeId = extras.getLong("NodeId");
             long wayId = extras.getLong("WayId");
             if (nodeId != 0) {
-                node = StorageFactory.getStorage().getTrack()
+                object = StorageFactory.getStorage().getTrack()
                         .getNodeById(nodeId);
                 LogIt.d("node is: " + nodeId);
                 isWay = false;
             } else if (wayId != 0) {
-                node = StorageFactory.getStorage().getTrack()
+                object = StorageFactory.getStorage().getTrack()
                         .getPointsListById(wayId);
                 LogIt.d("way is: " + wayId);
                 isWay = true;
@@ -249,19 +255,6 @@ public class AddPointActivity extends ListActivity {
                 finish();
                 return;
             }
-
-            // if (extras.containsKey("DataNodeId")) {
-            // int nodeId = extras.getInt("DataNodeId");
-            // node = StorageFactory.getStorage().getTrack()
-            // .getDataMapObjectById(nodeId);
-            // if (node == null) {
-            // LogIt.popup(
-            // this,
-            // getResources().getString(
-            // R.string.toast_noneExistentNode));
-            // finish();
-            // }
-            // }
         } else {
             LogIt.d("Object data missing, finishing... ");
             finish();
@@ -275,7 +268,7 @@ public class AddPointActivity extends ListActivity {
         LinearLayout layoutHolder = (LinearLayout) findViewById(R.id.ly_addpointaAtivity_metaMediaBtnPoint);
         bInflater.inflate(R.layout.dynamic_metamediabuttons, layoutHolder);
 
-        if (node == null) {
+        if (object == null) {
             LogIt.e("node null");
             finish();
             return;
@@ -310,11 +303,11 @@ public class AddPointActivity extends ListActivity {
     @Override
     public void onDestroy() {
         // We do do not want to store empty nodes
-        if (node != null && !node.hasAdditionalInfo()
-                && node instanceof IDataNode
-                && ((IDataNode) node).getDataPointsList() == null) {
+        if (object != null && !object.hasAdditionalInfo()
+                && object instanceof IDataNode
+                && ((IDataNode) object).getDataPointsList() == null) {
             LogIt.d("POI is empty, will not keep it");
-            Helper.currentTrack().deleteNode((int) node.getId());
+            Helper.currentTrack().deleteNode((int) object.getId());
             (new GpsMessage(this)).sendDiscardIntent();
         }
 
@@ -356,7 +349,7 @@ public class AddPointActivity extends ListActivity {
         desc.addResourceId("NodeValue", R.id.detail);
 
         List<GenericAdapterData> data = new ArrayList<GenericAdapterData>();
-        Iterator<Entry<String, String>> iterator = node.getTags().entrySet()
+        Iterator<Entry<String, String>> iterator = object.getTags().entrySet()
                 .iterator();
 
         while (iterator.hasNext()) {
@@ -372,7 +365,6 @@ public class AddPointActivity extends ListActivity {
                 R.id.list, data);
 
         setListAdapter(adapter);
-        getListView().setTextFilterEnabled(true);
     }
 
     /**
@@ -386,10 +378,10 @@ public class AddPointActivity extends ListActivity {
         TextView titleCat = (TextView) findViewById(R.id.tv_addpointActivity_titleListViewCat);
         TextView titleVal = (TextView) findViewById(R.id.tv_addpointActivity_titleListViewVal);
 
-        Map<String, String> tagMap = node.getTags();
+        Map<String, String> tagMap = object.getTags();
         nodeIdTv.setText(getResources().getString(
                 R.string.tv_addpointActivity_nodeId)
-                + " " + node.getId());
+                + " " + object.getId());
 
         if (tagMap.size() != 0) {
             nodeInfo.setText(R.string.tv_addpointActivity_MetaData);
@@ -410,7 +402,7 @@ public class AddPointActivity extends ListActivity {
         switch (requestCode) {
         case Recorder.TAKE_PHOTO_CODE:
             if (resultCode == Activity.RESULT_OK) {
-                pictureRecorder.appendFileToObject(node);
+                pictureRecorder.appendFileToObject(object);
             }
             break;
         default:

@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
 import org.mapsforge.android.maps.ArrayWayOverlay;
+import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
 
@@ -36,6 +38,7 @@ import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LogIt;
 import de.fu.tracebook.util.Pair;
 
 /**
@@ -162,6 +165,21 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
                 .setPaint(col.first, col.second);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.mapsforge.android.maps.Overlay#onTap(org.mapsforge.android.maps.GeoPoint
+     * , org.mapsforge.android.maps.MapView)
+     */
+    @Override
+    public boolean onTap(GeoPoint p, MapView mapView) {
+
+        LogIt.d("DataPointsList.onTap()");
+
+        return false;
+    }
+
     /**
      * Creates a new OverlayItem for n if it has none yet.
      * 
@@ -190,11 +208,13 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     public void toggleWaypoints() {
         showWaypoints = !showWaypoints;
 
-        for (IDataPointsList dpl : Helper.getWays())
-            if (showWaypoints)
+        for (IDataPointsList dpl : Helper.getWays()) {
+            if (showWaypoints) {
                 addWaypoints(dpl);
-            else
+            } else {
                 removeWaypoints(dpl);
+            }
+        }
     }
 
     private void addWaypoints(IDataPointsList way) {
