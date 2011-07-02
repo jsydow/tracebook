@@ -68,7 +68,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
             case 0: // Tag this
                 final Intent intent = new Intent(context,
                         AddPointActivity.class);
-                intent.putExtra("DataNodeId", node.getId());
+                intent.putExtra("NodeId", node.getId());
                 context.startActivity(intent);
                 break;
             case 1: // move this
@@ -135,9 +135,9 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
             contextMenueListener.setNode(node);
             builder.setItems(contextMenueListener.getItems(),
                     contextMenueListener);
+            builder.show();
         }
 
-        builder.show();
         return true;
     }
 }
