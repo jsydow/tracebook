@@ -159,7 +159,8 @@ public class MapsForgeActivity extends MapActivity {
                             routesOverlay.requestRedraw();
                         }
 
-                        // TODO maybe make better
+                        // waypoints are only shown when toggleWaypoints is
+                        // pressed.
                         if (pointId > 0) { // new waypoint (for waypoints
                                            // overlay)
                             IDataNode node = Helper.currentTrack().getNodeById(
