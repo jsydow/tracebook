@@ -30,6 +30,7 @@ import org.mapsforge.android.maps.MapController;
 import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.MapViewMode;
 import org.mapsforge.android.maps.OverlayItem;
+import org.mapsforge.android.maps.OverlayWay;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -78,15 +79,21 @@ public class MapsForgeActivity extends MapActivity {
      */
     private class GPSReceiver extends BroadcastReceiver {
 
-        private int oldWayId = -1;
+        /**
+         * Used to recognise new way.
+         */
+        private long oldWayId = -1;
 
         /**
-         * Centers the map to the current position if true. This will be set to
-         * false once the map is centered, it's used to initially center the map
-         * when no GPS fix is available yet
+         * Centres the map to the current position if true. This will be set to
+         * false once the map is centred, it's used to initially centre the map
+         * when no GPS fix is available yet.
          */
         boolean centerMap = true;
 
+        /**
+         * OverlayItem for the current position.
+         */
         OverlayItem currentPosOI = null;
 
         public GPSReceiver() {
@@ -95,46 +102,39 @@ public class MapsForgeActivity extends MapActivity {
 
         @Override
         public void onReceive(Context ctx, Intent intend) {
-            final int wayId = intend.getExtras().getInt("way_id");
-            final int pointId = intend.getExtras().getInt("point_id");
+            final long wayId = intend.getExtras().getLong(
+                    GpsMessage.EXTRA_WAY_ID);
+            final long pointId = intend.getExtras().getLong(
+                    GpsMessage.EXTRA_POINT_ID);
 
             // Receive current location and do something with it
-            switch (intend.getIntExtra("type", -1)) {
+            switch (intend.getIntExtra(GpsMessage.EXTRA_TYPE, -1)) {
 
             case GpsMessage.UPDATE_GPS_POS: // periodic position update
-                final double lng = intend.getExtras().getDouble("long");
-                final double lat = intend.getExtras().getDouble("lat");
+                final double lng = intend.getExtras().getDouble(
+                        GpsMessage.EXTRA_LONGITUDE);
+                final double lat = intend.getExtras().getDouble(
+                        GpsMessage.EXTRA_LATITUDE);
 
-                currentGeoPoint = new GeoPoint(lat, lng); // we also need this
-                // to center the map
+                currentGeoPoint = new GeoPoint(lat, lng);
 
-                if (currentPosOI == null)
+                // set marker for current position
+                if (currentPosOI == null) {
                     currentPosOI = Helper.getOverlayItem(currentGeoPoint,
                             R.drawable.card_marker_green,
                             MapsForgeActivity.this);
+                }
                 currentPosOI.setPoint(currentGeoPoint);
-                pointsOverlay.addItem(currentPosOI);
+                pointsOverlay.addItem(currentPosOI); // TODO what is done with
+                                                     // the old one?
 
-                /*
-                 * In one_shot mode, we add the current point to the
-                 * visualization
-                 */
-                if (intend.getExtras().getBoolean("one_shot")) {
-                    IDataPointsList currentWay = Helper.currentTrack()
-                            .getCurrentWay();
-                    if (currentWay != null) {
-                        StorageFactory
-                                .getStorage()
-                                .getOverlayManager()
-                                .updateOverlayRoute(currentWay, currentGeoPoint);
-                        routesOverlay.requestRedraw();
-                    }
+                // Centre map if activated.
+                if (centerMap) {
+                    centerOnCurrentPosition();
                 }
 
-                if (centerMap)
-                    centerOnCurrentPosition();
-
                 break;
+
             // Receive an update of a way and update the overlay accordingly
             case GpsMessage.UPDATE_OBJECT:
                 LogIt.d("UPDATE_OBJECT received, way: " + wayId + " node: "
@@ -144,42 +144,39 @@ public class MapsForgeActivity extends MapActivity {
                     IDataPointsList way = Helper.currentTrack()
                             .getPointsListById(wayId);
                     if (way != null) {
-                        StorageFactory.getStorage().getOverlayManager()
-                                .updateOverlayRoute(way, null);
+                        LogIt.d("Way has " + way.getNodes().size() + " nodes.");
+
                         if (oldWayId != wayId) {
+                            // add new way
                             oldWayId = wayId;
                             routesOverlay.addWay(way, true);
-                        } else
+                        } else {
+                            // Refill way waypoints to overlay.
+                            StorageFactory.getStorage().getOverlayManager()
+                                    .updateOverlayRoute(way, null);
+                            LogIt.d("request redraw, number of overlayitems: "
+                                    + routesOverlay.size());
                             routesOverlay.requestRedraw();
+                        }
 
-                        if (pointId > 0) { // new waypoint
+                        // TODO maybe make better
+                        if (pointId > 0) { // new waypoint (for waypoints
+                                           // overlay)
                             IDataNode node = Helper.currentTrack().getNodeById(
                                     pointId);
-                            if (node != null)
+                            if (node != null) {
                                 routesOverlay.putWaypoint(node);
+                            }
                         }
 
-                    } else
-                        LogIt.d("Way can not be found.");
-                } else if (pointId > 0) {
-                    IDataNode node = Helper.currentTrack().getNodeById(pointId);
-                    if (node != null) { // last node of a one_shot way after
-                        // stopWay() was called
-                        routesOverlay.putWaypoint(node);
-                        if (node.getDataPointsList() != null) {
-                            StorageFactory
-                                    .getStorage()
-                                    .getOverlayManager()
-                                    .updateOverlayRoute(
-                                            node.getDataPointsList(), null);
-                            routesOverlay.requestRedraw();
-                        }
+                    } else {
+                        LogIt.d("Way can not be found in MapsForgeActivity.GPSreceiver.UPDATE_OBJECT");
                     }
                 }
 
                 break;
             case GpsMessage.MOVE_POINT:
-                LogIt.d("Enter edit mode for Point " + pointId);
+                LogIt.d("Move Point " + pointId);
 
                 editNode = Helper.currentTrack().getNodeById(pointId);
 
@@ -193,7 +190,7 @@ public class MapsForgeActivity extends MapActivity {
                     StorageFactory.getStorage().getOverlayManager()
                             .updateOverlayRoute(way, null);
                     routesOverlay.color(way, false);
-                    routesOverlay.requestRedraw();
+                    // routesOverlay.requestRedraw(); TODO
                 }
                 removeInvalidItems();
                 break;
@@ -211,24 +208,26 @@ public class MapsForgeActivity extends MapActivity {
 
             Collection<OverlayItem> invalids = StorageFactory.getStorage()
                     .getOverlayManager().getAndClearInvalidOverlayItems();
-            for (OverlayItem oi : invalids)
+            for (OverlayItem oi : invalids) {
                 pointsOverlay.removeItem(oi);
+            }
         }
 
         /**
          * Requests the map to be centered to the current position.
          */
         void centerOnCurrentPosition() {
-            MapsForgeActivity.this.runOnUiThread(new Runnable() {
-                public void run() {
-                    if (currentGeoPoint != null && mapController != null) {
+            if (currentGeoPoint != null && mapController != null) {
+                MapsForgeActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
                         mapController.setCenter(currentGeoPoint);
-                        centerMap = false;
-                    } else {
-                        centerMap = true;
+
                     }
-                }
-            });
+                });
+                centerMap = false;
+            } else {
+                centerMap = true;
+            }
         }
     }
 
@@ -252,6 +251,9 @@ public class MapsForgeActivity extends MapActivity {
 
     private boolean useInternet = false;
 
+    /**
+     * The bug manager.
+     */
     BugManager bugManager;
 
     /**
@@ -295,6 +297,12 @@ public class MapsForgeActivity extends MapActivity {
      */
     DataPointsListArrayRouteOverlay routesOverlay;
 
+    /**
+     * Executed when the Bugs-Button is pressed.
+     * 
+     * @param v
+     *            not used/.
+     */
     public void bugsBtn(View v) {
         final GeoPoint p = currentGeoPoint == null ? mapView.getMapCenter()
                 : currentGeoPoint;
@@ -369,7 +377,7 @@ public class MapsForgeActivity extends MapActivity {
                 StorageFactory.getStorage().getOverlayManager()
                         .updateOverlayRoute(editNode.getDataPointsList(), null);
                 LogIt.d("Requesting redraw");
-                routesOverlay.requestRedraw();
+                // routesOverlay.requestRedraw(); TODO
             }
 
             pointsOverlay.requestRedraw();
@@ -384,22 +392,60 @@ public class MapsForgeActivity extends MapActivity {
             return super.dispatchTouchEvent(ev);
     }
 
+    /**
+     * Executed when the Exit-button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void exitBtn(View v) {
         Helper.alertStopTracking(this);
     }
 
+    /**
+     * Fills the bug overlay.
+     */
     public void fillBugs() {
         bugOverlay.addItems(bugManager.getBugs());
     }
 
+    /**
+     * Executed when the Info-button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void infoBtn(View v) {
-
+        // TODO
+        fillOverlays();
     }
 
+    /**
+     * Executed when the Exit-button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void listBtn(View v) {
+        // TODO
+        GeoPoint[][] wps = new GeoPoint[][] { {
+                new GeoPoint(52.514446, 13.350150), // Berlin Victory Column
+                new GeoPoint(52.516272, 13.377722), // Brandenburg Gate
+                new GeoPoint(52.525, 13.369444), // Berlin Central Station
+                new GeoPoint(52.52, 13.369444) // German Chancellery
+        } };
+
+        routesOverlay.addWay(new OverlayWay(wps));
+        routesOverlay.requestRedraw();
 
     }
 
+    /**
+     * Executed when the Exit-button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void newBtn(View v) {
         final IDataPointsList way = StorageFactory.getStorage().getTrack()
                 .getCurrentWay();
@@ -455,7 +501,7 @@ public class MapsForgeActivity extends MapActivity {
                     // start or stop way
                     if (way == null) {
                         try {
-                            ServiceConnector.getLoggerService().beginWay(false);
+                            ServiceConnector.getLoggerService().beginWay();
 
                         } catch (RemoteException e) {
                             e.printStackTrace();
@@ -559,34 +605,6 @@ public class MapsForgeActivity extends MapActivity {
                             R.string.popup_mapsforgeactivity_saved));
             return true;
 
-        case R.id.opt_mapsforgeActivity_pause:
-            try {
-                if (ServiceConnector.getLoggerService().isLogging()) {
-                    item.setTitle(getResources().getString(
-                            R.string.opt_mapsforgeActivity_resume));
-                    item.setIcon(android.R.drawable.ic_media_play);
-                    ServiceConnector.getLoggerService().pauseLogging();
-                    Helper.startUserNotification(this,
-                            R.drawable.ic_notification_pause,
-                            NewTrackActivity.class, false);
-                } else {
-                    item.setTitle(getResources().getString(
-                            R.string.opt_mapsforgeActivity_pause));
-                    item.setIcon(android.R.drawable.ic_media_pause);
-                    ServiceConnector.getLoggerService().resumeLogging();
-                    Helper.startUserNotification(this,
-                            R.drawable.ic_notification_active,
-                            NewTrackActivity.class, true);
-                }
-            } catch (RemoteException ex) {
-                LogIt.e("There is a problem with the logger service.");
-            }
-
-            return true;
-        case R.id.opt_mapsforgeActivity_stopTrack:
-            Helper.alertStopTracking(this);
-            return true;
-
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -603,19 +621,6 @@ public class MapsForgeActivity extends MapActivity {
         Helper.setActivityInfoDialog(this,
                 getResources().getString(R.string.tv_statusbar_mapsforgeTitle),
                 getResources().getString(R.string.tv_statusbar_mapsforgeDesc));
-    }
-
-    private void fillOverlays() {
-        LogIt.d("MapsforgeActivity.fillOverlays()");
-        pointsOverlay.clear();
-        pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
-                .getOverlayItems(this));
-
-        routesOverlay.clear();
-        routesOverlay.addWays(Helper.currentTrack().getWays());
-
-        bugOverlay.clear();
-        bugOverlay.addItems(bugManager.getBugs());
     }
 
     /**
@@ -648,9 +653,7 @@ public class MapsForgeActivity extends MapActivity {
 
         pointsOverlay = new DataNodeArrayItemizedOverlay(this);
         routesOverlay = new DataPointsListArrayRouteOverlay(this, pointsOverlay);
-        bugOverlay = new BugOverlay(this); // new
-                                           // ArrayItemizedOverlay(getResources().getDrawable(
-        // R.drawable.card_marker_bug), this);
+        bugOverlay = new BugOverlay(this);
         bugManager = BugManager.getInstance();
 
         // as this activity is destroyed when adding a POI, we get all POIs here
@@ -667,12 +670,6 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LogIt.d("Destroying map activity");
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         LogIt.d("Pausing MapActivity");
@@ -683,13 +680,6 @@ public class MapsForgeActivity extends MapActivity {
     protected void onResume() {
         super.onResume();
         LogIt.d("Resuming MapActivity");
-
-        // redraw all overlays to account for the events we've missed paused
-        fillOverlays();
-
-        mapView.setClickable(true);
-        mapView.setBuiltInZoomControls(true);
-        mapView.setScaleBar(true);
 
         (new AsyncTask<Void, Void, Void>() {
             @Override
@@ -725,8 +715,12 @@ public class MapsForgeActivity extends MapActivity {
                     mapView.getOverlays().add(routesOverlay);
                     mapView.getOverlays().add(pointsOverlay);
                     mapView.getOverlays().add(bugOverlay);
-                    LogIt.d("added overlays");
+                    LogIt.d("added overlays: " + mapView.getOverlays().size());
                 }
+
+                // redraw all overlays to account for the events we've missed
+                // paused
+                fillOverlays();
 
                 mapController = mapView.getController();
 
@@ -790,7 +784,68 @@ public class MapsForgeActivity extends MapActivity {
      */
     void changeMapViewToOfflineRendering() {
         String mapFile = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("mapsforgeMapFilePath", "/mnt/sdcard/default.map");
+                .getString("mapsforgeMapFilePath",
+                        "/mnt/sdcard/TraceBook/default.map");
         changeMapViewMode(MapViewMode.CANVAS_RENDERER, new File(mapFile));
+    }
+
+    /**
+     * Fill all Overlays.
+     */
+    void fillOverlays() {
+        LogIt.d("MapsforgeActivity.fillOverlays()");
+        pointsOverlay.clear();
+        pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
+                .getOverlayItems(this));
+
+        // routesOverlay.clear();
+        routesOverlay.addWays(Helper.currentTrack().getWays());
+        // OverlayWay ow = new OverlayWay(new GeoPoint[][] { new GeoPoint[] {
+        // new GeoPoint(52.452192, 13.295785),
+        // new GeoPoint(52.454008, 13.295785),
+        // new GeoPoint(52.454008, 13.297456) } });
+        // routesOverlay.addWay(ow);
+        //
+        // // start
+        // Paint wayDefaultPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // wayDefaultPaintFill.setStyle(Paint.Style.STROKE);
+        // wayDefaultPaintFill.setColor(Color.BLUE);
+        // wayDefaultPaintFill.setAlpha(160);
+        // wayDefaultPaintFill.setStrokeWidth(7);
+        // wayDefaultPaintFill.setStrokeJoin(Paint.Join.ROUND);
+        // wayDefaultPaintFill.setPathEffect(new DashPathEffect(new float[] {
+        // 20,
+        // 20 }, 0));
+        //
+        // Paint wayDefaultPaintOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // wayDefaultPaintOutline.setStyle(Paint.Style.STROKE);
+        // wayDefaultPaintOutline.setColor(Color.BLUE);
+        // wayDefaultPaintOutline.setAlpha(128);
+        // wayDefaultPaintOutline.setStrokeWidth(7);
+        // wayDefaultPaintOutline.setStrokeJoin(Paint.Join.ROUND);
+        //
+        // ArrayWayOverlay wayOverlay = new ArrayWayOverlay(wayDefaultPaintFill,
+        // wayDefaultPaintOutline);
+        // // OverlayWay way1 = new OverlayWay(new GeoPoint[][] { {
+        // // new GeoPoint(52.452192, 13.295785),
+        // // new GeoPoint(52.454008, 13.295785),
+        // // new GeoPoint(52.454008, 13.297456) } });
+        //
+        // for (IDataPointsList dpl : Helper.currentTrack().getWays()) {
+        // OverlayWay way1 = new OverlayWay();
+        // wayOverlay.addWay(way1);
+        // way1.setWayData(new GeoPoint[][] { dpl.toGeoPointArray(null) });
+        //
+        // LogIt.w("way " + way1.getWayData().length);
+        //
+        // }
+        // mapView.getOverlays().add(wayOverlay);
+
+        // end
+
+        bugOverlay.clear();
+        bugOverlay.addItems(bugManager.getBugs());
+
+        LogIt.d("Overlaycount: " + mapView.getOverlays().size());
     }
 }

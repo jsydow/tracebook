@@ -10,11 +10,9 @@
 		android:title="@string/opt_mapsforgeActivity_activateMobileInternet"
 		android:icon="@android:drawable/ic_menu_rotate" />
 
-	<item android:id="@+id/opt_mapsforgeActivity_stopTrack"
-		android:title="@string/opt_mapsforgeActivity_stopTrack" android:icon="@android:drawable/ic_menu_close_clear_cancel" />
+	
 
-	<item android:id="@+id/opt_mapsforgeActivity_pause" android:title="@string/opt_mapsforgeActivity_pause"
-		android:icon="@android:drawable/ic_media_pause" />
+	
 
 	<item android:id="@+id/opt_mapsforgeActivity_export"
 		android:title="@string/opt_mapsforgeActivity_export" android:icon="@android:drawable/ic_menu_upload" />

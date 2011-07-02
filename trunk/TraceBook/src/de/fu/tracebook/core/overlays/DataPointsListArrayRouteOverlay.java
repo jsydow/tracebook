@@ -20,6 +20,7 @@
 package de.fu.tracebook.core.overlays;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
@@ -30,22 +31,73 @@ import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.gui.activity.AddPointActivity;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.Helper;
 import de.fu.tracebook.util.LogIt;
 import de.fu.tracebook.util.Pair;
+import de.fu.tracebook.util.PointInPolygon;
+import de.fu.tracebook.util.PointLineDistance;
 
 /**
  * Class wrapping the ·{@link ArrayWayOverlay} to get some methods out of
  * {@link MapsForgeActivity}.
  */
 public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
+
+    private class DefaultListener implements DialogInterface.OnClickListener {
+        private final CharSequence[] items = {
+                context.getResources().getString(
+                        R.string.cm_PointsListOverlay_tag),
+                context.getResources().getString(
+                        R.string.cm_PointsListOverlay_delete) };
+
+        private IDataPointsList way = null;
+
+        public DefaultListener() {
+            // do nothing, just to eliminate warnings.
+        }
+
+        public CharSequence[] getItems() {
+            return items;
+        }
+
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+            case 0: // edit
+
+                final Intent intent = new Intent(context,
+                        AddPointActivity.class);
+                intent.putExtra("WayId", way.getId());
+                context.startActivity(intent);
+                break;
+
+            case 1: // delete
+                StorageFactory.getStorage().getTrack()
+                        .deleteWay((int) way.getId());
+                StorageFactory.getStorage().getOverlayManager().removeWay(way);
+                requestRedraw();
+
+                break;
+            default:
+                break;
+            }
+        }
+
+        public void setWay(IDataPointsList selectedWay) {
+            way = selectedWay;
+        }
+    }
+
     /**
      * Generates a pair of paint objects with the same color, but different
      * levels of transparency.
@@ -71,8 +123,6 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     private List<Pair<Paint, Paint>> areaColors;
     private int colorID = 0;
 
-    private Activity context;
-
     private ArrayItemizedOverlay pointsOverlay;
 
     /**
@@ -80,6 +130,11 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * always used for the current way.
      */
     private List<Pair<Paint, Paint>> wayColors;
+
+    /**
+     * The activity that uses this overlay. Probably the MapsforgeActivity
+     */
+    Activity context;
 
     /**
      * Show a knob for every way point.
@@ -129,8 +184,10 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         if (way.getNodes().size() == 0) // skip empty ways
             return;
         color(way, editing);
-        this.addWay(StorageFactory.getStorage().getOverlayManager()
-                .getOverlayRoute(way));
+        OverlayWay w = StorageFactory.getStorage().getOverlayManager()
+                .getOverlayRoute(way);
+        LogIt.d("OverlayWay has " + Arrays.toString(w.getWayData()) + " points");
+        this.addWay(w);
 
         if (showWaypoints)
             addWaypoints(way);
@@ -144,10 +201,16 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      *            the overlay
      */
     public void addWays(List<IDataPointsList> list) {
+        IDataPointsList currWay = StorageFactory.getStorage().getTrack()
+                .getCurrentWay();
+        LogIt.w("Addways " + list.size());
         for (IDataPointsList l : list) {
+            LogIt.w("way has nodes: "
+                    + Arrays.toString(l.toGeoPointArray(null)));
             StorageFactory.getStorage().getOverlayManager()
                     .updateOverlayRoute(l, null);
-            addWay(l, false);
+            boolean editing = l.equals(currWay);
+            addWay(l, editing);
         }
     }
 
@@ -175,7 +238,64 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     @Override
     public boolean onTap(GeoPoint p, MapView mapView) {
 
+        IDataPointsList selectedWay = null;
+
+        int size = this.size();
+        for (int i = 0; i < size; ++i) {
+            OverlayWay way = this.createWay(i);
+            GeoPoint[] data = way.getWayData()[0];
+
+            IDataPointsList dataway = StorageFactory.getStorage()
+                    .getOverlayManager().getPointsList(way);
+
+            if (data.length > 1) {
+                if (data[0] == data[data.length - 1]) {
+                    // Area
+                    if (PointInPolygon.isPointInPolygon(p, data)) {
+                        selectedWay = dataway;
+                        break;
+                    }
+                } else {
+                    // Way
+                    boolean selected = false;
+
+                    GeoPoint a = null;
+                    for (GeoPoint b : data) {
+                        if (a != null) {
+                            double factor = zoomfactor(this.internalMapView
+                                    .getZoomLevel());
+                            double threshold = (0.1 * factor) * (0.1 * factor);
+
+                            if (PointLineDistance.sqDistancePointLine(p, a, b) < threshold) {
+                                selectedWay = dataway;
+                                selected = true;
+                                break;
+                            }
+                        }
+                        a = b;
+                    }
+
+                    if (selected) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        DefaultListener contextMenueListener = new DefaultListener();
+
         LogIt.d("DataPointsList.onTap()");
+
+        if (selectedWay != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+            builder.setTitle("id: " + selectedWay.getId());
+            contextMenueListener.setWay(selectedWay);
+            builder.setItems(contextMenueListener.getItems(),
+                    contextMenueListener);
+
+            builder.show();
+            return true;
+        }
 
         return false;
     }
@@ -226,6 +346,14 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         for (IDataNode n : way.getNodes())
             pointsOverlay.removeItem(StorageFactory.getStorage()
                     .getOverlayManager().getOverlayItem(n));
+    }
+
+    private double zoomfactor(byte zoom) {
+        double factor = 360.0;
+        for (int i = 0; i < zoom; ++i) {
+            factor *= 0.5;
+        }
+        return factor;
     }
 
     /**

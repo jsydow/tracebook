@@ -211,6 +211,11 @@ public class GenericAdapterData {
 
     }
 
+    /**
+     * Retrieves the additional data stored in this data.
+     * 
+     * @return The data stored which may be null.
+     */
     public Object getAdditional() {
         return additional;
     }
@@ -226,6 +231,13 @@ public class GenericAdapterData {
 
     }
 
+    /**
+     * Store a any object in this data. This can be the Object represented by
+     * this data.
+     * 
+     * @param obj
+     *            The object to store.
+     */
     public void setAdditional(Object obj) {
         additional = obj;
     }

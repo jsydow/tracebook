@@ -39,6 +39,46 @@ public class GpsMessage {
     public static final int END_WAY = 2;
 
     /**
+     * The string of the field in the intent extra where the current latitude is
+     * stored. Only valid when type is UPDATE_GPS_POS.
+     * 
+     * Type is double.
+     */
+    public static final String EXTRA_LATITUDE = "lat";
+
+    /**
+     * The string of the field in the intent extra where the current longitude
+     * is stored. Only valid when type is UPDATE_GPS_POS.
+     * 
+     * Type is double.
+     */
+    public static final String EXTRA_LONGITUDE = "long";
+
+    /**
+     * The string of the field in the intent extra where the id of the way is
+     * stored. Only for UPDATE_OBJECT and MOVE_POINT.
+     * 
+     * Type is long.
+     */
+    public static final String EXTRA_POINT_ID = "nodeid";
+
+    /**
+     * The string of the field in the intent extra where the type of the
+     * broadcast is stored.
+     * 
+     * Type is integer.
+     */
+    public static final String EXTRA_TYPE = "type";
+
+    /**
+     * The string of the field in the intent extra where the id of the way is
+     * stored. Only for UPDATE_OBJECT and END_WAY.
+     * 
+     * Type is long.
+     */
+    public static final String EXTRA_WAY_ID = "wayid";
+
+    /**
      * Tag of the Intent that signals the start of editing a points location.
      */
     public static final int MOVE_POINT = 3;
@@ -66,10 +106,6 @@ public class GpsMessage {
 
     private Context ctx;
 
-    private Intent intent;
-
-    // private boolean one_shot = false;
-
     /**
      * Creates a new GPS Intent sender helper class.
      * 
@@ -78,7 +114,6 @@ public class GpsMessage {
      */
     public GpsMessage(Context ctx) {
         this.ctx = ctx;
-        intent = new Intent(TAG);
     }
 
     /**
@@ -86,23 +121,22 @@ public class GpsMessage {
      * 
      * @param loc
      *            current GPS position
-     * @param oneShot
-     *            true if currently a way is recorded in one_shot mode
      */
-    public void sendCurrentPosition(Location loc, boolean oneShot) {
-        intent.putExtra("type", UPDATE_GPS_POS);
-        intent.putExtra("long", loc.getLongitude());
-        intent.putExtra("lat", loc.getLatitude());
-        intent.putExtra("one_shot", oneShot);
+    public void sendCurrentPosition(Location loc) {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(EXTRA_TYPE, UPDATE_GPS_POS);
+        intent.putExtra(EXTRA_LONGITUDE, loc.getLongitude());
+        intent.putExtra(EXTRA_LATITUDE, loc.getLatitude());
         ctx.sendBroadcast(intent);
     }
 
     /**
-     * Signals the MapActivity that invalid OverlayItems are availiable to be
+     * Signals the MapActivity that invalid OverlayItems are available to be
      * removed.
      */
     public void sendDiscardIntent() {
-        intent.putExtra("type", REMOVE_INVALIDS);
+        Intent intent = new Intent(TAG);
+        intent.putExtra(EXTRA_TYPE, REMOVE_INVALIDS);
         ctx.sendBroadcast(intent);
     }
 
@@ -113,9 +147,10 @@ public class GpsMessage {
      * @param id
      *            id of the way that was just finished
      */
-    public void sendEndWay(int id) {
-        intent.putExtra("type", END_WAY);
-        intent.putExtra("way_id", id);
+    public void sendEndWay(long id) {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(EXTRA_TYPE, END_WAY);
+        intent.putExtra(EXTRA_WAY_ID, id);
         ctx.sendBroadcast(intent);
     }
 
@@ -126,24 +161,26 @@ public class GpsMessage {
      *            the ID of the DataNode that will enter edit mode
      */
     public void sendMovePoint(int id) {
-        intent.putExtra("type", MOVE_POINT);
-        intent.putExtra("point_id", id);
+        Intent intent = new Intent(TAG);
+        intent.putExtra(EXTRA_TYPE, MOVE_POINT);
+        intent.putExtra(EXTRA_POINT_ID, id);
         ctx.sendBroadcast(intent);
     }
 
     /**
      * Signal an update of the way, so that it can be redrawn.
      * 
-     * @param id
+     * @param wayId
      *            id of the way that was changed
-     * @param newNode
+     * @param nodeId
      *            the Id of the new waypoint, -1 if the way just has to be
      *            updated without adding a new point (e.g. when removing one)
      */
-    public void sendWayUpdate(int id, int newNode) {
-        intent.putExtra("type", UPDATE_OBJECT);
-        intent.putExtra("point_id", newNode);
-        intent.putExtra("way_id", id);
+    public void sendWayUpdate(long wayId, long nodeId) {
+        Intent intent = new Intent(TAG);
+        intent.putExtra(EXTRA_TYPE, UPDATE_OBJECT);
+        intent.putExtra(EXTRA_POINT_ID, nodeId);
+        intent.putExtra(EXTRA_WAY_ID, wayId);
         ctx.sendBroadcast(intent);
     }
 }

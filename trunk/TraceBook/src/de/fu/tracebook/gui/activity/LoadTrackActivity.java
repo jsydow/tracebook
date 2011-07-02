@@ -70,6 +70,9 @@ import de.fu.tracebook.util.LogIt;
  */
 public class LoadTrackActivity extends ListActivity {
 
+    /**
+     * Task to delete a track.
+     */
     class DeleteTrackTask extends AsyncTask<String, Void, Void> {
 
         @Override

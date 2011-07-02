@@ -26,6 +26,15 @@ public class StorageFactory {
 
     private static IDataStorage instance;
 
+    /**
+     * Return an implementation of IDataMedia.
+     * 
+     * @param path
+     *            The path of the directory where the media file is.
+     * @param name
+     *            The name of the media file.
+     * @return The IDataMedia object.
+     */
     public static IDataMedia getMediaObject(String path, String name) {
         return new NewMedia(path, name);
     }

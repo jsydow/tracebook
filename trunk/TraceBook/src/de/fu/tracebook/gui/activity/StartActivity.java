@@ -56,6 +56,12 @@ public class StartActivity extends Activity {
         startActivity(intent);
     }
 
+    /**
+     * When the Map button is pressed.
+     * 
+     * @param view
+     *            Not used.
+     */
     public void mapBtn(View view) {
         if (Helper.currentTrack() == null)
             try {

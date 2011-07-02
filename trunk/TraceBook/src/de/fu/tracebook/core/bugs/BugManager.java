@@ -37,6 +37,7 @@ import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.OverlayItem;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.os.AsyncTask;
 import android.util.Xml;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.NewTrack;
@@ -46,10 +47,20 @@ import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * A manager class for all Bugs. A Bug is an error in the map data. The website
+ * OpenStreetBugs.org provides some bugs that can be downloaded. This manager
+ * can download these bugs.
+ */
 public class BugManager {
 
     private static BugManager instance;
 
+    /**
+     * Get an instance of the bug manager.
+     * 
+     * @return An instance of the bugmanager, not null.
+     */
     public static BugManager getInstance() {
         if (instance == null) {
             instance = new BugManager();
@@ -57,26 +68,48 @@ public class BugManager {
         return instance;
     }
 
+    /**
+     * The list of bugs reported by the user.
+     */
     List<Bug> bugs = new ArrayList<Bug>();
+
+    /**
+     * The list of OpenStreetBugs.
+     */
     List<Bug> osbugs = new ArrayList<Bug>();
 
     private BugManager() {
         // do nothing
     }
 
+    /**
+     * Add a user created bug.
+     * 
+     * @param bug
+     *            The bug to add.
+     */
     public void addBug(Bug bug) {
         bugs.add(bug);
     }
 
+    /**
+     * Will load Bugs from OpenStreetBugs. At least 100 Bugs are loaded. The
+     * area is the current position +0.25 degrees in all directions.
+     * 
+     * @param activity
+     *            The MapsForgeActivity which uses this BugManager.
+     * @param pos
+     *            The current position.
+     */
     public void downloadBugs(final MapsForgeActivity activity,
             final GeoPoint pos) {
         if (pos == null) {
             return;
         }
 
-        (new Thread() {
+        (new AsyncTask<Void, Void, Boolean>() {
             @Override
-            public void run() {
+            protected Boolean doInBackground(Void... params) {
 
                 String osbUrl = "http://openstreetbugs.schokokeks.org/api/0.1/getBugs?b="
                         + (pos.getLatitude() - 0.25f)
@@ -108,20 +141,38 @@ public class BugManager {
                         LogIt.d("Found " + osbugs.size() + " bugs!");
                         activity.fillBugs();
 
-                        return;
+                        return Boolean.TRUE;
                     } catch (IOException e) {
                         LogIt.e("Download error: " + e.getMessage());
                     }
                 }
-                LogIt.popup(
-                        activity,
-                        activity.getResources()
-                                .getString(
-                                        R.string.alert_mapsforgeactivity_faileddownload));
+                return Boolean.FALSE;
             }
-        }).start();
+
+            /*
+             * (non-Javadoc)
+             * 
+             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+             */
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if (!result.booleanValue()) {
+                    LogIt.popup(
+                            activity,
+                            activity.getResources()
+                                    .getString(
+                                            R.string.alert_mapsforgeactivity_faileddownload));
+                }
+            }
+        }).execute();
+
     }
 
+    /**
+     * Get OverlayItems for all bugs.
+     * 
+     * @return A list of all OverlayItems for all Bugs.
+     */
     public Collection<OverlayItem> getBugs() {
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         for (Bug b : bugs) {
@@ -133,12 +184,22 @@ public class BugManager {
         return items;
     }
 
+    /**
+     * Remove a bug.
+     * 
+     * @param bug
+     *            The bug to remove.
+     */
     public void remove(Bug bug) {
         if (!bugs.remove(bug)) {
             osbugs.remove(bug);
         }
     }
 
+    /**
+     * Serialises all Bugs. The bug are stored in bugs.xml in the directory of
+     * the current track. The XML-file is OSM-compatible.
+     */
     public void serializeBugs() {
         String path = StorageFactory.getStorage().getTrack().getTrackDirPath()
                 + File.separator + "bugs.xml";
@@ -209,6 +270,10 @@ public class BugManager {
         }
     }
 
+    /**
+     * Used for parsing the loaded OpenStreetBugs. Splits a line according to
+     * the needs for parsing the lines.
+     */
     private List<String> splitLine(String line) {
         List<String> splits = new LinkedList<String>();
 
@@ -222,6 +287,13 @@ public class BugManager {
         return splits;
     }
 
+    /**
+     * Used for parsing the loaded OpenStreetBugs. Extracts a bug from a line.
+     * 
+     * @param line
+     *            The line to parse.
+     * @return The parsed bug.
+     */
     Bug extractBug(String line) {
 
         String description = "";

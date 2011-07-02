@@ -21,6 +21,8 @@ package de.fu.tracebook.core.logger;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.mapsforge.android.maps.GeoPoint;
 
@@ -30,6 +32,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
 import de.fu.tracebook.core.data.IDataNode;
@@ -45,29 +48,35 @@ import de.fu.tracebook.util.WayFilter;
  * {@link IDataStorage} object.
  */
 public class WaypointLogService extends Service implements LocationListener {
-    private static final String LOG_TAG = "LOGSERVICE";
+    /**
+     * Parameters for GPS update intervals.
+     */
+    private static final int DELTA_DISTANCE = 0;
+
+    /**
+     * Time between two GPS fixes.
+     */
+    private static final int DELTA_TIME = 0;
 
     /**
      * The IAdderService is defined through IDL.
      */
     private final ILoggerService.Stub binder = new ILoggerService.Stub() {
 
-        public int beginArea(boolean doOneShot) {
-            int ret = beginWay(doOneShot);
+        public long beginArea() {
+            long ret = beginWay();
             currentWay().setArea(true);
             return ret;
         }
 
-        public int beginWay(boolean doOneShot) {
-            oneShot = doOneShot;
+        public long beginWay() {
 
             if (currentWay() == null) // start a new way
-                storage.getTrack().setCurrentWay(storage.getTrack().newWay());
+                getStorage().getTrack().setCurrentWay(
+                        getStorage().getTrack().newWay());
+            // TODO kill old way
 
-            if (oneShot) // in one_shot mode, add a new point
-                currentNodes.add(currentWay().newNode(lastCoordinate));
-
-            return (int) currentWay().getId();
+            return currentWay().getId();
         }
 
         public long createPOI(boolean onWay) {
@@ -76,42 +85,47 @@ public class WaypointLogService extends Service implements LocationListener {
             if (onWay && currentWay() != null) {
                 tmpnode = currentWay().newNode(lastCoordinate);
             } else {
-                tmpnode = storage.getTrack().newNode(lastCoordinate);
+                tmpnode = getStorage().getTrack().newNode(lastCoordinate);
             }
 
-            currentNodes.add(tmpnode);
+            if (lastCoordinate == null) {
+                currentNodes.add(tmpnode);
+            }
 
             return tmpnode.getId();
         }
 
-        public synchronized int endWay() {
-            if (oneShot) // add the last point if in one_shot mode
-                beginWay(oneShot);
+        public synchronized long endWay() {
 
             IDataPointsList tmp = currentWay();
 
-            storage.getTrack().setCurrentWay(null);
+            getStorage().getTrack().setCurrentWay(null);
 
-            if (tmp != null)
+            if (tmp != null) {
                 /* do not store non-ways */
                 if (tmp.getNodes().size() < 2)
-                    storage.getTrack().deleteWay((int) tmp.getId());
+                    getStorage().getTrack().deleteWay((int) tmp.getId());
                 else {
-                    if (!oneShot) {
-                        WayFilter.smoothenPoints(tmp.getNodes(), 3, 3);
-                        WayFilter.filterPoints(tmp.getNodes(), 2);
-                    }
-                    getSender().sendEndWay((int) tmp.getId());
-                    return (int) tmp.getId();
+                    WayFilter.smoothenPoints(tmp.getNodes(), 3, 3); // TODO
+                    WayFilter.filterPoints(tmp.getNodes(), 2); // TODO
+                    getSender().sendEndWay(tmp.getId());
+                    return tmp.getId();
                 }
+            }
             return -1;
         }
 
-        public double getLastLatitude() {
+        public double getLatitude() {
+            if (lastCoordinate == null) {
+                return 0;
+            }
             return lastCoordinate.getLatitude();
         }
 
-        public double getLongitudeLatitude() {
+        public double getLongitude() {
+            if (lastCoordinate == null) {
+                return 0;
+            }
             return lastCoordinate.getLongitude();
         }
 
@@ -120,7 +134,7 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public boolean isAreaLogging() {
-            if (storage.getTrack() != null) {
+            if (getStorage().getTrack() != null) {
                 if (currentWay() != null) {
                     return currentWay().isArea();
                 }
@@ -133,7 +147,7 @@ public class WaypointLogService extends Service implements LocationListener {
         }
 
         public boolean isWayLogging() {
-            if (storage.getTrack() != null) {
+            if (getStorage().getTrack() != null) {
                 if (currentWay() != null) {
                     return !currentWay().isArea();
                 }
@@ -151,19 +165,20 @@ public class WaypointLogService extends Service implements LocationListener {
 
         public void startTrack() {
             restartGPS();
-            storage.setTrack(storage.newTrack());
+            getStorage().setTrack(getStorage().newTrack());
         }
 
         public int stopTrack() {
             stopGPS();
 
-            if (storage.getTrack() != null) {
+            if (getStorage().getTrack() != null) {
 
                 long start = System.currentTimeMillis();
-                storage.serialize();
+                getStorage().serialize();
                 long stop = System.currentTimeMillis() - start;
-                LogIt.d("#### Stop saving. Time: " + stop);
-                storage.unloadAllTracks();
+                LogIt.d("Saving Track (in WaypointLogService.stopTrack). Time: "
+                        + stop);
+                getStorage().unloadAllTracks();
                 return 1;
             }
 
@@ -177,15 +192,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
     private GpsMessage sender = null;
 
-    /**
-     * Parameters for GPS update intervals.
-     */
-    protected int deltaDistance = 0;
-
-    /**
-     * Time between two GPS fixes.
-     */
-    protected int deltaTime = 0;
+    private Timer timer = new Timer(); // TODO for debug
 
     /**
      * Current nodes, empty if no node with missing GPS location is present,
@@ -197,18 +204,7 @@ public class WaypointLogService extends Service implements LocationListener {
     /**
      * The last received coordinate.
      */
-    GeoPoint lastCoordinate;
-
-    /**
-     * One shot mode - no continuous tracking, points are only added to the way
-     * on request.
-     */
-    boolean oneShot = false;
-
-    /**
-     * Reference to the {@link IDataStorage} singleton.
-     */
-    IDataStorage storage = StorageFactory.getStorage();
+    GeoPoint lastCoordinate = null;
 
     /**
      * Returns the status of the GPS logging.
@@ -229,75 +225,69 @@ public class WaypointLogService extends Service implements LocationListener {
     public synchronized void onCreate() {
         super.onCreate();
         sender = new GpsMessage(this);
+
+        // TODO for debug
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                MockLocationProvider.getInstance(WaypointLogService.this)
+                        .newLoc();
+            }
+        }, 0, 1000);
     }
 
     @Override
     public void onDestroy() {
         stopGPS();
+        timer.cancel(); // TODO for debug
         super.onDestroy();
     }
 
     /** GPS related Methods. **/
-
     public synchronized void onLocationChanged(Location loc) {
-        sender.sendCurrentPosition(loc, oneShot);
+        if (loc == null) {
+            LogIt.e("loc in onLocationChanged is null");
+            return;
+        }
 
-        if (loc != null) {
-            lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+        // LogIt.d("Receive location update. " + loc.getLatitude() + " "
+        // + loc.getLongitude());
 
-            if (!currentNodes.isEmpty()) { // one_shot or POI mode
-                for (IDataNode node : currentNodes) {
-                    node.setLocation(new GeoPoint(loc.getLatitude(), loc
-                            .getLongitude())); // update node with proper GPS
-                                               // fix
+        sender.sendCurrentPosition(loc);
 
-                    if (currentWay() != null) {
-                        LogIt.d("new one-shot way point");
-                        sender.sendWayUpdate((int) currentWay().getId(),
-                                (int) node.getId()); // one_shot
-                        // update
-                    } else
-                        sender.sendWayUpdate(-1, (int) node.getId()); // after
-                                                                      // end way
-                    // in
-                    // one_shot
-                    // mode, we
-                    // send an
-                    // update
-                    // for the last
-                    // waypoint
-                }
-                currentNodes.clear(); // no node waiting for GPS position any
-                                      // more
-            } else if (currentWay() != null && !oneShot) { // Continuous mode
-                IDataNode nn = currentWay().newNode(
-                        new GeoPoint(loc.getLatitude(), loc.getLongitude())); // POI
-                                                                              // in
-                                                                              // track
-                                                                              // was
-                                                                              // already
-                // added before
-                sender.sendWayUpdate((int) currentWay().getId(),
-                        (int) nn.getId()); // call for an update of the way
+        lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+
+        if (!currentNodes.isEmpty()) { // one_shot or POI mode
+            for (IDataNode node : currentNodes) {
+                // update position of this node
+                node.setLocation(new GeoPoint(loc.getLatitude(), loc
+                        .getLongitude()));
             }
+            currentNodes.clear();
+        }
+        if (currentWay() != null) {
+            IDataNode nn = currentWay().newNode(lastCoordinate);
+            sender.sendWayUpdate(currentWay().getId(), nn.getId());
         }
     }
 
     public void onProviderDisabled(String arg0) {
-        // do nothing
+        LogIt.w("Provider disabled"); // TODO
     }
 
     public void onProviderEnabled(String provider) {
-        // do nothing
-    }
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+        LogIt.w("Provider enabled"); // TODO
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // do nothing
+        // TODO remove? is only debug for now
+        if (status == LocationProvider.AVAILABLE) {
+            LogIt.w("Location now available");
+        } else if (status == LocationProvider.OUT_OF_SERVICE) {
+            LogIt.w("Location NOT available");
+        } else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+            LogIt.w("Location currently not available");
+        }
     }
 
     /**
@@ -307,9 +297,9 @@ public class WaypointLogService extends Service implements LocationListener {
      * @return the current {@link IDataPointsList} way
      */
     IDataPointsList currentWay() {
-        if (storage == null || storage.getTrack() == null)
+        if (getStorage().getTrack() == null)
             return null;
-        return storage.getTrack().getCurrentWay();
+        return getStorage().getTrack().getCurrentWay();
     }
 
     /**
@@ -322,8 +312,17 @@ public class WaypointLogService extends Service implements LocationListener {
     }
 
     /**
+     * Shortcut for StorageFactory.getStorage()
+     * 
+     * @return Instance of IDataStorage.
+     */
+    IDataStorage getStorage() {
+        return StorageFactory.getStorage();
+    }
+
+    /**
      * Tries to stop first and then to start receiving GPS updates. This
-     * effectively reloads the settings for the {@link LocationManager}
+     * effectively reloads the settings for the {@link LocationManager}.
      */
     void restartGPS() {
         stopGPS();
@@ -334,10 +333,12 @@ public class WaypointLogService extends Service implements LocationListener {
      * Enables GPS updates from the {@link LocationManager}.
      */
     void startGPS() {
-        if (!gps_on)
-            ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-                    .requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            deltaTime, deltaDistance, locListener);
+        LogIt.w("startGPS()");
+        if (!gps_on) {
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, DELTA_TIME,
+                    DELTA_DISTANCE, locListener);
+        }
         gps_on = true;
     }
 
@@ -345,9 +346,11 @@ public class WaypointLogService extends Service implements LocationListener {
      * Disables GPS updates from the {@link LocationManager}.
      */
     void stopGPS() {
-        if (gps_on)
+        LogIt.w("stopGPS()");
+        if (gps_on) {
             ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
                     .removeUpdates(locListener);
+        }
         gps_on = false;
     }
 }

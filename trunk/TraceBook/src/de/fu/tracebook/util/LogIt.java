@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 import de.fu.tracebook.core.data.NewStorage;
@@ -149,11 +149,18 @@ public final class LogIt {
      * @param msg
      *            The message to display.
      */
-    public static void popup(Context app, String msg) {
-        Toast.makeText(app.getApplicationContext(), msg, Toast.LENGTH_LONG)
-                .show();
+    public static void popup(final Activity app, final String msg) {
+        app.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(app.getApplicationContext(), msg,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+    /**
+     * Prints the stack trace to LogCat on debug-level.
+     */
     public static void printStackTrace() {
         for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
             d(e.toString());

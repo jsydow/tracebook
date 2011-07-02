@@ -46,6 +46,9 @@ import de.fu.tracebook.gui.adapter.GenericItemDescription;
 import de.fu.tracebook.util.Helper;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * This activity shows a list of all media of a mediaholder.
+ */
 public class ListMediaActivity extends ListActivity {
 
     private IDataMediaHolder holder;

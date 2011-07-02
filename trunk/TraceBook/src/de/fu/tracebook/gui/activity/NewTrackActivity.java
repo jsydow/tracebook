@@ -225,6 +225,7 @@ public class NewTrackActivity extends TabActivity {
 
         // TODO test
         (new Thread() {
+            @Override
             public void run() {
                 LogIt.d("@@@ STARTING TEST DATA");
                 IDataTrack currtrack = StorageFactory.getStorage().getTrack();
@@ -280,7 +281,7 @@ public class NewTrackActivity extends TabActivity {
                                 .addMedia(
                                         StorageFactory.getStorage().getTrack()
                                                 .saveText(value));
-                        LogIt.popup(getApplicationContext(), getResources()
+                        LogIt.popup(NewTrackActivity.this, getResources()
                                 .getString(R.string.alert_global_addedNotice));
                     }
                 });
@@ -415,7 +416,7 @@ public class NewTrackActivity extends TabActivity {
             streetToggle.setEnabled(false);
             setButtonList(true, 2);
             try {
-                ServiceConnector.getLoggerService().beginArea(false);
+                ServiceConnector.getLoggerService().beginArea();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -447,7 +448,7 @@ public class NewTrackActivity extends TabActivity {
             areaToggle.setEnabled(false);
             setButtonList(true, 1);
             try {
-                ServiceConnector.getLoggerService().beginWay(false);
+                ServiceConnector.getLoggerService().beginWay();
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -663,6 +664,7 @@ public class NewTrackActivity extends TabActivity {
         nf.setMaximumFractionDigits(2);
 
         (new Thread() {
+            @Override
             public void run() {
                 GenericItemDescription desc = new GenericItemDescription();
                 desc.addResourceId("NodeId", R.id.tv_listviewedit_id);
