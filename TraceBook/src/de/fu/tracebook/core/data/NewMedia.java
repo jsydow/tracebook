@@ -102,7 +102,7 @@ public class NewMedia implements IDataMedia {
                 LogIt.w("Could not delete medium");
             }
         }
-
+        thisMedium.delete();
     }
 
     public NewDBMedia getDBMedia() {
