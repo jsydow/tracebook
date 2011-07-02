@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -67,9 +68,12 @@ public class NewTrack implements IDataTrack {
 
     private boolean isNew;
     private String name;
+    private List<NewNode> pois = new ArrayList<NewNode>();
+
     private NewDBTrack thisTrack;
 
     private IDataPointsList way;
+    private List<NewPointsList> ways = new ArrayList<NewPointsList>();
 
     /**
      * Creates a whole new track and inserts it into the database.
@@ -101,6 +105,9 @@ public class NewTrack implements IDataTrack {
         media.save();
     }
 
+    /**
+     * Deletes this Track.
+     */
     public void delete() {
         NewDBMedia.deleteByTrack(name);
         for (IDataNode n : getNodes()) {
@@ -170,11 +177,20 @@ public class NewTrack implements IDataTrack {
     }
 
     public IDataNode getNodeById(long id) {
+        for (NewNode node : pois) {
+            if (node.getId() == id) {
+                node.getDBNode().update();
+                return node;
+            }
+        }
+
         NewDBNode node = NewDBNode.getById(id);
         if (node == null) {
             return null;
         }
-        return new NewNode(node);
+        NewNode newnode = new NewNode(node);
+        pois.add(newnode);
+        return newnode;
     }
 
     public List<IDataNode> getNodes() {
@@ -187,11 +203,21 @@ public class NewTrack implements IDataTrack {
     }
 
     public IDataPointsList getPointsListById(long id) {
-        NewDBPointsList way1 = NewDBPointsList.getById(id);
-        if (way1 == null) {
+
+        for (NewPointsList pl : ways) {
+            if (pl.getId() == id) {
+                pl.getDBPointsList().update();
+                return pl;
+            }
+        }
+
+        NewDBPointsList dbway = NewDBPointsList.getById(id);
+        if (dbway == null) {
             return null;
         }
-        return new NewPointsList(way1);
+        NewPointsList newway = new NewPointsList(dbway);
+        ways.add(newway);
+        return newway;
     }
 
     public String getTrackDirPath() {
@@ -199,12 +225,12 @@ public class NewTrack implements IDataTrack {
     }
 
     public List<IDataPointsList> getWays() {
-        List<IDataPointsList> ways = new LinkedList<IDataPointsList>();
+        List<IDataPointsList> ret = new LinkedList<IDataPointsList>();
         List<NewDBPointsList> dbnodes = NewDBPointsList.getByTrack(name);
         for (NewDBPointsList pl : dbnodes) {
-            ways.add(new NewPointsList(pl));
+            ret.add(new NewPointsList(pl));
         }
-        return ways;
+        return ret;
     }
 
     public boolean isNew() {

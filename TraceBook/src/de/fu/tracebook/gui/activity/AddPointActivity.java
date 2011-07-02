@@ -112,6 +112,12 @@ public class AddPointActivity extends ListActivity {
         finish();
     }
 
+    /**
+     * List all media for a node or way.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void listMediaBtn(View v) {
         final Intent intent = new Intent(this, ListMediaActivity.class);
         intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());

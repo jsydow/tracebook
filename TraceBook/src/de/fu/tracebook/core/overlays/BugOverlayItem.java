@@ -23,10 +23,23 @@ import org.mapsforge.android.maps.OverlayItem;
 
 import de.fu.tracebook.core.bugs.Bug;
 
+/**
+ * Overlay item specialisation for bugs.
+ */
 public class BugOverlayItem extends OverlayItem {
 
+    /**
+     * The type of a bug.
+     */
     public static enum BugType {
-        OPENSTREETBUG("OpenStreetBug"), USERBUG("Bug");
+        /**
+         * An OpenSteetBug.
+         */
+        OPENSTREETBUG("OpenStreetBug"),
+        /**
+         * A user added bug.
+         */
+        USERBUG("Bug");
 
         private String description;
 
@@ -34,6 +47,11 @@ public class BugOverlayItem extends OverlayItem {
             description = desc;
         }
 
+        /**
+         * Return the description of a bug type.
+         * 
+         * @return The description.
+         */
         public String getDesc() {
             return description;
         }
@@ -42,6 +60,14 @@ public class BugOverlayItem extends OverlayItem {
     private Bug bug;
     private BugType type;
 
+    /**
+     * Constructor.
+     * 
+     * @param bug
+     *            The bug.
+     * @param type
+     *            The type of the bug.
+     */
     public BugOverlayItem(Bug bug, BugType type) {
         super(bug.getPosition(), type.getDesc(), null);
         this.bug = bug;

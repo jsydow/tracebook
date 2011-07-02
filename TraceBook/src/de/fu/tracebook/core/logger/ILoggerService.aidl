@@ -58,7 +58,7 @@ interface ILoggerService {
 	 *  
 	 *  @return The ID of the new area
 	 */
-	int beginArea(boolean oneShotMode);
+	long beginArea();
 	
 	/**
 	 * Starts a new way.
@@ -70,12 +70,12 @@ interface ILoggerService {
 	 *  
 	 *  @return The ID of the new way
 	 */
-	int beginWay(boolean oneShotMode);
+	long beginWay();
 	
 	/**
 	* Stops the current way or area.
 	*/
-	int endWay();
+	long endWay();
 	
 	
 	/**
@@ -112,10 +112,10 @@ interface ILoggerService {
 	/**
 	 * Returns the latitude the last known position.
 	 */
-	double getLastLatitude();
+	double getLatitude();
 	
 	/**
 	 * Returns the longitude the last known position.
 	 */
-	double getLongitudeLatitude();
+	double getLongitude();
 }

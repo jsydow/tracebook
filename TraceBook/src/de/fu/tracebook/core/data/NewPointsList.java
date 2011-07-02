@@ -19,6 +19,7 @@
 
 package de.fu.tracebook.core.data;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,13 +36,26 @@ import de.fu.tracebook.core.data.implementation.NewDBTrack;
 public class NewPointsList implements IDataPointsList {
 
     private long id;
+    private List<NewNode> pois = new ArrayList<NewNode>();
     private NewDBPointsList thisWay;
 
+    /**
+     * Creates a NewPointsList object out of an existing database entry.
+     * 
+     * @param newway
+     *            The way as saved in the database.
+     */
     public NewPointsList(NewDBPointsList newway) {
         this.thisWay = newway;
         this.id = newway.id;
     }
 
+    /**
+     * Creates a new way.
+     * 
+     * @param track
+     *            The track saved in the database.
+     */
     public NewPointsList(NewDBTrack track) {
         thisWay = new NewDBPointsList();
         thisWay.datetime = NewTrack.getW3CFormattedTimeStamp();
@@ -66,6 +80,9 @@ public class NewPointsList implements IDataPointsList {
 
     }
 
+    /**
+     * Deletes this way.
+     */
     public void delete() {
         NewDBMedia.deleteByWay(id);
         NewDBTag.deleteByWay(id);
@@ -75,11 +92,11 @@ public class NewPointsList implements IDataPointsList {
         this.thisWay.delete();
     }
 
-    public void deleteMedia(int id) {
-        Iterator<NewDBMedia> media = NewDBMedia.getByWay(id).iterator();
+    public void deleteMedia(int id1) {
+        Iterator<NewDBMedia> media = NewDBMedia.getByWay(id1).iterator();
         while (media.hasNext()) {
             NewDBMedia m = media.next();
-            if (m.id == id) {
+            if (m.id == id1) {
                 NewMedia medium = new NewMedia(m);
                 medium.delete();
             }
@@ -144,12 +161,21 @@ public class NewPointsList implements IDataPointsList {
         return media;
     }
 
-    public IDataNode getNodeById(int nodeId) {
-        NewDBNode node = NewDBNode.getById(id);
+    public IDataNode getNodeById(int id1) {
+        for (NewNode node : pois) {
+            if (node.getId() == id1) {
+                node.getDBNode().update();
+                return node;
+            }
+        }
+
+        NewDBNode node = NewDBNode.getById(id1);
         if (node == null) {
             return null;
         }
-        return new NewNode(node);
+        NewNode newnode = new NewNode(node);
+        pois.add(newnode);
+        return newnode;
     }
 
     public List<IDataNode> getNodes() {
@@ -168,6 +194,16 @@ public class NewPointsList implements IDataPointsList {
     public boolean hasAdditionalInfo() {
         return !(NewDBTag.getByNode(id).isEmpty() && NewDBMedia.getByNode(id)
                 .isEmpty());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return (int) getId();
     }
 
     public boolean isArea() {

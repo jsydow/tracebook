@@ -76,6 +76,7 @@ public class NewNode implements IDataNode {
             thisNode.latitude = coordinates.getLatitudeE6();
             thisNode.longitude = coordinates.getLongitudeE6();
         }
+        // TODO add timestamp
         thisNode.track = track.name;
         thisNode.insert();
         this.id = thisNode.id;
@@ -201,6 +202,16 @@ public class NewNode implements IDataNode {
     public boolean hasAdditionalInfo() {
         return !(NewDBTag.getByNode(id).isEmpty() && NewDBMedia.getByNode(id)
                 .isEmpty());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return (int) getId();
     }
 
     public boolean isValid() {

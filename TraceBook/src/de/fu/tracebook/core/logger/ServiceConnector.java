@@ -30,7 +30,6 @@ import de.fu.tracebook.util.LogIt;
 public final class ServiceConnector {
     private static Activity activity = null;
     private static volatile LoggerServiceConnection conn = null;
-    private static final String LOG_TAG = "LOGSERVICECLIENT";
     private static boolean started = false;
 
     /**

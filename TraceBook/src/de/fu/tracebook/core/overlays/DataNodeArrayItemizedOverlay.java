@@ -20,20 +20,17 @@
 package de.fu.tracebook.core.overlays;
 
 import org.mapsforge.android.maps.ArrayItemizedOverlay;
-import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapActivity;
 import org.mapsforge.android.maps.OverlayItem;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.RemoteException;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
-import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.activity.AddPointActivity;
 import de.fu.tracebook.util.GpsMessage;
 import de.fu.tracebook.util.Helper;
@@ -44,76 +41,6 @@ import de.fu.tracebook.util.LogIt;
  * {@link #onTap(int)} method.
  */
 public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
-
-    private class CurrentPosListener implements DialogInterface.OnClickListener {
-        private final CharSequence[] items_default = {
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_tag),
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_way_start),
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_area_start) };
-        private final CharSequence[] items_way = {
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_tag),
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_way_end),
-                context.getResources().getString(
-                        R.string.cm_DataNodeArrayItemizedOverlay_way_add) };
-
-        private GeoPoint point;
-
-        public CurrentPosListener() {
-            // do nothing
-        }
-
-        public CharSequence[] getItems() {
-            return tagging() ? items_way : items_default;
-        }
-
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-            case 0: // Tag this
-                final Intent intent = new Intent(context,
-                        AddPointActivity.class);
-                intent.putExtra("DataNodeId",
-                        Helper.currentTrack().newNode(point).getId());
-
-                context.startActivity(intent);
-                break;
-            case 1: // Start/Stop way
-                try {
-                    if (tagging())
-                        ServiceConnector.getLoggerService().endWay();
-                    else
-                        ServiceConnector.getLoggerService().beginWay(true);
-                } catch (RemoteException e) {
-                    LogIt.e("");
-                }
-                break;
-            case 2: // add way point / Start Area
-                try {
-                    if (tagging())
-                        ServiceConnector.getLoggerService().beginWay(true);
-                    else
-                        ServiceConnector.getLoggerService().beginArea(true);
-                } catch (RemoteException e) {
-                    LogIt.e("Could not start new way/area becauseof logger service.");
-                }
-                break;
-            default:
-                break;
-            }
-        }
-
-        public void setPos(GeoPoint point) {
-            this.point = point;
-        }
-
-        private boolean tagging() {
-            return Helper.currentTrack().getCurrentWay() != null;
-        }
-    }
 
     private class DefaultListener implements DialogInterface.OnClickListener {
         private final CharSequence[] items = {
@@ -157,7 +84,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                         removeItem(StorageFactory.getStorage()
                                 .getOverlayManager().getOverlayItem(node));
                         if (way != null) // we have to redraw the way
-                            sender.sendWayUpdate((int) way.getId(), -1);
+                            sender.sendWayUpdate(way.getId(), -1);
                     } else {
                         LogIt.popup(context,
                                 "Can not delete Node id=" + node.getId());
@@ -174,13 +101,12 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
         }
     }
 
-    private CurrentPosListener contextMenueCurrentPosListener;
     private DefaultListener contextMenueListener;
 
     /**
      * Reference to the {@link MapActivity}.
      */
-    Context context;
+    Activity context;
 
     /**
      * Sets context and default marker.
@@ -188,12 +114,11 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
      * @param context
      *            reference to the {@link MapActivity}
      */
-    public DataNodeArrayItemizedOverlay(Context context) {
+    public DataNodeArrayItemizedOverlay(Activity context) {
         super(null, context);
         this.context = context;
 
         contextMenueListener = new DefaultListener();
-        contextMenueCurrentPosListener = new CurrentPosListener();
     }
 
     @Override
@@ -201,7 +126,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
         LogIt.d("DataNode.onTap()");
         final OverlayItem item = createItem(index);
         final IDataNode node = StorageFactory.getStorage().getOverlayManager()
-                .getNodeByOverlayItem(item);
+                .getNode(item);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
@@ -210,12 +135,6 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
             contextMenueListener.setNode(node);
             builder.setItems(contextMenueListener.getItems(),
                     contextMenueListener);
-        } else {
-            builder.setTitle(context.getResources().getString(
-                    R.string.cm_DataNodeArrayItemizedOverlay_my_pos));
-            contextMenueCurrentPosListener.setPos(item.getPoint());
-            builder.setItems(contextMenueCurrentPosListener.getItems(),
-                    contextMenueCurrentPosListener);
         }
 
         builder.show();

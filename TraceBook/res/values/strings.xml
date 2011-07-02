@@ -208,14 +208,17 @@
 	<string name="cm_editmapobjects_delete">Delete</string>
 	<string name="cm_editmapobjects_title">Edit map object</string>
 
-	<string name="cm_DataNodeArrayItemizedOverlay_tag">Tag this</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_move">Move this</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_delete">Delete this</string>
+	<string name="cm_DataNodeArrayItemizedOverlay_tag">Edit</string>
+	<string name="cm_DataNodeArrayItemizedOverlay_move">Move</string>
+	<string name="cm_DataNodeArrayItemizedOverlay_delete">Delete</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_way_start">Start way</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_area_start">Start area</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_way_end">End way</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_way_add">Add way point</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_my_pos">My location</string>
+	
+	<string name="cm_PointsListOverlay_tag">Edit</string>
+	<string name="cm_PointsListOverlay_delete">Delete</string>
 
 	<!-- Tab values -->
 	<string name="tab_newtrackActivity_map">Map</string>

@@ -31,16 +31,31 @@ import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * An overlay for showing bugs.
+ */
 public class BugOverlay extends ArrayItemizedOverlay {
 
     private Context context;
 
+    /**
+     * Default constructor.
+     * 
+     * @param context
+     *            The context for accessing ressources.
+     */
     public BugOverlay(Context context) {
         super(context.getResources().getDrawable(R.drawable.card_marker_bug),
                 context);
         this.context = context;
     }
 
+    /**
+     * Shows a dialog to edit a bug.
+     * 
+     * @param b
+     *            The bug.
+     */
     public void showEditDialog(final Bug b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
         final EditText edit = new EditText(context);
@@ -112,5 +127,5 @@ public class BugOverlay extends ArrayItemizedOverlay {
 
         builder.show();
         return true;
-    };
+    }
 }

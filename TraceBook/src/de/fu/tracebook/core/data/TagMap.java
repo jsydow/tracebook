@@ -25,8 +25,16 @@ import java.util.List;
 
 import de.fu.tracebook.core.data.implementation.NewDBTag;
 
+/**
+ * The TagMap is a Map for tags. Operations changing the map will also update
+ * tag database.
+ */
 public class TagMap extends HashMap<String, String> {
 
+    /**
+     * Some UID needed by the HashMap.
+     */
+    private static final long serialVersionUID = -4529376577078427459L;
     private NewNode node;
     private List<NewDBTag> tags;
     private NewPointsList way;
