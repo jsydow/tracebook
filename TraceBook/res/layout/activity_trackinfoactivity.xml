@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  
+  	<LinearLayout android:id="@+id/ly_trackinfoActivity_statusbar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="center_horizontal"
+		android:layout_alignParentTop="true">
+	</LinearLayout>
+	
+	<TextView android:id="@+id/tv_trackinfoActivity_trackname"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:textSize="15sp" android:textStyle="bold" android:textColor="#fff" 
+		android:layout_below="@+id/ly_trackinfoActivity_statusbar"/>
+		
+	<TextView android:id="@+id/tv_trackinfoActivity_timestamp"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:textColor="#fff" 
+		android:layout_below="@id/tv_trackinfoActivity_trackname"/>
+		
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/ly_trackinfoActivity_buttonRow"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_alignParentBottom="true">
+
+		<Button android:id="@+id/btn_trackinfoActivity_export"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/btn_trackinfoActivity_export"
+			android:onClick="exportBtn" />
+			
+		<Button android:id="@+id/trackinfoActivity_cancel"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/btn_trackinfoActivity_back"
+			android:onClick="backBtn" />
+
+	</LinearLayout>
+  
+</RelativeLayout>
