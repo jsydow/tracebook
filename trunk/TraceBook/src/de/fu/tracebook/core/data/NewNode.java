@@ -58,6 +58,7 @@ public class NewNode implements IDataNode {
             thisNode.longitude = coordinates.getLongitudeE6();
         }
         thisNode.way = way.id;
+        thisNode.datetime = NewTrack.getW3CFormattedTimeStamp();
         thisNode.insert();
         this.id = thisNode.id;
     }
@@ -76,7 +77,7 @@ public class NewNode implements IDataNode {
             thisNode.latitude = coordinates.getLatitudeE6();
             thisNode.longitude = coordinates.getLongitudeE6();
         }
-        // TODO add timestamp
+        thisNode.datetime = NewTrack.getW3CFormattedTimeStamp();
         thisNode.track = track.name;
         thisNode.insert();
         this.id = thisNode.id;

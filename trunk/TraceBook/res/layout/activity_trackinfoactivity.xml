@@ -13,12 +13,31 @@
 	<TextView android:id="@+id/tv_trackinfoActivity_trackname"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:textSize="15sp" android:textStyle="bold" android:textColor="#fff" 
-		android:layout_below="@+id/ly_trackinfoActivity_statusbar"/>
+		android:layout_below="@id/ly_trackinfoActivity_statusbar"/>
 		
 	<TextView android:id="@+id/tv_trackinfoActivity_timestamp"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:textColor="#fff" 
+		android:paddingTop="5dip"
 		android:layout_below="@id/tv_trackinfoActivity_trackname"/>
+		
+	<TextView android:id="@+id/tv_trackinfoActivity_wayNumber"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:textColor="#fff" 
+		android:paddingTop="5dip"
+		android:layout_below="@id/tv_trackinfoActivity_timestamp"/>
+		
+	<TextView android:id="@+id/tv_trackinfoActivity_poiNumber"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:textColor="#fff" 
+		android:layout_below="@id/tv_trackinfoActivity_wayNumber"/>
+		
+	<TextView android:id="@+id/tv_trackinfoActivity_comment"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:text="@string/tv_trackInfoDialog_trackComment"
+		android:textColor="#fff" 
+		android:paddingTop="5dip"
+		android:layout_below="@id/tv_trackinfoActivity_poiNumber"/>
 		
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/ly_trackinfoActivity_buttonRow"
@@ -31,11 +50,29 @@
 			android:layout_weight="1" android:text="@string/btn_trackinfoActivity_export"
 			android:onClick="exportBtn" />
 			
+			
+		<Button android:id="@+id/btn_trackinfoActivity_rename"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/btn_trackinfoActivity_rename"
+			android:onClick="renameBtn" />
+			
 		<Button android:id="@+id/trackinfoActivity_cancel"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_weight="1" android:text="@string/btn_trackinfoActivity_back"
 			android:onClick="backBtn" />
 
 	</LinearLayout>
-  
+	
+	<EditText android:id="@+id/et_trackinfoActivity_comment"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent" 
+		android:singleLine="false"
+		android:gravity="top|left" 
+		android:inputType="textMultiLine"
+		android:scrollHorizontally="false" 
+        android:layout_below="@id/tv_trackinfoActivity_comment"
+        android:layout_above="@id/ly_trackinfoActivity_buttonRow" 
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"/>
+	
 </RelativeLayout>

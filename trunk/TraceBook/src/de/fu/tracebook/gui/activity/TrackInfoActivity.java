@@ -20,11 +20,16 @@
 package de.fu.tracebook.gui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.TextView;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.util.Helper;
 
@@ -34,19 +39,142 @@ import de.fu.tracebook.util.Helper;
  */
 public class TrackInfoActivity extends Activity {
 
+    private class TextUpdater extends AsyncTask<Void, Void, TextViewData> {
+
+        TextUpdater() {
+            // do nothing
+        }
+
+        @Override
+        protected TextViewData doInBackground(Void... params) {
+            TextViewData tvd = new TextViewData();
+
+            IDataTrack track = StorageFactory.getStorage().getTrack();
+
+            tvd.name = track.getName();
+            tvd.date = track.getDatetime();
+            tvd.poiNumber = track.getNodes().size();
+            tvd.wayNumber = track.getWays().size();
+            tvd.comment = track.getComment();
+            return tvd;
+        }
+
+        @Override
+        protected void onPostExecute(TextViewData result) {
+            TextView tvTrack = (TextView) TrackInfoActivity.this
+                    .findViewById(R.id.tv_trackinfoActivity_trackname);
+            tvTrack.setText(getResources().getString(
+                    R.string.tv_trackInfoDialog_trackname)
+                    + " " + result.name);
+
+            TextView tvTime = (TextView) TrackInfoActivity.this
+                    .findViewById(R.id.tv_trackinfoActivity_timestamp);
+            tvTime.setText(getResources().getString(
+                    R.string.tv_trackInfoDialog_timestamp)
+                    + " " + result.date);
+
+            TextView tvWays = (TextView) TrackInfoActivity.this
+                    .findViewById(R.id.tv_trackinfoActivity_wayNumber);
+            tvWays.setText(getResources().getString(
+                    R.string.tv_trackInfoDialog_ways)
+                    + " " + result.wayNumber);
+
+            TextView tvPois = (TextView) TrackInfoActivity.this
+                    .findViewById(R.id.tv_trackinfoActivity_poiNumber);
+            tvPois.setText(getResources().getString(
+                    R.string.tv_trackInfoDialog_pois)
+                    + " " + result.poiNumber);
+
+            EditText etComment = (EditText) TrackInfoActivity.this
+                    .findViewById(R.id.et_trackinfoActivity_comment);
+            etComment.setText(result.comment);
+        }
+
+    }
+
+    private static class TextViewData {
+        String comment;
+        String date;
+        String name;
+        int poiNumber;
+        int wayNumber;
+
+        public TextViewData() {
+            // do nothing
+        }
+    }
+
+    /**
+     * Executed when the back button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void backBtn(View v) {
+        saveComment();
         finish();
     }
 
+    /**
+     * Executed when the export button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
     public void exportBtn(View v) {
         (new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
+                saveComment();
                 StorageFactory.getStorage().serialize();
                 return null;
             }
         }).execute();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backBtn(null);
+    }
+
+    /**
+     * Executed when the export button is pressed.
+     * 
+     * @param v
+     *            Not used.
+     */
+    public void renameBtn(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+        input.setHint(StorageFactory.getStorage().getTrack().getName());
+        builder.setView(input);
+        builder.setTitle(getResources().getString(
+                R.string.alert_trackinfoActivity_rename));
+        builder.setPositiveButton(
+                getResources().getString(R.string.alert_global_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        // set track name
+                        String value = input.getText().toString().trim();
+                        if (!value.equals("")) {
+                            StorageFactory.getStorage().getTrack()
+                                    .setName(value);
+                            (new TextUpdater()).execute();
+                        }
+
+                    }
+                }).setNegativeButton(
+                getResources().getString(R.string.alert_global_cancel),
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.show();
     }
 
     @Override
@@ -63,5 +191,18 @@ public class TrackInfoActivity extends Activity {
                 getResources().getString(R.string.tv_statusbar_addpointTitle),
                 getResources().getString(R.string.tv_statusbar_addpointDesc),
                 R.id.ly_trackinfoActivity_statusbar, false);
+
+        (new TextUpdater()).execute();
+    }
+
+    /**
+     * Will save the comment in the edit text into the track.
+     */
+    void saveComment() {
+        EditText etComment = (EditText) TrackInfoActivity.this
+                .findViewById(R.id.et_trackinfoActivity_comment);
+
+        StorageFactory.getStorage().getTrack()
+                .setComment(etComment.getText().toString());
     }
 }

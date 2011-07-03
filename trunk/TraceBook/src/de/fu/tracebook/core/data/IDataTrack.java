@@ -22,7 +22,6 @@ package de.fu.tracebook.core.data;
 import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
-import org.mapsforge.android.maps.OverlayItem;
 
 public interface IDataTrack extends IDataMediaHolder {
 
@@ -111,12 +110,10 @@ public interface IDataTrack extends IDataMediaHolder {
     List<IDataPointsList> getWays();
 
     /**
-     * Marks an {@link OverlayItem} as invalid so it can be removed later.
+     * Returns true of this track is new and was not loaded.
      * 
-     * @param overlayItem
-     *            The outdated OverlayItem
+     * @return True if this track is new and was not loaded.
      */
-
     boolean isNew();
 
     /**
