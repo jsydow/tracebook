@@ -173,6 +173,7 @@ public class WaypointLogService extends Service implements LocationListener {
 
             if (getStorage().getTrack() != null) {
 
+                // TODO Thread it
                 long start = System.currentTimeMillis();
                 getStorage().serialize();
                 long stop = System.currentTimeMillis() - start;

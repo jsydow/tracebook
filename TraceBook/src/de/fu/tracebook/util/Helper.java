@@ -151,38 +151,21 @@ public final class Helper {
                                 String trackname = StorageFactory.getStorage()
                                         .getTrack().getName();
 
-                                if (StorageFactory.getStorage().doesTrackExist(
-                                        trackname)) {
-                                    try {
-                                        if (StorageFactory.getStorage()
-                                                .getTrack().isNew()) {
-                                            StorageFactory.getStorage()
-                                                    .deleteTrack(trackname);
-                                        }
-                                        StorageFactory.getStorage()
-                                                .unloadAllTracks();
-                                        ServiceConnector.getLoggerService()
-                                                .pauseLogging();
-
-                                    } catch (RemoteException e) {
-
-                                        e.printStackTrace();
-                                    }
-                                    activity.finish();
-                                } else {
-                                    try {
-                                        ServiceConnector.getLoggerService()
-                                                .stopTrack();
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
-                                    }
-                                    if (StorageFactory.getStorage().getTrack()
-                                            .isNew()) {
-                                        StorageFactory.getStorage()
-                                                .deleteTrack(trackname);
-                                    }
-                                    activity.finish();
+                                if (StorageFactory.getStorage().getTrack()
+                                        .isNew()) {
+                                    StorageFactory.getStorage().deleteTrack(
+                                            trackname);
                                 }
+                                StorageFactory.getStorage().unloadAllTracks();
+                                try {
+                                    ServiceConnector.getLoggerService()
+                                            .pauseLogging();
+
+                                } catch (RemoteException e) {
+
+                                    e.printStackTrace();
+                                }
+                                activity.finish();
                             }
                         });
 
