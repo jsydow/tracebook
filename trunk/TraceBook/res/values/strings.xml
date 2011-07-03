@@ -283,4 +283,9 @@
 <string name="cm_listmediaActivity_showMedia">Show</string>
 <string name="cm_listmediaActivity_deleteMedia">Delete</string>
 <string name="cm_listmediaActivity_title">Edit Media</string>
+<string name="string_trackinfoActivity_title">Track Information</string>
+<string name="tv_statusbar_trackInfoTitle">Track Information</string>
+<string name="tv_statusbar_trackInfoTDesc">Information on the current track are shown here. Also it is possible to export the track.</string>
+<string name="btn_trackinfoActivity_export">Export</string>
+<string name="btn_trackinfoActivity_back">Back</string>
 </resources>

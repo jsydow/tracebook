@@ -153,7 +153,10 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      */
     public DataPointsListArrayRouteOverlay(Activity context,
             ArrayItemizedOverlay pointsOverlay) {
+
         super(null, null);
+        // super(getPaintPair(Color.rgb(0, 255, 0), false).first, getPaintPair(
+        // Color.rgb(0, 255, 0), false).second);
 
         this.pointsOverlay = pointsOverlay;
         this.context = context;
@@ -181,16 +184,19 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      *            weather the way should be given the 'currently edited' color
      */
     public void addWay(IDataPointsList way, boolean editing) {
-        if (way.getNodes().size() == 0) // skip empty ways
+        if (way.getNodes().size() == 0) {// skip empty ways
             return;
-        color(way, editing);
+        }
+
         OverlayWay w = StorageFactory.getStorage().getOverlayManager()
                 .getOverlayRoute(way);
-        LogIt.d("OverlayWay has " + Arrays.toString(w.getWayData()) + " points");
+        w.setWayData(new GeoPoint[][] { way.toGeoPointArray(null) });
+        color(way, w, editing);
         this.addWay(w);
 
-        if (showWaypoints)
+        if (showWaypoints) {
             addWaypoints(way);
+        }
     }
 
     /**
@@ -219,13 +225,15 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * 
      * @param way
      *            The way to be colored
+     * @param overlay
+     *            The overlay of the Way way.
      * @param editing
      *            weather the way should be marked as currently edited
      */
-    public void color(IDataPointsList way, boolean editing) {
+    public void color(IDataPointsList way, OverlayWay overlay, boolean editing) {
         Pair<Paint, Paint> col = getColor(editing, way.isArea());
-        StorageFactory.getStorage().getOverlayManager().getOverlayRoute(way)
-                .setPaint(col.first, col.second);
+        overlay.setPaint(col.first, col.second);
+        // overlay.setPaint(null, null);
     }
 
     /*
