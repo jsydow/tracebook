@@ -33,6 +33,12 @@ public interface IDataStorage {
      */
     public void ensureThatTraceBookDirExists();
 
+    /**
+     * Deletes a track completely.
+     * 
+     * @param trackname
+     *            The name of the track to delete.
+     */
     void deleteTrack(String trackname);
 
     /**
@@ -63,6 +69,11 @@ public interface IDataStorage {
      */
     List<String> getAllTrackNames();
 
+    /**
+     * Returns a list of all tracks stored in the database.
+     * 
+     * @return The list of tracks.
+     */
     List<IDataTrack> getAllTracks();
 
     /**
@@ -72,6 +83,12 @@ public interface IDataStorage {
      */
     int getID();
 
+    /**
+     * Returns the OverlayManager. Successive calls will returns the same
+     * object.
+     * 
+     * @return An OverlayManager.
+     */
     OverlayManager getOverlayManager();
 
     /**
@@ -88,6 +105,17 @@ public interface IDataStorage {
      */
     IDataTrack newTrack();
 
+    /**
+     * Renames a track.
+     * 
+     * @param oldname
+     *            The old name of the track.
+     * @param newname
+     *            The new name of the track.
+     * @return Returns 0 if renaming was successful, -1 if track could not be
+     *         found, -2 if there is a track with the new track name and -3 if
+     *         the renaming fails otherwise.
+     */
     int renameTrack(String oldname, String newname);
 
     /**

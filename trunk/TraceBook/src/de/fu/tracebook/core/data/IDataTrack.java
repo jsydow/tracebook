@@ -23,6 +23,10 @@ import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 
+/**
+ * A track. A track in this application is a kind of session. All data that are
+ * recorded in one use of the program are stored in a track.
+ */
 public interface IDataTrack extends IDataMediaHolder {
 
     /**

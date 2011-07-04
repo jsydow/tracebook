@@ -24,6 +24,9 @@ import java.io.File;
 import de.fu.tracebook.core.data.implementation.NewDBMedia;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * Implementation of IDataMedia using a SQLite database.
+ */
 public class NewMedia implements IDataMedia {
 
     private static String[] extensions = { ".txt", ".jpg", ".m4a", ".mp4" };
@@ -105,6 +108,13 @@ public class NewMedia implements IDataMedia {
         thisMedium.delete();
     }
 
+    /**
+     * Returns the NewDBMedia object that is represented by this object. The
+     * NewDBMedia is a kind of DAO-Object for the row of this medium in the
+     * database.
+     * 
+     * @return The NewDBMedia object to this object.
+     */
     public NewDBMedia getDBMedia() {
         return thisMedium;
     }

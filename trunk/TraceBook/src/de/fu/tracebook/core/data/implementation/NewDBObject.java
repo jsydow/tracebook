@@ -19,13 +19,29 @@
 
 package de.fu.tracebook.core.data.implementation;
 
+/**
+ * Interface for DAO-Objects.
+ */
 public interface NewDBObject {
 
+    /**
+     * Delete this entry.
+     */
     void delete();
 
+    /**
+     * Insert this entry.
+     */
     void insert();
 
+    /**
+     * Update the row in the database with the data stored in this object.
+     */
     void save();
 
+    /**
+     * Update this object with the data of the row in the database that belong
+     * to this object.
+     */
     void update();
 }
