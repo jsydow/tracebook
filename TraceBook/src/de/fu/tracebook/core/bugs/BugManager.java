@@ -110,6 +110,8 @@ public class BugManager {
         (new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... params) {
+                BufferedReader reader = null;
+                Boolean ret = Boolean.FALSE;
 
                 String osbUrl = "http://openstreetbugs.schokokeks.org/api/0.1/getBugs?b="
                         + (pos.getLatitude() - 0.25f)
@@ -122,12 +124,13 @@ public class BugManager {
 
                 LogIt.d("Url is: " + osbUrl);
                 if (MapsForgeActivity.isOnline(activity)) {
+                    ret = Boolean.TRUE;
                     try {
                         URL url = new URL(osbUrl);
                         URLConnection conn = url.openConnection();
                         InputStream in = conn.getInputStream();
-                        BufferedReader reader = new BufferedReader(
-                                new InputStreamReader(in, "UTF-8"));
+                        reader = new BufferedReader(new InputStreamReader(in,
+                                "UTF-8"));
                         osbugs.clear();
 
                         for (String line = reader.readLine(); line != null; line = reader
@@ -141,12 +144,21 @@ public class BugManager {
                         LogIt.d("Found " + osbugs.size() + " bugs!");
                         activity.fillBugs();
 
-                        return Boolean.TRUE;
                     } catch (IOException e) {
+                        ret = Boolean.FALSE;
                         LogIt.e("Download error: " + e.getMessage());
+
+                    } finally {
+                        try {
+                            if (reader != null) {
+                                reader.close();
+                            }
+                        } catch (IOException e) {
+                            // do nothing
+                        }
                     }
                 }
-                return Boolean.FALSE;
+                return ret;
             }
 
             /*
@@ -303,10 +315,12 @@ public class BugManager {
         List<String> lines = splitLine(line);
 
         if (lines.size() >= 5) {
-            description = lines.get(3);
+            StringBuilder desc = new StringBuilder();
+            desc.append(lines.get(3));
             for (int i = 4; i < lines.size() - 1; ++i) {
-                description += lines.get(i);
+                desc.append(lines.get(i));
             }
+            description = desc.toString();
             longitude = Double.parseDouble(lines.get(1).trim());
             latitude = Double.parseDouble(lines.get(2).trim());
         }

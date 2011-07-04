@@ -27,12 +27,18 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * Serialises a track to xml-file (actually a .tbt-file). The file format is
+ * nearly equivalent to the OSM XML-format. The only difference is the link-tag
+ * which is for meta media.
+ */
 public class DataSerializer {
 
     /**
@@ -102,11 +108,11 @@ public class DataSerializer {
     private void serializeTags(XmlSerializer serializer,
             Map<String, String> tags) {
         try {
-            for (String tag : tags.keySet()) {
+            for (Entry<String, String> tag : tags.entrySet()) {
 
                 serializer.startTag(null, "tag");
-                serializer.attribute(null, "k", tag);
-                serializer.attribute(null, "v", tags.get(tag));
+                serializer.attribute(null, "k", tag.getKey());
+                serializer.attribute(null, "v", tag.getValue());
                 serializer.endTag(null, "tag");
             }
         } catch (IllegalArgumentException e) {
@@ -197,6 +203,12 @@ public class DataSerializer {
         return fileos;
     }
 
+    /**
+     * Serialises a track.
+     * 
+     * @param track
+     *            The track to serialise.
+     */
     void serialize(NewTrack track) {
         String name = track.getName();
 

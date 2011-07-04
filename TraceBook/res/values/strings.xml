@@ -292,4 +292,8 @@
 <string name="alert_trackinfoActivity_rename">Rename Track</string>
 <string name="tv_trackInfoDialog_trackname">Track name: </string>
 <string name="tv_trackInfoDialog_trackComment">Comment: </string>
+<string name="string_listDataActivity_title">Data List</string>
+<string name="tv_statusbar_listDataTitle">List of all Data</string>
+<string name="tv_statusbar_listDataDesc">Lists all data of the current track.</string>
+<string name="string_listDataActivity_noData">No data recorded.</string>
 </resources>
