@@ -33,6 +33,9 @@ import de.fu.tracebook.core.data.implementation.NewDBPointsList;
 import de.fu.tracebook.core.data.implementation.NewDBTag;
 import de.fu.tracebook.core.data.implementation.NewDBTrack;
 
+/**
+ * The implementation of IDataPointsList using a SQLite database.
+ */
 public class NewPointsList implements IDataPointsList {
 
     private long id;

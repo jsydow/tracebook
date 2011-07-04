@@ -23,6 +23,9 @@ import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 
+/**
+ * A way or an area.
+ */
 public interface IDataPointsList extends IDataMapObject {
 
     /**

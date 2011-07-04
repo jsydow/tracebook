@@ -21,6 +21,9 @@ package de.fu.tracebook.core.data;
 
 import org.mapsforge.android.maps.GeoPoint;
 
+/**
+ * A single point on the map. Each point has coordinates assigned to them.
+ */
 public interface IDataNode extends IDataMapObject {
 
     /**
@@ -31,7 +34,7 @@ public interface IDataNode extends IDataMapObject {
     GeoPoint getCoordinates();
 
     /**
-     * If this node is part of a {@link DataPointsList}, this function will
+     * If this node is part of a {@link IDataPointsList}, this function will
      * return a reference to this object. Otherwise the return value is null.
      * 
      * @return The DataPointsList this point is in. (can be null)
@@ -39,7 +42,7 @@ public interface IDataNode extends IDataMapObject {
     IDataPointsList getDataPointsList();
 
     /**
-     * A Point may have been added uninitialized, in this case it does not
+     * A Point may have been added uninitialised, in this case it does not
      * contain any valid positional data - this may be added later once a GPS
      * fix is obtained.
      * 
@@ -48,7 +51,7 @@ public interface IDataNode extends IDataMapObject {
     boolean isValid();
 
     /**
-     * Associates this DataNode with a {@link DataPointsList}, meaning this
+     * Associates this DataNode with a {@link IDataPointsList}, meaning this
      * point is part of the way.
      * 
      * @param way

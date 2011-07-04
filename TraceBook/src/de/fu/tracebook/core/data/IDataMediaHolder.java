@@ -21,6 +21,9 @@ package de.fu.tracebook.core.data;
 
 import java.util.List;
 
+/**
+ * Any object that can have media attached to it.
+ */
 public interface IDataMediaHolder {
 
     /**

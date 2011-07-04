@@ -109,6 +109,9 @@ public class NewNode implements IDataNode {
         tag.insert();
     }
 
+    /**
+     * Deletes this node from Database.
+     */
     public void delete() {
         NewDBMedia.deleteByNode(id);
         NewDBTag.deleteByNode(id);
@@ -224,6 +227,12 @@ public class NewNode implements IDataNode {
         thisNode.save();
     }
 
+    /**
+     * Set the track that this node belongs to.
+     * 
+     * @param track
+     *            The track this node belongs to.
+     */
     public void setDataTrack(IDataTrack track) {
         thisNode.track = track.getName();
         thisNode.save();

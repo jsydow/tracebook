@@ -48,6 +48,9 @@ public class NewStorage implements IDataStorage {
     /**
      * Creates new folder in .../TraceBook for this Track. Such a directory must
      * exist when track is serialized.
+     * 
+     * @param name
+     *            The name of the track.
      */
     static void createNewTrackFolder(String name) {
         File dir = new File(NewStorage.getTraceBookDirPath() + File.separator
@@ -112,6 +115,9 @@ public class NewStorage implements IDataStorage {
      */
     private IDataTrack track;
 
+    /**
+     * Default constructor to reduce visibility.
+     */
     NewStorage() {
         // do nothing, just reduce visibility.
     }

@@ -23,6 +23,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * SQLiteOpenHelper for the database containing all the data recorded.
+ * <p>
+ * This class is a singleton. Use getInstance() to receive an instance. It must
+ * be initialised though by an activity as it needs a context.
+ */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
     private static DBOpenHelper instance;
@@ -30,14 +36,31 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String name = "tracebookdb";
     private static final int version = 3;
 
+    /**
+     * Returns an instance of this class.
+     * 
+     * @return Instance of this class.
+     */
     public static DBOpenHelper getInstance() {
         return instance;
     }
 
+    /**
+     * Set the instance of this class.
+     * 
+     * @param instance
+     *            The instance of this class.
+     */
     public static void setInstance(DBOpenHelper instance) {
         DBOpenHelper.instance = instance;
     }
 
+    /**
+     * Default constructor.
+     * 
+     * @param context
+     *            The context of creation.
+     */
     public DBOpenHelper(Context context) {
         super(context, name, null, version);
     }
