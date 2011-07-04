@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+  
+  <LinearLayout android:id="@+id/ly_listDataActivity_statusbar"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:gravity="center_horizontal"
+		android:layout_alignParentTop="true">
+	</LinearLayout>
+  
+  <ListView android:id="@android:id/list"
+               android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+               android:scrollingCache="true" android:divider="#8ac705"
+				android:dividerHeight="1sp"
+               android:layout_weight="1"
+               android:drawSelectorOnTop="false"/>
+
+   <TextView android:id="@android:id/empty"
+               android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+    			android:gravity="center_vertical|center_horizontal"
+               android:text="@string/string_listDataActivity_noData"/>
+</LinearLayout>

@@ -21,10 +21,28 @@ package de.fu.tracebook.core.data;
 
 import java.util.Map;
 
+/**
+ * Any object that is recorded as part of the map. Can be an area, a way or a
+ * point.
+ */
 public interface IDataMapObject extends IDataMediaHolder {
 
+    /**
+     * Add an OSM-tag to that object.
+     * 
+     * @param key
+     *            The key.
+     * @param value
+     *            The value.
+     */
     void addTag(String key, String value);
 
+    /**
+     * Deletes a tag from this object.
+     * 
+     * @param key
+     *            The key of the tag to delete.
+     */
     void deleteTag(String key);
 
     /**
@@ -45,7 +63,7 @@ public interface IDataMapObject extends IDataMediaHolder {
 
     /**
      * Checks whether additional information like Tags or Media data are
-     * available for this {@link DataMapObject}.
+     * available for this {@link IDataMapObject}.
      * 
      * @return True if tags or media exist.
      */

@@ -44,5 +44,6 @@
 		<activity android:configChanges="orientation|keyboardHidden" 
 			android:name="de.fu.tracebook.gui.activity.ListMediaActivity"></activity>
 <activity android:name="de.fu.tracebook.gui.activity.TrackInfoActivity" android:configChanges="orientation|keyboardHidden"></activity>
+<activity android:name="de.fu.tracebook.gui.activity.ListDataActivity" android:configChanges="orientation|keyboardHidden"></activity>
 </application>
 </manifest>

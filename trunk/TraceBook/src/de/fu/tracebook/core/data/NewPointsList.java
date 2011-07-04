@@ -111,7 +111,7 @@ public class NewPointsList implements IDataPointsList {
     public void deleteTag(String key) {
         List<NewDBTag> tags = NewDBTag.getByWay(id);
         for (NewDBTag tag : tags) {
-            if (tag.key == key) {
+            if (tag.key.equals(key)) {
                 tag.delete();
             }
         }
