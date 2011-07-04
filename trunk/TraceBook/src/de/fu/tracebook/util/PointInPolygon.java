@@ -19,7 +19,7 @@
 
 package de.fu.tracebook.util;
 
-import org.mapsforge.android.maps.GeoPoint;
+import android.graphics.Point;
 
 /**
  * Utility class providing an algorithm for testing if a point p is in a
@@ -34,25 +34,25 @@ public class PointInPolygon {
     /**
      * Tests if a point p is in a polygon. The polygon may be non-simple.
      * 
-     * @param p
+     * @param point
      *            The point to test.
-     * @param area
+     * @param points
      *            The polygon. The last point in area must be the same as the
      *            first.
      * @return True if p lies in the polygon defined by area.
      */
-    public static boolean isPointInPolygon(GeoPoint p, GeoPoint[] area) {
+    public static boolean isPointInPolygon(Point point, Point[] points) {
         int w = 0; // 2*windings
         double y;
-        double y1 = area[0].getLatitude() - p.getLatitude();
+        double y1 = points[0].y - point.y;
         double x;
-        double x1 = area[0].getLongitude() - p.getLongitude();
+        double x1 = points[0].x - point.x;
 
-        for (int i = 1; i < area.length; ++i) {
+        for (int i = 1; i < points.length; ++i) {
             y = y1;
-            y1 = area[i].getLatitude() - p.getLatitude();
+            y1 = points[i].y - point.y;
             x = x1;
-            x1 = area[i].getLongitude() - p.getLongitude();
+            x1 = points[i].x - point.x;
 
             if (y * y1 < 0) { // does v->v1 cross x axis?
                 // calculate intersection point

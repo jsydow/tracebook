@@ -29,6 +29,7 @@ import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
+import org.mapsforge.android.maps.Projection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,6 +37,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
@@ -247,19 +249,27 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     public boolean onTap(GeoPoint p, MapView mapView) {
 
         IDataPointsList selectedWay = null;
+        Projection proj = mapView.getProjection();
+        Point point = proj.toPoint(p, null, mapView.getZoomLevel());
 
         int size = this.size();
         for (int i = 0; i < size; ++i) {
             OverlayWay way = this.createWay(i);
+
             GeoPoint[] data = way.getWayData()[0];
+            Point[] points = new Point[data.length];
+
+            for (int j = 0; j < data.length; ++j) {
+                points[j] = proj.toPoint(data[j], null, mapView.getZoomLevel());
+            }
 
             IDataPointsList dataway = StorageFactory.getStorage()
                     .getOverlayManager().getPointsList(way);
 
-            if (data.length > 1) {
-                if (data[0] == data[data.length - 1]) {
+            if (points.length > 1) {
+                if (points[0] == points[points.length - 1]) {
                     // Area
-                    if (PointInPolygon.isPointInPolygon(p, data)) {
+                    if (PointInPolygon.isPointInPolygon(point, points)) {
                         selectedWay = dataway;
                         break;
                     }
@@ -267,14 +277,14 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
                     // Way
                     boolean selected = false;
 
-                    GeoPoint a = null;
-                    for (GeoPoint b : data) {
+                    Point a = null;
+                    for (Point b : points) {
                         if (a != null) {
-                            double factor = zoomfactor(this.internalMapView
-                                    .getZoomLevel());
-                            double threshold = (0.1 * factor) * (0.1 * factor);
+                            double factor = 12; // TODO
+                            double threshold = factor * factor;
 
-                            if (PointLineDistance.sqDistancePointLine(p, a, b) < threshold) {
+                            if (PointLineDistance.sqDistancePointLine(point, a,
+                                    b) < threshold) {
                                 selectedWay = dataway;
                                 selected = true;
                                 break;
@@ -354,14 +364,6 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         for (IDataNode n : way.getNodes())
             pointsOverlay.removeItem(StorageFactory.getStorage()
                     .getOverlayManager().getOverlayItem(n));
-    }
-
-    private double zoomfactor(byte zoom) {
-        double factor = 360.0;
-        for (int i = 0; i < zoom; ++i) {
-            factor *= 0.5;
-        }
-        return factor;
     }
 
     /**

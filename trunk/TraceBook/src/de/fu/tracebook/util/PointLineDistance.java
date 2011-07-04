@@ -19,7 +19,7 @@
 
 package de.fu.tracebook.util;
 
-import org.mapsforge.android.maps.GeoPoint;
+import android.graphics.Point;
 
 /**
  * Utility class for calculating the distance from a point to a line.
@@ -31,7 +31,7 @@ public class PointLineDistance {
     /**
      * Calculates the square distance of the point p to the line from a to b.
      * 
-     * @param p
+     * @param point
      *            The point p.
      * @param a
      *            The point a which is start of the line.
@@ -39,13 +39,13 @@ public class PointLineDistance {
      *            The point b which is end of the line.
      * @return The square distance of p to the line a to b.
      */
-    public static double sqDistancePointLine(GeoPoint p, GeoPoint a, GeoPoint b) {
-        double ax = a.getLongitude();
-        double ay = a.getLatitude();
-        double bx = b.getLongitude();
-        double by = b.getLatitude();
-        double px = p.getLongitude();
-        double py = p.getLatitude();
+    public static double sqDistancePointLine(Point point, Point a, Point b) {
+        double ax = a.x;
+        double ay = a.y;
+        double bx = b.x;
+        double by = b.y;
+        double px = point.x;
+        double py = point.y;
         double byMay = by - ay;
         double bxMax = bx - ax;
         double pxMax = px - ax;
