@@ -30,20 +30,20 @@ public interface IDataTrack extends IDataMediaHolder {
      * ways of this track from the devices memory and the working memory. If
      * this node does not exist nothing is done.
      * 
-     * @param id
+     * @param l
      *            The id of the POI to delete.
      * @return true if deleting node was successful
      */
-    boolean deleteNode(int id);
+    boolean deleteNode(long l);
 
     /**
      * This method deletes a Way of this Track from the devices memory and the
      * working memory. If the Way does not exist nothing is done.
      * 
-     * @param id
+     * @param l
      *            The id of the Way to delete.
      */
-    void deleteWay(int id);
+    void deleteWay(long l);
 
     /**
      * Getter-method.

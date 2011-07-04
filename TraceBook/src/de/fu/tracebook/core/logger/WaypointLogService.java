@@ -104,7 +104,7 @@ public class WaypointLogService extends Service implements LocationListener {
             if (tmp != null) {
                 /* do not store non-ways */
                 if (tmp.getNodes().size() < 2)
-                    getStorage().getTrack().deleteWay((int) tmp.getId());
+                    getStorage().getTrack().deleteWay(tmp.getId());
                 else {
                     WayFilter.smoothenPoints(tmp.getNodes(), 3, 3); // TODO
                     WayFilter.filterPoints(tmp.getNodes(), 2); // TODO

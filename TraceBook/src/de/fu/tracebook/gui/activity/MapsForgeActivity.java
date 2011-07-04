@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.mapsforge.android.maps.ArrayWayOverlay;
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapActivity;
 import org.mapsforge.android.maps.MapController;
@@ -40,9 +39,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -382,7 +378,7 @@ public class MapsForgeActivity extends MapActivity {
                 StorageFactory.getStorage().getOverlayManager()
                         .updateOverlayRoute(editNode.getDataPointsList(), null);
                 LogIt.d("Requesting redraw");
-                // routesOverlay.requestRedraw(); TODO
+                routesOverlay.requestRedraw();
             }
 
             pointsOverlay.requestRedraw();
@@ -432,54 +428,56 @@ public class MapsForgeActivity extends MapActivity {
      *            Not used.
      */
     public void listBtn(View v) {
+        Intent intent = new Intent(this, ListDataActivity.class);
+        startActivity(intent);
+
         // TODO
-
-        ArrayWayOverlay awo = new ArrayWayOverlay(null, null);
-        mapView.getOverlays().add(awo);
-
-        Paint wayDefaultPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        wayDefaultPaintFill.setStyle(Paint.Style.STROKE);
-        wayDefaultPaintFill.setColor(Color.BLUE);
-        wayDefaultPaintFill.setAlpha(160);
-        wayDefaultPaintFill.setStrokeWidth(7);
-        wayDefaultPaintFill.setStrokeJoin(Paint.Join.ROUND);
-        wayDefaultPaintFill.setPathEffect(new DashPathEffect(new float[] { 20,
-                20 }, 0));
-
-        Paint wayDefaultPaintOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
-        wayDefaultPaintOutline.setStyle(Paint.Style.STROKE);
-        wayDefaultPaintOutline.setColor(Color.BLUE);
-        wayDefaultPaintOutline.setAlpha(128);
-        wayDefaultPaintOutline.setStrokeWidth(7);
-        wayDefaultPaintOutline.setStrokeJoin(Paint.Join.ROUND);
-
-        OverlayWay ow = new OverlayWay(new GeoPoint[][] {});
-        ow.setPaint(wayDefaultPaintFill, wayDefaultPaintOutline);
-
-        awo.addWay(ow);
-        awo.requestRedraw();
-
-        GeoPoint[][] wps = new GeoPoint[][] { {
-                new GeoPoint(52.452192, 13.295785),
-                new GeoPoint(52.454008, 13.295785),
-                new GeoPoint(52.454008, 13.297456) } };
-        ow.setWayData(wps);
-        routesOverlay.requestRedraw();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        GeoPoint[][] wps2 = new GeoPoint[][] { {
-                new GeoPoint(52.452192, 13.295785),
-                new GeoPoint(52.454008, 13.295785),
-                new GeoPoint(52.454008, 13.297456),
-                new GeoPoint(52.456008, 13.297456) } };
-        ow.setWayData(wps2);
-        awo.requestRedraw();
+        // ArrayWayOverlay awo = new ArrayWayOverlay(null, null);
+        // mapView.getOverlays().add(awo);
+        //
+        // Paint wayDefaultPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // wayDefaultPaintFill.setStyle(Paint.Style.STROKE);
+        // wayDefaultPaintFill.setColor(Color.BLUE);
+        // wayDefaultPaintFill.setAlpha(160);
+        // wayDefaultPaintFill.setStrokeWidth(7);
+        // wayDefaultPaintFill.setStrokeJoin(Paint.Join.ROUND);
+        // wayDefaultPaintFill.setPathEffect(new DashPathEffect(new float[] {
+        // 20,
+        // 20 }, 0));
+        //
+        // Paint wayDefaultPaintOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // wayDefaultPaintOutline.setStyle(Paint.Style.STROKE);
+        // wayDefaultPaintOutline.setColor(Color.BLUE);
+        // wayDefaultPaintOutline.setAlpha(128);
+        // wayDefaultPaintOutline.setStrokeWidth(7);
+        // wayDefaultPaintOutline.setStrokeJoin(Paint.Join.ROUND);
+        //
+        // OverlayWay ow = new OverlayWay(new GeoPoint[][] {});
+        // ow.setPaint(wayDefaultPaintFill, wayDefaultPaintOutline);
+        //
+        // awo.addWay(ow);
+        // awo.requestRedraw();
+        //
+        // GeoPoint[][] wps = new GeoPoint[][] { {
+        // new GeoPoint(52.452192, 13.295785),
+        // new GeoPoint(52.454008, 13.295785),
+        // new GeoPoint(52.454008, 13.297456) } };
+        // ow.setWayData(wps);
+        // routesOverlay.requestRedraw();
+        //
+        // try {
+        // Thread.sleep(1000);
+        // } catch (InterruptedException e) {
+        // // do nothing
+        // }
+        //
+        // GeoPoint[][] wps2 = new GeoPoint[][] { {
+        // new GeoPoint(52.452192, 13.295785),
+        // new GeoPoint(52.454008, 13.295785),
+        // new GeoPoint(52.454008, 13.297456),
+        // new GeoPoint(52.456008, 13.297456) } };
+        // ow.setWayData(wps2);
+        // awo.requestRedraw();
 
     }
 
@@ -843,48 +841,6 @@ public class MapsForgeActivity extends MapActivity {
 
         routesOverlay.clear();
         routesOverlay.addWays(Helper.currentTrack().getWays());
-        // OverlayWay ow = new OverlayWay(new GeoPoint[][] { new GeoPoint[] {
-        // new GeoPoint(52.452192, 13.295785),
-        // new GeoPoint(52.454008, 13.295785),
-        // new GeoPoint(52.454008, 13.297456) } });
-        // routesOverlay.addWay(ow);
-        //
-        // // start
-        // Paint wayDefaultPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // wayDefaultPaintFill.setStyle(Paint.Style.STROKE);
-        // wayDefaultPaintFill.setColor(Color.BLUE);
-        // wayDefaultPaintFill.setAlpha(160);
-        // wayDefaultPaintFill.setStrokeWidth(7);
-        // wayDefaultPaintFill.setStrokeJoin(Paint.Join.ROUND);
-        // wayDefaultPaintFill.setPathEffect(new DashPathEffect(new float[] {
-        // 20,
-        // 20 }, 0));
-        //
-        // Paint wayDefaultPaintOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // wayDefaultPaintOutline.setStyle(Paint.Style.STROKE);
-        // wayDefaultPaintOutline.setColor(Color.BLUE);
-        // wayDefaultPaintOutline.setAlpha(128);
-        // wayDefaultPaintOutline.setStrokeWidth(7);
-        // wayDefaultPaintOutline.setStrokeJoin(Paint.Join.ROUND);
-        //
-        // ArrayWayOverlay wayOverlay = new ArrayWayOverlay(wayDefaultPaintFill,
-        // wayDefaultPaintOutline);
-        // // OverlayWay way1 = new OverlayWay(new GeoPoint[][] { {
-        // // new GeoPoint(52.452192, 13.295785),
-        // // new GeoPoint(52.454008, 13.295785),
-        // // new GeoPoint(52.454008, 13.297456) } });
-        //
-        // for (IDataPointsList dpl : Helper.currentTrack().getWays()) {
-        // OverlayWay way1 = new OverlayWay();
-        // wayOverlay.addWay(way1);
-        // way1.setWayData(new GeoPoint[][] { dpl.toGeoPointArray(null) });
-        //
-        // LogIt.w("way " + way1.getWayData().length);
-        //
-        // }
-        // mapView.getOverlays().add(wayOverlay);
-
-        // end
 
         bugOverlay.clear();
         bugOverlay.addItems(bugManager.getBugs());

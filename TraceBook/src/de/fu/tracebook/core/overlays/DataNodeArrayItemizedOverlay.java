@@ -79,8 +79,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                 if (node != null) {
                     way = node.getDataPointsList();
                     if (Helper.currentTrack() != null
-                            && Helper.currentTrack().deleteNode(
-                                    (int) node.getId())) {
+                            && Helper.currentTrack().deleteNode(node.getId())) {
                         removeItem(StorageFactory.getStorage()
                                 .getOverlayManager().getOverlayItem(node));
                         if (way != null) // we have to redraw the way

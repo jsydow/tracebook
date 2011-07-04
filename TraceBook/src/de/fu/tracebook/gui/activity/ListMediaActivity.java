@@ -129,9 +129,8 @@ public class ListMediaActivity extends ListActivity {
 
             data.add(item);
         }
-        adapter = new GenericAdapter(this, R.layout.listview_filepicker, // TODO
-                                                                         // neues
-                                                                         // layout
+        // TODO neues Layout
+        adapter = new GenericAdapter(this, R.layout.listview_filepicker,
                 R.id.list, data);
 
         setListAdapter(adapter);

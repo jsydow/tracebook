@@ -84,8 +84,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
                 break;
 
             case 1: // delete
-                StorageFactory.getStorage().getTrack()
-                        .deleteWay((int) way.getId());
+                StorageFactory.getStorage().getTrack().deleteWay(way.getId());
                 StorageFactory.getStorage().getOverlayManager().removeWay(way);
                 requestRedraw();
 

@@ -52,17 +52,19 @@ public class GenericAdapter extends ArrayAdapter<GenericAdapterData> {
      * LayoutInflater.
      * 
      * @param context
-     *            not used
+     *            The context of the ListView.
      * @param resource
-     *            not used
-     * @param textViewResourceId
-     *            resource id from which the the item view will be inflated
+     *            The resource ID for a layout file containing a layout to use
+     *            when instantiating views.
+     * @param listViewId
+     *            The id of the ListView.
      * @param objects
-     *            list of GenericAdapterData which will be used to fill the list
+     *            List of GenericAdapterData which will be used to fill the
+     *            list.
      */
-    public GenericAdapter(Context context, int resource,
-            int textViewResourceId, List<GenericAdapterData> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public GenericAdapter(Context context, int resource, int listViewId,
+            List<GenericAdapterData> objects) {
+        super(context, resource, listViewId, objects);
         layoutId = resource;
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

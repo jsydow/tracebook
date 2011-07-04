@@ -393,6 +393,7 @@ public class NewTrackActivity extends TabActivity {
             ServiceConnector.getLoggerService().resumeLogging();
             Button resume = (Button) findViewById(R.id.btn_newtrackActivity_resume);
             resume.setVisibility(8);
+            // TODO user notification
             Helper.startUserNotification(this,
                     R.drawable.ic_notification_active, NewTrackActivity.class,
                     true);
@@ -478,6 +479,7 @@ public class NewTrackActivity extends TabActivity {
 
     }
 
+    // TODO make for mapsforge activity
     private void checkGpsStatus() {
         LocationManager loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 

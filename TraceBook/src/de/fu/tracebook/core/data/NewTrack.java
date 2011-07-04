@@ -130,7 +130,7 @@ public class NewTrack implements IDataTrack {
         }
     }
 
-    public boolean deleteNode(int id) {
+    public boolean deleteNode(long id) {
         NewDBNode node;
         node = NewDBNode.getById(id);
         if (node == null) {
@@ -142,7 +142,7 @@ public class NewTrack implements IDataTrack {
         return true;
     }
 
-    public void deleteWay(int id) {
+    public void deleteWay(long id) {
         NewDBPointsList pointslist = NewDBPointsList.getById(id);
         if (pointslist == null) {
             return;
