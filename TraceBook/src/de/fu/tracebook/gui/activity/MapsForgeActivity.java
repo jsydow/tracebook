@@ -330,7 +330,7 @@ public class MapsForgeActivity extends MapActivity {
                             MapsForgeActivity.this);
                     final EditText input = new EditText(MapsForgeActivity.this);
                     bugDlgBuilder.setView(input);
-                    bugDlgBuilder.setTitle("Bug Description:");// MapsForgeActivity.this.getResources().getString());
+                    bugDlgBuilder.setTitle("Bug Description:"); // MapsForgeActivity.this.getResources().getString());
                     bugDlgBuilder.setMessage("Test");
                     bugDlgBuilder.setPositiveButton(
                             MapsForgeActivity.this.getResources().getString(

@@ -27,27 +27,54 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * The DAO-object for nodes. Each object represents a row in the database.
+ */
 public class NewDBNode implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS nodes "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS nodes "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " datetime TEXT,"
             + " latitude INTEGER," + " longitude INTEGER," + " way INTEGER,"
             + " track TEXT );";
-    private final static String DROP = "DROP TABLE IF EXISTS nodes";
-    private final static String TABLENAME = "nodes";
+    private static final String DROP = "DROP TABLE IF EXISTS nodes";
+    private static final String TABLENAME = "nodes";
 
+    /**
+     * Returns a string that creates the table for this object.
+     * 
+     * @return The create table string.
+     */
     public static String createTable() {
         return CREATE;
     }
 
+    /**
+     * Returns a string that drops the table for this object.
+     * 
+     * @return The drop table string.
+     */
     public static String dropTable() {
         return DROP;
     }
 
+    /**
+     * Retrieve a node from the database with a given id.
+     * 
+     * @param nodeId
+     *            The id of the node.
+     * @return The node or null if does not exist.
+     */
     public static NewDBNode getById(long nodeId) {
         return fillObject(nodeId, new NewDBNode());
     }
 
+    /**
+     * Retrieves a list of all nodes that belong to the given track.
+     * 
+     * @param name
+     *            The name of the track.
+     * @return The list of nodes, may be empty.
+     */
     public static List<NewDBNode> getByTrack(String name) {
         List<NewDBNode> ret = new ArrayList<NewDBNode>();
 
@@ -65,6 +92,13 @@ public class NewDBNode implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieves a list of all nodes that belong to the given way.
+     * 
+     * @param wayId
+     *            The id of the way.
+     * @return The list of nodes, may be empty.
+     */
     public static List<NewDBNode> getByWay(long wayId) {
         List<NewDBNode> ret = new ArrayList<NewDBNode>();
 
@@ -106,12 +140,34 @@ public class NewDBNode implements NewDBObject {
         return ret;
     }
 
+    /**
+     * The date time.
+     */
     public String datetime;
+
+    /**
+     * The latitude*1000000.
+     */
     public long id;
+
+    /**
+     * 
+     */
     public int latitude;
+
+    /**
+     * The longitude*1000000.
+     */
     public int longitude;
+
+    /**
+     * The name of the track this node belongs to.
+     */
     public String track;
 
+    /**
+     * The id of the way this node belongs to.
+     */
     public long way;
 
     public void delete() {
@@ -125,10 +181,10 @@ public class NewDBNode implements NewDBObject {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
-        values.put("latitude", latitude);
-        values.put("longitude", longitude);
+        values.put("latitude", new Integer(latitude));
+        values.put("longitude", new Integer(longitude));
         values.put("track", track);
-        values.put("way", way);
+        values.put("way", new Long(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert node");
@@ -142,10 +198,10 @@ public class NewDBNode implements NewDBObject {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
-        values.put("latitude", latitude);
-        values.put("longitude", longitude);
+        values.put("latitude", new Integer(latitude));
+        values.put("longitude", new Integer(longitude));
         values.put("track", track);
-        values.put("way", way);
+        values.put("way", new Long(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update node");
         }

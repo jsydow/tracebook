@@ -185,7 +185,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      *            weather the way should be given the 'currently edited' color
      */
     public void addWay(IDataPointsList way, boolean editing) {
-        if (way.getNodes().size() == 0) {// skip empty ways
+        if (way.getNodes().size() == 0) { // skip empty ways
             return;
         }
 

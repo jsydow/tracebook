@@ -26,7 +26,7 @@ import android.graphics.Point;
  * <p>
  * Taken from Graphic Gems II Chapter I.3 - Distance from a Point to a line.
  */
-public class PointLineDistance {
+public final class PointLineDistance {
 
     /**
      * Calculates the square distance of the point p to the line from a to b.
@@ -69,6 +69,10 @@ public class PointLineDistance {
         // p between a and b
         double a2 = pyMay * bxMax - pxMax * byMay;
         return a2 * a2 / (bxMax * bxMax + byMay * byMay);
+    }
+
+    private PointLineDistance() {
+        // make constructor private
     }
 
 }

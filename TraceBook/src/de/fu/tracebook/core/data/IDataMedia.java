@@ -29,19 +29,19 @@ public interface IDataMedia {
     /**
      * Media type constants. Type audio.
      */
-    public static final int TYPE_AUDIO = 2;
+    int TYPE_AUDIO = 2;
     /**
      * Media type constants. Type picture.
      */
-    public static final int TYPE_PICTURE = 1;
+    int TYPE_PICTURE = 1;
     /**
      * Media type constants. Type text.
      */
-    public static final int TYPE_TEXT = 0;
+    int TYPE_TEXT = 0;
     /**
      * Media type constants. Type video.
      */
-    public static final int TYPE_VIDEO = 3;
+    int TYPE_VIDEO = 3;
 
     /**
      * Deletes a medium on the devices memory. Note: Make sure that there is no

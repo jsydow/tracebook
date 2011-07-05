@@ -313,7 +313,7 @@ public class WaypointLogService extends Service implements LocationListener {
     }
 
     /**
-     * Shortcut for StorageFactory.getStorage()
+     * Shortcut for StorageFactory.getStorage().
      * 
      * @return Instance of IDataStorage.
      */
