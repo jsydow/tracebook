@@ -106,7 +106,7 @@ public class NewStorage implements IDataStorage {
     private int lastID = 0;
 
     /**
-     * The Overlaymanager
+     * The Overlaymanager.
      */
     private OverlayManager overlays = new OverlayManager();
 

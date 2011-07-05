@@ -33,8 +33,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     private static DBOpenHelper instance;
 
-    private static final String name = "tracebookdb";
-    private static final int version = 3;
+    private static final String NAME = "tracebookdb";
+    private static final int VERSION = 3;
 
     /**
      * Returns an instance of this class.
@@ -62,7 +62,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      *            The context of creation.
      */
     public DBOpenHelper(Context context) {
-        super(context, name, null, version);
+        super(context, NAME, null, VERSION);
     }
 
     @Override

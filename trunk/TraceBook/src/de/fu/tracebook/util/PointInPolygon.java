@@ -29,7 +29,7 @@ import android.graphics.Point;
  * David G. Alciatore.
  * 
  */
-public class PointInPolygon {
+public final class PointInPolygon {
 
     /**
      * Tests if a point p is in a polygon. The polygon may be non-simple.
@@ -81,5 +81,9 @@ public class PointInPolygon {
         }
 
         return w != 0;
+    }
+
+    private PointInPolygon() {
+        // make constructor private
     }
 }

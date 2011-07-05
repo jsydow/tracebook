@@ -22,7 +22,7 @@ package de.fu.tracebook.core.data;
 /**
  * A factory for the DataStorage. It returns an implementation of IDataStorage.
  */
-public class StorageFactory {
+public final class StorageFactory {
 
     private static IDataStorage instance;
 
@@ -46,5 +46,9 @@ public class StorageFactory {
         if (instance == null)
             instance = new NewStorage();
         return instance;
+    }
+
+    private StorageFactory() {
+        // make constructor private
     }
 }

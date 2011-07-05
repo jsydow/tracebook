@@ -52,7 +52,7 @@ import de.fu.tracebook.util.LogIt;
  * OpenStreetBugs.org provides some bugs that can be downloaded. This manager
  * can download these bugs.
  */
-public class BugManager {
+public final class BugManager {
 
     private static BugManager instance;
 

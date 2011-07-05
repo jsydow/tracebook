@@ -29,11 +29,6 @@ import de.fu.tracebook.core.overlays.OverlayManager;
 public interface IDataStorage {
 
     /**
-     * Will create the TraceBook directory if it does not exist.
-     */
-    public void ensureThatTraceBookDirExists();
-
-    /**
      * Deletes a track completely.
      * 
      * @param trackname
@@ -59,6 +54,11 @@ public interface IDataStorage {
      * @return True if track exists.
      */
     boolean doesTrackExist(String trackname);
+
+    /**
+     * Will create the TraceBook directory if it does not exist.
+     */
+    void ensureThatTraceBookDirExists();
 
     /**
      * Returns a list of the names of all tracks that are currently stored in

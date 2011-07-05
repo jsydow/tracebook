@@ -27,22 +27,40 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * The DAO-object for tracks. Each object represents a row in the database.
+ */
 public class NewDBTrack implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS tracks "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS tracks "
             + "( name TEXT PRIMARY KEY," + " datetime TEXT,"
             + " comment TEXT );";
-    private final static String DROP = "DROP TABLE IF EXISTS tracks";
-    private final static String TABLENAME = "tracks";
+    private static final String DROP = "DROP TABLE IF EXISTS tracks";
+    private static final String TABLENAME = "tracks";
 
+    /**
+     * Returns a string that creates the table for this object.
+     * 
+     * @return The create table string.
+     */
     public static String createTable() {
         return CREATE;
     }
 
+    /**
+     * Returns a string that drops the table for this object.
+     * 
+     * @return The drop table string.
+     */
     public static String dropTable() {
         return DROP;
     }
 
+    /**
+     * Retrieve a list of all names of all tracks stored in the database.
+     * 
+     * @return The list of all track names.
+     */
     public static List<String> getAllNames() {
         List<String> ret = new ArrayList<String>();
 
@@ -58,6 +76,11 @@ public class NewDBTrack implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieves a list of all tracks.
+     * 
+     * @return The list of tracks, may be empty.
+     */
     public static List<NewDBTrack> getAllTracks() {
         List<NewDBTrack> ret = new ArrayList<NewDBTrack>();
 
@@ -73,6 +96,13 @@ public class NewDBTrack implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieve a track from the database with a given name.
+     * 
+     * @param trackName
+     *            The name of the track.
+     * @return The track or null if does not exist.
+     */
     public static NewDBTrack getById(String trackName) {
         return fillObject(trackName, new NewDBTrack());
     }
@@ -100,9 +130,19 @@ public class NewDBTrack implements NewDBObject {
         return ret;
     }
 
+    /**
+     * The comment of this track.
+     */
     public String comment;
+
+    /**
+     * The date time.
+     */
     public String datetime;
 
+    /**
+     * The name of the track. (primary key)
+     */
     public String name;
 
     private String oldname;

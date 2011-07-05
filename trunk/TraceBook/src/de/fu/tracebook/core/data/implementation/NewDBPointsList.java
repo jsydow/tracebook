@@ -27,27 +27,55 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * The DAO-object for ways and areas. Each object represents a row in the
+ * database.
+ */
 public class NewDBPointsList implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS pointslists "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS pointslists "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + " datetime TEXT,"
             + " isarea INTEGER," + " track TEXT );";
-    private final static String DROP = "DROP TABLE IF EXISTS pointslists";
-    private final static String TABLENAME = "pointslists";
+    private static final String DROP = "DROP TABLE IF EXISTS pointslists";
+    private static final String TABLENAME = "pointslists";
 
+    /**
+     * Returns a string that creates the table for this object.
+     * 
+     * @return The create table string.
+     */
     public static String createTable() {
         return CREATE;
     }
 
+    /**
+     * Returns a string that drops the table for this object.
+     * 
+     * @return The drop table string.
+     */
     public static String dropTable() {
         return DROP;
     }
 
+    /**
+     * Retrieve a way from the database with a given id.
+     * 
+     * @param wayId
+     *            The id of the way.
+     * @return The way or null if does not exist.
+     */
     public static NewDBPointsList getById(long wayId) {
         return fillObject(wayId, new NewDBPointsList());
     }
 
+    /**
+     * Retrieves a list of all ways that belong to the given track.
+     * 
+     * @param name
+     *            The name of the track.
+     * @return The list of ways, may be empty.
+     */
     public static List<NewDBPointsList> getByTrack(String name) {
         List<NewDBPointsList> ret = new ArrayList<NewDBPointsList>();
 
@@ -87,9 +115,24 @@ public class NewDBPointsList implements NewDBObject {
         return ret;
     }
 
+    /**
+     * The date time.
+     */
     public String datetime;
+
+    /**
+     * The id of the way. (primary key)
+     */
     public long id;
+
+    /**
+     * Is this way an area?
+     */
     public boolean isArea;
+
+    /**
+     * The name of the track this way belongs to.
+     */
     public String track;
 
     public void delete() {
@@ -104,7 +147,7 @@ public class NewDBPointsList implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isarea", isArea);
+        values.put("isarea", new Boolean(isArea));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert way");
@@ -119,7 +162,7 @@ public class NewDBPointsList implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isarea", isArea);
+        values.put("isarea", new Boolean(isArea));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update way");
         }

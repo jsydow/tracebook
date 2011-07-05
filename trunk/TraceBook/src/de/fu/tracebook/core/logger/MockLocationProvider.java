@@ -28,10 +28,10 @@ import android.location.LocationManager;
 /**
  * A mock location provider. For testing only.
  */
-public class MockLocationProvider {
+public final class MockLocationProvider {
 
     private static MockLocationProvider instance;
-    private final static String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
+    private static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
 
     /**
      * Singleton implementation.

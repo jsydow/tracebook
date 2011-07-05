@@ -27,18 +27,32 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * The DAO-object for tags. Each object represents a row in the database.
+ */
 public class NewDBTag implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS tags "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS tags "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " key TEXT,"
             + " value TEXT," + " node INTEGER," + " way INTEGER );";
-    private final static String DROP = "DROP TABLE IF EXISTS tags";
-    private final static String TABLENAME = "tags";
+    private static final String DROP = "DROP TABLE IF EXISTS tags";
+    private static final String TABLENAME = "tags";
 
+    /**
+     * Returns a string that creates the table for this object.
+     * 
+     * @return The create table string.
+     */
     public static String createTable() {
         return CREATE;
     }
 
+    /**
+     * Delete all tags that belong to the given node.
+     * 
+     * @param nodeId
+     *            The id of the node.
+     */
     public static void deleteByNode(long nodeId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "node = " + nodeId, null) == -1) {
@@ -46,6 +60,12 @@ public class NewDBTag implements NewDBObject {
         }
     }
 
+    /**
+     * Delete all tags that belong to the given way.
+     * 
+     * @param wayId
+     *            The id of the way.
+     */
     public static void deleteByWay(long wayId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "way = " + wayId, null) == -1) {
@@ -53,14 +73,33 @@ public class NewDBTag implements NewDBObject {
         }
     }
 
+    /**
+     * Returns a string that drops the table for this object.
+     * 
+     * @return The drop table string.
+     */
     public static String dropTable() {
         return DROP;
     }
 
+    /**
+     * Retrieve a tag from the database with a given id.
+     * 
+     * @param tagID
+     *            The id of the way.
+     * @return The tag or null if does not exist.
+     */
     public static NewDBTag getById(long tagID) {
         return fillObject(tagID, new NewDBTag());
     }
 
+    /**
+     * Retrieves a list of all tags that belong to the given node.
+     * 
+     * @param nodeId
+     *            The id of the node.
+     * @return The list of tags, may be empty.
+     */
     public static List<NewDBTag> getByNode(long nodeId) {
         List<NewDBTag> ret = new ArrayList<NewDBTag>();
 
@@ -78,6 +117,13 @@ public class NewDBTag implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieves a list of all tags that belong to the given way.
+     * 
+     * @param wayId
+     *            The id of the way.
+     * @return The list of tags, may be empty.
+     */
     public static List<NewDBTag> getByWay(long wayId) {
         List<NewDBTag> ret = new ArrayList<NewDBTag>();
 
@@ -118,11 +164,29 @@ public class NewDBTag implements NewDBObject {
         return ret;
     }
 
+    /**
+     * The id of the tag. (primary key)
+     */
     public long id;
+
+    /**
+     * The key.
+     */
     public String key;
+
+    /**
+     * The id of the node this tag is attached to.
+     */
     public long node;
+
+    /**
+     * The value.
+     */
     public String value;
 
+    /**
+     * The id of the way this tag is attached to.
+     */
     public long way;
 
     public void delete() {
@@ -137,8 +201,8 @@ public class NewDBTag implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("key", key);
         values.put("value", value);
-        values.put("node", node);
-        values.put("way", way);
+        values.put("node", new Long(node));
+        values.put("way", new Long(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert tag");
@@ -153,8 +217,8 @@ public class NewDBTag implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("key", key);
         values.put("value", value);
-        values.put("node", node);
-        values.put("way", way);
+        values.put("node", new Long(node));
+        values.put("way", new Long(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update tag");
         }

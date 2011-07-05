@@ -27,19 +27,33 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import de.fu.tracebook.util.LogIt;
 
+/**
+ * The DAO-object for media. Each object represents a row in the database.
+ */
 public class NewDBMedia implements NewDBObject {
 
-    private final static String CREATE = "CREATE TABLE IF NOT EXISTS media "
+    private static final String CREATE = "CREATE TABLE IF NOT EXISTS media "
             + "( id INTEGER PRIMARY KEY AUTOINCREMENT," + " name TEXT,"
             + " path TEXT," + " node INTEGER," + " way INTEGER,"
             + " track TEXT );";
-    private final static String DROP = "DROP TABLE IF EXISTS media";
-    private final static String TABLENAME = "media";
+    private static final String DROP = "DROP TABLE IF EXISTS media";
+    private static final String TABLENAME = "media";
 
+    /**
+     * Returns a string that creates the table for this object.
+     * 
+     * @return The create table string.
+     */
     public static String createTable() {
         return CREATE;
     }
 
+    /**
+     * Delete all media that belong to the given node.
+     * 
+     * @param nodeId
+     *            The id of the node.
+     */
     public static void deleteByNode(long nodeId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "node = " + nodeId, null) == -1) {
@@ -47,6 +61,12 @@ public class NewDBMedia implements NewDBObject {
         }
     }
 
+    /**
+     * Delete all media that belong to the given track.
+     * 
+     * @param trackId
+     *            The name of the track.
+     */
     public static void deleteByTrack(String trackId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "track = '" + trackId + "'", null) == -1) {
@@ -54,6 +74,12 @@ public class NewDBMedia implements NewDBObject {
         }
     }
 
+    /**
+     * Delete all media that belong to the given way.
+     * 
+     * @param wayId
+     *            The id of the way.
+     */
     public static void deleteByWay(long wayId) {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         if (db.delete(TABLENAME, "way = " + wayId, null) == -1) {
@@ -61,14 +87,33 @@ public class NewDBMedia implements NewDBObject {
         }
     }
 
+    /**
+     * Returns a string that drops the table for this object.
+     * 
+     * @return The drop table string.
+     */
     public static String dropTable() {
         return DROP;
     }
 
+    /**
+     * Retrieve a medium from the database with a given id.
+     * 
+     * @param mediaId
+     *            The id of the medium.
+     * @return The medium or null if does not exist.
+     */
     public static NewDBMedia getById(long mediaId) {
         return fillObject(mediaId, new NewDBMedia());
     }
 
+    /**
+     * Retrieves a list of all media that belong to the given node.
+     * 
+     * @param nodeId
+     *            The id of the node.
+     * @return The list of media, may be empty.
+     */
     public static List<NewDBMedia> getByNode(long nodeId) {
         List<NewDBMedia> ret = new ArrayList<NewDBMedia>();
 
@@ -86,6 +131,13 @@ public class NewDBMedia implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieves a list of all media that belong to the given track.
+     * 
+     * @param trackId
+     *            The name of the track.
+     * @return The list of media, may be empty.
+     */
     public static List<NewDBMedia> getByTrack(String trackId) {
         List<NewDBMedia> ret = new ArrayList<NewDBMedia>();
 
@@ -103,6 +155,13 @@ public class NewDBMedia implements NewDBObject {
         return ret;
     }
 
+    /**
+     * Retrieves a list of all media that belong to the given way.
+     * 
+     * @param wayId
+     *            The id of the way.
+     * @return The list of media, may be empty.
+     */
     public static List<NewDBMedia> getByWay(long wayId) {
         List<NewDBMedia> ret = new ArrayList<NewDBMedia>();
 
@@ -143,12 +202,34 @@ public class NewDBMedia implements NewDBObject {
         return ret;
     }
 
+    /**
+     * The id of this medium.
+     */
     public long id;
+
+    /**
+     * The name of this medium.
+     */
     public String name;
+
+    /**
+     * The id of the node that this medium belongs to.
+     */
     public long node;
+
+    /**
+     * The path of the file of this medium.
+     */
     public String path;
+
+    /**
+     * The id of the track that this medium belongs to.
+     */
     public String track;
 
+    /**
+     * The id of the way that this medium belongs to.
+     */
     public long way;
 
     public void delete() {
@@ -163,9 +244,9 @@ public class NewDBMedia implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("path", path);
-        values.put("node", node);
+        values.put("node", new Long(node));
         values.put("track", track);
-        values.put("way", way);
+        values.put("way", new Long(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert media");
@@ -180,9 +261,9 @@ public class NewDBMedia implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("path", path);
-        values.put("node", node);
+        values.put("node", new Long(node));
         values.put("track", track);
-        values.put("way", way);
+        values.put("way", new Long(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update media");
         }
