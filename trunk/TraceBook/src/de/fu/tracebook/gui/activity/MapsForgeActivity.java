@@ -377,7 +377,6 @@ public class MapsForgeActivity extends MapActivity {
             if (editNode.getDataPointsList() != null) {
                 StorageFactory.getStorage().getOverlayManager()
                         .updateOverlayRoute(editNode.getDataPointsList(), null);
-                LogIt.d("Requesting redraw");
                 routesOverlay.requestRedraw();
             }
 
@@ -430,55 +429,6 @@ public class MapsForgeActivity extends MapActivity {
     public void listBtn(View v) {
         Intent intent = new Intent(this, ListDataActivity.class);
         startActivity(intent);
-
-        // TODO
-        // ArrayWayOverlay awo = new ArrayWayOverlay(null, null);
-        // mapView.getOverlays().add(awo);
-        //
-        // Paint wayDefaultPaintFill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // wayDefaultPaintFill.setStyle(Paint.Style.STROKE);
-        // wayDefaultPaintFill.setColor(Color.BLUE);
-        // wayDefaultPaintFill.setAlpha(160);
-        // wayDefaultPaintFill.setStrokeWidth(7);
-        // wayDefaultPaintFill.setStrokeJoin(Paint.Join.ROUND);
-        // wayDefaultPaintFill.setPathEffect(new DashPathEffect(new float[] {
-        // 20,
-        // 20 }, 0));
-        //
-        // Paint wayDefaultPaintOutline = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // wayDefaultPaintOutline.setStyle(Paint.Style.STROKE);
-        // wayDefaultPaintOutline.setColor(Color.BLUE);
-        // wayDefaultPaintOutline.setAlpha(128);
-        // wayDefaultPaintOutline.setStrokeWidth(7);
-        // wayDefaultPaintOutline.setStrokeJoin(Paint.Join.ROUND);
-        //
-        // OverlayWay ow = new OverlayWay(new GeoPoint[][] {});
-        // ow.setPaint(wayDefaultPaintFill, wayDefaultPaintOutline);
-        //
-        // awo.addWay(ow);
-        // awo.requestRedraw();
-        //
-        // GeoPoint[][] wps = new GeoPoint[][] { {
-        // new GeoPoint(52.452192, 13.295785),
-        // new GeoPoint(52.454008, 13.295785),
-        // new GeoPoint(52.454008, 13.297456) } };
-        // ow.setWayData(wps);
-        // routesOverlay.requestRedraw();
-        //
-        // try {
-        // Thread.sleep(1000);
-        // } catch (InterruptedException e) {
-        // // do nothing
-        // }
-        //
-        // GeoPoint[][] wps2 = new GeoPoint[][] { {
-        // new GeoPoint(52.452192, 13.295785),
-        // new GeoPoint(52.454008, 13.295785),
-        // new GeoPoint(52.454008, 13.297456),
-        // new GeoPoint(52.456008, 13.297456) } };
-        // ow.setWayData(wps2);
-        // awo.requestRedraw();
-
     }
 
     /**
