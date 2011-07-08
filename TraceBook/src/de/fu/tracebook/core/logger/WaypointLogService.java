@@ -32,7 +32,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.IBinder;
 import de.fu.tracebook.core.data.IDataNode;
@@ -108,6 +107,7 @@ public class WaypointLogService extends Service implements LocationListener {
                 else {
                     WayFilter.smoothenPoints(tmp.getNodes(), 3, 3); // TODO
                     WayFilter.filterPoints(tmp.getNodes(), 2); // TODO
+                    // TODO
                     getSender().sendEndWay(tmp.getId());
                     return tmp.getId();
                 }
@@ -251,9 +251,6 @@ public class WaypointLogService extends Service implements LocationListener {
             return;
         }
 
-        // LogIt.d("Receive location update. " + loc.getLatitude() + " "
-        // + loc.getLongitude());
-
         sender.sendCurrentPosition(loc);
 
         lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
@@ -273,22 +270,15 @@ public class WaypointLogService extends Service implements LocationListener {
     }
 
     public void onProviderDisabled(String arg0) {
-        LogIt.w("Provider disabled"); // TODO
+        // do nothing
     }
 
     public void onProviderEnabled(String provider) {
-        LogIt.w("Provider enabled"); // TODO
+        // do nothing
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO remove? is only debug for now
-        if (status == LocationProvider.AVAILABLE) {
-            LogIt.w("Location now available");
-        } else if (status == LocationProvider.OUT_OF_SERVICE) {
-            LogIt.w("Location NOT available");
-        } else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-            LogIt.w("Location currently not available");
-        }
+        // do nothing
     }
 
     /**

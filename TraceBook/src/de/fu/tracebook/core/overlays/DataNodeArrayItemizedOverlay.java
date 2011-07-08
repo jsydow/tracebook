@@ -72,7 +72,7 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                 context.startActivity(intent);
                 break;
             case 1: // move this
-                sender.sendMovePoint((int) node.getId());
+                sender.sendMovePoint(node.getId());
                 break;
             case 2: // delete this
                 IDataPointsList way = null;
@@ -80,10 +80,13 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
                     way = node.getDataPointsList();
                     if (Helper.currentTrack() != null
                             && Helper.currentTrack().deleteNode(node.getId())) {
-                        removeItem(StorageFactory.getStorage()
-                                .getOverlayManager().getOverlayItem(node));
-                        if (way != null) // we have to redraw the way
+                        // removeItem(StorageFactory.getStorage()
+                        // .getOverlayManager().getOverlayItem(node));
+                        sender.sendDiscardIntent();
+                        if (way != null) { // we have to redraw the way
                             sender.sendWayUpdate(way.getId(), -1);
+                        }
+                        requestRedraw();
                     } else {
                         LogIt.popup(context,
                                 "Can not delete Node id=" + node.getId());
@@ -122,7 +125,6 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
 
     @Override
     protected boolean onTap(int index) {
-        LogIt.d("DataNode.onTap()");
         final OverlayItem item = createItem(index);
         final IDataNode node = StorageFactory.getStorage().getOverlayManager()
                 .getNode(item);
@@ -130,7 +132,6 @@ public class DataNodeArrayItemizedOverlay extends ArrayItemizedOverlay {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
 
         if (node != null) {
-            builder.setTitle("id: " + node.getId());
             contextMenueListener.setNode(node);
             builder.setItems(contextMenueListener.getItems(),
                     contextMenueListener);
