@@ -106,8 +106,8 @@ public class NewPointsList implements IDataPointsList {
         }
     }
 
-    public IDataNode deleteNode(int nodeId) {
-        // not needed: see NewTrack
+    public IDataNode deleteNode(long nodeId) {
+        StorageFactory.getStorage().getTrack().deleteNode(nodeId);
         return null;
     }
 

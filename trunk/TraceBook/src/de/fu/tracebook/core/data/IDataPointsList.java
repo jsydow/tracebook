@@ -32,13 +32,13 @@ public interface IDataPointsList extends IDataMapObject {
      * This method deletes a Node on the working memory and devices memory
      * completely.
      * 
-     * @param nodeId
+     * @param l
      *            The id of the node to be deleted. If this node does not exist
      *            nothing is done.
      * @return A reference to the deleted DataNode object if it exists, null
      *         otherwise.
      */
-    IDataNode deleteNode(int nodeId);
+    IDataNode deleteNode(long l);
 
     /**
      * Searches for a Node in this Track by the specified id.

@@ -20,6 +20,7 @@
 package de.fu.tracebook.gui.activity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.MapViewMode;
 import org.mapsforge.android.maps.OverlayItem;
 import org.mapsforge.android.maps.OverlayWay;
+import org.mapsforge.android.maps.Projection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,6 +41,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -57,6 +60,7 @@ import de.fu.tracebook.core.bugs.Bug;
 import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
+import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.overlays.BugOverlay;
@@ -64,6 +68,7 @@ import de.fu.tracebook.core.overlays.DataNodeArrayItemizedOverlay;
 import de.fu.tracebook.core.overlays.DataPointsListArrayRouteOverlay;
 import de.fu.tracebook.util.GpsMessage;
 import de.fu.tracebook.util.Helper;
+import de.fu.tracebook.util.LineSimplification;
 import de.fu.tracebook.util.LogIt;
 
 /**
@@ -144,7 +149,6 @@ public class MapsForgeActivity extends MapActivity {
                     IDataPointsList way = Helper.currentTrack()
                             .getPointsListById(wayId);
                     if (way != null) {
-                        LogIt.d("Way has " + way.getNodes().size() + " nodes.");
 
                         if (oldWayId != wayId) {
                             // add new way
@@ -183,17 +187,52 @@ public class MapsForgeActivity extends MapActivity {
             case GpsMessage.END_WAY:
                 LogIt.d("End way for way " + wayId + " received.");
 
-                IDataPointsList way = Helper.currentTrack().getPointsListById(
-                        wayId);
-                if (way != null) {
-                    StorageFactory.getStorage().getOverlayManager()
-                            .updateOverlayRoute(way, null);
-                    OverlayWay w = StorageFactory.getStorage()
-                            .getOverlayManager().getOverlayRoute(way);
-                    routesOverlay.color(way, w, false);
-                    routesOverlay.requestRedraw();
-                }
-                removeInvalidItems();
+                (new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+
+                        IDataPointsList way = Helper.currentTrack()
+                                .getPointsListById(wayId);
+
+                        if (way != null) {
+                            // simplify line
+                            Projection proj = mapView.getProjection();
+
+                            // project GeoPoints to Points
+                            List<IDataNode> nodes = way.getNodes();
+                            List<Point> points = new ArrayList<Point>(
+                                    nodes.size());
+                            for (IDataNode n : nodes) {
+                                points.add(proj.toPoint(n.getCoordinates(),
+                                        null, (byte) 18));
+                            }
+                            // Simplify line.
+                            LineSimplification.simplify(points, 40);
+                            int size = points.size();
+                            IDataTrack track = StorageFactory.getStorage()
+                                    .getTrack();
+                            // Deleted way points are set to zero.
+                            // Search for nulls and delete the node
+                            for (int i = 0; i < size; ++i) {
+                                if (points.get(i) == null) {
+                                    track.deleteNode(nodes.get(i).getId());
+                                }
+                            }
+
+                            StorageFactory.getStorage().getOverlayManager()
+                                    .updateOverlayRoute(way, null);
+                            OverlayWay w = StorageFactory.getStorage()
+                                    .getOverlayManager().getOverlayRoute(way);
+                            routesOverlay.color(way, w, false);
+                            routesOverlay.requestRedraw();
+                        }
+                        removeInvalidItems();
+
+                        return null;
+                    }
+
+                }).execute();
                 break;
             case GpsMessage.REMOVE_INVALIDS:
                 removeInvalidItems();
@@ -201,16 +240,6 @@ public class MapsForgeActivity extends MapActivity {
             default:
                 LogIt.e("unhandled Message, ID="
                         + intend.getIntExtra("type", -1));
-            }
-        }
-
-        private void removeInvalidItems() {
-            LogIt.d("Request to remove invalid nodes");
-
-            Collection<OverlayItem> invalids = StorageFactory.getStorage()
-                    .getOverlayManager().getAndClearInvalidOverlayItems();
-            for (OverlayItem oi : invalids) {
-                pointsOverlay.removeItem(oi);
             }
         }
 
@@ -228,6 +257,16 @@ public class MapsForgeActivity extends MapActivity {
                 centerMap = false;
             } else {
                 centerMap = true;
+            }
+        }
+
+        void removeInvalidItems() {
+            LogIt.d("Request to remove invalid nodes");
+
+            Collection<OverlayItem> invalids = StorageFactory.getStorage()
+                    .getOverlayManager().getAndClearInvalidOverlayItems();
+            for (OverlayItem oi : invalids) {
+                pointsOverlay.removeItem(oi);
             }
         }
     }
@@ -305,6 +344,8 @@ public class MapsForgeActivity extends MapActivity {
      *            not used/.
      */
     public void bugsBtn(View v) {
+        LogIt.w("ZoomLevel: " + mapView.getZoomLevel());
+
         final GeoPoint p = currentGeoPoint == null ? mapView.getMapCenter()
                 : currentGeoPoint;
 
@@ -374,6 +415,8 @@ public class MapsForgeActivity extends MapActivity {
                     (int) ev.getX(), (int) ev.getY());
 
             editNode.setLocation(projection);
+            StorageFactory.getStorage().getOverlayManager()
+                    .getOverlayItem(editNode).setPoint(projection);
             if (editNode.getDataPointsList() != null) {
                 StorageFactory.getStorage().getOverlayManager()
                         .updateOverlayRoute(editNode.getDataPointsList(), null);
@@ -383,13 +426,13 @@ public class MapsForgeActivity extends MapActivity {
             pointsOverlay.requestRedraw();
 
             if (ev.getAction() == MotionEvent.ACTION_UP) {
-                LogIt.d("Exiting edit mode for point " + editNode.getId());
                 editNode = null;
             }
 
             return true;
-        } else
+        } else {
             return super.dispatchTouchEvent(ev);
+        }
     }
 
     /**

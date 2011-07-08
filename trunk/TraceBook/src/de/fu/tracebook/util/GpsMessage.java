@@ -160,7 +160,7 @@ public class GpsMessage {
      * @param id
      *            the ID of the DataNode that will enter edit mode
      */
-    public void sendMovePoint(int id) {
+    public void sendMovePoint(long id) {
         Intent intent = new Intent(TAG);
         intent.putExtra(EXTRA_TYPE, MOVE_POINT);
         intent.putExtra(EXTRA_POINT_ID, id);

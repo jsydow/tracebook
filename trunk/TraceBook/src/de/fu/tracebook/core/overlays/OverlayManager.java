@@ -203,9 +203,7 @@ public class OverlayManager {
      *            Additional waypoint appended to the way. May be null.
      */
     public void updateOverlayRoute(IDataPointsList way, GeoPoint additional) {
-        LogIt.e("updateroute:");
         GeoPoint[][] wps = new GeoPoint[][] { way.toGeoPointArray(additional) };
-        LogIt.e(wps.length + " " + wps[0].length);
         getOverlayRoute(way).setWayData(wps);
     }
 }
