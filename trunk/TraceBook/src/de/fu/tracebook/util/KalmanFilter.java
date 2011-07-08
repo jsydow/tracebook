@@ -168,7 +168,7 @@ public class KalmanFilter {
      * @param y
      *            The first measured y value.
      */
-    KalmanFilter(double x, double y) {
+    public KalmanFilter(double x, double y) {
         buildKf(x, y);
         lastX = x;
         lastY = y;
@@ -190,7 +190,7 @@ public class KalmanFilter {
         Matrix est = kf.getX();
         lastX = x;
         lastY = y;
-        return new GeoPoint((int) est.get(0, 0), (int) est.get(1, 0));
+        return new GeoPoint(est.get(1, 0), est.get(0, 0));
     }
 
     /**
