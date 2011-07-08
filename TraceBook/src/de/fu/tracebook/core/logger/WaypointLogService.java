@@ -40,7 +40,6 @@ import de.fu.tracebook.core.data.IDataStorage;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.util.GpsMessage;
 import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.util.WayFilter;
 
 /**
  * This background service logs GPS data and stores it in the
@@ -105,9 +104,6 @@ public class WaypointLogService extends Service implements LocationListener {
                 if (tmp.getNodes().size() < 2)
                     getStorage().getTrack().deleteWay(tmp.getId());
                 else {
-                    WayFilter.smoothenPoints(tmp.getNodes(), 3, 3); // TODO
-                    WayFilter.filterPoints(tmp.getNodes(), 2); // TODO
-                    // TODO
                     getSender().sendEndWay(tmp.getId());
                     return tmp.getId();
                 }
