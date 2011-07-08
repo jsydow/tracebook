@@ -39,6 +39,7 @@ import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataStorage;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.util.GpsMessage;
+import de.fu.tracebook.util.KalmanFilter;
 import de.fu.tracebook.util.LogIt;
 
 /**
@@ -183,6 +184,8 @@ public class WaypointLogService extends Service implements LocationListener {
         }
     };
 
+    private KalmanFilter filter = null;
+
     private boolean gps_on = false;
 
     private LocationListener locListener = this;
@@ -251,6 +254,14 @@ public class WaypointLogService extends Service implements LocationListener {
 
         lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
 
+        // Apply the Kalman filter
+        if (filter == null) {
+            filter = new KalmanFilter(loc.getLongitude(), loc.getLatitude());
+        }
+        GeoPoint filteredPoint = filter.filter(lastCoordinate);
+
+        LogIt.d("Loc: " + lastCoordinate + ", Filter: " + filteredPoint);
+
         if (!currentNodes.isEmpty()) { // one_shot or POI mode
             for (IDataNode node : currentNodes) {
                 // update position of this node
@@ -260,7 +271,7 @@ public class WaypointLogService extends Service implements LocationListener {
             currentNodes.clear();
         }
         if (currentWay() != null) {
-            IDataNode nn = currentWay().newNode(lastCoordinate);
+            IDataNode nn = currentWay().newNode(filteredPoint);
             sender.sendWayUpdate(currentWay().getId(), nn.getId());
         }
     }
@@ -338,6 +349,7 @@ public class WaypointLogService extends Service implements LocationListener {
             ((LocationManager) getSystemService(Context.LOCATION_SERVICE))
                     .removeUpdates(locListener);
         }
+        filter = null;
         gps_on = false;
     }
 }

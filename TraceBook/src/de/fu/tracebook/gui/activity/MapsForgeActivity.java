@@ -208,6 +208,7 @@ public class MapsForgeActivity extends MapActivity {
                                         null, (byte) 18));
                             }
                             // Simplify line.
+                            // TODO find appropriate value
                             LineSimplification.simplify(points, 40);
                             int size = points.size();
                             IDataTrack track = StorageFactory.getStorage()
