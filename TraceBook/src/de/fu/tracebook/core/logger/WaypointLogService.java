@@ -260,8 +260,6 @@ public class WaypointLogService extends Service implements LocationListener {
         }
         GeoPoint filteredPoint = filter.filter(lastCoordinate);
 
-        LogIt.d("Loc: " + lastCoordinate + ", Filter: " + filteredPoint);
-
         if (!currentNodes.isEmpty()) { // one_shot or POI mode
             for (IDataNode node : currentNodes) {
                 // update position of this node
