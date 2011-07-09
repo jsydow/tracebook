@@ -205,14 +205,17 @@ public class MapsForgeActivity extends MapActivity {
                                     nodes.size());
                             for (IDataNode n : nodes) {
                                 points.add(proj.toPoint(n.getCoordinates(),
-                                        null, (byte) 18));
+                                        null, mapView.getZoomLevel()));
                             }
+
                             // Simplify line.
-                            // TODO find appropriate value
-                            LineSimplification.simplify(points, 40);
+                            float pixelPerMeter = mapView.getProjection()
+                                    .metersToPixels(3);
+                            LineSimplification.simplify(points, pixelPerMeter);
                             int size = points.size();
                             IDataTrack track = StorageFactory.getStorage()
                                     .getTrack();
+
                             // Deleted way points are set to zero.
                             // Search for nulls and delete the node
                             for (int i = 0; i < size; ++i) {
@@ -345,7 +348,9 @@ public class MapsForgeActivity extends MapActivity {
      *            not used/.
      */
     public void bugsBtn(View v) {
+        Projection proj = mapView.getProjection();
         LogIt.w("ZoomLevel: " + mapView.getZoomLevel());
+        LogIt.w("PixelPerMeter: " + proj.metersToPixels(3));
 
         final GeoPoint p = currentGeoPoint == null ? mapView.getMapCenter()
                 : currentGeoPoint;

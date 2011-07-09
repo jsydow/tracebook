@@ -148,6 +148,7 @@ public final class Helper {
                                     int which) {
                                 dialog.cancel();
 
+                                // TODO Thread it
                                 String trackname = StorageFactory.getStorage()
                                         .getTrack().getName();
 
