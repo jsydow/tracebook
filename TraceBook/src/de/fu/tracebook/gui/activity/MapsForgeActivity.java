@@ -41,13 +41,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -663,6 +666,49 @@ public class MapsForgeActivity extends MapActivity {
                 getResources().getString(R.string.tv_statusbar_mapsforgeDesc));
     }
 
+    private void checkGpsStatus() {
+        LocationManager loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Get the app's shared preferences
+        SharedPreferences appPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        if (!loc.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                && appPreferences.getBoolean("check_GPSbyStartTracking", true)) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle(this.getResources().getString(
+                    R.string.alert_NewTrackActivity_NoGpsTitle));
+            builder.setMessage(this.getResources().getString(
+                    R.string.alert_NewTrackActivity_NoGpsMessage));
+
+            builder.setPositiveButton(
+                    this.getResources().getString(R.string.alert_global_yes),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent intent = new Intent(
+                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(intent);
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.setNegativeButton(
+                    this.getResources().getString(R.string.alert_global_no),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.show();
+
+        }
+
+    }
+
     /**
      * Gets the preferred Online Tile Style from the Preferences object.
      */
@@ -706,6 +752,8 @@ public class MapsForgeActivity extends MapActivity {
                 R.id.ly_mapsforgeActivity_statusbar, false);
 
         gpsReceiver = new GPSReceiver();
+
+        checkGpsStatus();
 
     }
 
