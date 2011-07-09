@@ -40,6 +40,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -144,28 +145,42 @@ public final class Helper {
                                 R.string.alert_global_no),
                         new DialogInterface.OnClickListener() {
 
-                            public void onClick(DialogInterface dialog,
+                            public void onClick(final DialogInterface dialog,
                                     int which) {
-                                dialog.cancel();
 
-                                // TODO Thread it
-                                String trackname = StorageFactory.getStorage()
-                                        .getTrack().getName();
+                                (new AsyncTask<Void, Void, Void>() {
 
-                                if (StorageFactory.getStorage().getTrack()
-                                        .isNew()) {
-                                    StorageFactory.getStorage().deleteTrack(
-                                            trackname);
-                                }
-                                StorageFactory.getStorage().unloadAllTracks();
-                                try {
-                                    ServiceConnector.getLoggerService()
-                                            .pauseLogging();
+                                    @Override
+                                    protected Void doInBackground(
+                                            Void... params) {
+                                        String trackname = StorageFactory
+                                                .getStorage().getTrack()
+                                                .getName();
 
-                                } catch (RemoteException e) {
+                                        if (StorageFactory.getStorage()
+                                                .getTrack().isNew()) {
+                                            StorageFactory.getStorage()
+                                                    .deleteTrack(trackname);
+                                        }
+                                        StorageFactory.getStorage()
+                                                .unloadAllTracks();
+                                        return null;
+                                    }
 
-                                    e.printStackTrace();
-                                }
+                                    @Override
+                                    protected void onPreExecute() {
+                                        dialog.cancel();
+                                        try {
+                                            ServiceConnector.getLoggerService()
+                                                    .pauseLogging();
+
+                                        } catch (RemoteException e) {
+
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).execute();
+
                                 activity.finish();
                             }
                         });
@@ -494,7 +509,7 @@ public final class Helper {
 
     /**
      * 
-     * This method start the tracking notification for the user.
+     * This method starts the tracking notification for the user.
      * 
      * @param activity
      *            The activity from which the method called.
@@ -552,7 +567,7 @@ public final class Helper {
     }
 
     /**
-     * This method start the tracking notification for the user.
+     * This method stops the tracking notification for the user.
      * 
      * @param activity
      *            The activity from which the method called.
@@ -565,6 +580,6 @@ public final class Helper {
 
     }
 
-    private Helper() { // Do nothing - why Checkstyle, why?!
+    private Helper() { // Do nothing
     }
 }

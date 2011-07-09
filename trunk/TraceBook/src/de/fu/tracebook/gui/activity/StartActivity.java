@@ -29,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.data.db.TagDb;
@@ -57,24 +56,6 @@ public class StartActivity extends Activity {
     }
 
     /**
-     * When the Map button is pressed.
-     * 
-     * @param view
-     *            Not used.
-     */
-    public void mapBtn(View view) {
-        if (Helper.currentTrack() == null)
-            try {
-                ServiceConnector.getLoggerService().startTrack();
-            } catch (RemoteException e) {
-                LogIt.e("Could not start new track as logger service cannot be reached.");
-            }
-
-        Intent intent = new Intent(this, MapsForgeActivity.class);
-        startActivity(intent);
-    }
-
-    /**
      * Called if the newTrack button pressed. Start the NewTrackActivity and the
      * tracking notification for the user
      * 
@@ -92,7 +73,7 @@ public class StartActivity extends Activity {
                 LogIt.e("Could not start new track as logger service cannot be reached.");
             }
 
-        Intent intent = new Intent(this, NewTrackActivity.class);
+        Intent intent = new Intent(this, MapsForgeActivity.class);
         startActivity(intent);
     }
 
@@ -174,17 +155,7 @@ public class StartActivity extends Activity {
         final Intent intent;
 
         switch (item.getItemId()) {
-        // close application
-        case R.id.opt_startActivity_close:
-            try {
-                ServiceConnector.getLoggerService().stopTrack();
-            } catch (RemoteException e) {
-                LogIt.e("Could not stop track.");
-            }
-            ServiceConnector.stopService();
-            finish();
-            return true;
-            // show about dialog
+        // show about dialog
         case R.id.opt_startActivity_about:
             intent = new Intent(this, HelpWebView.class);
             intent.putExtra("About", Locale.getDefault().getLanguage());
@@ -226,19 +197,5 @@ public class StartActivity extends Activity {
         super.onResume();
 
         Helper.stopUserNotification(this);
-        // Set Button text of New Track button
-        Button newTrackBtn = (Button) findViewById(R.id.btn_startActivity_newTrack);
-        Button startTrackBtn = (Button) findViewById(R.id.btn_startActivity_map);
-        if (Helper.currentTrack() == null) {
-            newTrackBtn.setText(getResources().getString(
-                    R.string.btn_startActivity_newTrack));
-            startTrackBtn.setText(getResources().getString(
-                    R.string.btn_startActivity_newTrack));
-        } else {
-            newTrackBtn.setText(getResources().getString(
-                    R.string.btn_startActivity_resumeTrack));
-            startTrackBtn.setText(getResources().getString(
-                    R.string.btn_startActivity_resumeTrack));
-        }
     }
 }

@@ -447,7 +447,7 @@ public class AddPointActivity extends ListActivity {
         // node
         setNodeInformation();
 
-        // Initializes Adapter and fill with new Information
+        // Initialises Adapter and fill with new Information
         initAdapter();
         try {
             if (ServiceConnector.getLoggerService().isLogging()) {

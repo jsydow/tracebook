@@ -523,6 +523,7 @@ public class LoadTrackActivity extends ListActivity {
             searchText = "";
         }
 
+        Helper.stopUserNotification(this);
         updateAdapter();
 
     }
