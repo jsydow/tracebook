@@ -28,6 +28,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -40,6 +41,7 @@ import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMedia;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.adapter.GenericAdapter;
 import de.fu.tracebook.gui.adapter.GenericAdapterData;
 import de.fu.tracebook.gui.adapter.GenericItemDescription;
@@ -192,6 +194,25 @@ public class ListMediaActivity extends ListActivity {
                 R.id.ly_listmediaActivity_statusbar, false);
 
         initAdapter();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            if (ServiceConnector.getLoggerService().isLogging()) {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_active,
+                        NewTrackActivity.class, true);
+            } else {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_pause,
+                        NewTrackActivity.class, false);
+            }
+        } catch (RemoteException e) {
+
+            e.printStackTrace();
+        }
     }
 
 }

@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.util.Helper;
 
 /**
@@ -193,6 +195,25 @@ public class TrackInfoActivity extends Activity {
                 R.id.ly_trackinfoActivity_statusbar, false);
 
         (new TextUpdater()).execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            if (ServiceConnector.getLoggerService().isLogging()) {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_active,
+                        NewTrackActivity.class, true);
+            } else {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_pause,
+                        NewTrackActivity.class, false);
+            }
+        } catch (RemoteException e) {
+
+            e.printStackTrace();
+        }
     }
 
     /**

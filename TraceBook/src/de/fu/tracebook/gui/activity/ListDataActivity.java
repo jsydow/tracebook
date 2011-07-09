@@ -29,6 +29,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -41,6 +42,7 @@ import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.gui.adapter.GenericAdapter;
 import de.fu.tracebook.gui.adapter.GenericAdapterData;
 import de.fu.tracebook.gui.adapter.GenericItemDescription;
@@ -300,6 +302,20 @@ public class ListDataActivity extends ListActivity {
     protected void onResume() {
         super.onResume();
         initListView();
+        try {
+            if (ServiceConnector.getLoggerService().isLogging()) {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_active,
+                        NewTrackActivity.class, true);
+            } else {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_pause,
+                        NewTrackActivity.class, false);
+            }
+        } catch (RemoteException e) {
+
+            e.printStackTrace();
+        }
     }
 
 }

@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import de.fu.tracebook.core.data.IDataNode;
@@ -70,10 +71,10 @@ public class WaypointLogService extends Service implements LocationListener {
 
         public long beginWay() {
 
-            if (currentWay() == null) // start a new way
+            if (currentWay() == null) { // start a new way
                 getStorage().getTrack().setCurrentWay(
                         getStorage().getTrack().newWay());
-            // TODO kill old way
+            }
 
             return currentWay().getId();
         }
@@ -170,13 +171,15 @@ public class WaypointLogService extends Service implements LocationListener {
 
             if (getStorage().getTrack() != null) {
 
-                // TODO Thread it
-                long start = System.currentTimeMillis();
-                getStorage().serialize();
-                long stop = System.currentTimeMillis() - start;
-                LogIt.d("Saving Track (in WaypointLogService.stopTrack). Time: "
-                        + stop);
-                getStorage().unloadAllTracks();
+                (new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        getStorage().serialize();
+                        getStorage().unloadAllTracks();
+                        return null;
+                    }
+                }).execute();
                 return 1;
             }
 

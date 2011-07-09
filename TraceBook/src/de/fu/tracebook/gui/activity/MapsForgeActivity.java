@@ -776,6 +776,22 @@ public class MapsForgeActivity extends MapActivity {
             }
 
         }).execute();
+
+        try {
+            if (ServiceConnector.getLoggerService().isLogging()) {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_active,
+                        NewTrackActivity.class, true);
+            } else {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_pause,
+                        NewTrackActivity.class, false);
+            }
+        } catch (RemoteException e) {
+
+            e.printStackTrace();
+        }
+
         registerReceiver(gpsReceiver, new IntentFilter(GpsMessage.TAG));
     }
 

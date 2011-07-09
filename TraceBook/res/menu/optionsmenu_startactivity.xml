@@ -10,8 +10,7 @@
 	<item android:id="@+id/opt_startActivity_about" android:title="@string/opt_startActivity_about"
 		android:icon="@android:drawable/ic_menu_info_details" />
 
-	<item android:id="@+id/opt_startActivity_close" android:title="@string/opt_startActivity_close"
-		android:icon="@android:drawable/ic_menu_close_clear_cancel" />
+	
 
 
 </menu>

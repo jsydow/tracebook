@@ -393,7 +393,6 @@ public class NewTrackActivity extends TabActivity {
             ServiceConnector.getLoggerService().resumeLogging();
             Button resume = (Button) findViewById(R.id.btn_newtrackActivity_resume);
             resume.setVisibility(8);
-            // TODO user notification
             Helper.startUserNotification(this,
                     R.drawable.ic_notification_active, NewTrackActivity.class,
                     true);
