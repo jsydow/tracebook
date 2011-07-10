@@ -288,7 +288,7 @@ public class LoadTrackActivity extends ListActivity {
         setContentView(R.layout.activity_loadtrackactivity);
         registerForContextMenu(getListView());
 
-        setTextChangedListenerToSearchBox(checkEditText());
+        setTextChangedListenerToSearchBox((EditText) findViewById(R.id.et_statusbar_search));
 
         // Set status bar
         Helper.setStatusBar(this,
@@ -384,14 +384,6 @@ public class LoadTrackActivity extends ListActivity {
                 getResources().getString(R.string.tv_statusbar_loadtrackDesc));
     }
 
-    private EditText checkEditText() {
-        EditText loadTrackSearch = (EditText) findViewById(R.id.et_loadtrackactivity_search);
-        loadTrackSearch.setVisibility(View.GONE);
-        TextView loadTrackFilter = (TextView) findViewById(R.id.tv_loadtrackactivity_filter);
-        loadTrackFilter.setVisibility(View.GONE);
-        return (EditText) findViewById(R.id.et_statusbar_search);
-    }
-
     private void setTextChangedListenerToSearchBox(EditText etFilter) {
 
         if (etFilter == null)
@@ -467,19 +459,11 @@ public class LoadTrackActivity extends ListActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                             int id1) {
-                                        long start = System.currentTimeMillis();
                                         StorageFactory.getStorage().setTrack(
                                                 StorageFactory.getStorage()
                                                         .deserializeTrack(
                                                                 trackname));
-                                        long stop = System.currentTimeMillis()
-                                                - start;
-                                        LogIt.d("#### Stop loading. Time: "
-                                                + stop);
                                         startActivity(intent);
-                                        overridePendingTransition(
-                                                R.anim.zoom_enter,
-                                                R.anim.zoom_exit);
                                         finish();
 
                                     }
@@ -497,15 +481,11 @@ public class LoadTrackActivity extends ListActivity {
                 builder.show();
 
             } else {
-                long start = System.currentTimeMillis();
                 StorageFactory.getStorage()
                         .setTrack(
                                 StorageFactory.getStorage().deserializeTrack(
                                         trackname));
-                long stop = System.currentTimeMillis() - start;
-                LogIt.d("#### Stop loading. Time: " + stop);
                 startActivity(intent);
-                overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
 
         } else {
