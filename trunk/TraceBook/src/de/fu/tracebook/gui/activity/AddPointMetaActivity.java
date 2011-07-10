@@ -64,6 +64,9 @@ import de.fu.tracebook.util.LogIt;
  */
 public class AddPointMetaActivity extends ListActivity {
 
+    // TODO tag shortcuts
+    // TODO provide link to tag article in OSM-wiki
+
     /**
      * A simple enumeration class for tags.
      */

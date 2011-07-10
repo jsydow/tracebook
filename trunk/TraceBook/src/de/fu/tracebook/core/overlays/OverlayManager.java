@@ -41,7 +41,6 @@ import de.fu.tracebook.util.LogIt;
  * The OverlayManager manages the mapping from Items to Overlays and back.
  */
 public class OverlayManager {
-    // TODO delete and use special overlays
 
     private Queue<OverlayItem> invalidItems = new ConcurrentLinkedQueue<OverlayItem>();
     private BiMap<OverlayItem, IDataNode> overlayItemToNode = new BiMap<OverlayItem, IDataNode>();

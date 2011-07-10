@@ -323,6 +323,7 @@ public final class Helper {
         ImageView img = (ImageView) dialog
                 .findViewById(R.id.iv_searchInfoDialog_wikiImage);
 
+        // TODO thread it
         if (tag != null) {
             if (MapsForgeActivity.isOnline(activity)) {
                 try {
@@ -331,7 +332,7 @@ public final class Helper {
                     Drawable d = Drawable.createFromStream(is, "src");
                     img.setImageDrawable(d);
                 } catch (MalformedURLException e) {
-                    // TODO
+                    // TODO image?
                     img.setImageDrawable(context.getResources().getDrawable(
                             R.drawable.ic_noimage));
                 } catch (IOException e) {
