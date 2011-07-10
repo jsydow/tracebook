@@ -138,7 +138,7 @@ public class LoadTrackActivity extends ListActivity {
                     trackname);
             if (track != null) {
                 StorageFactory.getStorage().setTrack(track);
-                final Intent intent = new Intent(this, NewTrackActivity.class);
+                final Intent intent = new Intent(this, MapsForgeActivity.class);
                 startActivity(intent);
             } else {
                 LogIt.e("Track to load was not found or is corrupt.");
@@ -449,7 +449,7 @@ public class LoadTrackActivity extends ListActivity {
 
         GenericAdapterData datum = adapter.getItem(position);
         final String trackname = datum.getText("TrackName");
-        final Intent intent = new Intent(this, NewTrackActivity.class);
+        final Intent intent = new Intent(this, MapsForgeActivity.class);
 
         if (StorageFactory.getStorage().doesTrackExist(trackname)) {
             if (StorageFactory.getStorage().getTrack() != null) {
