@@ -673,6 +673,11 @@ public class MapsForgeActivity extends MapActivity {
         SharedPreferences appPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
+        LogIt.d("check gps status");
+        if (loc.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            LogIt.d("provider enabled");
+        }
+
         if (!loc.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 && appPreferences.getBoolean("check_GPSbyStartTracking", true)) {
 
@@ -829,11 +834,11 @@ public class MapsForgeActivity extends MapActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        NewTrackActivity.class, true);
+                        MapsForgeActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        NewTrackActivity.class, false);
+                        MapsForgeActivity.class, false);
             }
         } catch (RemoteException e) {
 
@@ -884,7 +889,7 @@ public class MapsForgeActivity extends MapActivity {
     }
 
     /**
-     * Switch to offine rendering unsing a specified map file.
+     * Switch to offline rendering using a specified map file.
      */
     void changeMapViewToOfflineRendering() {
         String mapFile = PreferenceManager.getDefaultSharedPreferences(this)

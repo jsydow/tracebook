@@ -394,7 +394,7 @@ public class NewTrackActivity extends TabActivity {
             Button resume = (Button) findViewById(R.id.btn_newtrackActivity_resume);
             resume.setVisibility(8);
             Helper.startUserNotification(this,
-                    R.drawable.ic_notification_active, NewTrackActivity.class,
+                    R.drawable.ic_notification_active, MapsForgeActivity.class,
                     true);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -632,13 +632,13 @@ public class NewTrackActivity extends TabActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        NewTrackActivity.class, true);
+                        MapsForgeActivity.class, true);
                 Button resume = (Button) findViewById(R.id.btn_newtrackActivity_resume);
                 resume.setVisibility(8);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        NewTrackActivity.class, false);
+                        MapsForgeActivity.class, false);
                 Button resume = (Button) findViewById(R.id.btn_newtrackActivity_resume);
                 resume.setVisibility(1);
             }
