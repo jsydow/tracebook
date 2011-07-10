@@ -217,7 +217,7 @@ public class KalmanFilter {
      */
     private void buildKf(double x, double y) {
 
-        final double L = 100.0; // initial value for covariance
+        final double L = 1.0; // initial value for covariance
         final double processNoise = 1.0; // noise of the filter
         final double measurementNoise = 1.0; // noise of the measurement.
 
