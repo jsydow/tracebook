@@ -219,7 +219,7 @@ public class KalmanFilter {
 
         final double L = 1.0; // initial value for covariance
         final double processNoise = 1.0; // noise of the filter
-        final double measurementNoise = 1.0; // noise of the measurement.
+        final double measurementNoise = 10.0; // noise of the measurement.
 
         // The state vector. It is the current estimate of the real position
         // made by the Kalman filter. This is the initial value.
