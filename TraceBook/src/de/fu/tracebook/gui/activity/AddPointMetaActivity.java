@@ -35,6 +35,7 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMapObject;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -65,7 +67,6 @@ import de.fu.tracebook.util.LogIt;
 public class AddPointMetaActivity extends ListActivity {
 
     // TODO tag shortcuts
-    // TODO provide link to tag article in OSM-wiki
 
     /**
      * A simple enumeration class for tags.
@@ -193,6 +194,10 @@ public class AddPointMetaActivity extends ListActivity {
                 }
             });
         }
+
+        // TODO make language dependent
+        TextView linkTv = (TextView) findViewById(R.id.tv_addpointmetaActivity_osmWikiLink);
+        linkTv.setMovementMethod(LinkMovementMethod.getInstance());
 
         fillListView();
 
