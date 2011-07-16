@@ -131,10 +131,11 @@ public class MapsForgeActivity extends MapActivity {
                     currentPosOI = Helper.getOverlayItem(currentGeoPoint,
                             R.drawable.card_marker_green,
                             MapsForgeActivity.this);
+                    pointsOverlay.addItem(currentPosOI);
                 }
+
                 currentPosOI.setPoint(currentGeoPoint);
-                pointsOverlay.addItem(currentPosOI);
-                // TODO what is done with the old one?
+                pointsOverlay.requestRedraw();
 
                 // Centre map if activated.
                 if (centerMap) {
@@ -213,7 +214,7 @@ public class MapsForgeActivity extends MapActivity {
 
                             // Simplify line.
                             float pixelPerMeter = mapView.getProjection()
-                                    .metersToPixels(3);
+                                    .metersToPixels(2);
                             LineSimplification.simplify(points, pixelPerMeter);
                             int size = points.size();
                             IDataTrack track = StorageFactory.getStorage()
@@ -223,7 +224,10 @@ public class MapsForgeActivity extends MapActivity {
                             // Search for nulls and delete the node
                             for (int i = 0; i < size; ++i) {
                                 if (points.get(i) == null) {
-                                    track.deleteNode(nodes.get(i).getId());
+                                    IDataNode node = nodes.get(i);
+                                    if (!node.hasAdditionalInfo()) {
+                                        track.deleteNode(node.getId());
+                                    }
                                 }
                             }
 
@@ -265,6 +269,13 @@ public class MapsForgeActivity extends MapActivity {
             } else {
                 centerMap = true;
             }
+        }
+
+        /**
+         * Will reinitialise the current position.
+         */
+        void reinitPosition() {
+            currentPosOI = null;
         }
 
         void removeInvalidItems() {
@@ -740,6 +751,9 @@ public class MapsForgeActivity extends MapActivity {
         LogIt.d("Creating MapActivity");
 
         setContentView(R.layout.activity_mapsforgeactivity);
+
+        gpsReceiver = new GPSReceiver();
+
         mapView = (MapView) findViewById(R.id.ly_mapsforgeMapView);
 
         pointsOverlay = new DataNodeArrayItemizedOverlay(this);
@@ -755,8 +769,6 @@ public class MapsForgeActivity extends MapActivity {
                 getResources().getString(R.string.tv_statusbar_mapsforgeTitle),
                 getResources().getString(R.string.tv_statusbar_mapsforgeDesc),
                 R.id.ly_mapsforgeActivity_statusbar, false);
-
-        gpsReceiver = new GPSReceiver();
 
         checkGpsStatus();
 
@@ -906,6 +918,9 @@ public class MapsForgeActivity extends MapActivity {
         pointsOverlay.clear();
         pointsOverlay.addItems(StorageFactory.getStorage().getOverlayManager()
                 .getOverlayItems(this));
+        if (gpsReceiver != null) {
+            gpsReceiver.reinitPosition();
+        }
 
         routesOverlay.clear();
         routesOverlay.addWays(Helper.currentTrack().getWays());
