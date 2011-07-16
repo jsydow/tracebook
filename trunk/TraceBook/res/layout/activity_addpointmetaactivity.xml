@@ -22,6 +22,12 @@
 	<AutoCompleteTextView android:id="@+id/ac_addpointmetaActivity_value"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:completionThreshold="1" android:textColor="#000" />
+		
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:id="@+id/tv_addpointmetaActivity_osmWikiLink"
+		android:text="@string/tv_addpointmetaActivity_osmWikiLink"
+		android:padding="5dip" />
 
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
