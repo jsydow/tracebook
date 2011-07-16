@@ -114,8 +114,8 @@ public class ListMediaActivity extends ListActivity {
         final int[] imgs = { R.drawable.btn_notice, R.drawable.btn_photo,
                 R.drawable.btn_memo, R.drawable.btn_video };
 
-        desc.addResourceId("name", R.id.tv_listrow);
-        desc.addResourceId("img", R.id.iv_listrow);
+        desc.addResourceId("name", R.id.tv_listmedia_listrow);
+        desc.addResourceId("img", R.id.iv_listmedia_listrow);
 
         List<GenericAdapterData> data = new ArrayList<GenericAdapterData>();
         List<IDataMedia> allMedia = holder.getMedia();
@@ -131,8 +131,8 @@ public class ListMediaActivity extends ListActivity {
 
             data.add(item);
         }
-        // TODO neues Layout
-        adapter = new GenericAdapter(this, R.layout.listview_filepicker,
+
+        adapter = new GenericAdapter(this, R.layout.listview_listmedia,
                 R.id.list, data);
 
         setListAdapter(adapter);
