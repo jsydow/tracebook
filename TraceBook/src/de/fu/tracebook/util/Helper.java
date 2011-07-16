@@ -312,7 +312,7 @@ public final class Helper {
      *            Close given activity after the button has been clicked.
      * @return Reference to the generated dialog.
      */
-    public static Dialog makeInfoDialog(final Context context,
+    public static void makeInfoDialog(final Context context,
             final Activity activity, final TagSearchResult tag,
             final String buttonCaption, final boolean closeActivityAfterDialog) {
         final Dialog dialog = new Dialog(context);
@@ -320,28 +320,40 @@ public final class Helper {
         dialog.setTitle(R.string.string_searchInfoDialog_title);
         dialog.setCancelable(true);
 
-        ImageView img = (ImageView) dialog
+        final ImageView img = (ImageView) dialog
                 .findViewById(R.id.iv_searchInfoDialog_wikiImage);
 
         // TODO thread it
         if (tag != null) {
+            img.setImageDrawable(context.getResources().getDrawable(
+                    R.drawable.ic_noimage));
+
             if (MapsForgeActivity.isOnline(activity)) {
-                try {
-                    URL url = new URL(tag.getImage());
-                    InputStream is = (InputStream) url.getContent();
-                    Drawable d = Drawable.createFromStream(is, "src");
-                    img.setImageDrawable(d);
-                } catch (MalformedURLException e) {
-                    // TODO image?
-                    img.setImageDrawable(context.getResources().getDrawable(
-                            R.drawable.ic_noimage));
-                } catch (IOException e) {
-                    img.setImageDrawable(context.getResources().getDrawable(
-                            R.drawable.ic_noimage));
-                }
-            } else {
-                img.setImageDrawable(context.getResources().getDrawable(
-                        R.drawable.ic_noimage));
+                (new AsyncTask<Void, Void, Drawable>() {
+
+                    @Override
+                    protected Drawable doInBackground(Void... arg0) {
+                        try {
+                            URL url = new URL(tag.getImage());
+                            InputStream is = (InputStream) url.getContent();
+                            Drawable d = Drawable.createFromStream(is, "src");
+                            return d;
+                        } catch (MalformedURLException e) {
+                            // do nothing
+                        } catch (IOException e) {
+                            // do nothing
+                        }
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Drawable result) {
+                        if (result != null) {
+                            img.setImageDrawable(result);
+                        }
+                    }
+                }).execute();
             }
 
             TextView cat = (TextView) dialog
@@ -379,7 +391,7 @@ public final class Helper {
             }
         });
 
-        return dialog;
+        dialog.show();
     }
 
     /**

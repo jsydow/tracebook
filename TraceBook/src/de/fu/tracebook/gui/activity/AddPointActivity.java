@@ -28,7 +28,6 @@ import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -427,10 +426,7 @@ public class AddPointActivity extends ListActivity {
 
         TagDb db = new TagDb(getBaseContext());
         TagSearchResult tag = db.getDetails(key, value, language);
-        Dialog infoDialog = Helper.makeInfoDialog(this, this, tag, "Close",
-                false);
-
-        infoDialog.show();
+        Helper.makeInfoDialog(this, this, tag, "Close", false);
     }
 
     /**

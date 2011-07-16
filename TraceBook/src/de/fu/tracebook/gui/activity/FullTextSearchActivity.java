@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -356,10 +355,7 @@ public class FullTextSearchActivity extends ListActivity {
 
         ts = currTagSearchResult.get(position);
 
-        final Dialog infoDialog = Helper.makeInfoDialog(this, this, ts,
-                "Apply", true);
-
-        infoDialog.show();
+        Helper.makeInfoDialog(this, this, ts, "Apply", true);
     }
 
     @Override
