@@ -55,7 +55,7 @@ public final class PointLineDistance {
         // dot product
         double t = pxMax * bxMax + pyMay * byMay;
 
-        if (t < 0) {
+        if (t <= 0) {
             // p beyond a
             return pxMax * pxMax + pyMay * pyMay;
         }
