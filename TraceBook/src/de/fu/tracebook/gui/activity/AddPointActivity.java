@@ -312,7 +312,6 @@ public class AddPointActivity extends ListActivity {
                 && object instanceof IDataNode
                 && ((IDataNode) object).getDataPointsList() == null) {
             LogIt.d("POI is empty, will not keep it");
-            // TODO nullpointerexception here
             Helper.currentTrack().deleteNode(object.getId());
             (new GpsMessage(this)).sendDiscardIntent();
         }
@@ -450,11 +449,11 @@ public class AddPointActivity extends ListActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        AddPointActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        AddPointActivity.class, false);
             }
         } catch (RemoteException e) {
 

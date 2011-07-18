@@ -306,11 +306,11 @@ public class ListDataActivity extends ListActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        ListDataActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        ListDataActivity.class, false);
             }
         } catch (RemoteException e) {
 

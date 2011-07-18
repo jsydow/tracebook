@@ -49,6 +49,7 @@ public class RecordVideoActivity extends Activity implements
 
     private IDataMediaHolder node;
     private SurfaceHolder surfaceHolder;
+    private SurfaceView surfaceView;
 
     /**
      * Preferences for this activity.
@@ -90,8 +91,9 @@ public class RecordVideoActivity extends Activity implements
         setContentView(R.layout.activity_recordvideoactivity);
         setTitle(R.string.string_startActivity_title);
 
-        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.sfv_recordvideoActivity_camera);
-
+        surfaceView = (SurfaceView) findViewById(R.id.sfv_recordvideoActivity_camera);
+        setSurfaceSize(surfaceHolder, surfaceView.getWidth(),
+                surfaceView.getHeight());
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -163,18 +165,15 @@ public class RecordVideoActivity extends Activity implements
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
             int height) {
         LogIt.d("surface changed: " + width + " " + height);
-        // width / height
-        float ratio = width / height;
-        if (1.45 > ratio) {
-            holder.setFixedSize(width, (int) (width * 2.0 / 3.0));
-        } else if (1.55 < ratio) {
-            holder.setFixedSize((int) (height * 3.0 / 2.0), height);
-        }
+        setSurfaceSize(holder, width, height);
+        surfaceView.requestLayout();
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         int maxDuration = 60 * Integer.parseInt(preferences.getString(
                 "lst_maxVideoRecording", "0"));
+        setSurfaceSize(holder, holder.getSurfaceFrame().width(), holder
+                .getSurfaceFrame().height());
 
         try {
             recorder.prepare(maxDuration, holder.getSurface());
@@ -187,6 +186,18 @@ public class RecordVideoActivity extends Activity implements
         // Does nothing. Literally.
     }
 
+    private void setSurfaceSize(SurfaceHolder holder, int width, int height) {
+        // width / height
+        if (height > 0) {
+            float ratio = width / height;
+            if (1.45 > ratio) {
+                holder.setFixedSize(width, (int) (width * 2.0 / 3.0));
+            } else if (1.55 < ratio) {
+                holder.setFixedSize((int) (height * 3.0 / 2.0), height);
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -194,11 +205,11 @@ public class RecordVideoActivity extends Activity implements
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        RecordVideoActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        RecordVideoActivity.class, false);
             }
         } catch (RemoteException e) {
 
