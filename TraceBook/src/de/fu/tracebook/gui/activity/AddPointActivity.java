@@ -312,6 +312,7 @@ public class AddPointActivity extends ListActivity {
                 && object instanceof IDataNode
                 && ((IDataNode) object).getDataPointsList() == null) {
             LogIt.d("POI is empty, will not keep it");
+            // TODO nullpointerexception here
             Helper.currentTrack().deleteNode(object.getId());
             (new GpsMessage(this)).sendDiscardIntent();
         }

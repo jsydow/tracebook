@@ -73,8 +73,8 @@ public class AddMemoActivity extends Activity {
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("NodeId");
-            int wayId = extras.getInt("WayId");
+            long nodeId = extras.getLong("NodeId");
+            long wayId = extras.getLong("WayId");
             if (nodeId != 0) {
                 node = StorageFactory.getStorage().getTrack()
                         .getNodeById(nodeId);

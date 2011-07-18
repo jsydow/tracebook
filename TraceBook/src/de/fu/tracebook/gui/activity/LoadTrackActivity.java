@@ -224,6 +224,8 @@ public class LoadTrackActivity extends ListActivity {
                     .findViewById(R.id.tv_trackInfoDialog_timestamp);
             texttime.setText(trackinfo.getDatetime());
 
+            // TODO deal with number of ways pois media
+
             // set up button
             Button button = (Button) infoDialog
                     .findViewById(R.id.btn_trackInfoDialog_back);
@@ -281,9 +283,6 @@ public class LoadTrackActivity extends ListActivity {
         // remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        getApplicationContext()
-                .setTheme(android.R.style.Theme_Black_NoTitleBar);
-        updateAdapter();
         setTitle(R.string.string_loadtrackActivity_title);
         setContentView(R.layout.activity_loadtrackactivity);
         registerForContextMenu(getListView());
@@ -527,6 +526,7 @@ public class LoadTrackActivity extends ListActivity {
      * Updates the list.
      */
     void updateAdapter() {
+        LogIt.d("update adapter");
         final LoadTrackActivity thisActivity = this;
         (new AsyncTask<Void, Void, Void>() {
             @Override

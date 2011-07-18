@@ -34,7 +34,7 @@ public class VideoRecorder extends Recorder {
     private boolean isReady = false;
     private MediaRecorder recorder;
 
-    // TODO funktioniert nicht
+    // TODO fix ratio of preview
 
     /**
      * Because of the nature of recording a video with MediaRecorder, we have to

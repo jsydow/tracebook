@@ -24,6 +24,7 @@ import java.io.File;
 import de.fu.tracebook.core.data.IDataMedia;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * Mother of all TraceBook media files. This class is the common ancestor of all
@@ -80,8 +81,9 @@ public abstract class Recorder {
     public IDataMedia appendFileToObject(IDataMediaHolder parent) {
         IDataMedia dm = StorageFactory.getMediaObject(getBaseDir(),
                 getFilename());
-
+        LogIt.d("appending " + dm.getName());
         parent.addMedia(dm);
+        LogIt.d("size " + parent.getMedia().size());
         return dm;
     }
 

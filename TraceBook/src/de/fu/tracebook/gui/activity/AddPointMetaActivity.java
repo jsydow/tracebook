@@ -195,7 +195,6 @@ public class AddPointMetaActivity extends ListActivity {
             });
         }
 
-        // TODO make language dependent
         TextView linkTv = (TextView) findViewById(R.id.tv_addpointmetaActivity_osmWikiLink);
         linkTv.setMovementMethod(LinkMovementMethod.getInstance());
 

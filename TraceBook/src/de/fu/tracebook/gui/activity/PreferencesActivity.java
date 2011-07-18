@@ -37,8 +37,6 @@ import de.fu.tracebook.util.Helper;
  */
 public class PreferencesActivity extends PreferenceActivity {
 
-    // TODO update preference menu
-
     /**
      * A reference to the system wide PreferenceManager to avoid re initing it
      * all the time.
