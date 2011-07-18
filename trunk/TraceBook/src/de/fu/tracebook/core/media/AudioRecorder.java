@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.media.MediaRecorder;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * This class provides required methods for interacting with the MediaRecorder
@@ -32,8 +33,6 @@ import android.media.MediaRecorder;
 public class AudioRecorder extends Recorder {
     private boolean isReady = false;
     private MediaRecorder recorder;
-
-    // TODO funktioniert nicht
 
     /**
      * Prepares the recorder.
@@ -71,6 +70,7 @@ public class AudioRecorder extends Recorder {
     @Override
     public String start() {
         if (isReady && !isRecording) {
+            LogIt.d("start");
             recorder.start();
             isRecording = true;
 

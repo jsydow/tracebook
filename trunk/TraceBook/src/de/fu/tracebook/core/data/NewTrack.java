@@ -102,7 +102,7 @@ public class NewTrack implements IDataTrack {
     public void addMedia(IDataMedia medium) {
         NewDBMedia media = ((NewMedia) medium).getDBMedia();
         media.track = name;
-        media.save();
+        media.insert();
     }
 
     /**

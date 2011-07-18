@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -67,11 +68,12 @@ public class RecordVideoActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         Helper.setTheme(this);
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         final Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            int nodeId = extras.getInt("NodeId");
-            int wayId = extras.getInt("WayId");
+            long nodeId = extras.getLong("NodeId");
+            long wayId = extras.getLong("WayId");
             if (nodeId != 0) {
                 node = StorageFactory.getStorage().getTrack()
                         .getNodeById(nodeId);
@@ -160,7 +162,14 @@ public class RecordVideoActivity extends Activity implements
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
             int height) {
-        // Does nothing. Literally.
+        LogIt.d("surface changed: " + width + " " + height);
+        // width / height
+        float ratio = width / height;
+        if (1.45 > ratio) {
+            holder.setFixedSize(width, (int) (width * 2.0 / 3.0));
+        } else if (1.55 < ratio) {
+            holder.setFixedSize((int) (height * 3.0 / 2.0), height);
+        }
     }
 
     public void surfaceCreated(SurfaceHolder holder) {

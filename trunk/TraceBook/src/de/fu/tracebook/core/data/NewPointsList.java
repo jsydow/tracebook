@@ -71,7 +71,7 @@ public class NewPointsList implements IDataPointsList {
     public void addMedia(IDataMedia medium) {
         NewDBMedia media = ((NewMedia) medium).getDBMedia();
         media.way = id;
-        media.save();
+        media.insert();
     }
 
     public void addTag(String key, String value) {

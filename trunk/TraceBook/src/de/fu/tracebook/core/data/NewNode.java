@@ -98,7 +98,7 @@ public class NewNode implements IDataNode {
     public void addMedia(IDataMedia medium) {
         NewDBMedia media = ((NewMedia) medium).getDBMedia();
         media.node = id;
-        media.save();
+        media.insert();
     }
 
     public void addTag(String key, String value) {
