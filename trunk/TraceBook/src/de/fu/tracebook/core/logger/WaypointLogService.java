@@ -29,12 +29,14 @@ import org.mapsforge.android.maps.GeoPoint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataStorage;
@@ -256,12 +258,19 @@ public class WaypointLogService extends Service implements LocationListener {
         sender.sendCurrentPosition(loc);
 
         lastCoordinate = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+        GeoPoint filteredPoint;
+        SharedPreferences appPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
 
-        // Apply the Kalman filter
-        if (filter == null) {
-            filter = new KalmanFilter(loc.getLongitude(), loc.getLatitude());
+        if (appPreferences.getBoolean("check_GPSSmoothWays", true)) {
+            // Apply the Kalman filter
+            if (filter == null) {
+                filter = new KalmanFilter(loc.getLongitude(), loc.getLatitude());
+            }
+            filteredPoint = filter.filter(lastCoordinate);
+        } else {
+            filteredPoint = lastCoordinate;
         }
-        GeoPoint filteredPoint = filter.filter(lastCoordinate);
 
         if (!currentNodes.isEmpty()) { // one_shot or POI mode
             for (IDataNode node : currentNodes) {

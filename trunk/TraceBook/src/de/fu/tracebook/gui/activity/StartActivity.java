@@ -101,19 +101,6 @@ public class StartActivity extends Activity {
                 if (db.getRowCountForLanguage("en") < 1) {
                     db.initDbWithFile(R.raw.tags_en);
                 }
-
-                if (db.getRowCountForLanguage("tr") < 1) {
-                    db.initDbWithFile(R.raw.tags_tr);
-                }
-
-                if (db.getRowCountForLanguage("pl") < 1) {
-                    db.initDbWithFile(R.raw.tags_pl);
-                }
-
-                if (db.getRowCountForLanguage("fr") < 1) {
-                    db.initDbWithFile(R.raw.tags_fr);
-                }
-
             }
         }).start();
 
