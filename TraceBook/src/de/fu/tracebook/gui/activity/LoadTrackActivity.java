@@ -224,7 +224,20 @@ public class LoadTrackActivity extends ListActivity {
                     .findViewById(R.id.tv_trackInfoDialog_timestamp);
             texttime.setText(trackinfo.getDatetime());
 
-            // TODO deal with number of ways pois media
+            // set up media
+            TextView textmedia = (TextView) infoDialog
+                    .findViewById(R.id.tv_trackInfoDialog_media);
+            textmedia.setText("" + trackinfo.getMedia().size());
+
+            // set up pois
+            TextView textpois = (TextView) infoDialog
+                    .findViewById(R.id.tv_trackInfoDialog_pois);
+            textpois.setText("" + trackinfo.getNodes().size());
+
+            // set up ways
+            TextView textways = (TextView) infoDialog
+                    .findViewById(R.id.tv_trackInfoDialog_ways);
+            textways.setText("" + trackinfo.getWays().size());
 
             // set up button
             Button button = (Button) infoDialog
