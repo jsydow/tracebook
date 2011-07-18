@@ -513,11 +513,11 @@ public class AddPointMetaActivity extends ListActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        AddPointMetaActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        AddPointMetaActivity.class, false);
             }
         } catch (RemoteException e) {
 

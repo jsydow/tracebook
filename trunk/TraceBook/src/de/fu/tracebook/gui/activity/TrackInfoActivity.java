@@ -204,11 +204,11 @@ public class TrackInfoActivity extends Activity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        TrackInfoActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        TrackInfoActivity.class, false);
             }
         } catch (RemoteException e) {
 

@@ -365,11 +365,11 @@ public class FullTextSearchActivity extends ListActivity {
             if (ServiceConnector.getLoggerService().isLogging()) {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_active,
-                        MapsForgeActivity.class, true);
+                        FullTextSearchActivity.class, true);
             } else {
                 Helper.startUserNotification(this,
                         R.drawable.ic_notification_pause,
-                        MapsForgeActivity.class, false);
+                        FullTextSearchActivity.class, false);
             }
         } catch (RemoteException e) {
 
