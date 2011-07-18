@@ -200,33 +200,41 @@ public class MapsForgeActivity extends MapActivity {
                                 .getPointsListById(wayId);
 
                         if (way != null) {
-                            // simplify line
-                            Projection proj = mapView.getProjection();
+                            SharedPreferences appPreferences = PreferenceManager
+                                    .getDefaultSharedPreferences(MapsForgeActivity.this);
 
-                            // project GeoPoints to Points
-                            List<IDataNode> nodes = way.getNodes();
-                            List<Point> points = new ArrayList<Point>(
-                                    nodes.size());
-                            for (IDataNode n : nodes) {
-                                points.add(proj.toPoint(n.getCoordinates(),
-                                        null, mapView.getZoomLevel()));
-                            }
+                            if (appPreferences.getBoolean(
+                                    "check_GPSSimplifyWays", true)) {
 
-                            // Simplify line.
-                            float pixelPerMeter = mapView.getProjection()
-                                    .metersToPixels(2);
-                            LineSimplification.simplify(points, pixelPerMeter);
-                            int size = points.size();
-                            IDataTrack track = StorageFactory.getStorage()
-                                    .getTrack();
+                                // simplify line
+                                Projection proj = mapView.getProjection();
 
-                            // Deleted way points are set to zero.
-                            // Search for nulls and delete the node
-                            for (int i = 0; i < size; ++i) {
-                                if (points.get(i) == null) {
-                                    IDataNode node = nodes.get(i);
-                                    if (!node.hasAdditionalInfo()) {
-                                        track.deleteNode(node.getId());
+                                // project GeoPoints to Points
+                                List<IDataNode> nodes = way.getNodes();
+                                List<Point> points = new ArrayList<Point>(
+                                        nodes.size());
+                                for (IDataNode n : nodes) {
+                                    points.add(proj.toPoint(n.getCoordinates(),
+                                            null, mapView.getZoomLevel()));
+                                }
+
+                                // Simplify line.
+                                float pixelPerMeter = mapView.getProjection()
+                                        .metersToPixels(2);
+                                LineSimplification.simplify(points,
+                                        pixelPerMeter);
+                                int size = points.size();
+                                IDataTrack track = StorageFactory.getStorage()
+                                        .getTrack();
+
+                                // Deleted way points are set to zero.
+                                // Search for nulls and delete the node
+                                for (int i = 0; i < size; ++i) {
+                                    if (points.get(i) == null) {
+                                        IDataNode node = nodes.get(i);
+                                        if (!node.hasAdditionalInfo()) {
+                                            track.deleteNode(node.getId());
+                                        }
                                     }
                                 }
                             }

@@ -310,7 +310,6 @@ public final class Helper {
      *            Caption of the button in the dialog.
      * @param closeActivityAfterDialog
      *            Close given activity after the button has been clicked.
-     * @return Reference to the generated dialog.
      */
     public static void makeInfoDialog(final Context context,
             final Activity activity, final TagSearchResult tag,
@@ -323,7 +322,6 @@ public final class Helper {
         final ImageView img = (ImageView) dialog
                 .findViewById(R.id.iv_searchInfoDialog_wikiImage);
 
-        // TODO thread it
         if (tag != null) {
             img.setImageDrawable(context.getResources().getDrawable(
                     R.drawable.ic_noimage));
@@ -488,36 +486,13 @@ public final class Helper {
     }
 
     /**
-     * This method check the selected theme from the preferences menu and set
-     * the theme for the activity.
+     * This method sets the theme for the activity.
      * 
      * @param activity
      *            context of the application
      */
     public static void setTheme(Activity activity) {
-        SharedPreferences appPreferences = PreferenceManager
-                .getDefaultSharedPreferences(activity);
-        int theme = Integer.parseInt(appPreferences.getString(
-                "lst_switchTheme", "1"));
-        switch (theme) {
-        case 1:
-            activity.setTheme(android.R.style.Theme_Black);
-            break;
-        case 0:
-            activity.setTheme(android.R.style.Theme_Light);
-            break;
-        case 2:
-            activity.setTheme(R.style.TraceBookCarbon);
-            break;
-        case 3:
-            activity.setTheme(R.style.TraceBookGreen);
-            break;
-        case 4:
-            activity.setTheme(R.style.TraceBookStickyNode);
-            break;
-        default:
-            activity.setTheme(android.R.style.Theme_Black);
-        }
+        activity.setTheme(android.R.style.Theme_Black);
     }
 
     /**

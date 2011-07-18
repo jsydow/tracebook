@@ -297,4 +297,8 @@
 <string name="tv_statusbar_listDataDesc">Lists all data of the current track.</string>
 <string name="string_listDataActivity_noData">No data recorded.</string>
 <string name="tv_addpointmetaActivity_osmWikiLink"><a href="http://wiki.openstreetmap.org/wiki/Map_Features">Official tag-reference</a></string>
+<string name="string_preferences_checkSimplify">Filter ways</string>
+<string name="string_preferences_descSimplify">Check if ways shall be simplified removing unnecessary way points.</string>
+<string name="string_preferences_checkSmooth">Smoothen ways</string>
+<string name="string_preferences_descSmooth">Check if way points of ways shall be smoothed reducing the noise of th GPS signal.</string>
 </resources>

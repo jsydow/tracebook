@@ -20,10 +20,8 @@
 package de.fu.tracebook.gui.view;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import de.fu.tracebook.R;
@@ -33,14 +31,6 @@ import de.fu.tracebook.R;
  * device language.
  */
 public class HelpWebView extends Activity {
-
-    /**
-     * Need this for zoom control of our webView.
-     */
-    // private static final FrameLayout.LayoutParams ZOOM_PARAMS = new
-    // FrameLayout.LayoutParams(
-    // ViewGroup.LayoutParams.FILL_PARENT,
-    // ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
 
     /**
      * WebView for our WebView which we use in this activity.
@@ -55,15 +45,6 @@ public class HelpWebView extends Activity {
             super.onBackPressed();
         }
     }
-
-    // @Override
-    // public boolean onKeyDown(int keyCode, KeyEvent event) {
-    // if ((keyCode == KeyEvent.KEYCODE_BACK) && webview.canGoBack()) {
-    // webview.goBack();
-    // return true;
-    // }
-    // return super.onKeyDown(keyCode, event);
-    // }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -98,12 +79,6 @@ public class HelpWebView extends Activity {
         setContentView(R.layout.activity_webviewactivity);
 
         webview = (WebView) findViewById(R.id.wv_helpwebviewActivity_webview);
-        // webview.getSettings().setJavaScriptEnabled(true);
-        // FrameLayout mContentView = (FrameLayout) getWindow().getDecorView()
-        // .findViewById(android.R.id.content);
-        // final View zoom = this.webview.getZoomControls();
-        // mContentView.addView(zoom, ZOOM_PARAMS);
-        // zoom.setVisibility(View.GONE);
 
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -114,33 +89,9 @@ public class HelpWebView extends Activity {
         });
 
         if (about) {
-            SharedPreferences appPreferences = PreferenceManager
-                    .getDefaultSharedPreferences(this);
-            switch (Integer.parseInt(appPreferences.getString(
-                    "lst_switchTheme", "1"))) {
-            case 1:
-                webview.loadUrl("file:///android_asset/about/about-dark-"
-                        + language + ".html");
-                break;
-            case 0:
-                webview.loadUrl("file:///android_asset/about/about-light-"
-                        + language + ".html");
-                break;
-            case 2:
-                webview.loadUrl("file:///android_asset/about/about-dark-"
-                        + language + ".html");
-                break;
-            case 3:
-                webview.loadUrl("file:///android_asset/about/about-light-"
-                        + language + ".html");
-                break;
-            case 4:
-                webview.loadUrl("file:///android_asset/about/about-light-"
-                        + language + ".html");
-                break;
-            default:
+            webview.loadUrl("file:///android_asset/about/about-dark-"
+                    + language + ".html");
 
-            }
         } else if (help) {
             webview.loadUrl("file:///android_asset/help/help-" + language
                     + ".html");

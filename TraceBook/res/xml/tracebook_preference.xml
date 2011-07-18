@@ -5,6 +5,14 @@
 		<CheckBoxPreference android:title="@string/string_preferences_checkGPS"
 			android:defaultValue="true" android:summary="@string/string_preferences_descGPS"
 			android:key="check_GPSbyStartTracking" />
+			
+		<CheckBoxPreference android:title="@string/string_preferences_checkSmooth"
+			android:defaultValue="true" android:summary="@string/string_preferences_descSmooth"
+			android:key="check_GPSSmoothWays" />
+			
+		<CheckBoxPreference android:title="@string/string_preferences_checkSimplify"
+			android:defaultValue="true" android:summary="@string/string_preferences_descSimplify"
+			android:key="check_GPSSimplifyWays" />
 
 		<ListPreference android:title="@string/string_preferences_stopGPS"
 			android:key="lst_stopGPSafterSeconds" android:defaultValue="10"
@@ -17,10 +25,6 @@
 			android:defaultValue="false"
 			android:summary="@string/string_preferences_descLocalTitleMapCache"
 			android:key="check_activateLocalTitleMapCache" />
-
-		<CheckBoxPreference android:title="@string/string_preferences_setMapFilter"
-			android:defaultValue="true" android:summary="@string/string_preferences_descMapFilter"
-			android:key="check_setMapFilter" />
 
 		<ListPreference android:title="@string/string_preferences_onlineTitleStyle"
 			android:key="lst_setOnlineTitleStyle" android:defaultValue="OSMA"
@@ -47,20 +51,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/string_preferences_catGUI">
-		<CheckBoxPreference android:title="@string/string_preferences_showStatusbar"
-			android:defaultValue="false" android:summary="@string/string_preferences_descShowStatusbar"
-			android:key="check_visbilityStatusbar" />
-
-		<CheckBoxPreference android:title="@string/string_preferences_showGPSsiginalQuality"
-			android:defaultValue="true"
-			android:summary="@string/string_preferences_descShowGPSsiginalQuality"
-			android:key="check_showGPSsignalQuality" />
-
-		<ListPreference android:title="@string/string_preferences_switchTheme"
-			android:key="lst_switchTheme" android:defaultValue="1"
-			android:entries="@array/switchTheme" android:entryValues="@array/switchTheme_values"
-			android:summary="@string/string_preferences_descSwitchTheme" />
-
 		<CheckBoxPreference android:title="@string/string_preferences_displayOn"
 			android:defaultValue="false" android:summary="@string/string_preferences_descDisplayOn"
 			android:key="check_displayAlwaysOn" />
