@@ -147,7 +147,7 @@ public class NewDBPointsList implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isarea", new Boolean(isArea));
+        values.put("isarea", Boolean.valueOf(isArea));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert way");
@@ -162,7 +162,7 @@ public class NewDBPointsList implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
         values.put("track", track);
-        values.put("isarea", new Boolean(isArea));
+        values.put("isarea", Boolean.valueOf(isArea));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update way");
         }

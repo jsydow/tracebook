@@ -181,10 +181,10 @@ public class NewDBNode implements NewDBObject {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
-        values.put("latitude", new Integer(latitude));
-        values.put("longitude", new Integer(longitude));
+        values.put("latitude", Integer.valueOf(latitude));
+        values.put("longitude", Integer.valueOf(longitude));
         values.put("track", track);
-        values.put("way", new Long(way));
+        values.put("way", Long.valueOf(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert node");
@@ -198,10 +198,10 @@ public class NewDBNode implements NewDBObject {
         SQLiteDatabase db = DBOpenHelper.getInstance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("datetime", datetime);
-        values.put("latitude", new Integer(latitude));
-        values.put("longitude", new Integer(longitude));
+        values.put("latitude", Integer.valueOf(latitude));
+        values.put("longitude", Integer.valueOf(longitude));
         values.put("track", track);
-        values.put("way", new Long(way));
+        values.put("way", Long.valueOf(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update node");
         }
