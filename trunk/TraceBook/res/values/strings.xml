@@ -169,6 +169,9 @@
 	<string name="alert_trackinfoActivity_rename">Rename Track</string>
 	<string name="popup_mapsforgeactivity_nocoords">Current location unknown. Please wait for GPS fix.</string>
 	<string name="alert_mapsforgeactivity_bugdesc">Bug description:</string>
+	<string name="alert_mapsforgeactivity_choosewayarea">Do you want to record a way or an area?</string>
+	<string name="alert_mapsforgeactivity_chooseway">Way</string>
+	<string name="alert_mapsforgeactivity_choosearea">Area</string>
 
 	<!-- Option menu values -->
 	<string name="opt_startActivity_preferences">Preferences</string>
