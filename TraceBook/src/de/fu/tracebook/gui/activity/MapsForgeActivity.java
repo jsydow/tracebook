@@ -559,13 +559,45 @@ public class MapsForgeActivity extends MapActivity {
                 case 1:
                     // start or stop way
                     if (way == null) {
-                        try {
-                            // TODO ask if area
-                            ServiceConnector.getLoggerService().beginWay();
 
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        AlertDialog.Builder wayDlgBuilder = new AlertDialog.Builder(
+                                MapsForgeActivity.this);
+                        wayDlgBuilder
+                                .setTitle(
+                                        R.string.alert_mapsforgeactivity_newway)
+                                .setMessage(
+                                        R.string.alert_mapsforgeactivity_choosewayarea)
+                                .setPositiveButton(
+                                        R.string.alert_mapsforgeactivity_chooseway,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(
+                                                    DialogInterface dlg, int id) {
+                                                try {
+                                                    ServiceConnector
+                                                            .getLoggerService()
+                                                            .beginWay();
+                                                } catch (RemoteException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        })
+                                .setNegativeButton(
+                                        R.string.alert_mapsforgeactivity_choosearea,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(
+                                                    DialogInterface dlg, int id) {
+                                                try {
+                                                    ServiceConnector
+                                                            .getLoggerService()
+                                                            .beginArea();
+                                                } catch (RemoteException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                        AlertDialog alert = wayDlgBuilder.create();
+                        alert.show();
+
                     } else {
                         try {
                             ServiceConnector.getLoggerService().endWay();

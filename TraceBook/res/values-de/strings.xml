@@ -163,6 +163,9 @@
 	<string name="alert_trackinfoActivity_rename">Track umbenennen</string>
 	<string name="popup_mapsforgeactivity_nocoords">Aktuelle Position ist nicht bekannt. Bitte warten sie auf einen GPS Fix</string>
 	<string name="alert_mapsforgeactivity_bugdesc">Bugbeschreibung:</string>
+	<string name="alert_mapsforgeactivity_choosewayarea">Was wollen sie aufnehmen?</string>
+	<string name="alert_mapsforgeactivity_chooseway">Weg</string>
+	<string name="alert_mapsforgeactivity_choosearea">Fläche</string>
 
 	<!-- Option menu values -->
 	<string name="opt_startActivity_preferences">Einstellungen</string>
