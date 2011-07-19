@@ -17,7 +17,7 @@ public class KalmanFilter {
      * 
      * @author Ahmed Abdelkader, comments by Jan Sydow
      */
-    private class KalmanFilterAlgorithm {
+    private static class KalmanFilterAlgorithm {
         protected Matrix F, B, U, Q;
         protected Matrix H, R;
         protected Matrix P, P0;

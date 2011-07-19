@@ -201,8 +201,8 @@ public class NewDBTag implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("key", key);
         values.put("value", value);
-        values.put("node", new Long(node));
-        values.put("way", new Long(way));
+        values.put("node", Long.valueOf(node));
+        values.put("way", Long.valueOf(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert tag");
@@ -217,8 +217,8 @@ public class NewDBTag implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("key", key);
         values.put("value", value);
-        values.put("node", new Long(node));
-        values.put("way", new Long(way));
+        values.put("node", Long.valueOf(node));
+        values.put("way", Long.valueOf(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update tag");
         }

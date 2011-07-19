@@ -244,9 +244,9 @@ public class NewDBMedia implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("path", path);
-        values.put("node", new Long(node));
+        values.put("node", Long.valueOf(node));
         values.put("track", track);
-        values.put("way", new Long(way));
+        values.put("way", Long.valueOf(way));
         long rowID = db.insert(TABLENAME, null, values);
         if (rowID == -1) {
             LogIt.e("Could not insert media");
@@ -261,9 +261,9 @@ public class NewDBMedia implements NewDBObject {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("path", path);
-        values.put("node", new Long(node));
+        values.put("node", Long.valueOf(node));
         values.put("track", track);
-        values.put("way", new Long(way));
+        values.put("way", Long.valueOf(way));
         if (db.update(TABLENAME, values, "id = " + id, null) == -1) {
             LogIt.e("Could not update media");
         }

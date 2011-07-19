@@ -189,7 +189,7 @@ public class RecordVideoActivity extends Activity implements
     private void setSurfaceSize(SurfaceHolder holder, int width, int height) {
         // width / height
         if (height > 0) {
-            float ratio = width / height;
+            float ratio = (float) width / (float) height;
             if (1.45 > ratio) {
                 holder.setFixedSize(width, (int) (width * 2.0 / 3.0));
             } else if (1.55 < ratio) {
