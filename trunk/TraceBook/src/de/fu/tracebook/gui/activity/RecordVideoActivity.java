@@ -118,11 +118,11 @@ public class RecordVideoActivity extends Activity implements
     public void onRecordBtn(View view) {
         final int maxDuration = 1000 * 60 * Integer.parseInt(preferences
                 .getString("lst_maxVideoRecording", "0"));
-
+        
         ((Button) findViewById(R.id.btn_recordvideoActivity_startRec))
-                .setEnabled(false);
+        .setEnabled(false);
         ((Button) findViewById(R.id.btn_recordvideoActivity_stopRec))
-                .setEnabled(true);
+        .setEnabled(true);
 
         if (!recorder.isRecording()) {
             if (maxDuration > 0) {

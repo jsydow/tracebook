@@ -107,6 +107,31 @@ public class ListMediaActivity extends ListActivity {
                 R.string.cm_listmediaActivity_title));
     }
 
+    /**
+     * The Method for the preference image Button from the status bar. The
+     * Method starts the PreferenceActivity.
+     * 
+     * @param view
+     *            not used
+     */
+    public void statusBarPrefBtn(View view) {
+        final Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This Method for the two (title and description) button from the status
+     * bar. This method starts the dialog with all activity informations.
+     * 
+     * @param v
+     *            not used
+     */
+    public void statusBarTitleBtn(View v) {
+        Helper.setActivityInfoDialog(this,
+                getResources().getString(R.string.tv_statusbar_listmediaTitle),
+                getResources().getString(R.string.tv_statusbar_listmediaDesc));
+    }
+
     private void initAdapter() {
         TextView info = (TextView) findViewById(R.id.tv_listmediaActivity_statusInfo);
         GenericItemDescription desc = new GenericItemDescription();
