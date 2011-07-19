@@ -31,6 +31,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -97,6 +98,9 @@ public class RecordVideoActivity extends Activity implements
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        ((Button) findViewById(R.id.btn_recordvideoActivity_stopRec))
+                .setEnabled(false);
     }
 
     @Override
@@ -114,6 +118,11 @@ public class RecordVideoActivity extends Activity implements
     public void onRecordBtn(View view) {
         final int maxDuration = 1000 * 60 * Integer.parseInt(preferences
                 .getString("lst_maxVideoRecording", "0"));
+
+        ((Button) findViewById(R.id.btn_recordvideoActivity_startRec))
+                .setEnabled(false);
+        ((Button) findViewById(R.id.btn_recordvideoActivity_stopRec))
+                .setEnabled(true);
 
         if (!recorder.isRecording()) {
             if (maxDuration > 0) {

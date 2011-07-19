@@ -146,7 +146,7 @@
 	<string name="toast_noneExistentNode">Node does not exist!</string>
 
 	<!-- AlertBox values -->
-	<string name="alert_addmemoactivity_progressdialog">Please wait.\nRecording is starting soon...
+	<string name="alert_addmemoactivity_progressdialog">Please wait.\nInitialising recorder...
 	</string>
 	<string name="alert_global_cancel">Cancel</string>
 	<string name="alert_global_ok">Ok</string>

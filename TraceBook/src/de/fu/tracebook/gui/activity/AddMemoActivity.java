@@ -31,6 +31,7 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMediaHolder;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -90,7 +91,9 @@ public class AddMemoActivity extends Activity {
                 .getDefaultSharedPreferences(getBaseContext());
         setContentView(R.layout.activity_addmemoactivity);
         setTitle(R.string.string_addmemoActivity_title);
-        startMemo();
+
+        ((Button) findViewById(R.id.btn_addmemoactivity_stopRecord))
+                .setEnabled(false);
     }
 
     @Override
@@ -118,22 +121,16 @@ public class AddMemoActivity extends Activity {
                 .getString("lst_maxVideoRecording", "0"));
 
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setMessage(getResources().getString(
                 R.string.alert_addmemoactivity_progressdialog));
         dialog.setCancelable(false);
         dialog.show();
+
         (new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    int step = 0;
-
-                    while (step < 50) {
-                        Thread.sleep(2000 / 50);
-                        step++;
-                        dialog.incrementProgressBy(2);
-                    }
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -143,21 +140,16 @@ public class AddMemoActivity extends Activity {
                     recorder.prepare(maxDuration);
 
                     if (maxDuration > 0) {
-                        (new Thread() {
-                            @Override
-                            public void run() {
-                                recorder.start();
+                        recorder.start();
 
-                                try {
-                                    Thread.sleep(maxDuration);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                        try {
+                            Thread.sleep(maxDuration);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-                                stopMemo();
-                                finish();
-                            }
-                        }).start();
+                        stopMemo();
+                        finish();
                     } else {
                         recorder.start();
                     }
@@ -165,6 +157,12 @@ public class AddMemoActivity extends Activity {
                     e.printStackTrace();
                 }
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                ((Button) findViewById(R.id.btn_addmemoactivity_stopRecord))
+                        .setEnabled(true);
             }
         }).execute();
     }
@@ -177,6 +175,8 @@ public class AddMemoActivity extends Activity {
      */
     public void startMemoBtn(View view) {
         if (!recorder.isRecording()) {
+            Button btn = (Button) view;
+            btn.setEnabled(false);
             startMemo();
         }
     }
