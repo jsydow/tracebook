@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- String values -->
-	<string name="string_global_poi">POI</string>
-	<string name="string_global_way">Way</string>
-	<string name="string_global_area">Area</string>
 	<string name="string_global_categoryTitle">Category: </string>
-	<string name="string_global_valueTitle">Value: </string>
+	<string name="string_global_valueTitle">Value: </string>     
 	<string name="string_global_descriptionTitle">Description: </string>
 	<string name="string_loadtrackactivity_comment"></string>
 	<string name="string_loadtrackactivity_nocomment">No comment.</string>
 	<string name="string_trackInfoDialog_title">Track details</string>
-	<string name="string_licenseDialog_title">GPL3 License</string>
-	<string name="string_aboutActivity_title">About</string>
 	<string name="string_addmemoActivity_title">Record voice</string>
 	<string name="string_addpointActivity_title">Add POI</string>
 	<string name="string_addpointmetaActivity_title">Add meta data</string>
@@ -26,40 +21,26 @@
 	<string name="string_newtrackactivity_list_end">End</string>
 	<string name="string_preferencesActivity_title">Preferences</string>
 	<string name="string_startActivity_title">TraceBook</string>
-	<string name="string_recordvideoActivity_title">Record video</string>
 	<string name="string_searchInfoDialog_title">Meta data information</string>
 	<string name="string_statusDialog_here">You are here</string>
 	<string name="string_preferences_catGPS">GPS</string>
 	<string name="string_preferences_catMapView">Map</string>
-	<string name="string_preferences_catOSM">OSM</string>
 	<string name="string_preferences_catGUI">Display</string>
 	<string name="string_preferences_catMedia">Media files</string>
-	<string name="string_preferences_catExport">Export</string>
 	<string name="string_preferences_catMetaTag">Meta tags</string>
 	<string name="string_preferences_catTrackTag">Track</string>
 	<string name="string_preferences_checkGPS">Check GPS status</string>
 	<string name="string_preferences_descGPS">Check whether GPS is enabled</string>
 	<string name="string_preferences_descStopGPS">When to turn off GPS if inactive?</string>
 	<string name="string_preferences_stopGPS">GPS timeout</string>
-	<string name="string_preferences_descShowStatusbar">Show status bar (description, button to preferences
-		and details).</string>
-	<string name="string_preferences_showStatusbar">Show status bar</string>
 	<string name="string_preferences_displayOn">Never turn off display</string>
 	<string name="string_preferences_descDisplayOn">When enabled, display never is turned off.</string>
-	<string name="string_preferences_showGPSsiginalQuality">Show GPS reception</string>
-	<string name="string_preferences_descShowGPSsiginalQuality">Show GPS signal strength in status bar.</string>
-	<string name="string_preferences_switchTheme">Appearance</string>
-	<string name="string_preferences_descSwitchTheme">Pick a theme for TraceBook.</string>
 	<string name="string_preferences_localTitleMapCache">Local tile cache</string>
 	<string name="string_preferences_descLocalTitleMapCache">Use local rendering instead of OSM.</string>
 	<string name="string_preferences_onlineTitleStyle">Rendering engine</string>
 	<string name="string_preferences_descOnlineTitleStyle">Choose your OSM rendering engine.</string>
 	<string name="string_preferences_maxHistorySize">History size</string>
-	<string name="string_preferences_descMaxHistorySize">Number of tags to be remembered in tag search.
-	</string>
-	<string name="string_preferences_exportMail">Recipient for sending tracks to</string>
-	<string name="string_preferences_osmPassword">OSM password</string>
-	<string name="string_preferences_osmNickname">OSM user name</string>
+	<string name="string_preferences_descMaxHistorySize">Number of tags to be remembered in tag search.</string>
 	<string name="string_preferences_setMaxVideoRecordingTime">Maximum video length</string>
 	<string name="string_preferences_descSetMaxVideoRecordingTime"></string>
 	<string name="string_preferences_setMaxAudioRecordingTime">Maximum audio length</string>
@@ -69,8 +50,15 @@
 		tag.</string>
 	<string name="string_preferences_chooseMap">Choose your map file</string>
 	<string name="string_filepicker_error_invalid_path">Invalid path</string>
-	<string name="string_preferences_setMapFilter">Activate map filter</string>
-	<string name="string_preferences_descMapFilter">When activating, you tracked way get smoother.</string>
+	<string name="string_preferences_checkSimplify">Filter ways</string>
+	<string name="string_preferences_descSimplify">Check if ways shall be simplified removing unnecessary way points.</string>
+	<string name="string_preferences_checkSmooth">Smoothen ways</string>
+	<string name="string_preferences_descSmooth">Check if way points of ways shall be smoothed reducing the noise of the GPS signal.</string>
+	<string name="string_listDataActivity_title">Data List</string>
+	<string name="string_listDataActivity_noData">No data recorded.</string>
+	<string name="string_listMediaActivity_title">List of Media</string>
+	<string name="string_listmediaActivity_title">List of media</string>
+	<string name="string_trackinfoActivity_title">Track Information</string>
 
 	<!-- App values -->
 	<string name="app_name">TraceBook</string>
@@ -88,11 +76,8 @@
 	<string name="tv_addpointActivity_nodeId">Node id:</string>
 	<string name="tv_addpointmetaActivity_insertTag">Add tag</string>
 	<string name="tv_addpointmetaActivity_insertValue">Add value</string>
-	<string name="tv_addpointActivity_editMeta">Edit meta data</string>
 	<string name="tv_addpointActivity_noMetaData">No meta data available</string>
 	<string name="tv_addpointActivity_MetaData">Meta data available for this node</string>
-	<string name="tv_newtrackActivity_setButtonList1">Add media data to current way</string>
-	<string name="tv_newtrackActivity_setButtonList2">Add media data to current area</string>
 	<string name="tv_addpointActivity_titleListViewCat">Key</string>
 	<string name="tv_addpointActivity_titleListViewVal">Value</string>
 	<string name="tv_trackInfoDialog_name">Name:</string>
@@ -101,8 +86,6 @@
 	<string name="tv_trackInfoDialog_pois">Number of POIs:</string>
 	<string name="tv_trackInfoDialog_ways">Number of ways:</string>
 	<string name="tv_trackInfoDialog_media">Number of media files:</string>
-	<string name="tv_trackInfoDialog_noInformation">No information available</string>
-	<string name="tv_trackInfoDialog_trackName">Track name:</string>
 	<string name="tv_trackInfoDialog_timestampText">Timestamp:</string>
 	<string name="tv_trackInfoDialog_poisText">Number of saved POIs:</string>
 	<string name="tv_trackInfoDialog_waysText">Number of saved ways:</string>
@@ -113,9 +96,6 @@
 	<string name="tv_addmemoActivity_startRecord">Start voice recording</string>
 	<string name="tv_addmemoActivity_record">Recording...</string>
 	<string name="tv_listviewedit_idTitle">Id: </string>
-	<string name="tv_loadtrackActivity_filter">Filter:</string>
-	<string name="tv_newtrackactivity_signalstrength_strength">GPS reception: </string>
-	<string name="tv_newtrackactivity_signalstrength_count">Number of satellites: </string>
 	<string name="tv_searchInfoDialog_noInformation">No information available.</string>
 	<string name="tv_searchInfoDialog_urlTitle">URI to wiki:</string>
 	<string name="tv_statusbar_addpointTitle">Add point of interest</string>
@@ -128,22 +108,31 @@
 	<string name="tv_statusbar_aboutDesc"></string>
 	<string name="tv_statusbar_loadtrackTitle">Load track</string>
 	<string name="tv_statusbar_loadtrackDesc">Resume your saved tracks here.</string>
-	<string name="tv_newtrackactivity_allElements">All saved track elements of this session.</string>
 	<string name="tv_filepicker_currdir">Current directory:</string>
+	<string name="tv_statusbar_mapsforgeTitle">Map</string>
+	<string name="tv_statusbar_mapsforgeDesc">Shows the map with all tracked data.</string>
+	<string name="tv_trackInfoDialog_trackname">Track name: </string>
+	<string name="tv_trackInfoDialog_trackComment">Comment: </string>
+	<string name="tv_statusbar_listDataTitle">List of all Data</string>
+	<string name="tv_statusbar_listDataDesc">Lists all data of the current track.</string>
+	<string name="tv_statusbar_listmediaTitle">List of Media</string>
+	<string name="tv_statusbar_listmediaDesc">A list of a all media for a selected item is shown here. The media can be deleted and shown.</string>
+	<string name="tv_statusbar_trackInfoTitle">Track Information</string>
+	<string name="tv_statusbar_trackInfoTDesc">Information on the current track are shown here. Also it is possible to export the track.</string>
+	<string name="tv_addpointmetaActivity_osmWikiLink"><a href="http://wiki.openstreetmap.org/wiki/Map_Features">Official tag-reference</a></string>
+	<string name="tv_listmediaActivity_noMedia">No media available for this object.</string>
+	<string name="tv_listmediaActivity_availableMedia">Available media:</string>
 
 	<!-- Edit Text values -->
 	<string name="et_fulltextsearchActivity_search">Search tags</string>
 
 	<!-- Toast values -->
-	<string name="toast_noTrackFound">Track could not be found.</string>
 	<string name="toast_loadingOnlineMap">Unable to open map file, fetching tiles from the
 		internet.</string>
 	<string name="toast_noInternetAccess">You are currently not connected to the internet.
 		The online map cannot be displayed.</string>
-	<string name="toast_applicationError">An error occurred. Please restart the application
-		and try again.</string>
 	<string name="toast_recordingFinished">Recording finished.</string>
-	<string name="toast_noneExistentNode">Node does not exist!</string>
+	<string name="popup_mapsforgeactivity_saved">Track has been saved.</string>
 
 	<!-- AlertBox values -->
 	<string name="alert_addmemoactivity_progressdialog">Please wait.\nInitialising recorder...
@@ -153,39 +142,43 @@
 	<string name="alert_global_yes">Yes</string>
 	<string name="alert_global_no">No</string>
 	<string name="alert_global_addNotice">Add note</string>
-	<string name="alert_global_addedNotice">Added note:</string>
 	<string name="alert_global_exit">Do you want to save your track?</string>
 	<string name="alert_global_trackName">Saved track:</string>
-	<string name="alert_mapsforgeActivity_pause">Do you want to pause the current session?</string>
-	<string name="alert_newtrackActivity_rename">Rename node</string>
-	<string name="alert_newtrackActivity_addTrackNotice">Add note to track</string>
 	<string name="alert_newtrackActivity_saveSetTrack">Closing track</string>
 	<string name="alert_loadtrackActivity_rename">Rename track</string>
 	<string name="alert_loadtrackActivity_deleteTrack">Delete track?</string>
-	<string name="alert_loadtrackActivity_pleaseWait">Please wait...</string>
-	<string name="alert_loadtrackActivity_loadingTracks">Tracks are being loaded...</string>
 	<string name="alert_global_notSaveAndClose">Cancel</string>
 	<string name="alert_loadtrackActivity_stopCurrentTrack">Close recent track and load new track?</string>
 	<string name="alert_NewTrackActivity_NoGpsMessage">Currently GPS is disabled. To be able to track
 		points, you have to enable it. Do you want to enable it?</string>
 	<string name="alert_NewTrackActivity_NoGpsTitle">GPS disabled</string>
 	<string name="alert_filepicker_message">Do you want to pick this file?</string>
+	<string name="alert_mapsforgeactivity_osb">Download Bugs</string>
+	<string name="alert_mapsforgeactivity_newbug">New bug</string>
+	<string name="alert_mapsforgeactivity_listbugs">List of bugs</string>
+	<string name="alert_mapsforgeactivity_bugs">Map bugs</string>
+	<string name="alert_mapsforgeactivity_faileddownload">Downloading bugs failed!</string>
+	<string name="alert_mapsforgeactivity_exportbugs">Export Bugs</string>
+	<string name="alert_bugoverlay_edit">Edit</string>
+	<string name="alert_bugoverlay_delete">Delete</string>
+	<string name="alert_mapsforgeactivity_newpoi">New POI</string>
+	<string name="alert_mapsforgeactivity_newway">New Way/Area</string>
+	<string name="alert_mapsforgeactivity_editway">Edit Way</string>
+	<string name="alert_mapsforgeactivity_stopway">Stop Way/Area</string>
+	<string name="alert_mapsforgeactivity_newobj">New</string>
+	<string name="alert_trackinfoActivity_rename">Rename Track</string>
+	<string name="popup_mapsforgeactivity_nocoords">Current location unknown. Please wait for GPS fix.</string>
+	<string name="alert_mapsforgeactivity_bugdesc">Bug description:</string>
 
 	<!-- Option menu values -->
 	<string name="opt_startActivity_preferences">Preferences</string>
-	<string name="opt_startActivity_close">Close</string>
 	<string name="opt_loadtrack_sortByTimestamp">Sort by time</string>
 	<string name="opt_loadtrack_sortByName">Sort by name</string>
 	<string name="opt_mapsforgeActivity_centerAtOwnPosition">My location</string>
 	<string name="opt_mapsforgeActivity_activateMobileInternet">On-line map</string>
 	<string name="opt_mapsforgeActivity_deactivateMobileInternet">Off-line map</string>
-	<string name="opt_mapsforgeActivity_stopTrack">Stop tracking</string>
-	<string name="opt_mapsforgeActivity_resumeTrack">Resume tracking</string>
-	<string name="opt_mapsforgeActivity_help">Help</string>
 	<string name="opt_mapsforgeActivity_export">Export</string>
-	<string name="opt_mapsforgeActivity_pause">Pause</string>
 	<string name="opt_mapsforgeActivity_resume">Resume</string>
-	<string name="opt_mapsforgeActivity_setMapLocation">Map file</string>
 	<string name="opt_mapsforgeActivity_showToggleWayPoints">Toggle markers</string>
 	<string name="opt_startActivity_about">About</string>
 	<string name="opt_startActivity_help">Help</string>
@@ -211,33 +204,18 @@
 	<string name="cm_DataNodeArrayItemizedOverlay_tag">Edit</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_move">Move</string>
 	<string name="cm_DataNodeArrayItemizedOverlay_delete">Delete</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_way_start">Start way</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_area_start">Start area</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_way_end">End way</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_way_add">Add way point</string>
-	<string name="cm_DataNodeArrayItemizedOverlay_my_pos">My location</string>
 	
 	<string name="cm_PointsListOverlay_tag">Edit</string>
 	<string name="cm_PointsListOverlay_delete">Delete</string>
-
-	<!-- Tab values -->
-	<string name="tab_newtrackActivity_map">Map</string>
-	<string name="tab_newtrackActivity_new">New</string>
-	<string name="tab_newtrackActivity_edit">Edit</string>
+	<string name="cm_listmediaActivity_showMedia">Show</string>
+	<string name="cm_listmediaActivity_deleteMedia">Delete</string>
+	<string name="cm_listmediaActivity_title">Edit Media</string>
 
 	<!-- Button values -->
-	<string name="tbtn_newtrackActivity_streetOn">Start way</string>
-	<string name="tbtn_newtrackActivity_streetOff">End way</string>
-	<string name="tbtn_newtrackActivity_areaOn">Start area</string>
-	<string name="tbtn_newtrackActivity_areaOff">End area</string>
 	<string name="btn_startActivity_newTrack">New track</string>
 	<string name="btn_startActivity_loadTrack">Load track</string>
 	<string name="btn_recordvideoActivity_startRec">Start</string>
 	<string name="btn_recordvideoActivity_stopRec">Stop</string>
-	<string name="btn_newtrackActivity_addPoint">Add point of interest</string>
-	<string name="btn_newtrackActivity_stopTrack">Close</string>
-	<string name="btn_newtrackActivity_editComment">Edit track notes</string>
-	<string name="btn_addpointmetaActivity_poi">Point of interest</string>
 	<string name="btn_addpointmetaActivity_save">Save</string>
 	<string name="btn_addpointmetaActivity_cancel">Cancel</string>
 	<string name="btn_addpointActivity_addMeta">Add</string>
@@ -248,57 +226,14 @@
 	<string name="btn_addMetaMedia_makeNotice">Text note</string>
 	<string name="btn_trackInfoDialog">OK</string>
 	<string name="btn_trackInfoDialog_back">Back</string>
-	<string name="btn_aboutActivity_license">Show license</string>
 	<string name="btn_addpointmetaActivity_search">Search</string>
 	<string name="btn_searchInfoDialog_save">Apply</string>
-	<string name="btn_startActivity_resumeTrack">Resume track</string>
-	<string name="popup_mapsforgeactivity_saved">Track has been saved.</string>
-<string name="tv_statusbar_mapsforgeTitle">Map</string>
-<string name="tv_statusbar_mapsforgeDesc">Shows the map with all tracked data.</string>
-<string name="btn_mapsforgeActivity_trackinfo">Info</string>
-<string name="btn_mapsforgeActivity_list">List</string>
-<string name="btn_mapsforgeActivity_bugs">Bugs</string>
-<string name="btn_mapsforgeActivity_new">New</string>
-<string name="alert_mapsforgeactivity_osb">Download Bugs</string>
-<string name="alert_mapsforgeactivity_newbug">New bug</string>
-<string name="alert_mapsforgeactivity_listbugs">List of bugs</string>
-<string name="alert_mapsforgeactivity_bugs">Map bugs</string>
-<string name="alert_mapsforgeactivity_faileddownload">Downloading bugs failed!</string>
-<string name="alert_mapsforgeactivity_exportbugs">Export Bugs</string>
-<string name="alert_bugoverlay_edit">Edit</string>
-<string name="alert_bugoverlay_delete">Delete</string>
-<string name="alert_mapsforgeactivity_newpoi">New POI</string>
-<string name="alert_mapsforgeactivity_newway">New Way/Area</string>
-<string name="alert_mapsforgeactivity_editway">Edit Way</string>
-<string name="alert_mapsforgeactivity_stopway">Stop Way/Area</string>
-<string name="popup_mapsforgeactivity_nocoords">Current location unknown. Please wait for GPS fix.</string>
-<string name="alert_mapsforgeactivity_newobj">New</string>
-<string name="btn_addpointActivity_listMedia">Media</string>
-<string name="string_listMediaActivity_title">List of Media</string>
-<string name="tv_statusbar_listmediaTitle">List of Media</string>
-<string name="tv_statusbar_listmediaDesc">A list of a all media for a selected item is shown here. The media can be deleted and shown.</string>
-<string name="string_listmediaActivity_title">List of media</string>
-<string name="tv_listmediaActivity_noMedia">No media available for this object.</string>
-<string name="tv_listmediaActivity_availableMedia">Available media:</string>
-<string name="cm_listmediaActivity_showMedia">Show</string>
-<string name="cm_listmediaActivity_deleteMedia">Delete</string>
-<string name="cm_listmediaActivity_title">Edit Media</string>
-<string name="string_trackinfoActivity_title">Track Information</string>
-<string name="tv_statusbar_trackInfoTitle">Track Information</string>
-<string name="tv_statusbar_trackInfoTDesc">Information on the current track are shown here. Also it is possible to export the track.</string>
-<string name="btn_trackinfoActivity_export">Export</string>
-<string name="btn_trackinfoActivity_back">Back</string>
-<string name="btn_trackinfoActivity_rename">Rename</string>
-<string name="alert_trackinfoActivity_rename">Rename Track</string>
-<string name="tv_trackInfoDialog_trackname">Track name: </string>
-<string name="tv_trackInfoDialog_trackComment">Comment: </string>
-<string name="string_listDataActivity_title">Data List</string>
-<string name="tv_statusbar_listDataTitle">List of all Data</string>
-<string name="tv_statusbar_listDataDesc">Lists all data of the current track.</string>
-<string name="string_listDataActivity_noData">No data recorded.</string>
-<string name="tv_addpointmetaActivity_osmWikiLink"><a href="http://wiki.openstreetmap.org/wiki/Map_Features">Official tag-reference</a></string>
-<string name="string_preferences_checkSimplify">Filter ways</string>
-<string name="string_preferences_descSimplify">Check if ways shall be simplified removing unnecessary way points.</string>
-<string name="string_preferences_checkSmooth">Smoothen ways</string>
-<string name="string_preferences_descSmooth">Check if way points of ways shall be smoothed reducing the noise of th GPS signal.</string>
+	<string name="btn_mapsforgeActivity_trackinfo">Info</string>
+	<string name="btn_mapsforgeActivity_list">List</string>
+	<string name="btn_mapsforgeActivity_bugs">Bugs</string>
+	<string name="btn_mapsforgeActivity_new">New</string>
+	<string name="btn_trackinfoActivity_export">Export</string>
+	<string name="btn_trackinfoActivity_back">Back</string>
+	<string name="btn_trackinfoActivity_rename">Rename</string>
+	<string name="btn_addpointActivity_listMedia">Media</string>
 </resources>

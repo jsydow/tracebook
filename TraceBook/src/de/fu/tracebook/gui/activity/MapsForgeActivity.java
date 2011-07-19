@@ -370,10 +370,6 @@ public class MapsForgeActivity extends MapActivity {
      *            not used/.
      */
     public void bugsBtn(View v) {
-        Projection proj = mapView.getProjection();
-        LogIt.w("ZoomLevel: " + mapView.getZoomLevel());
-        LogIt.w("PixelPerMeter: " + proj.metersToPixels(3));
-
         final GeoPoint p = currentGeoPoint == null ? mapView.getMapCenter()
                 : currentGeoPoint;
 
@@ -399,8 +395,9 @@ public class MapsForgeActivity extends MapActivity {
                             MapsForgeActivity.this);
                     final EditText input = new EditText(MapsForgeActivity.this);
                     bugDlgBuilder.setView(input);
-                    bugDlgBuilder.setTitle("Bug Description:"); // MapsForgeActivity.this.getResources().getString());
-                    bugDlgBuilder.setMessage("Test");
+                    bugDlgBuilder.setTitle(MapsForgeActivity.this
+                            .getResources().getString(
+                                    R.string.alert_mapsforgeactivity_bugdesc));
                     bugDlgBuilder.setPositiveButton(
                             MapsForgeActivity.this.getResources().getString(
                                     R.string.alert_global_ok),
@@ -563,6 +560,7 @@ public class MapsForgeActivity extends MapActivity {
                     // start or stop way
                     if (way == null) {
                         try {
+                            // TODO ask if area
                             ServiceConnector.getLoggerService().beginWay();
 
                         } catch (RemoteException e) {
@@ -670,6 +668,18 @@ public class MapsForgeActivity extends MapActivity {
         default:
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * The Method for the preference image Button from the status bar. The
+     * Method starts the PreferenceActivity.
+     * 
+     * @param view
+     *            not used
+     */
+    public void statusBarPrefBtn(View view) {
+        final Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
     }
 
     /**

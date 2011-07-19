@@ -22,6 +22,7 @@ package de.fu.tracebook.gui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -177,6 +178,31 @@ public class TrackInfoActivity extends Activity {
                 });
 
         builder.show();
+    }
+
+    /**
+     * The Method for the preference image Button from the status bar. The
+     * Method starts the PreferenceActivity.
+     * 
+     * @param view
+     *            not used
+     */
+    public void statusBarPrefBtn(View view) {
+        final Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This Method for the two (title and description) button from the status
+     * bar. This method starts the dialog with all activity informations.
+     * 
+     * @param v
+     *            not used
+     */
+    public void statusBarTitleBtn(View v) {
+        Helper.setActivityInfoDialog(this,
+                getResources().getString(R.string.tv_statusbar_trackInfoTitle),
+                getResources().getString(R.string.tv_statusbar_trackInfoTDesc));
     }
 
     @Override

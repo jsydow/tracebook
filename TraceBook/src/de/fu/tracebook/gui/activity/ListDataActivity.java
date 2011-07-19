@@ -53,6 +53,8 @@ import de.fu.tracebook.util.Helper;
  */
 public class ListDataActivity extends ListActivity {
 
+    // TODO statusbar button
+
     private static class AdditionalAdapterData {
         boolean isWay;
         IDataMapObject object;
@@ -113,6 +115,31 @@ public class ListDataActivity extends ListActivity {
         menu.setHeaderIcon(android.R.drawable.ic_menu_edit);
         menu.setHeaderTitle(getResources().getString(
                 R.string.cm_editmapobjects_title));
+    }
+
+    /**
+     * The Method for the preference image Button from the status bar. The
+     * Method starts the PreferenceActivity.
+     * 
+     * @param view
+     *            not used
+     */
+    public void statusBarPrefBtn(View view) {
+        final Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * This Method for the two (title and description) button from the status
+     * bar. This method starts the dialog with all activity informations.
+     * 
+     * @param v
+     *            not used
+     */
+    public void statusBarTitleBtn(View v) {
+        Helper.setActivityInfoDialog(this,
+                getResources().getString(R.string.tv_statusbar_listDataTitle),
+                getResources().getString(R.string.tv_statusbar_listDataDesc));
     }
 
     private void initItemDescription() {
