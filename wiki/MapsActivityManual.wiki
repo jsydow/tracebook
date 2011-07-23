@@ -42,7 +42,11 @@ A recorded POI is marked as a red marker. On the following screenshot you also s
 
 The List-Button will lead you to a list of all map data recorded. A long click on a list item will give you a dialog to edit the data.
 
+<img src="http://tracebook.googlecode.com/svn/wiki/img/list_data.png" height="30%" width="30%"/>
+
 The Info-Button will lead to a screen that summarizes this track. You can add a comment for this track, rename the track and export it. A TBT-File is then created in the directory /sd-card/TraceBook/<trackname>/ that can be imported to JOSM using our JOSM plugin.
+
+<img src="http://tracebook.googlecode.com/svn/wiki/img/trackinfo.png" height="30%" width="30%"/>
 
 The rightmost button will end the track.
 
