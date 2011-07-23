@@ -38,15 +38,19 @@ A recorded POI is marked as a red marker. On the following screenshot you also s
 
 "Download bugs" will download the !OpenStreetBugs-Bugs. "New Bug" will add a new Bug at the current position (if you do not have a GPS fix the center of the map is regarded as the current position). "Export Bugs" will export all of your recorded Bugs to an OSM-XML-file. You can import them to JOSM as a layer.
 
-== Other ==
+== List ==
 
 The List-Button will lead you to a list of all map data recorded. A long click on a list item will give you a dialog to edit the data.
 
 <img src="http://tracebook.googlecode.com/svn/wiki/img/list_data.png" height="30%" width="30%"/>
 
-The Info-Button will lead to a screen that summarizes this track. You can add a comment for this track, rename the track and export it. A TBT-File is then created in the directory /sd-card/TraceBook/<trackname>/ that can be imported to JOSM using our JOSM plugin.
+== Info ==
+
+The Info-Button will lead to a screen that summarizes this track. You can add a comment for this track, rename the track and export it. A TBT-File is then created in the directory `/sd-card/TraceBook/<trackname>/` that can be imported to JOSM using our JOSM plugin.
 
 <img src="http://tracebook.googlecode.com/svn/wiki/img/trackinfo.png" height="30%" width="30%"/>
+
+== Other ==
 
 The rightmost button in the map will end the track.
 
