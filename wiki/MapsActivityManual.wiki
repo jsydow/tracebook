@@ -62,3 +62,11 @@ The map has an options menu:
 "Export" will export the track as described above.
 "My location" will center the map on the current position.
 "Toggle markers" will enable or disable the markers for all way points.
+
+= Installing the offline map =
+
+If you want to use the offline map, you have to manually install the map-file. The .map-file can be downloaded for example [http://code.google.com/p/mapsforge/downloads/list here].
+
+Place the map on the sd-card of your device.
+
+Then chose the map file using the filepicker you can find in the preference menu of TraceBook. You can access the preference menu by clicking on the gear button on the status bar.
