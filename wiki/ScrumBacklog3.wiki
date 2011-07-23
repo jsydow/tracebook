@@ -1,0 +1,21 @@
+#summary What who is going to do from March 15th to March 18th.
+
+= About, Credits, License =
+*(Marc + Sahin)*
+  * Implement about view showing credits and license text. 
+
+= Smoothing / Filtering =
+*(Benjamin + David)*
+  * In order to avoid recording unnecessary GPS data, find out whether we can/should utilize filters (e. g. Kalman filter)
+  * If necessary, implement such a filter.
+
+= Searching tags =
+  * Get a database (SQLite) running for searching tags, their descriptions etc. efficiently. *(Marc + Jan)*
+  * Spice up the parser for different languages and even more information. *(Huy)*
+
+= I10n =
+  * English. *(Huy)*
+  * French. *(Huy)*
+  * German. *DONE*
+  * Polish. *(Marc)*
+  * Turkish. *(Sahin)*

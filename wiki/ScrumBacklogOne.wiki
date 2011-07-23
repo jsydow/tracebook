@@ -1,0 +1,29 @@
+= Introduction =
+
+Today we discussed our main goals for our first scrum sprint which will end on Thursday. We will implement a first rudimentary version of our OSM-Tracker. Below you will find details of our goals and who is assigned to it.
+
+
+= Details =
+
+Goal list: 
+ GPS ( Global Positioning System ) ( *Huy* )
+  * Initializations 
+  * Receiving of GPS Data
+  * Data format
+  * Interface design of our GPS Tracking module
+  * Track Vs Services ( *Bejamin* ) 
+
+ Evaluation of internal tracking Format ( *Jan* )
+  * definition and representation
+  * Track Group 
+   * way
+   * area
+   * poi ( *Natalia* )
+
+ GUI ( *Marc* )
+  * Layout definition  
+  * Find a way to easily select tags 
+
+ Creating the infrastructure of the Project ( *David && Sahin* ) 
+
+The goal for Thursday is to have an application which is able to track gps data , create a mark in our gps track date with an poi and to have a first version of the gui to select tags.
