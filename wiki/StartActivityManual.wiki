@@ -7,7 +7,7 @@ In this activity, the user can start a new track or load one of their previously
 
 = Details =
 
-Upon starting !TraceBook, you can choose to either start a new track or load an existing track.
+Upon starting !TraceBook, you can choose to either start a [MapsActivityManual new track] or [LoadTrackActivityManual load an existing track].
 
 <img src="http://tracebook.googlecode.com/svn/wiki/img/manual_start.png" height="30%" width="30%"/>
 
