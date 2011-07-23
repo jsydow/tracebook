@@ -48,7 +48,7 @@ The Info-Button will lead to a screen that summarizes this track. You can add a 
 
 <img src="http://tracebook.googlecode.com/svn/wiki/img/trackinfo.png" height="30%" width="30%"/>
 
-The rightmost button will end the track.
+The rightmost button in the map will end the track.
 
 The map has an options menu:
 
