@@ -5,7 +5,7 @@
 
 = Introduction =
 
-One of the features the product owner asked for at the beginning of the second sprint is the capability of recording audio and video files, as well as taking photos for both ways/areas and points of interest.
+We want the user to be able to record media to help remembering, what the data stands for. The user can record videos and audio and he can take photos and make notes.
 
 Ideally, we would not have to deal with the details of how acquiring such files is done, because we would just use intents for those tasks. But as the world is not a place where wishes come true that easily, we will actually have to put some work into this.
 
