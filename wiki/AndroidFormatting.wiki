@@ -1,9 +1,0 @@
-FYI:
-
-Eclipse formatting
-
-You can import files in development/ide/eclipse to make Eclipse follow the Android style rules. Select "Window › Preferences › Java › Code Style". Use "Formatter › Import" to import android-formatting.xml and "Organize Imports › Import" to import android.importorder. 
-
-und Code-Style
-
-http://source.android.com/source/code-style.html
