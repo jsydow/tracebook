@@ -5,7 +5,7 @@
 
 !TraceBook is an application that allows the user to record data for the !OpenStreetMap-project.
 
-= OpenStreetMap data description =
+= !OpenStreetMap data description =
 
 First of all one has to know how the data are stored in [http://www.openstreetmap.org/ OpenStreetMap]. It is necessary for the user to know this, as !TraceBook works with them.
 
