@@ -216,6 +216,11 @@ public final class BugManager {
         String path = StorageFactory.getStorage().getTrack().getTrackDirPath()
                 + File.separator + "bugs.xml";
 
+        if (size() < 1) {
+            LogIt.w("Trying to save 0 Bugs into file. File is not generated.");
+            return;
+        }
+
         long id = -1;
         File file = new File(path);
         boolean fileCreated = false;
@@ -280,6 +285,15 @@ public final class BugManager {
             }
 
         }
+    }
+
+    /**
+     * Returns the number of user recorded bugs.
+     * 
+     * @return The size of the list of user recorded bugs.
+     */
+    public int size() {
+        return bugs.size();
     }
 
     /**
