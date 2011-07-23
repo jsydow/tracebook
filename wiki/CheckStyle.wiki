@@ -1,4 +1,4 @@
-#summary Here be CheckStyle
+#summary Using CheckStyle
 
 [http://eclipse-cs.sourceforge.net/ Checkstyle] is a code analysis tool that reveals spots where your code does not adhere to Java code standards. It is best installed as an [http://eclipse-cs.sourceforge.net/downloads.html Eclipse plugin], as you can have it run the checks before each commit, e. g.
 
