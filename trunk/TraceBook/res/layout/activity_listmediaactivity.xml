@@ -18,5 +18,11 @@
 			android:layout_height="fill_parent" android:layout_weight="1"
 			android:scrollingCache="true" android:divider="#8ac705"
 			android:dividerHeight="1sp" android:drawSelectorOnTop="false"/>
+			
+	<TextView android:id="@android:id/empty"
+               android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+    			android:gravity="center_vertical|center_horizontal"
+               android:text="@string/tv_listmediaActivity_noMedia"/>
   
 </LinearLayout>
