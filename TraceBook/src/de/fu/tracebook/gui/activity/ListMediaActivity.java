@@ -27,6 +27,7 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.ContextMenu;
@@ -36,7 +37,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.TextView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMedia;
 import de.fu.tracebook.core.data.IDataMediaHolder;
@@ -53,12 +53,15 @@ import de.fu.tracebook.util.LogIt;
  */
 public class ListMediaActivity extends ListActivity {
 
-    private IDataMediaHolder holder;
-
     /**
      * GenericAdapter for our ListView which we use in this activity.
      */
     GenericAdapter adapter;
+
+    /**
+     * The object of which the media should be enlisted.
+     */
+    IDataMediaHolder holder;
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -133,41 +136,43 @@ public class ListMediaActivity extends ListActivity {
     }
 
     private void initAdapter() {
-        TextView info = (TextView) findViewById(R.id.tv_listmediaActivity_statusInfo);
-        GenericItemDescription desc = new GenericItemDescription();
-
         final int[] imgs = { R.drawable.btn_notice, R.drawable.btn_photo,
                 R.drawable.btn_memo, R.drawable.btn_video };
 
-        desc.addResourceId("name", R.id.tv_listmedia_listrow);
-        desc.addResourceId("img", R.id.iv_listmedia_listrow);
+        (new AsyncTask<Void, Void, List<GenericAdapterData>>() {
 
-        List<GenericAdapterData> data = new ArrayList<GenericAdapterData>();
-        List<IDataMedia> allMedia = holder.getMedia();
-        Iterator<IDataMedia> iterator = allMedia.iterator();
+            @Override
+            protected List<GenericAdapterData> doInBackground(Void... arg0) {
+                GenericItemDescription desc = new GenericItemDescription();
+                desc.addResourceId("name", R.id.tv_listmedia_listrow);
+                desc.addResourceId("img", R.id.iv_listmedia_listrow);
 
-        while (iterator.hasNext()) {
-            IDataMedia media = iterator.next();
+                List<GenericAdapterData> data = new ArrayList<GenericAdapterData>();
+                List<IDataMedia> allMedia = holder.getMedia();
+                Iterator<IDataMedia> iterator = allMedia.iterator();
 
-            GenericAdapterData item = new GenericAdapterData(desc);
-            item.setText("name", media.getName());
-            item.setImage("img", imgs[media.getType()]);
-            item.setAdditional(media);
+                while (iterator.hasNext()) {
+                    IDataMedia media = iterator.next();
 
-            data.add(item);
-        }
+                    GenericAdapterData item = new GenericAdapterData(desc);
+                    item.setText("name", media.getName());
+                    item.setImage("img", imgs[media.getType()]);
+                    item.setAdditional(media);
 
-        adapter = new GenericAdapter(this, R.layout.listview_listmedia,
-                R.id.list, data);
+                    data.add(item);
+                }
 
-        setListAdapter(adapter);
+                return data;
+            }
 
-        if (allMedia.isEmpty()) {
-            info.setText(R.string.tv_listmediaActivity_noMedia);
-        } else {
-            info.setText(R.string.tv_listmediaActivity_availableMedia);
-        }
+            @Override
+            protected void onPostExecute(List<GenericAdapterData> result) {
+                adapter = new GenericAdapter(ListMediaActivity.this,
+                        R.layout.listview_listmedia, R.id.list, result);
 
+                setListAdapter(adapter);
+            }
+        }).execute();
     }
 
     /*

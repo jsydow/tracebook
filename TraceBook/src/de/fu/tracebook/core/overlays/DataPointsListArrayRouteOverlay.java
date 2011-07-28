@@ -247,6 +247,8 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     @Override
     public boolean onTap(GeoPoint p, MapView mapView) {
 
+        // TODO color selected ways areas
+
         IDataPointsList selectedWay = null;
         Projection proj = mapView.getProjection();
         Point point = proj.toPoint(p, null, mapView.getZoomLevel());
