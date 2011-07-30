@@ -62,7 +62,7 @@ public final class PointInPolygon {
                     if (y < 0) {
                         w += 2;
                     } else {
-                        w += 2;
+                        w -= 2;
                     }
                 }
             } else if (y == 0 && x > 0) { // v->v1 starts on x-axis
