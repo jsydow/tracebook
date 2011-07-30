@@ -215,7 +215,7 @@
 	<string name="btn_recordvideoActivity_stopRec">Stop</string>
 	<string name="btn_addpointmetaActivity_save">Speichern</string>
 	<string name="btn_addpointmetaActivity_cancel">Abbrechen</string>
-	<string name="btn_addpointActivity_addMeta">Neu</string>
+	<string name="btn_addpointActivity_addMeta">Neues Tag</string>
 	<string name="btn_addpointActivity_back">Schließen</string>
 	<string name="btn_addMetaMedia_makePicture">Photo</string>
 	<string name="btn_addMetaMedia_makeVideo">Video</string>
@@ -228,7 +228,7 @@
 	<string name="btn_mapsforgeActivity_trackinfo">Info</string>
 	<string name="btn_mapsforgeActivity_list">Liste</string>
 	<string name="btn_mapsforgeActivity_bugs">Bugs</string>
-	<string name="btn_mapsforgeActivity_new">Neu</string>
+	<string name="btn_mapsforgeActivity_new">Neues</string>
 	<string name="btn_trackinfoActivity_export">Exportieren</string>
 	<string name="btn_trackinfoActivity_back">Zurück</string>
 	<string name="btn_trackinfoActivity_rename">Umbenennen</string>

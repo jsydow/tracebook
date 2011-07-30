@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
 import de.fu.tracebook.R;
 import de.fu.tracebook.core.data.IDataMedia;
 import de.fu.tracebook.core.data.IDataMediaHolder;
@@ -224,6 +225,21 @@ public class ListMediaActivity extends ListActivity {
                 R.id.ly_listmediaActivity_statusbar, false);
 
         initAdapter();
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        final String[] mimes = new String[] { "text/plain", "image/jpeg",
+                "audio/*", "video/*" };
+
+        GenericAdapterData datum = adapter.getItem(position);
+        IDataMedia media = (IDataMedia) datum.getAdditional();
+
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        File file = new File(media.getPath() + File.separator + media.getName());
+        intent.setDataAndType(Uri.fromFile(file), mimes[media.getType()]);
+        startActivity(intent);
     }
 
     @Override
