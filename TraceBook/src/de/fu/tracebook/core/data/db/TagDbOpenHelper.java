@@ -28,7 +28,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  * The DB open helper automatically creates or recreates the database. Use it to
  * get a SQLiteDataBase-object.
  */
-public class TagDbOpenHelper extends SQLiteOpenHelper {
+public class TagDbOpenHelper extends SQLiteOpenHelper { 
+    
+    // TODO ship tag database as sql-database instead of xml file
 
     /**
      * By incrementing this number, the database is reseted. Never decrease!
