@@ -26,8 +26,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import de.fu.tracebook.util.LogIt;
-import de.fu.tracebook.R;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -41,6 +39,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import de.fu.tracebook.R;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * This is an activity that asks the user to pick a file with a certain
@@ -70,7 +70,13 @@ public class FilePicker extends ListActivity {
             View v = super.getView(position, convertView, parent);
 
             FileWrapper f = getItem(position);
-            ImageView iv = (ImageView) v.findViewById(R.id.iv_listrow);
+
+            ImageView iv = (ImageView) v.getTag();
+            if (iv == null) {
+                iv = (ImageView) v.findViewById(R.id.iv_listrow);
+                v.setTag(iv);
+            }
+
             if (f.getFile().isDirectory()) {
                 iv.setImageResource(R.drawable.ic_folder);
             } else {
