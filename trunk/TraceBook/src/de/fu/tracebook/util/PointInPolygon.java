@@ -56,8 +56,8 @@ public final class PointInPolygon {
 
             if (y * y1 < 0) { // does v->v1 cross x axis?
                 // calculate intersection point
-                double r = x + (y * (x1 - x)) / (y - y1); // TODO evaluate: can
-                                                          // (y - y1) be null?
+                // note: y - y1 cannot be 0 since they have different sign
+                double r = x + (y * (x1 - x)) / (y - y1);
                 if (r > 0) {
                     // intersection point is on positive x-axis
                     if (y < 0) {
