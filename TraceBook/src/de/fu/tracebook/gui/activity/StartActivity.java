@@ -44,6 +44,8 @@ import de.fu.tracebook.util.LogIt;
  */
 public class StartActivity extends Activity {
 
+    // TODO first start dialog, which explains help and statusbar
+
     /**
      * Called if the loadTrack button pressed. Start the LoadTrackActivity.
      * 
