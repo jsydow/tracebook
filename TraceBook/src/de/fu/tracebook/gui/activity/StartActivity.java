@@ -45,8 +45,6 @@ import de.fu.tracebook.util.LogIt;
  */
 public class StartActivity extends Activity {
 
-    // TODO first start dialog, which explains help and statusbar
-
     /**
      * Called if the loadTrack button pressed. Start the LoadTrackActivity.
      * 
@@ -118,6 +116,8 @@ public class StartActivity extends Activity {
 
         // create TraceBook-folder if not exists
         StorageFactory.getStorage().ensureThatTraceBookDirExists();
+
+        LogIt.popup(this, getResources().getString(R.string.toast_help));
     }
 
     @Override

@@ -35,6 +35,7 @@ import org.mapsforge.android.maps.Projection;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -64,6 +65,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
                 context.getResources().getString(
                         R.string.cm_PointsListOverlay_delete) };
 
+        private OverlayWay overlayway = null;
         private IDataPointsList way = null;
 
         public DefaultListener() {
@@ -75,6 +77,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         }
 
         public void onClick(DialogInterface dialog, int which) {
+            color(way, overlayway, false);
             switch (which) {
             case 0: // edit
 
@@ -95,8 +98,10 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
             }
         }
 
-        public void setWay(IDataPointsList selectedWay) {
+        public void setWay(IDataPointsList selectedWay,
+                OverlayWay selectedOverlay) {
             way = selectedWay;
+            overlayway = selectedOverlay;
         }
     }
 
@@ -157,8 +162,6 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
             ArrayItemizedOverlay pointsOverlay) {
 
         super(null, null);
-        // super(getPaintPair(Color.rgb(0, 255, 0), false).first, getPaintPair(
-        // Color.rgb(0, 255, 0), false).second);
 
         this.pointsOverlay = pointsOverlay;
         this.context = context;
@@ -183,7 +186,7 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * @param way
      *            The DataPointList representing the way
      * @param editing
-     *            weather the way should be given the 'currently edited' color
+     *            whether the way should be given the 'currently edited' color
      */
     public void addWay(IDataPointsList way, boolean editing) {
         if (way.getNodes().size() == 0) { // skip empty ways
@@ -230,12 +233,11 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
      * @param overlay
      *            The overlay of the Way way.
      * @param editing
-     *            weather the way should be marked as currently edited
+     *            whether the way should be marked as currently edited
      */
     public void color(IDataPointsList way, OverlayWay overlay, boolean editing) {
         Pair<Paint, Paint> col = getColor(editing, way.isArea());
         overlay.setPaint(col.first, col.second);
-        // overlay.setPaint(null, null);
     }
 
     /*
@@ -248,20 +250,23 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     @Override
     public boolean onTap(GeoPoint p, MapView mapView) {
 
-        // TODO color selected ways areas
-        // TODO prefer ways
-
+        // The way that was selected
         IDataPointsList selectedWay = null;
+        OverlayWay selectedOverlay = null;
         Projection proj = mapView.getProjection();
+        // The point that was tapped on.
         Point point = proj.toPoint(p, null, mapView.getZoomLevel());
+        // is the selectedWay an area?
+        boolean isArea = false;
 
         int size = this.size();
+        // for every way
         for (int i = 0; i < size; ++i) {
             OverlayWay way = this.createWay(i);
 
             GeoPoint[] data = way.getWayData()[0];
             Point[] points = new Point[data.length];
-
+            // convert GeoPoint to Pixel coordinates
             for (int j = 0; j < data.length; ++j) {
                 points[j] = proj.toPoint(data[j], null, mapView.getZoomLevel());
             }
@@ -270,36 +275,47 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
                     .getOverlayManager().getPointsList(way);
 
             if (points.length > 1) {
+
+                // is area?
                 if (points[0] == points[points.length - 1]) {
                     // Area
+                    if (selectedWay != null) {
+                        // for preferring ways do not
+                        // test additional areas when there is
+                        // already a chosen area.
+                        continue;
+                    }
+
                     if (PointInPolygon.isPointInPolygon(point, points)) {
                         selectedWay = dataway;
-                        break;
+                        selectedOverlay = way;
+                        isArea = true;
+                        // do not break loop, since ways are preferred.
                     }
                 } else {
                     // Way
-                    boolean selected = false;
-
                     Point a = null;
                     for (Point b : points) {
                         if (a != null) {
-                            double factor = 12; // TODO
+                            double factor = 12; // 12 pixel distance
                             double threshold = factor * factor;
 
                             if (PointLineDistance.sqDistancePointLine(point, a,
                                     b) < threshold) {
                                 selectedWay = dataway;
-                                selected = true;
+                                selectedOverlay = way;
+                                isArea = false;
                                 break;
                             }
                         }
                         a = b;
                     }
-
-                    if (selected) {
-                        break;
-                    }
                 }
+            }
+
+            // Area selected? -> go on searching
+            if (selectedWay != null && !isArea) {
+                break;
             }
         }
 
@@ -308,11 +324,24 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
         LogIt.d("DataPointsList.onTap()");
 
         if (selectedWay != null) {
+            final IDataPointsList selWay = selectedWay;
+            final OverlayWay selOverlayWay = selectedOverlay;
+
+            // color selected way
+            color(selectedWay, selectedOverlay, true);
             AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
             builder.setTitle("id: " + selectedWay.getId());
-            contextMenueListener.setWay(selectedWay);
+            contextMenueListener.setWay(selectedWay, selectedOverlay);
             builder.setItems(contextMenueListener.getItems(),
                     contextMenueListener);
+
+            builder.setOnCancelListener(new OnCancelListener() {
+                public void onCancel(DialogInterface dialog) {
+                    // color unselected way
+                    color(selWay, selOverlayWay, false);
+
+                }
+            });
 
             builder.show();
             return true;
@@ -359,8 +388,9 @@ public class DataPointsListArrayRouteOverlay extends ArrayWayOverlay {
     }
 
     private void addWaypoints(IDataPointsList way) {
-        for (IDataNode n : way.getNodes())
+        for (IDataNode n : way.getNodes()) {
             putWaypoint(n);
+        }
     }
 
     private void removeWaypoints(IDataPointsList way) {

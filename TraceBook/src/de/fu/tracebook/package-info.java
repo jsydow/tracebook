@@ -29,4 +29,4 @@
  * For further information on the internals see the package information of the inner packages.
  * 
  */
-package de.fu.tracebook; // TODO Lizenz
+package de.fu.tracebook;

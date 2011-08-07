@@ -54,8 +54,6 @@ import de.fu.tracebook.util.Helper;
  */
 public class ListDataActivity extends ListActivity {
 
-    // TODO statusbar button
-
     private static class AdditionalAdapterData {
         boolean isWay;
         IDataMapObject object;

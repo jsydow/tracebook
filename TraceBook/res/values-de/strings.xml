@@ -129,6 +129,7 @@
 	<string name="toast_noInternetAccess">Sie sind nicht mit dem Internet verbundem, die Onlinekarte kann nicht angezeigt werden.</string>
 	<string name="toast_recordingFinished">Aufnahme beendet.</string>
 	<string name="popup_mapsforgeactivity_saved">Track wurde gespeichert.</string>
+	<string name="toast_help">Im Menü finden sie die Hilfeseiten.</string>
 
 	<!-- AlertBox values -->
 	<string name="alert_addmemoactivity_progressdialog">Bitte warten.\nInitialisiere Recorder...</string>

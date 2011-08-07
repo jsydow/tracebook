@@ -133,6 +133,7 @@
 		The online map cannot be displayed.</string>
 	<string name="toast_recordingFinished">Recording finished.</string>
 	<string name="popup_mapsforgeactivity_saved">Track has been saved.</string>
+	<string name="toast_help">Press Menu button if you need help.</string>
 
 	<!-- AlertBox values -->
 	<string name="alert_addmemoactivity_progressdialog">Please wait.\nInitialising recorder...

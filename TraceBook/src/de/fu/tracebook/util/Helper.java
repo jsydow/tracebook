@@ -109,7 +109,6 @@ public final class Helper {
                                             .setName(value);
                                 }
 
-                                // TODO deserialize
                                 if (BugManager.getInstance().size() >= 1) {
                                     BugManager.getInstance().serializeBugs();
                                 }
