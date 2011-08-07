@@ -3,17 +3,18 @@
  * This file is part of TraceBook.
  *
  * TraceBook is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version.
+ * under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
  *
  * TraceBook is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with TraceBook. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with TraceBook. If not, see 
+ * <http://www.gnu.org/licenses/>.
  *
  =====================================================================*/
 
@@ -103,12 +104,12 @@ public class HistoryDb {
             SQLiteDatabase wdb = helper.getWritableDatabase();
             if (wdb != null && wdb.isOpen()) {
                 ContentValues values = new ContentValues();
-                values.put(TagDbOpenHelper.HISTORY_COLUMN_LAST_USE, Long
-                        .valueOf(System.currentTimeMillis()));
+                values.put(TagDbOpenHelper.HISTORY_COLUMN_LAST_USE,
+                        Long.valueOf(System.currentTimeMillis()));
                 values.put(TagDbOpenHelper.HISTORY_COLUMN_KEY, key);
                 values.put(TagDbOpenHelper.HISTORY_COLUMN_VALUE, value);
-                values.put(TagDbOpenHelper.HISTORY_COLUMN_USE_COUNT, Integer
-                        .valueOf(1));
+                values.put(TagDbOpenHelper.HISTORY_COLUMN_USE_COUNT,
+                        Integer.valueOf(1));
                 wdb.insert(TagDbOpenHelper.getHistoryTableName(), null, values);
                 wdb.close();
             } else {
@@ -153,15 +154,12 @@ public class HistoryDb {
         if (result.moveToFirst()) {
             while (!result.isAfterLast()) {
                 // insert row to tags list
-                tags
-                        .add(new TagSearchResult(
-                                result
-                                        .getString(result
-                                                .getColumnIndex(TagDbOpenHelper.HISTORY_COLUMN_KEY)),
-                                result
-                                        .getString(result
-                                                .getColumnIndex(TagDbOpenHelper.HISTORY_COLUMN_VALUE)),
-                                null, null, null, null, null, null));
+                tags.add(new TagSearchResult(
+                        result.getString(result
+                                .getColumnIndex(TagDbOpenHelper.HISTORY_COLUMN_KEY)),
+                        result.getString(result
+                                .getColumnIndex(TagDbOpenHelper.HISTORY_COLUMN_VALUE)),
+                        null, null, null, null, null, null));
 
                 result.moveToNext();
             }
