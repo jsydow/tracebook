@@ -29,123 +29,121 @@ import android.database.sqlite.SQLiteOpenHelper;
  * The DB open helper automatically creates or recreates the database. Use it to
  * get a SQLiteDataBase-object.
  */
-public class TagDbOpenHelper extends SQLiteOpenHelper { 
-    
-    // TODO ship tag database as sql-database instead of xml file
+public class TagDbOpenHelper extends SQLiteOpenHelper {
+
+    /**
+     * The name of the database used by TraceBook.
+     */
+    private static final String DATABASE_NAME = "db_tracebook_tags";
 
     /**
      * By incrementing this number, the database is reseted. Never decrease!
      */
     private static final int DATABASE_VERSION = 24;
-    /**
-     * The name of the database used by TraceBook.
-     */
-    private static final String DATABASE_NAME = "db_tracebook_tags";
-    /**
-     * Table that contains all information for tags.
-     */
-    private static final String DICT_TABLE_NAME = "dictionary";
-    /**
-     * Table that contains the history of used tags.
-     */
-    private static final String HISTORY_TABLE_NAME = "history";
-    /**
-     * The name column of the table "dictionary".
-     */
-    static final String DICT_COLUMN_NAME = "name";
-    /**
-     * The key column of the table "dictionary".
-     */
-    static final String DICT_COLUMN_KEY = "key";
-    /**
-     * The value column of the table "dictionary".
-     */
-    static final String DICT_COLUMN_VALUE = "value";
+
     /**
      * The description column of the table "dictionary".
      */
     static final String DICT_COLUMN_DESC = "description";
-    /**
-     * The wiki link column of the table "dictionary".
-     */
-    static final String DICT_COLUMN_LINK = "wikilink";
+
     /**
      * The image column of the table "dictionary".
      */
     static final String DICT_COLUMN_IMG = "image";
+
     /**
-     * The language column of the table "dictionary".
+     * The key column of the table "dictionary".
      */
-    static final String DICT_COLUMN_LANG = "language";
+    static final String DICT_COLUMN_KEY = "key";
+
     /**
      * The keywords column of the table "dictionary".
      */
     static final String DICT_COLUMN_KEYWORDS = "keywords";
+
+    /**
+     * The language column of the table "dictionary".
+     */
+    static final String DICT_COLUMN_LANG = "language";
+
+    /**
+     * The wiki link column of the table "dictionary".
+     */
+    static final String DICT_COLUMN_LINK = "wikilink";
+
+    /**
+     * The name column of the table "dictionary".
+     */
+    static final String DICT_COLUMN_NAME = "name";
+
     /**
      * The value_type column of the table "dictionary".
      */
     static final String DICT_COLUMN_TYPE = "value_type";
 
     /**
-     * The key column of the table "history".
+     * The value column of the table "dictionary".
      */
-    static final String HISTORY_COLUMN_KEY = "key";
+    static final String DICT_COLUMN_VALUE = "value";
+
     /**
-     * The value column of the table "history".
+     * Table that contains all information for tags.
      */
-    static final String HISTORY_COLUMN_VALUE = "value";
-    /**
-     * The last_use column of the table "history".
-     */
-    static final String HISTORY_COLUMN_LAST_USE = "last_use";
-    /**
-     * The use_count column of the table "history".
-     */
-    static final String HISTORY_COLUMN_USE_COUNT = "use_count";
+    static final String DICT_NAME_OF_TABLE = "dictionary";
+
     /**
      * String to create table.
      */
-    private static final String DICT_TABLE_CREATE = "CREATE TABLE "
-            + DICT_TABLE_NAME + " (" + DICT_COLUMN_KEY + " TEXT, "
+    static final String DICT_TABLE_CREATE = "CREATE TABLE "
+            + DICT_NAME_OF_TABLE + " (" + DICT_COLUMN_KEY + " TEXT, "
             + DICT_COLUMN_VALUE + " TEXT, " + DICT_COLUMN_NAME + " TEXT, "
             + DICT_COLUMN_DESC + " TEXT, " + DICT_COLUMN_LINK + " TEXT, "
             + DICT_COLUMN_IMG + " TEXT, " + DICT_COLUMN_LANG + " TEXT, "
             + DICT_COLUMN_KEYWORDS + " TEXT, " + DICT_COLUMN_TYPE + " TEXT);";
+
+    /**
+     * String to drop table.
+     */
+    static final String DICT_TABLE_DROP = "DROP TABLE IF EXISTS "
+            + DICT_NAME_OF_TABLE;
+
+    /**
+     * The key column of the table "history".
+     */
+    static final String HISTORY_COLUMN_KEY = "key";
+
+    /**
+     * The last_use column of the table "history".
+     */
+    static final String HISTORY_COLUMN_LAST_USE = "last_use";
+
+    /**
+     * The use_count column of the table "history".
+     */
+    static final String HISTORY_COLUMN_USE_COUNT = "use_count";
+
+    /**
+     * The value column of the table "history".
+     */
+    static final String HISTORY_COLUMN_VALUE = "value";
+
+    /**
+     * Table that contains the history of used tags.
+     */
+    static final String HISTORY_NAME_OF_TABLE = "history";
+
     /**
      * String to create table.
      */
-    private static final String HISTORY_TABLE_CREATE = "CREATE TABLE "
-            + HISTORY_TABLE_NAME + " (" + HISTORY_COLUMN_KEY + " TEXT, "
+    static final String HISTORY_TABLE_CREATE = "CREATE TABLE "
+            + HISTORY_NAME_OF_TABLE + " (" + HISTORY_COLUMN_KEY + " TEXT, "
             + HISTORY_COLUMN_VALUE + " TEXT, " + HISTORY_COLUMN_USE_COUNT
             + " INT, " + HISTORY_COLUMN_LAST_USE + " INT);";
     /**
      * String to drop table.
      */
-    private static final String DICT_TABLE_DROP = "DROP TABLE IF EXISTS "
-            + DICT_TABLE_NAME;
-    /**
-     * String to drop table.
-     */
-    private static final String HISTORY_TABLE_DROP = "DROP TABLE IF EXISTS "
-            + HISTORY_TABLE_NAME;
-
-    /**
-     * Returns the name of the table.
-     * 
-     * @return the tableName
-     */
-    static String getDictTableName() {
-        return DICT_TABLE_NAME;
-    }
-
-    /**
-     * Returns the name of the table.
-     * 
-     * @return the tableName
-     */
-    static String getHistoryTableName() {
-        return HISTORY_TABLE_NAME;
-    }
+    static final String HISTORY_TABLE_DROP = "DROP TABLE IF EXISTS "
+            + HISTORY_NAME_OF_TABLE;
 
     /**
      * Returns a list of all columns for the dictionary table.
@@ -159,12 +157,21 @@ public class TagDbOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns a list of key and value columns.
+     * Returns the name of the table.
      * 
-     * @return key and value
+     * @return the tableName
      */
-    static String[] getTagColumns() {
-        return new String[] { DICT_COLUMN_KEY, DICT_COLUMN_VALUE };
+    static String getDictTableName() {
+        return DICT_NAME_OF_TABLE;
+    }
+
+    /**
+     * Returns the name of the table.
+     * 
+     * @return the tableName
+     */
+    static String getHistoryTableName() {
+        return HISTORY_NAME_OF_TABLE;
     }
 
     /**
@@ -194,6 +201,15 @@ public class TagDbOpenHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Returns a list of key and value columns.
+     * 
+     * @return key and value
+     */
+    static String[] getTagColumns() {
+        return new String[] { DICT_COLUMN_KEY, DICT_COLUMN_VALUE };
+    }
+
+    /**
      * Default constructor.
      * 
      * @param context
@@ -211,7 +227,7 @@ public class TagDbOpenHelper extends SQLiteOpenHelper {
         db.execSQL(DICT_TABLE_CREATE);
         db.execSQL(HISTORY_TABLE_CREATE);
 
-        createIndex(db, "language_idx", DICT_TABLE_NAME, "language");
+        createIndex(db, "language_idx", DICT_NAME_OF_TABLE, "language");
     }
 
     @Override

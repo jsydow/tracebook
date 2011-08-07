@@ -60,8 +60,6 @@ import de.fu.tracebook.util.Helper;
  */
 public class FullTextSearchActivity extends ListActivity {
 
-    // TODO complete tag database
-
     /**
      * The text watcher tracks changes in the search edit box. As soon as some
      * text matches with the description text, the result will be displayed in
