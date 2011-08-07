@@ -3,17 +3,18 @@
  * This file is part of TraceBook.
  *
  * TraceBook is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version.
+ * under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
  *
  * TraceBook is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with TraceBook. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with TraceBook. If not, see 
+ * <http://www.gnu.org/licenses/>.
  *
  =====================================================================*/
 
@@ -28,12 +29,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.fu.tracebook.util.LogIt;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Xml;
+import de.fu.tracebook.util.LogIt;
 
 /**
  * Provides access to the database containing all the tags with their
@@ -225,11 +226,10 @@ public class TagDb {
                                 row.put(TagDbOpenHelper.DICT_COLUMN_NAME, name);
                                 row.put(TagDbOpenHelper.DICT_COLUMN_KEYWORDS,
                                         keywords);
-                                row
-                                        .put(TagDbOpenHelper.DICT_COLUMN_IMG,
-                                                imgUrl);
-                                writeDb.insert(TagDbOpenHelper
-                                        .getDictTableName(), "", row);
+                                row.put(TagDbOpenHelper.DICT_COLUMN_IMG, imgUrl);
+                                writeDb.insert(
+                                        TagDbOpenHelper.getDictTableName(), "",
+                                        row);
 
                             } else if (lname.equals("description")) {
                                 descriptionTagOpened = false;
@@ -308,9 +308,7 @@ public class TagDb {
                 new String[] { "COUNT(*)" }, null, null, null, null, null);
         if (crs.getCount() > 0) {
             crs.moveToFirst();
-            LogIt
-                    .d("inserted " + crs.getString(0)
-                            + " rows.");
+            LogIt.d("inserted " + crs.getString(0) + " rows.");
         }
         crs.close();
         closeDb();
