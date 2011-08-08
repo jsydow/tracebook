@@ -31,28 +31,77 @@ a:link {
 <body>
 <div align="center">
 	<h1>TraceBook - Manual map screen</h1>
-
-<h1><a name="Introduction"></a>Introduction<a href="#Introduction" class="section_anchor"></a></h1>
-<p>Here, you can see a map showing your current location as well as recorded items in your track. Starting
-	a track and registering points of interest are possible in this view, as well. </p>
-<h1><a name="Details"></a>Details<a href="#Details" class="section_anchor"></a></h1>
-<p>Upon acquiring the first GPS fix, your location on the map is shown as a green marker. </p>
-<p><a href="manual_newtrack_card_signal.png"><img src="manual_newtrack_card_signal.png" height="100%" width="100%"></a></p>
-<p>By tapping on the map, you can zoom in and zoom out using the keys in the lower right corner. </p>
-<h2><a name="The_one-shot_mode"></a>The one-shot mode</h2>
-<p>A tap on the green marker indicating your current location will let you choose between recording a
-	point of interest or starting a way (or an area) in so-called &quot;one-shot mode&quot;. In this mode,
-	GPS information only is added to the current way/area when you explicitly want to by choosing &quot;Add
-	way point&quot; after another long tap on the green marker. To finalize your way/area, hit &quot;End
-	way/area&quot; instead. </p>
-<h1><a name="Menu"></a>Menu<a href="#Menu" class="section_anchor"></a></h1>
-<p><a href="manual_newtrack_card_signal.png"><img src="manual_newtrack_card_signal.png" height="100%" width="100%"></a></p>
-<p>In the menu, you can center the map to your current location, as well as switching to an on-line map
-	display. You also can stop and pause tracking here. Saving your track explicitly is possible through
-	the menu, too. </p>
-<p><a href="manual_newtrack_card_onclick.png"><img src="manual_newtrack_card_onclick.png" height="100%" width="100%"></a></p>
-<p>Finally, you can toggle markers on the screen. When visible, you can tap on a marker and move it around
-	on the map, add tags to the picked node, or delete that node from your track. </p>
 	</div>
+	
+	
+	<h2> Introduction </h2>
+
+<p>Here, you can see a map showing your current location as well as recorded items in your track. Starting a track and registering points of interest are possible in this view, as well.</p>
+
+<h2> Details </h2>
+
+<p>Upon acquiring the first GPS fix, your location on the map is shown as a green marker.</p>
+
+<img src="map.png" height="66%" width="66%"/>
+
+<p>By tapping on the map, you can zoom in and zoom out using the keys in the lower right corner.</p>
+
+<h3> New </h3>
+<p>By clicking on "New" a dialog appears that asks you what sort of data you want to record:</p>
+
+<img src="map_new.png" height="66%" width="66%"/>
+
+<p>"New POI" will <a href="manual_addpoint.html">add a single point of interest</a>.</p>
+
+<p>"New Way/Area" starts a new Way or Area. The new way/area is marked on the map as green line:</p>
+
+<img src="map_way.png" height="66%" width="66%"/>
+
+<p>When a way/area is recorded the dialog opened with the "New"-button will let you end or <a href="manual_addpoint.html"> edit the way</a>.</p>
+
+<p>A recorded POI is marked as a red marker. On the following screenshot you also see a finished way as a blue line:</p>
+
+<img src="map_poi.png" height="66%" width="66%"/>
+
+<h3> Bugs </h3>
+
+<p>TraceBook lets you also record Bugs. Bugs are errors in the OpenStreetMap. They serve as a note, so that you know later where you want to correct errors. Additionally TraceBook will show Bugs that are recorded in <a href="http://openstreetbugs.schokokeks.org/"> OpenStreetBugs</a>.</p>
+
+<img src="map_bug.png" height="66%" width="66%"/>
+
+<p>"Download bugs" will download the OpenStreetBugs-Bugs. "New Bug" will add a new Bug at the current position (if you do not have a GPS fix the center of the map is regarded as the current position). "Export Bugs" will export all of your recorded Bugs to an OSM-XML-file. You can import them to JOSM as a layer.</p>
+
+<h3> List </h3>
+
+<p>The List-Button will lead you to a list of all map data recorded. A long click on a list item will give you a dialog to edit the data.</p>
+
+<img src="list_data.png" height="66%" width="66%"/>
+
+<h3> Info </h3>
+
+<p>The Info-Button will lead to a screen that summarizes this track. You can add a comment for this track, rename the track and export it. A TBT-File is then created in the directory /sd-card/TraceBook/<trackname>/ that can be imported to JOSM using our JOSM plugin.</p>
+
+<img src="trackinfo.png" height="66%" width="66%"/>
+
+<h3> Other </h3>
+
+<p>The rightmost button in the map will end the track.</p>
+
+<p>The map has an options menu:</p>
+
+<img src="map_options.png" height="66%" width="66%"/>
+
+<p>"Online-Map" will switch between the online and offline map.
+"Export" will export the track as described above.
+"My location" will center the map on the current position.
+"Toggle markers" will enable or disable the markers for all way points.</p>
+
+<h2> Installing the offline map </h2>
+
+<p>If you want to use the offline map, you have to manually install the map-file. The .map-file can be downloaded for example <a href="http://code.google.com/p/mapsforge/downloads/list">here</a>.</p>
+
+<p>Place the map on the sd-card of your device.</p>
+
+<p>Then chose the map file using the filepicker you can find in the preference menu of TraceBook. You can access the preference menu by clicking on the gear button on the status bar.</p>
 </body>
 </html>
