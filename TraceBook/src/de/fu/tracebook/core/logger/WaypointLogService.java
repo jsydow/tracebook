@@ -198,7 +198,8 @@ public class WaypointLogService extends Service implements LocationListener {
 
     private GpsMessage sender = null;
 
-    private Timer timer = new Timer(); // TODO for debug
+    private Timer timer = new Timer(); // TODO for debug, delete when no
+                                       // debugging necessary any more
 
     /**
      * Current nodes, empty if no node with missing GPS location is present,
@@ -232,7 +233,7 @@ public class WaypointLogService extends Service implements LocationListener {
         super.onCreate();
         sender = new GpsMessage(this);
 
-        // TODO for debug
+        // TODO for debug, comment next lines if mocklocations are not needed
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -245,7 +246,8 @@ public class WaypointLogService extends Service implements LocationListener {
     @Override
     public void onDestroy() {
         stopGPS();
-        timer.cancel(); // TODO for debug
+        timer.cancel(); // TODO for debug, delete when debugging is not needed
+                        // anymore.
         super.onDestroy();
     }
 

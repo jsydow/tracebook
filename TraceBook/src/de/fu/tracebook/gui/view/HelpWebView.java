@@ -33,8 +33,6 @@ import de.fu.tracebook.R;
  */
 public class HelpWebView extends Activity {
 
-    // TODO Hilfeseiten aktualisieren
-
     /**
      * WebView for our WebView which we use in this activity.
      */
