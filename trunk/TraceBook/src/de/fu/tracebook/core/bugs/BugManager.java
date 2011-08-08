@@ -55,8 +55,6 @@ import de.fu.tracebook.util.LogIt;
  */
 public final class BugManager {
 
-    // TODO insert bug management into data storage and use database
-
     private static BugManager instance;
 
     /**
