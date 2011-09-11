@@ -76,7 +76,8 @@ public class PreferencesActivity extends PreferenceActivity {
                         Intent i = new Intent(thisActivity, FilePicker.class);
                         i.putExtra(FilePicker.EXTENSIONS,
                                 new String[] { ".map" });
-                        thisActivity.startActivityForResult(i, 1);
+                        thisActivity.startActivityForResult(i,
+                                FilePicker.RESULT_CODE_OK);
 
                         return true;
                     }
