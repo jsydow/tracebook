@@ -23,7 +23,6 @@ package de.fu.tracebook.core.logger;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import org.mapsforge.android.maps.GeoPoint;
 
@@ -234,13 +233,13 @@ public class WaypointLogService extends Service implements LocationListener {
         sender = new GpsMessage(this);
 
         // TODO for debug, comment next lines if mocklocations are not needed
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                MockLocationProvider.getInstance(WaypointLogService.this)
-                        .newLoc();
-            }
-        }, 0, 1000);
+        // timer.scheduleAtFixedRate(new TimerTask() {
+        // @Override
+        // public void run() {
+        // MockLocationProvider.getInstance(WaypointLogService.this)
+        // .newLoc();
+        // }
+        // }, 0, 1000);
     }
 
     @Override

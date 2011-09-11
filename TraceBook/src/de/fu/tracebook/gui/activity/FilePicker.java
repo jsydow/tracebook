@@ -128,6 +128,11 @@ public class FilePicker extends ListActivity {
     public static final String PATH = "path";
 
     /**
+     * This is the result code if a file was picked.
+     */
+    public static final int RESULT_CODE_OK = 1;
+
+    /**
      * This is extra field.
      */
     protected static final String RESULT_CODE_ERROR = "error";
@@ -243,8 +248,9 @@ public class FilePicker extends ListActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogIt.d("im here");
         switch (resultCode) {
-        case RESULT_OK:
+        case 1:
             LogIt.d("got: " + data.getExtras().getString(RESULT_CODE_FILE));
             returnWithResult(data.getExtras().getString(RESULT_CODE_FILE));
             break;
@@ -270,8 +276,8 @@ public class FilePicker extends ListActivity {
                     this.getResources().getString(R.string.alert_global_ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            returnWithResult(file.getFile().getAbsolutePath());
                             dialog.cancel();
+                            returnWithResult(file.getFile().getAbsolutePath());
                         }
                     });
 
@@ -288,10 +294,16 @@ public class FilePicker extends ListActivity {
             Intent i = new Intent(this, FilePicker.class);
             i.putExtra(PATH, file.getFile().getAbsolutePath());
             i.putExtra(EXTENSIONS, extensions);
-            this.startActivityForResult(i, RESULT_OK);
+            this.startActivityForResult(i, RESULT_CODE_OK);
         }
 
         super.onListItemClick(l, v, position, id);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogIt.d("resume");
     }
 
     /**
@@ -303,7 +315,7 @@ public class FilePicker extends ListActivity {
     protected void returnWithResult(String path) {
         Intent result = new Intent();
         result.putExtra(RESULT_CODE_FILE, path);
-        setResult(RESULT_OK, result);
+        setResult(RESULT_CODE_OK, result);
         LogIt.d("Returns: " + path);
         finish();
     }
