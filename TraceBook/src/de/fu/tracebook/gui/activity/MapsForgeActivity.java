@@ -933,7 +933,8 @@ public class MapsForgeActivity extends MapActivity {
                                 R.string.toast_loadingOnlineMap));
                 modeLocal = getOnlineTileStyle();
             } else {
-                mapView.setMapViewMode(modeLocal); // MapsForge crashes if we
+                mapView.setMapViewMode(modeLocal);
+                // mapsforge crashes if we
                 // specify a maps file when in
                 // Online mode
                 mapView.setMapFile(file.getAbsolutePath());

@@ -177,6 +177,22 @@ public class NewDBTrack implements NewDBObject {
         if (db.update(TABLENAME, values, "name = '" + oldname + "'", null) == -1) {
             LogIt.e("Could not update track");
         }
+        if (name.equals(oldname)) {
+            for (NewDBPointsList pl : NewDBPointsList.getByTrack(oldname)) {
+                pl.track = name;
+                pl.save();
+            }
+            for (NewDBNode node : NewDBNode.getByTrack(oldname)) {
+                node.track = name;
+                node.save();
+            }
+            for (NewDBMedia media : NewDBMedia.getByTrack(oldname)) {
+                media.track = name;
+                media.save();
+            }
+
+        }
+
         oldname = name;
     }
 
