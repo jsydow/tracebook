@@ -26,11 +26,13 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import de.fu.tracebook.R;
+import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.util.Helper;
 
 /**
@@ -108,6 +110,19 @@ public class PreferencesActivity extends PreferenceActivity {
 
         mapChooser.setSummary(appPreferences.getString("mapsforgeMapFilePath",
                 ""));
+        try {
+            if (ServiceConnector.getLoggerService().isLogging()) {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_active,
+                        PreferencesActivity.class, true);
+            } else {
+                Helper.startUserNotification(this,
+                        R.drawable.ic_notification_pause,
+                        PreferencesActivity.class, false);
+            }
+        } catch (RemoteException e) {
 
+            e.printStackTrace();
+        }
     }
 }
