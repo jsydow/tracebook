@@ -54,6 +54,9 @@ public class NewMedia implements IDataMedia {
         if (filename.endsWith(typeToExtension(TYPE_PICTURE))) {
             return TYPE_PICTURE;
         }
+        if (filename.endsWith(".3gp")) {
+            return TYPE_VIDEO;
+        }
         return -1;
     }
 
