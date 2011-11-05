@@ -31,8 +31,6 @@
 		android:configChanges="orientation|keyboardHidden"  />
 		<activity android:name="de.fu.tracebook.gui.activity.AddMemoActivity"
 			android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" />
-		<activity android:name="de.fu.tracebook.gui.activity.RecordVideoActivity"
-			android:screenOrientation="landscape" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name="de.fu.tracebook.gui.activity.AboutActivity" />
 		<activity android:name="de.fu.tracebook.gui.activity.FullTextSearchActivity"
 		android:configChanges="orientation|keyboardHidden"  />

@@ -19,6 +19,6 @@
  =====================================================================*/
 
 /**
- * Covers recording functionality for several media files, such as audio, video and images.
+ * Covers recording functionality for several media files, such as audio and images.
  */
 package de.fu.tracebook.core.media;

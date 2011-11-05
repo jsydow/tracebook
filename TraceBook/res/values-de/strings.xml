@@ -41,8 +41,6 @@
 	<string name="string_preferences_descOnlineTitleStyle">Wählen sie den bevorzugten Onlinerenderer.</string>
 	<string name="string_preferences_maxHistorySize">Größe der Chronik</string>
 	<string name="string_preferences_descMaxHistorySize">Anzahl Tags die in der Chronik angezeigt werden</string>
-	<string name="string_preferences_setMaxVideoRecordingTime">Maximale Videolänge</string>
-	<string name="string_preferences_descSetMaxVideoRecordingTime"></string>
 	<string name="string_preferences_setMaxAudioRecordingTime">Maximale Audiolänge</string>
 	<string name="string_preferences_descSetMaxAudioRecordingTime"></string>
 	<string name="string_preferences_showMostRecentTagsInHistory">Zuletzt benutzte Tags anzeigen</string>
@@ -212,14 +210,11 @@
 	<!-- Button values -->
 	<string name="btn_startActivity_newTrack">Neuer Track</string>
 	<string name="btn_startActivity_loadTrack">Track laden</string>
-	<string name="btn_recordvideoActivity_startRec">Start</string>
-	<string name="btn_recordvideoActivity_stopRec">Stop</string>
 	<string name="btn_addpointmetaActivity_save">Speichern</string>
 	<string name="btn_addpointmetaActivity_cancel">Abbrechen</string>
 	<string name="btn_addpointActivity_addMeta">Neues Tag</string>
 	<string name="btn_addpointActivity_back">Schließen</string>
 	<string name="btn_addMetaMedia_makePicture">Photo</string>
-	<string name="btn_addMetaMedia_makeVideo">Video</string>
 	<string name="btn_addMetaMedia_makeMemo">Audio</string>
 	<string name="btn_addMetaMedia_makeNotice">Notiz</string>
 	<string name="btn_trackInfoDialog">OK</string>

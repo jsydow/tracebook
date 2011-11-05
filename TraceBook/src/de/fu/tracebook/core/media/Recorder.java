@@ -40,11 +40,6 @@ public abstract class Recorder {
     public static final int RECORD_AUDIO_CODE = 100000;
 
     /**
-     * Request code for onActivityResult callback. RECORD_VIDIO_CODE = 100001;
-     */
-    public static final int RECORD_VIDEO_CODE = 100001;
-
-    /**
      * Request code for onActivityResult callback. TAKE_PHOTO_CODE = 100002;
      */
     public static final int TAKE_PHOTO_CODE = 100002;
@@ -118,7 +113,7 @@ public abstract class Recorder {
 
     /**
      * This method starts recording a media file, if it is a continuous process,
-     * such as recording audio or video files.
+     * such as recording audio files.
      * 
      * For one-shot acquisition (e. g. taking pictures), start() and stop()
      * should not be used, because of misleading semantics.
@@ -129,7 +124,7 @@ public abstract class Recorder {
 
     /**
      * This method stops recording a media file, if it is a continuous process,
-     * such as recording audio or video files.
+     * such as recording audio files.
      * 
      * For one-shot acquisition (e. g. taking pictures), start() and stop()
      * should not be used, because of misleading semantics.
