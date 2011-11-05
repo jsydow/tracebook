@@ -57,12 +57,6 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/string_preferences_catMedia">
-		<ListPreference android:title="@string/string_preferences_setMaxVideoRecordingTime"
-			android:key="lst_maxVideoRecording" android:defaultValue="0"
-			android:entries="@array/setMaxVideoRecordingTime"
-			android:entryValues="@array/setMaxVideoRecordingTime_values"
-			android:summary="@string/string_preferences_descSetMaxVideoRecordingTime" />
-
 		<ListPreference android:title="@string/string_preferences_setMaxAudioRecordingTime"
 			android:key="lst_maxAudioRecording" android:defaultValue="0"
 			android:entries="@array/setMaxAudioRecordingTime"

@@ -21,9 +21,9 @@
 package de.fu.tracebook.core.data;
 
 /**
- * This object represents a medium. It can be an audio recording, video
- * recording, photo or text. The medium itself is stored on the devices SD-card.
- * This object just stores the path.
+ * This object represents a medium. It can be an audio recording, photo or text.
+ * The medium itself is stored on the devices SD-card. This object just stores
+ * the path.
  */
 public interface IDataMedia {
 
@@ -39,10 +39,6 @@ public interface IDataMedia {
      * Media type constants. Type text.
      */
     int TYPE_TEXT = 0;
-    /**
-     * Media type constants. Type video.
-     */
-    int TYPE_VIDEO = 3;
 
     /**
      * Deletes a medium on the devices memory. Note: Make sure that there is no

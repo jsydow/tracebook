@@ -180,19 +180,6 @@ public class AddPointActivity extends ListActivity {
         pictureRecorder.startIntent(this);
     }
 
-    /**
-     * The Method for the makeVideo Button (MediaTags) to start the
-     * RecordActivity.
-     * 
-     * @param view
-     *            not used
-     */
-    public void makeVideoBtn(View view) {
-        final Intent intent = new Intent(this, RecordVideoActivity.class);
-        intent.putExtra(isWay ? "WayId" : "NodeId", object.getId());
-        startActivity(intent);
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

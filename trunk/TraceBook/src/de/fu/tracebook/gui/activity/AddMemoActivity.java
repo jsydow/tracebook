@@ -119,7 +119,7 @@ public class AddMemoActivity extends Activity {
      */
     public void startMemo() {
         final int maxDuration = 1000 * 60 * Integer.parseInt(preferences
-                .getString("lst_maxVideoRecording", "0"));
+                .getString("lst_maxAudioRecording", "0"));
 
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage(getResources().getString(

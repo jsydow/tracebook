@@ -48,14 +48,8 @@ public class NewMedia implements IDataMedia {
         if (filename.endsWith(typeToExtension(TYPE_AUDIO))) {
             return TYPE_AUDIO;
         }
-        if (filename.endsWith(typeToExtension(TYPE_VIDEO))) {
-            return TYPE_VIDEO;
-        }
         if (filename.endsWith(typeToExtension(TYPE_PICTURE))) {
             return TYPE_PICTURE;
-        }
-        if (filename.endsWith(".3gp")) {
-            return TYPE_VIDEO;
         }
         return -1;
     }
@@ -70,7 +64,7 @@ public class NewMedia implements IDataMedia {
      *         illegal value.
      */
     private static String typeToExtension(int paramType) {
-        if (paramType > TYPE_VIDEO || paramType < TYPE_TEXT)
+        if (paramType > TYPE_AUDIO || paramType < TYPE_TEXT)
             return "";
         return extensions[paramType];
     }

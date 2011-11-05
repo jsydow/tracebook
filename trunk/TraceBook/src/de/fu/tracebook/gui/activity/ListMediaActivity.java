@@ -77,7 +77,7 @@ public class ListMediaActivity extends ListActivity {
         case R.id.cm_listmedia_viewMedia:
 
             final String[] mimes = new String[] { "text/plain", "image/jpeg",
-                    "audio/*", "video/*" };
+                    "audio/*" };
 
             Intent intent = new Intent();
             intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -139,7 +139,7 @@ public class ListMediaActivity extends ListActivity {
 
     private void initAdapter() {
         final int[] imgs = { R.drawable.btn_notice, R.drawable.btn_photo,
-                R.drawable.btn_memo, R.drawable.btn_video };
+                R.drawable.btn_memo };
 
         (new AsyncTask<Void, Void, List<GenericAdapterData>>() {
 
@@ -231,7 +231,7 @@ public class ListMediaActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final String[] mimes = new String[] { "text/plain", "image/jpeg",
-                "audio/*", "video/*" };
+                "audio/*" };
 
         GenericAdapterData datum = adapter.getItem(position);
         IDataMedia media = (IDataMedia) datum.getAdditional();

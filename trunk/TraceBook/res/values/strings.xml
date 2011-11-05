@@ -41,8 +41,6 @@
 	<string name="string_preferences_descOnlineTitleStyle">Choose your OSM rendering engine.</string>
 	<string name="string_preferences_maxHistorySize">History size</string>
 	<string name="string_preferences_descMaxHistorySize">Number of tags to be remembered in tag search.</string>
-	<string name="string_preferences_setMaxVideoRecordingTime">Maximum video length</string>
-	<string name="string_preferences_descSetMaxVideoRecordingTime"></string>
 	<string name="string_preferences_setMaxAudioRecordingTime">Maximum audio length</string>
 	<string name="string_preferences_descSetMaxAudioRecordingTime"></string>
 	<string name="string_preferences_showMostRecentTagsInHistory">Show recently used tags</string>
@@ -218,14 +216,11 @@
 	<!-- Button values -->
 	<string name="btn_startActivity_newTrack">New track</string>
 	<string name="btn_startActivity_loadTrack">Load track</string>
-	<string name="btn_recordvideoActivity_startRec">Start</string>
-	<string name="btn_recordvideoActivity_stopRec">Stop</string>
 	<string name="btn_addpointmetaActivity_save">Save</string>
 	<string name="btn_addpointmetaActivity_cancel">Cancel</string>
 	<string name="btn_addpointActivity_addMeta">Add</string>
 	<string name="btn_addpointActivity_back">Close</string>
 	<string name="btn_addMetaMedia_makePicture">Photo</string>
-	<string name="btn_addMetaMedia_makeVideo">Video</string>
 	<string name="btn_addMetaMedia_makeMemo">Voice</string>
 	<string name="btn_addMetaMedia_makeNotice">Text note</string>
 	<string name="btn_trackInfoDialog">OK</string>
