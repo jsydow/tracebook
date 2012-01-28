@@ -56,6 +56,7 @@
 	<string name="string_listDataActivity_noData">No data recorded.</string>
 	<string name="string_listMediaActivity_title">List of Media</string>
 	<string name="string_listmediaActivity_title">List of media</string>
+	<string name="string_listBugsActivity_title">List of bugs</string>
 	<string name="string_trackinfoActivity_title">Track Information</string>
 
 	<!-- App values -->
@@ -120,6 +121,8 @@
 	<string name="tv_addpointmetaActivity_osmWikiLink"><a href="http://wiki.openstreetmap.org/wiki/Map_Features">Official tag-reference</a></string>
 	<string name="tv_listmediaActivity_noMedia">No media available for this object.</string>
 	<string name="tv_listmediaActivity_availableMedia">Available media:</string>
+	<string name="tv_statusbar_listBugsTitle">List of all recorded bugs.</string>
+	<string name="tv_statusbar_listBugsDesc">Lists all bugs that you recorded in this track.</string>
 
 	<!-- Edit Text values -->
 	<string name="et_fulltextsearchActivity_search">Search tags</string>
@@ -171,6 +174,7 @@
 	<string name="alert_mapsforgeactivity_choosewayarea">Do you want to record a way or an area?</string>
 	<string name="alert_mapsforgeactivity_chooseway">Way</string>
 	<string name="alert_mapsforgeactivity_choosearea">Area</string>
+	<string name="alert_bugListActivity_edit">Edit bug description</string>
 
 	<!-- Option menu values -->
 	<string name="opt_startActivity_preferences">Preferences</string>
@@ -212,6 +216,9 @@
 	<string name="cm_listmediaActivity_showMedia">Show</string>
 	<string name="cm_listmediaActivity_deleteMedia">Delete</string>
 	<string name="cm_listmediaActivity_title">Edit Media</string>
+	<string name="cm_listBugsActivity_title">Edit Bug</string>
+	<string name="cm_listBugsActivity_deleteBug">Delete</string>
+	<string name="cm_listBugsActivity_editBug">Edit</string>
 
 	<!-- Button values -->
 	<string name="btn_startActivity_newTrack">New track</string>

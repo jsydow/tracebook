@@ -9,7 +9,7 @@
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-	
+
 
 	<application android:label="@string/app_name"
 		android:icon="@drawable/ic_launcher_tracebook" android:debuggable="true">
@@ -20,26 +20,31 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="de.fu.tracebook.gui.activity.LoadTrackActivity" android:configChanges="orientation|keyboardHidden" />
-		<activity android:name="de.fu.tracebook.gui.activity.AddPointActivity" 
-		android:configChanges="orientation|keyboardHidden" />
+		<activity android:name="de.fu.tracebook.gui.activity.LoadTrackActivity"
+			android:configChanges="orientation|keyboardHidden" />
+		<activity android:name="de.fu.tracebook.gui.activity.AddPointActivity"
+			android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="de.fu.tracebook.gui.activity.PreferencesActivity"
 			android:configChanges="orientation|keyboardHidden" />
 		<service android:name="de.fu.tracebook.core.logger.WaypointLogService" />
 		<activity android:name="de.fu.tracebook.gui.activity.MapsForgeActivity" />
 		<activity android:name="de.fu.tracebook.gui.activity.AddPointMetaActivity"
-		android:configChanges="orientation|keyboardHidden"  />
+			android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="de.fu.tracebook.gui.activity.AddMemoActivity"
 			android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name="de.fu.tracebook.gui.activity.AboutActivity" />
 		<activity android:name="de.fu.tracebook.gui.activity.FullTextSearchActivity"
-		android:configChanges="orientation|keyboardHidden"  />
+			android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="de.fu.tracebook.gui.view.HelpWebView"
 			android:configChanges="orientation|keyboardHidden" />
 		<activity android:name="de.fu.tracebook.gui.activity.FilePicker"></activity>
-		<activity android:configChanges="orientation|keyboardHidden" 
+		<activity android:configChanges="orientation|keyboardHidden"
 			android:name="de.fu.tracebook.gui.activity.ListMediaActivity"></activity>
-<activity android:name="de.fu.tracebook.gui.activity.TrackInfoActivity" android:configChanges="orientation|keyboardHidden"></activity>
-<activity android:name="de.fu.tracebook.gui.activity.ListDataActivity" android:configChanges="orientation|keyboardHidden"></activity>
-</application>
+		<activity android:configChanges="orientation|keyboardHidden"
+			android:name="de.fu.tracebook.gui.activity.BugListActivity"></activity>
+		<activity android:name="de.fu.tracebook.gui.activity.TrackInfoActivity"
+			android:configChanges="orientation|keyboardHidden"></activity>
+		<activity android:name="de.fu.tracebook.gui.activity.ListDataActivity"
+			android:configChanges="orientation|keyboardHidden"></activity>
+	</application>
 </manifest>

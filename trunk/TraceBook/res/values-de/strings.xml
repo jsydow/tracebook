@@ -53,7 +53,8 @@
 	<string name="string_preferences_descSmooth">Wenn aktiviert, wird das GPS-Signal für Wege geglättet.</string>
 	<string name="string_listDataActivity_title">Daten auflisten</string>
 	<string name="string_listDataActivity_noData">Keine Daten vorhanden.</string>
-	<string name="string_listmediaActivity_title">LListe der Medien</string>
+	<string name="string_listmediaActivity_title">Auflistung der Medien</string>
+	<string name="string_listBugsActivity_title">Auflistung von Bugs</string>
 	<string name="string_trackinfoActivity_title">Track Informationen</string>
 
 	<!-- App values -->
@@ -118,6 +119,8 @@
 	<string name="tv_addpointmetaActivity_osmWikiLink"><a href="http://wiki.openstreetmap.org/wiki/Map_Features">Offizielle Tagreferenz</a></string>
 	<string name="tv_listmediaActivity_noMedia">Keine Medien verfügbar.</string>
 	<string name="tv_listmediaActivity_availableMedia">Medien:</string>
+	<string name="tv_statusbar_listBugsTitle">Auflistung der Bugs</string>
+	<string name="tv_statusbar_listBugsDesc">Hier werden alle von dir aufgenommenen Bugs aufgelistet.</string>
 
 	<!-- Edit Text values -->
 	<string name="et_fulltextsearchActivity_search">Tagsuche</string>
@@ -165,6 +168,7 @@
 	<string name="alert_mapsforgeactivity_choosewayarea">Was wollen sie aufnehmen?</string>
 	<string name="alert_mapsforgeactivity_chooseway">Weg</string>
 	<string name="alert_mapsforgeactivity_choosearea">Fläche</string>
+	<string name="alert_bugListActivity_edit">Bug-Beschreibung ändern</string>
 
 	<!-- Option menu values -->
 	<string name="opt_startActivity_preferences">Einstellungen</string>
@@ -206,6 +210,9 @@
 	<string name="cm_listmediaActivity_showMedia">Anzeigen</string>
 	<string name="cm_listmediaActivity_deleteMedia">Löschen</string>
 	<string name="cm_listmediaActivity_title">Medien</string>
+	<string name="cm_listBugsActivity_title">Bug bearbeiten</string>
+	<string name="cm_listBugsActivity_deleteBug">Löschen</string>
+	<string name="cm_listBugsActivity_editBug">Bearbeiten</string>
 
 	<!-- Button values -->
 	<string name="btn_startActivity_newTrack">Neuer Track</string>
