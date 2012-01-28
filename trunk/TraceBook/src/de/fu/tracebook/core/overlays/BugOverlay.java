@@ -27,8 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.bugs.Bug;
-import de.fu.tracebook.core.bugs.BugManager;
+import de.fu.tracebook.core.data.IDataBug;
+import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 import de.fu.tracebook.util.LogIt;
 
@@ -57,7 +57,7 @@ public class BugOverlay extends ArrayItemizedOverlay {
      * @param b
      *            The bug.
      */
-    public void showEditDialog(final Bug b) {
+    public void showEditDialog(final IDataBug b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
         final EditText edit = new EditText(context);
         edit.setText(b.getDescription());
@@ -122,7 +122,7 @@ public class BugOverlay extends ArrayItemizedOverlay {
                     public void onClick(DialogInterface dialog, int which) {
                         BugOverlay.this.removeItem(item);
                         BugOverlay.this.requestRedraw();
-                        BugManager.getInstance().remove(item.getBug());
+                        StorageFactory.getBugManager().remove(item.getBug());
                     }
                 });
 

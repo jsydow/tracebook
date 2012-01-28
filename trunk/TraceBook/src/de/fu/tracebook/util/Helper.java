@@ -54,7 +54,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataTrack;
 import de.fu.tracebook.core.data.StorageFactory;
@@ -107,10 +106,6 @@ public final class Helper {
                                 if (!value.equals("")) {
                                     StorageFactory.getStorage().getTrack()
                                             .setName(value);
-                                }
-
-                                if (BugManager.getInstance().size() >= 1) {
-                                    BugManager.getInstance().serializeBugs();
                                 }
 
                                 // send notification toast for user

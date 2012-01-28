@@ -35,7 +35,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static DBOpenHelper instance;
 
     private static final String NAME = "tracebookdb";
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     /**
      * Returns an instance of this class.
@@ -73,6 +73,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(NewDBTrack.createTable());
         db.execSQL(NewDBPointsList.createTable());
         db.execSQL(NewDBMedia.createTable());
+        db.execSQL(NewDBBug.createTable());
     }
 
     @Override
@@ -82,6 +83,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(NewDBTrack.dropTable());
         db.execSQL(NewDBPointsList.dropTable());
         db.execSQL(NewDBMedia.dropTable());
+        db.execSQL(NewDBBug.dropTable());
         onCreate(db);
     }
 

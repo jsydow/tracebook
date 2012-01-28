@@ -190,6 +190,10 @@ public class NewDBTrack implements NewDBObject {
                 media.track = name;
                 media.save();
             }
+            for (NewDBBug bug : NewDBBug.getByTrack(oldname)) {
+                bug.track = name;
+                bug.save();
+            }
 
         }
 

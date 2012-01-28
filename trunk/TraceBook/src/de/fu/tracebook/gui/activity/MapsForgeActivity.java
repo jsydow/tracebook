@@ -60,11 +60,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.bugs.Bug;
-import de.fu.tracebook.core.bugs.BugManager;
 import de.fu.tracebook.core.data.IDataNode;
 import de.fu.tracebook.core.data.IDataPointsList;
 import de.fu.tracebook.core.data.IDataTrack;
+import de.fu.tracebook.core.data.NewBug;
 import de.fu.tracebook.core.data.StorageFactory;
 import de.fu.tracebook.core.logger.ServiceConnector;
 import de.fu.tracebook.core.overlays.BugOverlay;
@@ -319,11 +318,6 @@ public class MapsForgeActivity extends MapActivity {
     private boolean useInternet = false;
 
     /**
-     * The bug manager.
-     */
-    BugManager bugManager;
-
-    /**
      * The Overlay containing all Bugs.
      */
     BugOverlay bugOverlay;
@@ -377,9 +371,7 @@ public class MapsForgeActivity extends MapActivity {
         final CharSequence[] items = {
                 getResources().getString(R.string.alert_mapsforgeactivity_osb),
                 getResources().getString(
-                        R.string.alert_mapsforgeactivity_newbug),
-                getResources().getString(
-                        R.string.alert_mapsforgeactivity_exportbugs) };
+                        R.string.alert_mapsforgeactivity_newbug) };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(
@@ -388,7 +380,8 @@ public class MapsForgeActivity extends MapActivity {
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
                 case 0:
-                    bugManager.downloadBugs(MapsForgeActivity.this, p);
+                    StorageFactory.getBugManager().downloadBugs(
+                            MapsForgeActivity.this, p);
                     break;
                 case 1:
                     dialog.cancel();
@@ -404,9 +397,9 @@ public class MapsForgeActivity extends MapActivity {
                                     R.string.alert_global_ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dlg, int id) {
-                                    BugManager.getInstance().addBug(
-                                            new Bug(input.getText().toString(),
-                                                    p));
+                                    StorageFactory.getBugManager().addBug(
+                                            new NewBug(input.getText()
+                                                    .toString(), p));
                                     fillBugs();
                                 }
                             });
@@ -421,9 +414,6 @@ public class MapsForgeActivity extends MapActivity {
 
                     bugDlgBuilder.show();
 
-                    break;
-                case 3:
-                    bugManager.serializeBugs();
                     break;
                 }
             }
@@ -475,7 +465,8 @@ public class MapsForgeActivity extends MapActivity {
      * Fills the bug overlay.
      */
     public void fillBugs() {
-        bugOverlay.addItems(bugManager.getBugs());
+        bugOverlay.clear();
+        bugOverlay.addItems(StorageFactory.getBugManager().getBugOverlays());
     }
 
     /**
@@ -810,7 +801,6 @@ public class MapsForgeActivity extends MapActivity {
         pointsOverlay = new DataNodeArrayItemizedOverlay(this);
         routesOverlay = new DataPointsListArrayRouteOverlay(this, pointsOverlay);
         bugOverlay = new BugOverlay(this);
-        bugManager = BugManager.getInstance();
 
         // as this activity is destroyed when adding a POI, we get all POIs here
         fillOverlays();
@@ -978,7 +968,7 @@ public class MapsForgeActivity extends MapActivity {
         routesOverlay.addWays(Helper.currentTrack().getWays());
 
         bugOverlay.clear();
-        bugOverlay.addItems(bugManager.getBugs());
+        bugOverlay.addItems(StorageFactory.getBugManager().getBugOverlays());
 
         LogIt.d("Overlaycount: " + mapView.getOverlays().size());
     }
