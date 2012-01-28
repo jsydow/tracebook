@@ -55,6 +55,85 @@ public class DataSerializer {
     }
 
     /**
+     * Serialises all Bugs. The bug are stored in bugs.xml in the directory of
+     * the current track. The XML-file is OSM-compatible.
+     */
+    private void serializeBugs(NewBugManager manager) {
+        String path = StorageFactory.getStorage().getTrack().getTrackDirPath()
+                + File.separator + "bugs.xml";
+
+        if (manager.size() < 1) {
+            LogIt.w("Trying to save 0 Bugs into file. File is not generated.");
+            return;
+        }
+
+        long id = -1;
+        File file = new File(path);
+        boolean fileCreated = false;
+        try {
+            fileCreated = file.createNewFile();
+        } catch (IOException e) {
+            // will not happen
+        }
+
+        if (fileCreated) {
+            FileOutputStream fileos = null;
+            try {
+                fileos = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                LogIt.e("Could not open new file " + file.getPath());
+                return;
+            }
+
+            XmlSerializer serializer = Xml.newSerializer();
+
+            try {
+                serializer.setOutput(fileos, "UTF-8");
+                serializer.startDocument(null, Boolean.valueOf(true));
+                serializer.startTag(null, "osm");
+
+                serializer.attribute(null, "version", "0.6");
+                serializer.attribute(null, "generator", "TraceBook");
+
+                for (IDataBug b : manager.getBugs()) {
+                    serializer.startTag(null, "node");
+                    serializer.attribute(null, "lat",
+                            Double.toString(b.getPosition().getLatitude()));
+                    serializer.attribute(null, "lon",
+                            Double.toString(b.getPosition().getLongitude()));
+                    serializer.attribute(null, "id", Long.toString(--id));
+                    serializer.attribute(null, "timestamp",
+                            NewTrack.getW3CFormattedTimeStamp());
+                    serializer.attribute(null, "version", "1");
+
+                    serializer.startTag(null, "tag");
+                    serializer.attribute(null, "k", "bug");
+                    serializer.attribute(null, "v", b.getDescription());
+                    serializer.endTag(null, "tag");
+
+                    serializer.endTag(null, "node");
+                }
+
+                serializer.endTag(null, "osm");
+                serializer.flush();
+            } catch (IllegalArgumentException e) {
+                LogIt.e("Should not happen. Internal error.");
+            } catch (IllegalStateException e) {
+                LogIt.e("Should not happen. Internal error.");
+            } catch (IOException e) {
+                LogIt.e("Error while reading file.");
+            } finally {
+                try {
+                    fileos.close();
+                } catch (IOException e) {
+                    LogIt.e("Error closing file: " + e.getMessage());
+                }
+            }
+
+        }
+    }
+
+    /**
      * Generates a link tag for this medium.
      * 
      * @param serializer
@@ -261,5 +340,7 @@ public class DataSerializer {
                 LogIt.e("Error closing file: " + e.getMessage());
             }
         }
+
+        serializeBugs((NewBugManager) StorageFactory.getBugManager());
     }
 }

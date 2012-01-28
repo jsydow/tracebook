@@ -174,5 +174,4 @@ public interface IDataTrack extends IDataMediaHolder {
      *         the renaming fails otherwise.
      */
     int setName(String newname);
-
 }

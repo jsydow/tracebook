@@ -25,7 +25,17 @@ package de.fu.tracebook.core.data;
  */
 public final class StorageFactory {
 
+    private static IBugManager bugManagerInstance;
     private static IDataStorage instance;
+
+    /**
+     * @return Valid instance of IBugManager
+     */
+    public static IBugManager getBugManager() {
+        if (bugManagerInstance == null)
+            bugManagerInstance = new NewBugManager();
+        return bugManagerInstance;
+    }
 
     /**
      * Return an implementation of IDataMedia.

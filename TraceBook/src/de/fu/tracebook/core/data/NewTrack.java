@@ -69,11 +69,12 @@ public class NewTrack implements IDataTrack {
 
     private boolean isNew;
     private String name;
+
     private List<NewNode> pois = new ArrayList<NewNode>();
 
     private NewDBTrack thisTrack;
-
     private IDataPointsList way;
+
     private List<NewPointsList> ways = new ArrayList<NewPointsList>();
 
     /**

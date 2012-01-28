@@ -22,7 +22,7 @@ package de.fu.tracebook.core.overlays;
 
 import org.mapsforge.android.maps.OverlayItem;
 
-import de.fu.tracebook.core.bugs.Bug;
+import de.fu.tracebook.core.data.IDataBug;
 
 /**
  * Overlay item specialisation for bugs.
@@ -58,7 +58,7 @@ public class BugOverlayItem extends OverlayItem {
         }
     }
 
-    private Bug bug;
+    private IDataBug bug;
     private BugType type;
 
     /**
@@ -69,7 +69,7 @@ public class BugOverlayItem extends OverlayItem {
      * @param type
      *            The type of the bug.
      */
-    public BugOverlayItem(Bug bug, BugType type) {
+    public BugOverlayItem(IDataBug bug, BugType type) {
         super(bug.getPosition(), type.getDesc(), null);
         this.bug = bug;
         this.type = type;
@@ -78,7 +78,7 @@ public class BugOverlayItem extends OverlayItem {
     /**
      * @return the bug
      */
-    public Bug getBug() {
+    public IDataBug getBug() {
         return bug;
     }
 

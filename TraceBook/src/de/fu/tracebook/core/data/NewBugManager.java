@@ -18,12 +18,9 @@
  *
  =====================================================================*/
 
-package de.fu.tracebook.core.bugs;
+package de.fu.tracebook.core.data;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,52 +33,24 @@ import java.util.List;
 
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.OverlayItem;
-import org.xmlpull.v1.XmlSerializer;
 
 import android.os.AsyncTask;
-import android.util.Xml;
 import de.fu.tracebook.R;
-import de.fu.tracebook.core.data.NewTrack;
-import de.fu.tracebook.core.data.StorageFactory;
+import de.fu.tracebook.core.data.implementation.NewDBBug;
 import de.fu.tracebook.core.overlays.BugOverlayItem;
 import de.fu.tracebook.core.overlays.BugOverlayItem.BugType;
 import de.fu.tracebook.gui.activity.MapsForgeActivity;
 import de.fu.tracebook.util.LogIt;
 
 /**
- * A manager class for all Bugs. A Bug is an error in the map data. The website
- * OpenStreetBugs.org provides some bugs that can be downloaded. This manager
- * can download these bugs.
+ * Implementation of {@link IBugManager}.
  */
-public final class BugManager {
-
-    private static BugManager instance;
-
-    /**
-     * Get an instance of the bug manager.
-     * 
-     * @return An instance of the bugmanager, not null.
-     */
-    public static BugManager getInstance() {
-        if (instance == null) {
-            instance = new BugManager();
-        }
-        return instance;
-    }
-
-    /**
-     * The list of bugs reported by the user.
-     */
-    List<Bug> bugs = new ArrayList<Bug>();
+public class NewBugManager implements IBugManager {
 
     /**
      * The list of OpenStreetBugs.
      */
-    List<Bug> osbugs = new ArrayList<Bug>();
-
-    private BugManager() {
-        // do nothing
-    }
+    List<IDataBug> osbugs = new ArrayList<IDataBug>();
 
     /**
      * Add a user created bug.
@@ -89,8 +58,12 @@ public final class BugManager {
      * @param bug
      *            The bug to add.
      */
-    public void addBug(Bug bug) {
-        bugs.add(bug);
+    public void addBug(IDataBug bug) {
+        NewDBBug newBug = new NewDBBug();
+        newBug.description = bug.getDescription();
+        newBug.point = bug.getPosition();
+        newBug.track = StorageFactory.getStorage().getTrack().getName();
+        newBug.insert();
     }
 
     /**
@@ -136,7 +109,7 @@ public final class BugManager {
 
                         for (String line = reader.readLine(); line != null; line = reader
                                 .readLine()) {
-                            Bug b = extractBug(line);
+                            IDataBug b = extractBug(line);
                             if (b != null) {
                                 osbugs.add(b);
                             }
@@ -186,13 +159,33 @@ public final class BugManager {
      * 
      * @return A list of all OverlayItems for all Bugs.
      */
-    public Collection<OverlayItem> getBugs() {
+    public Collection<OverlayItem> getBugOverlays() {
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        for (Bug b : bugs) {
-            items.add(new BugOverlayItem(b, BugType.USERBUG));
+        List<NewDBBug> dbbugs = NewDBBug.getByTrack(StorageFactory.getStorage()
+                .getTrack().getName());
+        for (NewDBBug bug : dbbugs) {
+            items.add(new BugOverlayItem(new NewBug(bug), BugType.USERBUG));
         }
-        for (Bug b : osbugs) {
+        for (IDataBug b : osbugs) {
             items.add(new BugOverlayItem(b, BugType.OPENSTREETBUG));
+        }
+        return items;
+    }
+
+    /**
+     * Get OverlayItems for all bugs.
+     * 
+     * @return A list of all OverlayItems for all Bugs.
+     */
+    public List<IDataBug> getBugs() {
+        ArrayList<IDataBug> items = new ArrayList<IDataBug>();
+        List<NewDBBug> dbbugs = NewDBBug.getByTrack(StorageFactory.getStorage()
+                .getTrack().getName());
+        for (NewDBBug bug : dbbugs) {
+            items.add(new NewBug(bug));
+        }
+        for (IDataBug b : osbugs) {
+            items.add(b);
         }
         return items;
     }
@@ -203,89 +196,9 @@ public final class BugManager {
      * @param bug
      *            The bug to remove.
      */
-    public void remove(Bug bug) {
-        if (!bugs.remove(bug)) {
-            osbugs.remove(bug);
-        }
-    }
-
-    /**
-     * Serialises all Bugs. The bug are stored in bugs.xml in the directory of
-     * the current track. The XML-file is OSM-compatible.
-     */
-    public void serializeBugs() {
-        String path = StorageFactory.getStorage().getTrack().getTrackDirPath()
-                + File.separator + "bugs.xml";
-
-        if (size() < 1) {
-            LogIt.w("Trying to save 0 Bugs into file. File is not generated.");
-            return;
-        }
-
-        long id = -1;
-        File file = new File(path);
-        boolean fileCreated = false;
-        try {
-            fileCreated = file.createNewFile();
-        } catch (IOException e) {
-            // will not happen
-        }
-
-        if (fileCreated) {
-            FileOutputStream fileos = null;
-            try {
-                fileos = new FileOutputStream(file);
-            } catch (FileNotFoundException e) {
-                LogIt.e("Could not open new file " + file.getPath());
-                return;
-            }
-
-            XmlSerializer serializer = Xml.newSerializer();
-
-            try {
-                serializer.setOutput(fileos, "UTF-8");
-                serializer.startDocument(null, Boolean.valueOf(true));
-                serializer.startTag(null, "osm");
-
-                serializer.attribute(null, "version", "0.6");
-                serializer.attribute(null, "generator", "TraceBook");
-
-                for (Bug b : bugs) {
-                    serializer.startTag(null, "node");
-                    serializer.attribute(null, "lat",
-                            Double.toString(b.getPosition().getLatitude()));
-                    serializer.attribute(null, "lon",
-                            Double.toString(b.getPosition().getLongitude()));
-                    serializer.attribute(null, "id", Long.toString(--id));
-                    serializer.attribute(null, "timestamp",
-                            NewTrack.getW3CFormattedTimeStamp());
-                    serializer.attribute(null, "version", "1");
-
-                    serializer.startTag(null, "tag");
-                    serializer.attribute(null, "k", "bug");
-                    serializer.attribute(null, "v", b.getDescription());
-                    serializer.endTag(null, "tag");
-
-                    serializer.endTag(null, "node");
-                }
-
-                serializer.endTag(null, "osm");
-                serializer.flush();
-            } catch (IllegalArgumentException e) {
-                LogIt.e("Should not happen. Internal error.");
-            } catch (IllegalStateException e) {
-                LogIt.e("Should not happen. Internal error.");
-            } catch (IOException e) {
-                LogIt.e("Error while reading file.");
-            } finally {
-                try {
-                    fileos.close();
-                } catch (IOException e) {
-                    LogIt.e("Error closing file: " + e.getMessage());
-                }
-            }
-
-        }
+    public void remove(IDataBug bug) {
+        osbugs.remove(bug);
+        bug.removeFromDb();
     }
 
     /**
@@ -294,7 +207,8 @@ public final class BugManager {
      * @return The size of the list of user recorded bugs.
      */
     public int size() {
-        return bugs.size();
+        return NewDBBug.getByTrack(
+                StorageFactory.getStorage().getTrack().getName()).size();
     }
 
     /**
@@ -321,7 +235,7 @@ public final class BugManager {
      *            The line to parse.
      * @return The parsed bug.
      */
-    Bug extractBug(String line) {
+    IDataBug extractBug(String line) {
 
         String description = "";
         double longitude = 0;
@@ -344,6 +258,7 @@ public final class BugManager {
             return null;
         }
 
-        return new Bug(description, new GeoPoint(latitude, longitude));
+        return new NewBug(description, new GeoPoint(latitude, longitude));
     }
+
 }
