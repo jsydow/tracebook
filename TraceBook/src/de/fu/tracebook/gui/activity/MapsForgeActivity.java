@@ -371,7 +371,9 @@ public class MapsForgeActivity extends MapActivity {
         final CharSequence[] items = {
                 getResources().getString(R.string.alert_mapsforgeactivity_osb),
                 getResources().getString(
-                        R.string.alert_mapsforgeactivity_newbug) };
+                        R.string.alert_mapsforgeactivity_newbug),
+                getResources().getString(
+                        R.string.alert_mapsforgeactivity_listbugs) };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getResources().getString(
@@ -414,6 +416,11 @@ public class MapsForgeActivity extends MapActivity {
 
                     bugDlgBuilder.show();
 
+                    break;
+                case 2:
+                    Intent intent = new Intent(MapsForgeActivity.this,
+                            BugListActivity.class);
+                    startActivity(intent);
                     break;
                 }
             }

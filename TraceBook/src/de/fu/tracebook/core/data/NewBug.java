@@ -81,5 +81,10 @@ public class NewBug implements IDataBug {
 
     public void setDescription(String description) {
         desc = description;
+        NewDBBug bug = NewDBBug.getById(id);
+        if (bug != null) {
+            bug.description = description;
+            bug.save();
+        }
     }
 }
