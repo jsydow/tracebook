@@ -22,3 +22,11 @@ It lets you:
  The results of this software project can be found in swp-dv-ws2010-osm-1.
  
  After the project has finished I continued this project in my bachelor thesis.
+
+### Links
+
+OpenStreetMap: http://www.openstreetmap.org/
+mapsforge: https://github.com/mapsforge/mapsforge
+jOSM: https://josm.openstreetmap.de/
+Freie Universität Berlin: http://www.mi.fu-berlin.de/inf/
+swp-dv-ws2010-osm-1: https://github.com/jsydow/swp-dv-ws2010-osm-1
