@@ -11,7 +11,7 @@ Details
 Upon acquiring the first GPS fix, your location on the map is shown as a
 green marker.
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map.png" height="30%" width="30%"/>
 
 By tapping on the map, you can zoom in and zoom out using the keys in
 the lower right corner.
@@ -22,14 +22,14 @@ New
 By clicking on "New" a dialog appears that asks you what sort of data
 you want to record:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map_new.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map_new.png" height="30%" width="30%"/>
 
 "New POI" will [AddPointActivityManual add a single point of interest].
 
 "New Way/Area" starts a new Way or Area. The new way/area is marked on
 the map as green line:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map_way.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map_way.png" height="30%" width="30%"/>
 
 When a way/area is recorded the dialog opened with the "New"-button will
 let you end or [AddPointActivityManual edit the way].
@@ -37,7 +37,7 @@ let you end or [AddPointActivityManual edit the way].
 A recorded POI is marked as a red marker. On the following screenshot
 you also see a finished way as a blue line:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map_poi.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map_poi.png" height="30%" width="30%"/>
 
 Bugs
 ----
@@ -47,7 +47,7 @@ Bugs
 want to correct errors. Additionally !TraceBook will show Bugs that are
 recorded in [OpenStreetBugs](http://openstreetbugs.schokokeks.org/).
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map_bug.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map_bug.png" height="30%" width="30%"/>
 
 "Download bugs" will download the !OpenStreetBugs-Bugs. "New Bug" will
 add a new Bug at the current position (if you do not have a GPS fix the
@@ -61,7 +61,7 @@ List
 The List-Button will lead you to a list of all map data recorded. A long
 click on a list item will give you a dialog to edit the data.
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/list_data.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/list_data.png" height="30%" width="30%"/>
 
 Info
 ----
@@ -72,7 +72,7 @@ TBT-File is then created in the directory
 \`/sd-card/TraceBook/<trackname>/\` that can be imported to JOSM using
 our JOSM plugin.
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/trackinfo.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/trackinfo.png" height="30%" width="30%"/>
 
 Other
 -----
@@ -81,7 +81,7 @@ The rightmost button in the map will end the track.
 
 The map has an options menu:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/map_options.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/map_options.png" height="30%" width="30%"/>
 
 "Online-Map" will switch between the online and offline map. "Export"
 will export the track as described above. "My location" will center the

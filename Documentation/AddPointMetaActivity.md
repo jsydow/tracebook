@@ -8,7 +8,7 @@ Details
 
 This should be what yuou see upon entering this activity:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/addmeta_history.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/addmeta_history.png" height="30%" width="30%"/>
 
 The advanced user can begin to type the tag and value to the
 corresponding input fields which are labeled tag and value.
@@ -19,7 +19,7 @@ show you possible official OpenStreeetMap tag.
 
 Like here.
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/addpoint_autocompl.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/addpoint_autocompl.png" height="30%" width="30%"/>
 
 You are not bounded to official tags. New tag value pairs can be also
 added. After you selected your tag and value you can added to your point

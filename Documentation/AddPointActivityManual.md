@@ -10,7 +10,7 @@ Details
 The following screen shows the screen as it should appear to you when
 you enter this activity:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/addpoint.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/addpoint.png" height="30%" width="30%"/>
 
 On top of this view you can see the "Node id:" of the current element.
 If you want to add some media files like pictures, videos, voices or
@@ -20,7 +20,7 @@ If there is no tag for the given element, the list of meta tags above
 the media buttons is empty. Otherwise you see all linked tags with your
 given category and value pair.
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/addpoint_tags.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/addpoint_tags.png" height="30%" width="30%"/>
 
 To [AddPointMetaActivity add new tags] for the selected element just
 press the "Add" button. If you finished you taging press the close
@@ -40,4 +40,4 @@ Media
 The "Media"-Button will lead to a screen that shows you all recorded
 media for that object. Media can be viewn and deleted there:
 
-<img src="http://tracebook.googlecode.com/svn/wiki/img/listmedia.png" height="30%" width="30%"/>
+<img src="https://raw.githubusercontent.com/jsydow/tracebook/master/Documentation/img/listmedia.png" height="30%" width="30%"/>
