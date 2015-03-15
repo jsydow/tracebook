@@ -21,7 +21,7 @@ It lets you:
  In jOSM the OpenStreetMap is then edited using the collected data.
  The results of this software project can be found in swp-dv-ws2010-osm-1.
  
- After the project has finished I continued this project in my bachelor thesis.
+ After the project has finished I continued this project as part of my bachelor thesis.
 
 ### Links
 
