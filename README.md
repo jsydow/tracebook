@@ -12,7 +12,7 @@ It lets you:
  - record audio notes
  - shoot photos paired with your current position
  
- ### History
+### History
  
  Tracebook was mainly developed in a student project at the Freie Universität Berlin. Goal of the software project was to use
  mapsforge Android map to build an Android app that helps contributing to the OpenStreetMap project. For this you need to be
@@ -25,8 +25,8 @@ It lets you:
 
 ### Links
 
-OpenStreetMap: http://www.openstreetmap.org/
-mapsforge: https://github.com/mapsforge/mapsforge
-jOSM: https://josm.openstreetmap.de/
-Freie Universität Berlin: http://www.mi.fu-berlin.de/inf/
-swp-dv-ws2010-osm-1: https://github.com/jsydow/swp-dv-ws2010-osm-1
+OpenStreetMap: http://www.openstreetmap.org/  
+mapsforge: https://github.com/mapsforge/mapsforge  
+jOSM: https://josm.openstreetmap.de/  
+Freie Universität Berlin: http://www.mi.fu-berlin.de/inf/  
+swp-dv-ws2010-osm-1: https://github.com/jsydow/swp-dv-ws2010-osm-1  
