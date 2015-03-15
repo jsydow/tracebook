@@ -17,7 +17,7 @@ It lets you:
  Tracebook was mainly developed in a student project at the Freie Universität Berlin. Goal of the software project was to use
  mapsforge Android map to build an Android app that helps contributing to the OpenStreetMap project. For this you need to be
  able to record GPS traces, record single points of interests and annotate those with sufficient data, to remember what has been
- recorded. Annotations can be made using text, audio recordings and photos. At home the data can be imported into jOSM. 
+ recorded. Annotations can be made using text, audio recordings and photos. At home the data can be imported into jOSM using a jOSM plugin. 
  In jOSM the OpenStreetMap is then edited using the collected data.
  The results of this software project can be found in swp-dv-ws2010-osm-1.
  
